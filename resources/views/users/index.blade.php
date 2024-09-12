@@ -21,8 +21,10 @@
                     		<thead>
                     			<tr>
                     				<th>ID</th>
-                    				<th>Name</th>
+                    				<th>Surname</th>
+                    				<th>First Name</th>
                     				<th>Username</th>
+                    				<th>Gender</th>
                     				<th>Email</th>
                     				<th>Role</th>
                     				<th>Actions</th>
@@ -45,15 +47,11 @@
 @push('styles')
 	<link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
-	{{-- <link rel="stylesheet" href="{{ asset('css/datatables.bootstrap4.min.css') }}"> --}}
-	{{-- <link rel="stylesheet" href="{{ asset('css/datatables-jquery.min.css') }}"> --}}
 @endpush
 
 @push('scripts')
 	<script src="{{ asset('js/datatables.min.js') }}"></script>
 	<script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
-	{{-- <script src="{{ asset('js/datatables.bootstrap4.min.js') }}"></script> --}}
-	{{-- <script src="{{ asset('js/datatables-jquery.min.js') }}"></script> --}}
 
 	<script>
 		$(document).ready(()=> {
@@ -65,12 +63,15 @@
 					data: {
 						select: "*",
 						where: ["role", "!=", "Super Admin"],
+						where2: ["role", "!=", "Patient"],
 					}
 				},
 				columns: [
 					{data: 'id'},
+					{data: 'lname'},
 					{data: 'fname'},
 					{data: 'username'},
+					{data: 'gender'},
 					{data: 'email'},
 					{data: 'role'},
 					{data: 'actions'},
@@ -98,17 +99,36 @@
 
 		function create(){
 			Swal.fire({
+				title: "Enter User Details",
 				html: `
-	                ${input("fname", "Name", null, 3, 9)}
+	                ${input("fname", "First Name", null, 3, 9)}
+	                ${input("lname", "Last Name", null, 3, 9)}
+	                ${input("contact", "Contact", null, 3, 9)}
 					${input("email", "Email", null, 3, 9, 'email')}
+					<div class="row iRow">
+					    <div class="col-md-3 iLabel">
+					        Gender
+					    </div>
+					    <div class="col-md-9 iInput">
+					        <select name="gender" class="form-control">
+					        	<option value="">Select Gender</option>
+					        	<option value="Male">Male</option>
+					        	<option value="Female">Female</option>
+					        </select>
+					    </div>
+					</div>
+
 					<div class="row iRow">
 					    <div class="col-md-3 iLabel">
 					        Role
 					    </div>
 					    <div class="col-md-9 iInput">
 					        <select name="role" class="form-control">
+					        	<option value="">Select Role</option>
 					        	<option value="Admin">Admin</option>
-					        	<option value="Coast Guard">Coast Guard</option>
+					        	<option value="Doctor">Doctor</option>
+					        	<option value="Nurse">Nurse</option>
+					        	<option value="Receptionist">Receptionist</option>
 					        </select>
 					    </div>
 					</div>
@@ -128,7 +148,7 @@
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('.swal2-container input:placeholder-shown').length){
+			            if($('.swal2-container input:placeholder-shown').length || $('[name="gender"]').val() == "" || $('[name="role"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
 			            else if($("[name='password']").val().length < 8){
@@ -182,6 +202,9 @@
 						type: "POST",
 						data: {
 							fname: $("[name='fname']").val(),
+							lname: $("[name='lname']").val(),
+							contact: $("[name='contact']").val(),
+							gender: $("[name='gender']").val(),
 							email: $("[name='email']").val(),
 							role: $("[name='role']").val(),
 							username: $("[name='username']").val(),
@@ -202,7 +225,22 @@
 				html: `
 	                ${input("id", "", user.id, 3, 9, 'hidden')}
 	                ${input("fname", "Name", user.fname, 3, 9)}
+	                ${input("lname", "Last Name", user.lname, 3, 9)}
+	                ${input("contact", "Contact", user.contact, 3, 9)}
 					${input("email", "Email", user.email, 3, 9, 'email')}
+					<div class="row iRow">
+					    <div class="col-md-3 iLabel">
+					        Gender
+					    </div>
+					    <div class="col-md-9 iInput">
+					        <select name="gender" class="form-control">
+					        	<option value="">Select Gender</option>
+					        	<option value="Male" ${user.gender == "Male" ? "Selected" : ""}>Male</option>
+					        	<option value="Female" ${user.gender == "Female" ? "Selected" : ""}>Female</option>
+					        </select>
+					    </div>
+					</div>
+
 					<div class="row iRow">
 					    <div class="col-md-3 iLabel">
 					        Role
@@ -210,7 +248,9 @@
 					    <div class="col-md-9 iInput">
 					        <select name="role" class="form-control">
 					        	<option value="Admin" ${user.role == "Admin" ? "Selected" : ""}>Admin</option>
-					        	<option value="Coast Guard" ${user.role == "Admin" ? "" : "Selected"}>Coast Guard</option>
+					        	<option value="Doctor" ${user.role == "Doctor" ? "Selected" : ""}>Doctor</option>
+					        	<option value="Nurse" ${user.role == "Nurse" ? "Selected" : ""}>Nurse</option>
+					        	<option value="Receptionist" ${user.role == "Receptionist" ? "Selected" : ""}>Receptionist</option>
 					        </select>
 					    </div>
 					</div>
@@ -277,6 +317,9 @@
 							id: $("[name='id']").val(),
 							role: $("[name='role']").val(),
 							fname: $("[name='fname']").val(),
+							lname: $("[name='lname']").val(),
+							contact: $("[name='contact']").val(),
+							gender: $("[name='gender']").val(),
 							email: $("[name='email']").val(),
 							username: $("[name='username']").val(),
 						},
