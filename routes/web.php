@@ -63,6 +63,29 @@ Route::group([
             }
         );
 
+        // PATIENT ROUTES
+        $cname = "patient";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+
+                Route::get("/", ucfirst($cname) . "Controller@index")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fas fa-users-medical")
+                    ->defaults("name", ucfirst($cname) . "s")
+                    ->defaults("roles", array("Super Admin", "Admin", "Doctor", "Nurse", "Receptionist"))
+                    // ->defaults("group", "Settings")
+                    ->name($cname)
+                    ->defaults("href", "/$cname");
+
+                Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
+                Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
+                Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
+                Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
+            }
+        );
+
         // THEME ROUTES
         $cname = "theme";
         Route::group([
@@ -82,6 +105,7 @@ Route::group([
             ], function () use($cname){
 
                 Route::get("user", ucfirst($cname) . "Controller@user")->name('user');
+                Route::get("patient", ucfirst($cname) . "Controller@patient")->name('patient');
             }
         );
     }
