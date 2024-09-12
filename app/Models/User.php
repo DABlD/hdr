@@ -23,7 +23,8 @@ class User extends Authenticatable
         'gender', 'address', 'contact', 
         'password', 'civil_status',
         'username', 'nationality', 'religion',
-        'avatar'
+        'avatar', 'birth_place',
+        'kyc_id'
     ];
 
     /**

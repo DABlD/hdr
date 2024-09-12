@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('kyc_id')->nullable();
             $table->string('username')->unique();
             $table->enum('role', ['Super Admin', 'Admin', 'Doctor', 'Nurse', 'Patient', 'Receptionist'])->nullable();
             
@@ -27,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->date('birthday')->nullable();
 
             $table->string('civil_status')->nullable();
+            $table->string('birth_place')->nullable();
             
             $table->text('address')->nullable();
             $table->string('email')->unique()->nullable();
