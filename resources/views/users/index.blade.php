@@ -263,6 +263,9 @@
 				showCancelButton: true,
 				cancelButtonColor: errorColor,
 				cancelButtonText: 'Cancel',
+                showDenyButton: true,
+                denyButtonColor: successColor,
+                denyButtonText: 'Change Password',
 				preConfirm: () => {
 				    swal.showLoading();
 				    return new Promise(resolve => {
@@ -326,6 +329,53 @@
 						message: "Success"
 					},	() => {
 						reload();
+					});
+				}
+				else if(result.isDenied){
+					changePassword($("[name='id']").val());
+				}
+			});
+		}
+
+		function changePassword(id){
+			Swal.fire({
+				title: 'Enter new Password',
+			    html: `
+			        ${input("password", "Password", null, 5, 7, 'password')}
+			        ${input("password_confirmation", "Confirm Password", null, 5, 7, 'password')}
+			    `,
+			    confirmButtonText: 'Update Password',
+			    showCancelButton: true,
+			    cancelButtonColor: errorColor,
+			    cancelButtonText: 'Exit',
+			    width: "500px",
+			    preConfirm: () => {
+			        swal.showLoading();
+			        return new Promise(resolve => {
+			            setTimeout(() => {
+			                if($('.swal2-container input:placeholder-shown').length){
+			                    Swal.showValidationMessage('Fill all fields');
+			                }
+			                else if($("[name='password']").val().length < 8){
+			                    Swal.showValidationMessage('Password must at least be 8 characters');
+			                }
+			                else if($("[name='password']").val() != $("[name='password_confirmation']").val()){
+			                    Swal.showValidationMessage('Password do not match');
+			                }
+			            resolve()}, 500);
+			        });
+			    },
+			}).then(result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('user.updatePassword') }}",
+						data: {
+							id: id,
+							password: $("[name='password']").val(),
+						}
+					}, () => {
+						ss("Success");
 					});
 				}
 			});
