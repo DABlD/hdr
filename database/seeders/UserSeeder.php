@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\{User, Patient};
 
 class UserSeeder extends Seeder
 {
@@ -25,9 +25,10 @@ class UserSeeder extends Seeder
             'gender' => 'Male',
             'address' => 'Earth',
             'contact' => null,
-            'email_verified_at' => now()->toDateTimeString(),
             'password' => '654321'
         ]);
+
+        // ADMIN
 
         User::create([
             'username' => 'admin',
@@ -40,8 +41,76 @@ class UserSeeder extends Seeder
             'gender' => 'Male',
             'address' => null,
             'contact' => null,
-            'email_verified_at' => now()->toDateTimeString(),
             'password' => '123456'
+        ]);
+
+        User::create([
+            'username' => 'chanragmat',
+            'fname' => 'Christian',
+            'mname' => 'Lagunsad',
+            'lname' => 'Ragmat',
+            'role' => 'Admin',
+            'email' => 'chan.ragmat@gmail.com',
+            'birthday' => null,
+            'gender' => 'Male',
+            'address' => null,
+            'contact' => null,
+            'password' => '123456'
+        ]);
+
+        // DOCTOR
+
+        User::create([
+            'username' => 'doctor',
+            'fname' => 'John',
+            'mname' => 'D',
+            'lname' => 'Doe',
+            'role' => 'Doctor',
+            'email' => 'doctor@gmail.com',
+            'birthday' => null,
+            'gender' => 'Male',
+            'address' => null,
+            'contact' => null,
+            'password' => '123456'
+        ]);
+
+        // RECEPTIONIST
+
+        User::create([
+            'username' => 'receptionist',
+            'fname' => 'Jane',
+            'mname' => 'D',
+            'lname' => 'Doe',
+            'role' => 'Receptionist',
+            'email' => 'receptionist@gmail.com',
+            'birthday' => null,
+            'gender' => 'Female',
+            'address' => null,
+            'contact' => null,
+            'password' => '123456'
+        ]);
+
+        // PATIENT
+
+        User::create([
+            'username' => 'patient',
+            'fname' => 'Mark',
+            'mname' => 'E',
+            'lname' => 'Escario',
+            'role' => 'Patient',
+            'email' => 'patient@gmail.com',
+            'birthday' => null,
+            'gender' => 'Male',
+            'address' => null,
+            'contact' => null,
+            'password' => '123456'
+        ]);
+
+        Patient::create([
+            'user_id' => 6,
+            'patient_id' => '000001',
+            'hmo_provider' => 'maxicare',
+            'hmo_number' => '1234567809121482'
         ]);
     }
 }

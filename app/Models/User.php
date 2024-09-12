@@ -18,11 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'role', 'fname', 'mname', 
+        'role', 'fname', 'mname', 'suffix', 
         'lname', 'email', 'birthday', 
         'gender', 'address', 'contact', 
-        'password', 'email_verified_at',
-        'username'
+        'password', 'civil_status',
+        'username', 'nationality', 'religion',
+        'avatar'
     ];
 
     /**
@@ -31,8 +32,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password'
     ];
 
     /**
@@ -40,15 +40,16 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
     protected $dates = [
-        'created_at', 'updated_at', 'deleted_at', 'birthday', 'email_verified_at'
+        'created_at', 'updated_at', 'deleted_at', 'birthday'
     ];
 
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function patient(){
+        return $this->hasOne('App\Models\Patient');
     }
 }

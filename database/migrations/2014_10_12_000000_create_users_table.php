@@ -16,20 +16,26 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('username')->unique();
+            $table->enum('role', ['Super Admin', 'Admin', 'Doctor', 'Nurse', 'Patient', 'Receptionist'])->nullable();
             
             $table->string('fname')->nullable();
             $table->string('mname')->nullable();
             $table->string('lname')->nullable();
-            $table->string('avatar')->default('images/default_avatar.png');
-            $table->enum('role', ['Super Admin', 'Admin'])->nullable();
-            
-            $table->string('email')->unique()->nullable();
-            $table->date('birthday')->nullable();
+            $table->string('suffix')->nullable();
+
             $table->string('gender')->nullable();
+            $table->date('birthday')->nullable();
+
+            $table->string('civil_status')->nullable();
+            
             $table->text('address')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->string('contact')->nullable();
 
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('nationality')->nullable();
+            $table->string('religion')->nullable();
+
+            $table->string('avatar')->nullable()->default('images/default_avatar.png');
             $table->string('password');
 
             $table->timestamps();
