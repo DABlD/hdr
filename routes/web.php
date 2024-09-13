@@ -72,7 +72,7 @@ Route::group([
 
                 Route::get("/", ucfirst($cname) . "Controller@index")
                     ->defaults("sidebar", 1)
-                    ->defaults("icon", "fas fa-users-medical")
+                    ->defaults("icon", "fa-duotone fas fa-users-medical")
                     ->defaults("name", ucfirst($cname) . "s")
                     ->defaults("roles", array("Super Admin", "Admin", "Doctor", "Nurse", "Receptionist"))
                     // ->defaults("group", "Settings")
@@ -105,7 +105,6 @@ Route::group([
             ], function () use($cname){
 
                 Route::get("user", ucfirst($cname) . "Controller@user")->name('user');
-                Route::get("patient", ucfirst($cname) . "Controller@patient")->name('patient');
             }
         );
     }
