@@ -99,11 +99,15 @@ class UserSeeder extends Seeder
             'lname' => 'Escario',
             'role' => 'Patient',
             'email' => 'patient@gmail.com',
-            'birthday' => null,
+            'birthday' => "1997-11-12",
             'gender' => 'Male',
-            'address' => null,
-            'contact' => null,
-            'password' => '123456'
+            'address' => "Philippines",
+            'contact' => "091239123",
+            'password' => '123456',
+            'civil_status' => "Married",
+            'birth_place' => "Philippines",
+            'nationality' => "Filipino",
+            'religion' => "Catholic"
         ]);
 
         Patient::create([
