@@ -56,10 +56,6 @@
 		.pInfo{
 			color: deepskyblue;
 		}
-
-		.pInfo-left{
-			margin-left: 30px;
-		}
 	</style>
 @endpush
 
@@ -211,10 +207,6 @@
 				}
 			});
 		}
-
-		setTimeout(() => {
-			view(6);
-		}, 1000);
 
 		function showDetails(user){
 			Swal.fire({
