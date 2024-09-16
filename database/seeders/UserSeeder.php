@@ -94,9 +94,9 @@ class UserSeeder extends Seeder
 
         User::create([
             'username' => 'patient',
-            'fname' => 'Mark',
-            'mname' => 'E',
-            'lname' => 'Escario',
+            'fname' => 'John',
+            'mname' => 'D',
+            'lname' => 'Doe',
             'role' => 'Patient',
             'email' => 'patient@gmail.com',
             'birthday' => "1997-11-12",
@@ -112,7 +112,7 @@ class UserSeeder extends Seeder
 
         Patient::create([
             'user_id' => 6,
-            'patient_id' => '000001',
+            'patient_id' => 'P2409160001',
             'hmo_provider' => 'maxicare',
             'hmo_number' => '1234567809121482'
         ]);
