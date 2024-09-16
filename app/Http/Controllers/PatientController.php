@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Patient;
+use App\Models\{Patient, User};
 use DB;
 
 class PatientController extends Controller
@@ -54,25 +54,37 @@ class PatientController extends Controller
     }
 
     public function store(Request $req){
-        $data = new User();
-        $data->role = "Patient";
-        $data->username = $req->email;
-        $data->password = "12345678";
+        $user = new User();
+        $user->role = "Patient";
+        $user->username = $req->email;
+        $user->password = "12345678";
+        $user->fname = $req->fname;
+        $user->mname = $req->mname;
+        $user->lname = $req->lname;
+        $user->birthday = $req->birthday;
+        $user->birth_place = $req->birth_place;
+        $user->gender = $req->gender;
+        $user->civil_status = $req->civil_status;
+        $user->nationality = $req->nationality;
+        $user->religion = $req->religion;
+        $user->contact = $req->contact;
+        $user->email = $req->email;
+        $user->address = $req->address;
+        $user->save();
 
-        $data->fname = $req->fname;
-        $data->mname = $req->mname;
-        $data->lname = $req->lname;
-        $data->email = $req->email;
-        $data->suffix = $req->suffix;
-        $data->gender = $req->gender;
-        $data->birthday = $req->birthday;
-        // $data->civil_status = $req->civil_status;
-        // $data->birth_place = $req->birth_place;
-        $data->address = $req->address;
-        $data->contact = $req->contact;
-        $data->nationality = $req->nationality;
+        $ctr = Patient::where('created_at', 'like', now()->format('Y-m-d') . '%')->count();
 
-        echo $data->save();
+        $patient = new Patient();
+        $patient->user_id = $user->id;
+        $patient->patient_id = "P" . now()->format('ymd') . str_pad($ctr+1, 5, '0', STR_PAD_LEFT);
+        $patient->hmo_provider = $req->hmo_provider;
+        $patient->hmo_number = $req->hmo_number;
+        $patient->save();
+
+        $user->username = $patient->patient_id;
+        $user->save();
+
+        echo "success";
     }
 
     public function update(Request $req){

@@ -112,7 +112,7 @@ class UserSeeder extends Seeder
 
         Patient::create([
             'user_id' => 6,
-            'patient_id' => 'P2409160001',
+            'patient_id' => 'P24091600001',
             'hmo_provider' => 'maxicare',
             'hmo_number' => '1234567809121482'
         ]);

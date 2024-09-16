@@ -47,6 +47,7 @@
 @push('styles')
 	{{-- <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}"> --}}
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
 
 	<style>
 		.label{
@@ -62,6 +63,7 @@
 @push('scripts')
 	<script src="{{ asset('js/datatables.min.js') }}"></script>
 	<script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
+	<script src="{{ asset('js/flatpickr.min.js') }}"></script>
 
 	<script>
 		$(document).ready(()=> {
@@ -114,69 +116,77 @@
 
 		function create(){
 			Swal.fire({
-				title: "Enter User Details",
+				title: "Enter Patient Details",
 				html: `
-	            	<div class="row">
-	            		<div class="col-md-4">
-	            			<img src="" alt="">
-	            		</div>
+	                ${input("fname", "First Name", null, 3, 9)}
+	                ${input("mname", "Middle Name", null, 3, 9)}
+	                ${input("lname", "Last Name", null, 3, 9)}
 
-	            		<div class="col-md-6">
+	                ${input("birthday", "Birthday", null, 3, 9)}
+	                ${input("birth_place", "Birth Place", null, 3, 9)}
 
-	            		</div>
-	            	</div>
+					<div class="row iRow">
+					    <div class="col-md-3 iLabel">
+					        Gender
+					    </div>
+					    <div class="col-md-9 iInput">
+					        <select name="gender" class="form-control">
+					        	<option value="">Select Gender</option>
+					        	<option value="Male">Male</option>
+					        	<option value="Female">Female</option>
+					        </select>
+					    </div>
+					</div>
+
+					<div class="row iRow">
+					    <div class="col-md-3 iLabel">
+					        Civil Status
+					    </div>
+					    <div class="col-md-9 iInput">
+					        <select name="civil_status" class="form-control">
+					        	<option value="">Select Civil Status</option>
+					        	<option value="Single">Single</option>
+					        	<option value="Married">Married</option>
+					        	<option value="Widowed">Widowed</option>
+					        </select>
+					    </div>
+					</div>
+
+	                ${input("nationality", "Nationality", "Filipino", 3, 9)}
+	                ${input("religion", "Religion", null, 3, 9)}
+
+	                ${input("contact", "Contact", null, 3, 9)}
+					${input("email", "Email", null, 3, 9, 'email')}
+
+	                ${input("address", "Address", null, 3, 9)}
+
+	                <br>
+
+	                ${input("hmo_provider", "HMO Provider", null, 3, 9)}
+	                ${input("hmo_number", "HMO Number", null, 3, 9)}
 				`,
+				allowOutsideClick: false,
+				allowEscapeKey: false,
 				width: '800px',
-				confirmButtonText: 'Add',
+				confirmButtonText: 'Save',
 				showCancelButton: true,
 				cancelButtonColor: errorColor,
 				cancelButtonText: 'Cancel',
+				didOpen: () => {
+					$('[name="birthday"]').flatpickr({
+						altInput: true,
+						altFormat: "M j, Y",
+						dateFormat: "Y-m-d",
+						maxDate: moment().format("YYYY-MM-DD")
+					})
+				},
 				preConfirm: () => {
 				    swal.showLoading();
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('.swal2-container input:placeholder-shown').length || $('[name="gender"]').val() == "" || $('[name="role"]').val() == ""){
+			            if($('.swal2-container input:placeholder-shown').length || $('[name="gender"]').val() == "" || $('[name="civil_status"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
-			            }
-			            else if($("[name='password']").val().length < 8){
-			                Swal.showValidationMessage('Password must at least be 8 characters');
-			            }
-			            else if($("[name='password']").val() != $("[name='password_confirmation']").val()){
-			                Swal.showValidationMessage('Password do not match');
-			            }
-			            else{
-			            	let bool = false;
-            				$.ajax({
-            					url: "{{ route('user.get') }}",
-            					data: {
-            						select: "id",
-            						where: ["email", $("[name='email']").val()]
-            					},
-            					success: result => {
-            						result = JSON.parse(result);
-            						if(result.length){
-            			    			Swal.showValidationMessage('Email already used');
-	            						setTimeout(() => {resolve()}, 500);
-            						}
-            						else{
-			            				$.ajax({
-			            					url: "{{ route('user.get') }}",
-			            					data: {
-			            						select: "id",
-			            						where: ["username", $("[name='username']").val()]
-			            					},
-			            					success: result => {
-			            						result = JSON.parse(result);
-			            						if(result.length){
-			            			    			Swal.showValidationMessage('Username already used');
-				            						setTimeout(() => {resolve()}, 500);
-			            						}
-			            					}
-			            				});
-            						}
-            					}
-            				});
 			            }
 
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
@@ -186,17 +196,23 @@
 				if(result.value){
 					swal.showLoading();
 					$.ajax({
-						url: "{{ route('user.store') }}",
+						url: "{{ route('patient.store') }}",
 						type: "POST",
 						data: {
 							fname: $("[name='fname']").val(),
+							mname: $("[name='mname']").val(),
 							lname: $("[name='lname']").val(),
-							contact: $("[name='contact']").val(),
+							birthday: $("[name='birthday']").val(),
+							birth_place: $("[name='birth_place']").val(),
 							gender: $("[name='gender']").val(),
+							civil_status: $("[name='civil_status']").val(),
+							nationality: $("[name='nationality']").val(),
+							religion: $("[name='religion']").val(),
+							contact: $("[name='contact']").val(),
 							email: $("[name='email']").val(),
-							role: $("[name='role']").val(),
-							username: $("[name='username']").val(),
-							password: $("[name='password']").val(),
+							address: $("[name='address']").val(),
+							hmo_provider: $("[name='hmo_provider']").val(),
+							hmo_number: $("[name='hmo_number']").val(),
 							_token: $('meta[name="csrf-token"]').attr('content')
 						},
 						success: () => {
@@ -299,6 +315,26 @@
 
                         			<div class="row">
                         				<div class="col-md-4">
+                        					<span class="label">Birthday</span>
+                        					<br>
+                        					<span class="pInfo">${toDate(user.birthday)}</span>
+                        				</div>
+                        				<div class="col-md-4">
+                        					<span class="label">Age</span>
+                        					<br>
+                        					<span class="pInfo">${moment().diff(user.birthday, 'years')}</span>
+                        				</div>
+                        				<div class="col-md-4">
+                        					<span class="label">Birth Place</span>
+                        					<br>
+                        					<span class="pInfo">${user.birth_place}</span>
+                        				</div>
+                        			</div>
+
+                        			<br>
+
+                        			<div class="row">
+                        				<div class="col-md-4">
                         					<span class="label">Gender</span>
                         					<br>
                         					<span class="pInfo">${user.gender}</span>
@@ -322,11 +358,6 @@
                         					<span class="label">Religion</span>
                         					<br>
                         					<span class="pInfo">${user.religion}</span>
-                        				</div>
-                        				<div class="col-md-4">
-                        					<span class="label">Birth Place</span>
-                        					<br>
-                        					<span class="pInfo">${user.birth_place}</span>
                         				</div>
                         				<div class="col-md-4">
                         					<span class="label">Contact</span>
