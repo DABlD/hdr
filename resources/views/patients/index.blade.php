@@ -188,6 +188,23 @@
 			            if($('.swal2-container input:placeholder-shown').length || $('[name="gender"]').val() == "" || $('[name="civil_status"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
+			            else{
+			            	let bool = false;
+            				$.ajax({
+            					url: "{{ route('user.get') }}",
+            					data: {
+            						select: "id",
+            						where: ["email", $("[name='email']").val()]
+            					},
+            					success: result => {
+            						result = JSON.parse(result);
+            						if(result.length){
+            			    			Swal.showValidationMessage('Email already used');
+	            						setTimeout(() => {resolve()}, 500);
+            						}
+            					}
+            				});
+			            }
 
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
 				    });
