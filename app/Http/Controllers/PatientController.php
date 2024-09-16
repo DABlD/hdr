@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\{Patient, User};
 use DB;
 
+use App\Helpers\Helper;
+
 class PatientController extends Controller
 {
     public function __construct(){
@@ -84,21 +86,20 @@ class PatientController extends Controller
         $user->username = $patient->patient_id;
         $user->save();
 
+        Helper::log(auth()->user()->id, 'created patient', $user->id);
+
         echo "success";
     }
 
     public function update(Request $req){
-        echo DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token']));
-    }
+        $result = DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token']));
 
-    public function updatePassword(Request $req){
-        $user = User::find($req->id);
-        $user->password = $req->password;
-        $user->save();
+        echo Helper::log(auth()->user()->id, 'updated patient', $req->id);
     }
 
     public function delete(Request $req){
         User::find($req->id)->delete();
+        Helper::log(auth()->user()->id, 'deleted patient', $req->id);
     }
 
     public function index(){

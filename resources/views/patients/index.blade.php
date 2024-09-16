@@ -427,7 +427,7 @@
 				if(result.value){
 					swal.showLoading();
 					update({
-						url: "{{ route('user.delete') }}",
+						url: "{{ route('patient.delete') }}",
 						data: {id: id},
 						message: "Success"
 					}, () => {
