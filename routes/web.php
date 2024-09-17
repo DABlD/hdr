@@ -100,7 +100,7 @@ Route::group([
         );
 
         // TEMPLATE ROUTES
-        $cname = "template";
+        $cname = "question";
         Route::group([
                 'as' => "$cname.",
                 'prefix' => "$cname/"
