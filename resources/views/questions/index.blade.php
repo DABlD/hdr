@@ -14,13 +14,24 @@
                         </h3>
                         
                         <h3 class="float-right">
-                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Package" onclick="createPackage('package')">
+                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Package" onclick="createPackage('Package')">
                                 <i class="fas fa-plus fa-2xl"></i>
                             </a>
                         </h3>
                     </div>
 
                     <div class="card-body table-responsive">
+                    	<table id="PackageTable" class="table table-hover" style="width: 100%;">
+                    		<thead>
+                    			<tr>
+                    				<th>Name</th>
+                    				<th>Amount</th>
+                    				<th>Actions</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody>
+                    		</tbody>
+                    	</table>
                     </div>
                 </div>
 
@@ -32,13 +43,24 @@
                         </h3>
                         
                         <h3 class="float-right">
-                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Laboratory" onclick="createPackage('laboratory')">
+                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Laboratory" onclick="createPackage('Laboratory')">
                                 <i class="fas fa-plus fa-2xl"></i>
                             </a>
                         </h3>
                     </div>
 
                     <div class="card-body table-responsive">
+                    	<table id="LaboratoryTable" class="table table-hover" style="width: 100%;">
+                    		<thead>
+                    			<tr>
+                    				<th>Name</th>
+                    				<th>Amount</th>
+                    				<th>Actions</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody>
+                    		</tbody>
+                    	</table>
                     </div>
                 </div>
             </section>
@@ -73,6 +95,12 @@
 	{{-- <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}"> --}}
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
+
+	<style>
+		.card-body table td, .card-body table th{
+			text-align: center;
+		}
+	</style>
 @endpush
 
 @push('scripts')
@@ -82,7 +110,88 @@
 
 	<script>
 		$(document).ready(()=> {
+			loadpackages();
 		});
+
+		function loadpackages(){
+			$.ajax({
+				url: '{{ route('package.get') }}',
+				data: {
+					select: '*',
+					group: 'type'
+				},
+				success: result => {
+					result = JSON.parse(result);
+					
+					let packages = result.Package;
+					let labs = result.Laboratory;
+
+					let pString = "";
+
+					if(packages.length){
+						packages.forEach(a => {
+							pString += `
+								<tr>
+									<td>${a.name}</td>
+									<td>${a.amount}</td>
+									<td>
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id})">
+											<i class="fas fa-search"></i>
+										</a>
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
+											<i class="fas fa-pencil"></i>
+										</a>
+										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="viewPackage(${a.id})">
+											<i class="fas fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							`;
+						});
+					}
+					else{
+						pString = `
+							<tr>
+								<td colspan="3">No Packages</td>
+							</tr>
+						`;
+					}
+					$('#PackageTable tbody').html(pString);
+
+					let lString = "";
+
+					if(labs.length){
+						labs.forEach(a => {
+							lString += `
+								<tr>
+									<td>${a.name}</td>
+									<td>${a.amount}</td>
+									<td>
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id})">
+											<i class="fas fa-search"></i>
+										</a>
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
+											<i class="fas fa-pencil"></i>
+										</a>
+										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="viewPackage(${a.id})">
+											<i class="fas fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							`;
+						});
+					}
+					else{
+						pString = `
+							<tr>
+								<td colspan="3">No Laboratories</td>
+							</tr>
+						`;
+					}
+					$('#LaboratoryTable tbody').html(lString);
+				}
+			})
+		}
 
 		function view(id){
 			$.ajax({

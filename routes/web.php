@@ -87,7 +87,7 @@ Route::group([
         );
 
         // PACKAGE ROUTES
-        $cname = "patient";
+        $cname = "package";
         Route::group([
                 'as' => "$cname.",
                 'prefix' => "$cname/"
