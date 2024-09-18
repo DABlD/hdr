@@ -129,7 +129,7 @@
 
 					let pString = "";
 
-					if(packages.length){
+					if(packages){
 						packages.forEach(a => {
 							pString += `
 								<tr>
@@ -161,7 +161,7 @@
 
 					let lString = "";
 
-					if(labs.length){
+					if(labs){
 						labs.forEach(a => {
 							lString += `
 								<tr>
@@ -183,7 +183,7 @@
 						});
 					}
 					else{
-						pString = `
+						lString = `
 							<tr>
 								<td colspan="3">No Laboratories</td>
 							</tr>
@@ -217,26 +217,30 @@
 				},
 			}).then(result => {
 				if(result.value){
-					$.ajax({
-						url: '{{ route('package.store') }}',
-						type: "POST",
-						data: {
-							name: $('[name="name"]').val(),
-							amount: $('[name="amount"]').val(),
-							type: "Package",
-							_token: $('meta[name="csrf-token"]').attr('content')
-						},
-						success: result => {
-							ss("Success");
-							setTimeout(() => {
-								swal.showLoading();
-								setTimeout(() => {
-									loadPackages();
-									swal.close();
-								}, 1000);
-							}, 2000);
-						}
-					})
+					storePackage($('[name="name"]').val(), $('[name="amount"]').val(), type);
+				}
+			})
+		}
+
+		function storePackage(name, amount, type){
+			$.ajax({
+				url: '{{ route('package.store') }}',
+				type: "POST",
+				data: {
+					name: name,
+					amount: amount,
+					type: type,
+					_token: $('meta[name="csrf-token"]').attr('content')
+				},
+				success: result => {
+					ss("Success");
+					setTimeout(() => {
+						swal.showLoading();
+						setTimeout(() => {
+							loadPackages();
+							swal.close();
+						}, 1000);
+					}, 1500);
 				}
 			})
 		}
