@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Package;
 
+use App\Helpers\Helper;
+
 class PackageController extends Controller
 {
     public function __construct(){
@@ -57,6 +59,7 @@ class PackageController extends Controller
 
         $temp->name = $req->name;
         $temp->amount = $req->amount;
+        $temp->type = $req->type;
         $temp->save();
 
         Helper::log(auth()->user()->id, "created package", $temp->id);

@@ -107,13 +107,14 @@
 	<script src="{{ asset('js/datatables.min.js') }}"></script>
 	<script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
 	<script src="{{ asset('js/flatpickr.min.js') }}"></script>
+	<script src="{{ asset('js/numeral.min.js') }}"></script>
 
 	<script>
 		$(document).ready(()=> {
-			loadpackages();
+			loadPackages();
 		});
 
-		function loadpackages(){
+		function loadPackages(){
 			$.ajax({
 				url: '{{ route('package.get') }}',
 				data: {
@@ -133,7 +134,7 @@
 							pString += `
 								<tr>
 									<td>${a.name}</td>
-									<td>${a.amount}</td>
+									<td>₱${numeral(a.amount).format("0,0")}</td>
 									<td>
 										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id})">
 											<i class="fas fa-search"></i>
@@ -165,7 +166,7 @@
 							lString += `
 								<tr>
 									<td>${a.name}</td>
-									<td>${a.amount}</td>
+									<td>₱${numeral(a.amount).format("0,0")}</td>
 									<td>
 										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id})">
 											<i class="fas fa-search"></i>
@@ -189,6 +190,53 @@
 						`;
 					}
 					$('#LaboratoryTable tbody').html(lString);
+				}
+			})
+		}
+
+		function createPackage(type){
+			Swal.fire({
+				title: 'Input Package Details',
+				html: `
+					${input('name', 'Name', null, 3, 9)}
+					${input('amount', 'Amount', null, 3, 9, 'number', 'min=0')}
+				`,
+				showCancelButton: true,
+				cancelButtonColor: errorColor,
+				preConfirm: () => {
+				    swal.showLoading();
+				    return new Promise(resolve => {
+				    	let bool = true;
+
+			            if($('.swal2-container input:placeholder-shown').length){
+			                Swal.showValidationMessage('Fill all fields');
+			            }
+
+			            bool ? setTimeout(() => {resolve()}, 500) : "";
+				    });
+				},
+			}).then(result => {
+				if(result.value){
+					$.ajax({
+						url: '{{ route('package.store') }}',
+						type: "POST",
+						data: {
+							name: $('[name="name"]').val(),
+							amount: $('[name="amount"]').val(),
+							type: "Package",
+							_token: $('meta[name="csrf-token"]').attr('content')
+						},
+						success: result => {
+							ss("Success");
+							setTimeout(() => {
+								swal.showLoading();
+								setTimeout(() => {
+									loadPackages();
+									swal.close();
+								}, 1000);
+							}, 2000);
+						}
+					})
 				}
 			})
 		}
