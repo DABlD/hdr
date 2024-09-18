@@ -142,7 +142,7 @@
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
 											<i class="fas fa-pencil"></i>
 										</a>
-										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="viewPackage(${a.id})">
+										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="deletePackage(${a.id})">
 											<i class="fas fa-trash"></i>
 										</a>
 									</td>
@@ -174,7 +174,7 @@
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
 											<i class="fas fa-pencil"></i>
 										</a>
-										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="viewPackage(${a.id})">
+										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="deletePackage(${a.id})">
 											<i class="fas fa-trash"></i>
 										</a>
 									</td>
@@ -568,16 +568,16 @@
 			});
 		}
 
-		function del(id){
+		function deletePackage(id){
 			sc("Confirmation", "Are you sure you want to delete?", result => {
 				if(result.value){
 					swal.showLoading();
 					update({
-						url: "{{ route('patient.delete') }}",
+						url: "{{ route('package.delete') }}",
 						data: {id: id},
 						message: "Success"
 					}, () => {
-						reload();
+						loadPackages();
 					})
 				}
 			});
