@@ -5,6 +5,7 @@
     <div class="container-fluid">
 
         <div class="row">
+        	{{-- PACKAGES --}}
             <section class="col-lg-4 connectedSortable">
                 <div class="card">
                     <div class="card-header">
@@ -65,6 +66,7 @@
                 </div>
             </section>
 
+            {{-- QUESTIONS --}}
             <section class="col-lg-8 connectedSortable">
                 <div class="card">
                     <div class="card-header">
@@ -115,6 +117,7 @@
 			loadPackages();
 		});
 
+		// PACKAGES FUNCTIONS
 		function loadPackages(){
 			$.ajax({
 				url: '{{ route('package.get') }}',
@@ -259,6 +262,27 @@
 					})
 				}
 			});
+		}
+
+		// QUESTION FUNCTIONS
+		function viewPackage(id){
+			$.ajax({
+				url: "{{ route('question.get') }}",
+				data: {
+					select: '*',
+					where: ["package_id", id],
+					group: ['category_id']
+				},
+				success: result => {
+					result = JSON.parse(result);
+					let keys = Object.keys(result);
+					let categories = result[keys[keys.length-1]];
+
+					for(i = 0; i < (keys.length - 1); i++){
+						console.log(i);
+					}
+				}
+			})
 		}
 	</script>
 @endpush
