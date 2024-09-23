@@ -10,7 +10,7 @@ class Question extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'package_id','name','type'
+        'package_id','name','type', 'category_id'
     ];
 
     protected $dates = [

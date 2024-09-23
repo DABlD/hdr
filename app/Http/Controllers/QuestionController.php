@@ -55,6 +55,7 @@ class QuestionController extends Controller
     public function store(Request $req){
         $temp = new Question();
         $temp->package_id = $req->package_id;
+        $temp->category_id = $req->category_id;
         $temp->name = $req->name;
         $temp->type = $req->type;
         $temp->save();
