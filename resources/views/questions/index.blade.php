@@ -76,7 +76,7 @@
                         </h3>
                         
                         <h3 class="float-right">
-                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Admin" onclick="createQuestion()">
+                            <a class="btn btn-success btn-sm" data-toggle="tooltip" id="addCategory" title="Add Category" onclick="addCategory()">
                                 <i class="fas fa-plus fa-2xl"></i>
                             </a>
                         </h3>
@@ -129,6 +129,8 @@
 	<script src="{{ asset('js/numeral.min.js') }}"></script>
 
 	<script>
+		var sltpc = null;
+
 		$(document).ready(()=> {
 			loadPackages();
 		});
@@ -282,6 +284,9 @@
 
 		// QUESTION FUNCTIONS
 		function viewPackage(id){
+			sltpc = id;
+			$('#addCategory').show();
+
 			$.ajax({
 				url: "{{ route('question.get') }}",
 				data: {
@@ -317,15 +322,25 @@
 
 						    let temp = result[v.id];
 
-						    for(let i = 0; i < temp.length; i++){
+						    if(temp){
+							    for(let i = 0; i < temp.length; i++){
+							    	string += `
+							    		<tr>
+							    			<td>${temp[i].name}</td>
+							    			<td>${temp[i].type}</td>
+							    			<td>test</td>
+							    		</tr>
+							    	`;
+							    }
+						    }
+						    else{
 						    	string += `
 						    		<tr>
-						    			<td>${temp[i].name}</td>
-						    			<td>${temp[i].type}</td>
-						    			<td>test</td>
+						    			<td colspan="3" style="text-align: center !important;">No Questions Added</td>
 						    		</tr>
 						    	`;
 						    }
+
 
 						    string += "</tbody></table><br>";
 						}
@@ -347,6 +362,57 @@
 					// for(i = 0; i < (keys.length - 1); i++){
 					// 	console.log(keys[i]);
 					// }
+				}
+			})
+		}
+
+		function addCategory(){
+			if(sltpc == null){
+				se('No selected package');
+				return false;
+			}
+
+			Swal.fire({
+				title: 'Enter Details',
+				html: `
+					${input('name', 'Name', null, 4, 8)}
+				`,
+				showCancelButton: true,
+				cancelButtonColor: errorColor,
+				preConfirm: () => {
+				    swal.showLoading();
+				    return new Promise(resolve => {
+				    	let bool = true;
+
+			            if($('.swal2-container input:placeholder-shown').length){
+			                Swal.showValidationMessage('Fill all fields');
+			            }
+
+			            bool ? setTimeout(() => {resolve()}, 500) : "";
+				    });
+				},
+			}).then(result => {
+				if(result.value){
+					addQuestion({
+						package_id: sltpc,
+						name: $('[name="name"]').val(),
+						type: 'Category',
+					});
+				}
+			});
+		}
+
+		function addQuestion(data){
+			$.ajax({
+				url: "{{ route('question.store') }}",
+				type: "POST",
+				data: {
+					...data, 
+					_token: $('meta[name="csrf-token"]').attr('content')
+				},
+				success: () => {
+					ss("Success");
+					viewPackage(sltpc);
 				}
 			})
 		}
