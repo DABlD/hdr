@@ -75,7 +75,14 @@ class QuestionController extends Controller
 
     public function delete(Request $req){
         Question::find($req->id)->delete();
-        Helper::log(auth()->user()->id, 'deleted question', $req->id);
+
+        if(isset($req->category)){
+            Question::where('category_id', $req->id)->delete();
+            Helper::log(auth()->user()->id, 'deleted category', $req->id);
+        }
+        else{
+            Helper::log(auth()->user()->id, 'deleted question', $req->id);
+        }
     }
 
     public function index(){

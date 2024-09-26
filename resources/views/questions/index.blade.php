@@ -468,5 +468,20 @@
 				}
 			})
 		}
+
+		function deleteCategory(qid){
+			sc("Confirmation", "Are you sure you want to delete this category? This will delete all included questions.", result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('question.delete') }}",
+						data: {id: qid, category: true},
+						message: "Success"
+					}, () => {
+						viewPackage(sltpc);
+					})
+				}
+			});
+		}
 	</script>
 @endpush
