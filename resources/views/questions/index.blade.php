@@ -341,7 +341,14 @@
 							    		<tr>
 							    			<td>${temp[i].name}</td>
 							    			<td>${temp[i].type}</td>
-							    			<td>test</td>
+							    			<td>
+							    				<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Question" onclick="editQuestion(${temp[i].id}, '${temp[i].name}', '${temp[i].type}')">
+							    					<i class="fas fa-pencil"></i>
+							    				</a>
+							    				<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Question" onclick="deleteQuestion(${temp[i].id})">
+							    					<i class="fas fa-trash"></i>
+							    				</a>
+							    			</td>
 							    		</tr>
 							    	`;
 							    }
@@ -467,6 +474,74 @@
 					viewPackage(sltpc);
 				}
 			})
+		}
+
+		function editQuestion(id, name, type){
+			Swal.fire({
+				title: 'Enter Details',
+				html: `
+					${input('name', 'Name', name, 3, 9)}
+					<div class="row iRow">
+					    <div class="col-md-3 iLabel">
+					        Type
+					    </div>
+					    <div class="col-md-9 iInput">
+					        <select name="type" class="form-control">
+					        	<option value="">Select Type</option>
+					        	<option value="Dichotomous">Dichotomous</option>
+					        	<option value="Text">Text</option>
+					        </select>
+					    </div>
+					</div>
+				`,
+				showCancelButton: true,
+				cancelButtonColor: errorColor,
+				didOpen: () => {
+					$("[name='type']").val(type).trigger('change');
+				},
+				preConfirm: () => {
+				    swal.showLoading();
+				    return new Promise(resolve => {
+				    	let bool = true;
+
+			            if($('.swal2-container input:placeholder-shown').length || $('[name="type"]').val() == ""){
+			                Swal.showValidationMessage('Fill all fields');
+			            }
+
+			            bool ? setTimeout(() => {resolve()}, 500) : "";
+				    });
+				},
+			}).then(result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('question.update') }}",
+						data: {
+							id: id,
+							name: $('[name="name"]').val(),
+							type: $('[name="type"]').val(),
+						},
+						message: "Success"
+					}, () => {
+						viewPackage(sltpc);
+					})
+				}
+			});
+		}
+
+		function deleteQuestion(id){
+			sc("Confirmation", "Are you sure you want to delete this question?", result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('question.delete') }}",
+						data: {id: id},
+						message: "Success"
+					}, () => {
+						viewPackage(sltpc);
+					})
+				}
+			});
 		}
 
 		function deleteCategory(qid){
