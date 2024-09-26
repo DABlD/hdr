@@ -305,9 +305,24 @@
 						for (let [k, v] of Object.entries(result[""])) {
 						    string += `
 						    	<div class="row">
-						    		<h3><b>${v.name}</b></h3>
+						    		<div class="col-md-12" style="text-align: left;">
+							    		<b style="font-size: 1.5rem;">${v.name}</b>
+
+							    		&nbsp;
+							    		<tr>
+								    		<td>
+								    			<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Question" onclick="getQuestionData(${v.id})">
+								    				<i class="fas fa-plus"></i>
+								    			</a>
+								    			<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Category" onclick="deleteCategory(${v.id})">
+								    				<i class="fas fa-trash"></i>
+								    			</a>
+								    		</td>
+							    		</tr>
+						    		</div>
 						    	</div>
-						    	<table class="table table-hover qtd" style="width: 100%;">
+
+						    	<table class="table table-hover qtd" style="width: 100%; margin-top: 5px;">
 						    		<thead>
 						    			<tr>
 						    				<th>Name</th>
@@ -390,6 +405,50 @@
 						package_id: sltpc,
 						name: $('[name="name"]').val(),
 						type: 'Category',
+					});
+				}
+			});
+		}
+
+		function getQuestionData(cid){
+			Swal.fire({
+				title: 'Enter Details',
+				html: `
+					${input('name', 'Name', null, 3, 9)}
+					<div class="row iRow">
+					    <div class="col-md-3 iLabel">
+					        Type
+					    </div>
+					    <div class="col-md-9 iInput">
+					        <select name="type" class="form-control">
+					        	<option value="">Select Type</option>
+					        	<option value="Dichotomous">Dichotomous</option>
+					        	<option value="Text">Text</option>
+					        </select>
+					    </div>
+					</div>
+				`,
+				showCancelButton: true,
+				cancelButtonColor: errorColor,
+				preConfirm: () => {
+				    swal.showLoading();
+				    return new Promise(resolve => {
+				    	let bool = true;
+
+			            if($('.swal2-container input:placeholder-shown').length || $('[name="type"]').val() == ""){
+			                Swal.showValidationMessage('Fill all fields');
+			            }
+
+			            bool ? setTimeout(() => {resolve()}, 500) : "";
+				    });
+				},
+			}).then(result => {
+				if(result.value){
+					addQuestion({
+						package_id: sltpc,
+						category_id: cid,
+						name: $('[name="name"]').val(),
+						type: $('[name="type"]').val(),
 					});
 				}
 			});
