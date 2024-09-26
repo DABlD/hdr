@@ -72,7 +72,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-table mr-1"></i>
-                            Questions
+                            Questionnaire
                         </h3>
                         
                         <h3 class="float-right">
@@ -102,6 +102,22 @@
 	<style>
 		.card-body table td, .card-body table th, #questions{
 			text-align: center;
+		}
+
+		.qtd td, .qtd th{
+			text-align: left !important;
+		}
+
+		.qtd th:nth-child(1){
+			width: 50%;
+		}
+
+		.qtd th:nth-child(2){
+			width: 25%;
+		}
+
+		.qtd th:nth-child(3){
+			width: 25%;
 		}
 	</style>
 @endpush
@@ -278,9 +294,59 @@
 					let keys = Object.keys(result);
 					let categories = result[keys[keys.length-1]];
 
-					for(i = 0; i < (keys.length - 1); i++){
-						console.log(i);
+					let string = "";
+
+					// console.log(result, keys, categories, result[""]);
+
+					if(result[""] != undefined){
+						for (let [k, v] of Object.entries(result[""])) {
+						    string += `
+						    	<div class="row">
+						    		<h3><b>${v.name}</b></h3>
+						    	</div>
+						    	<table class="table table-hover qtd" style="width: 100%;">
+						    		<thead>
+						    			<tr>
+						    				<th>Name</th>
+						    				<th>Type</th>
+						    				<th>Actions</th>
+						    			</tr>
+						    		</thead>
+						    		<tbody>
+						    `;
+
+						    let temp = result[v.id];
+
+						    for(let i = 0; i < temp.length; i++){
+						    	string += `
+						    		<tr>
+						    			<td>${temp[i].name}</td>
+						    			<td>${temp[i].type}</td>
+						    			<td>test</td>
+						    		</tr>
+						    	`;
+						    }
+
+						    string += "</tbody></table><br>";
+						}
 					}
+					else{
+						string = `
+							No Categories Added.
+						`;
+					}
+
+					$('#questions').slideUp(500);
+					
+					setTimeout(() => {
+						$('#questions').html(string);
+						$('#questions').slideDown();
+					}, 500);
+
+
+					// for(i = 0; i < (keys.length - 1); i++){
+					// 	console.log(keys[i]);
+					// }
 				}
 			})
 		}
