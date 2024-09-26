@@ -301,8 +301,6 @@
 
 					let string = "";
 
-					// console.log(result, keys, categories, result[""]);
-
 					if(result[""] != undefined){
 						for (let [k, v] of Object.entries(result[""])) {
 						    string += `
@@ -357,11 +355,6 @@
 						$('#questions').html(string);
 						$('#questions').slideDown();
 					}, 500);
-
-
-					// for(i = 0; i < (keys.length - 1); i++){
-					// 	console.log(keys[i]);
-					// }
 				}
 			})
 		}
