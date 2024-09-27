@@ -17,6 +17,12 @@ trait UserAttribute{
 					        "<i class='fas fa-search'></i>" .
 					    "</a>&nbsp;";
 
+			if($this->role == "Patient"){
+				$action .= 	"<a class='btn btn-primary' data-toggle='tooltip' title='Packages' onClick='packages($id)'>" .
+						        "<i class='fas fa-box-check'></i>" .
+						    "</a>&nbsp;";	
+			}
+
 			if(auth()->user()->role == "Super Admin"){
 				$action .= 	"<a class='btn btn-primary' data-toggle='tooltip' title='Themes' onClick='themes($id)'>" .
 						        "<i class='fas fa-palette'></i>" .

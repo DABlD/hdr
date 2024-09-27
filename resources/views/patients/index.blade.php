@@ -437,5 +437,9 @@
 				}
 			});
 		}
+
+		function packages(id){
+			console.log(id);
+		}
 	</script>
 @endpush
