@@ -20,7 +20,7 @@
                     	<table id="table" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
-                    				<th>ID</th>
+                    				<th>Patient ID</th>
                     				<th>Surname</th>
                     				<th>First Name</th>
                     				<th>Gender</th>
@@ -74,11 +74,12 @@
                 	dataSrc: "",
 					data: {
 						select: "*",
-						where: ["role", "=", "Patient"]
+						where: ["role", "=", "Patient"],
+						load: ['patient']
 					}
 				},
 				columns: [
-					{data: 'id'},
+					{data: 'patient.patient_id'},
 					{data: 'lname'},
 					{data: 'fname'},
 					{data: 'gender'},
