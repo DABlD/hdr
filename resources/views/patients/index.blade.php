@@ -92,7 +92,7 @@
 	                {
 	                    targets: 4,
 	                    render: birthday => {
-	                        return birthday ? toDate(birthday) : "-";
+	                        return birthday ? toDate(birthday) + " " + `(${moment().diff(birthday, 'years')})` : "-";
 	                    },
 	                }
 	            ],
