@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="index3.html" class="brand-link" style="text-align: center;">
-        <img src="{{ asset($theme['logo_img']) }}" alt="{{ env('APP_NAME') }}" class="brand-image elevation-3">
+        <img src="{{ asset('images/OHN LOGO WBG.jpeg') }}" alt="{{ env('APP_NAME') }}" class="brand-image elevation-3">
     </a>
 
     <div class="sidebar">
