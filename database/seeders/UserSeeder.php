@@ -114,7 +114,16 @@ class UserSeeder extends Seeder
             'user_id' => 6,
             'patient_id' => 'P24091600001',
             'hmo_provider' => 'maxicare',
-            'hmo_number' => '1234567809121482'
+            'hmo_number' => '1234567809121482',
+            'mothers_name' => "Mary Doe",
+            'fathers_name' => "Jason Doe",
+            'guardian_name' => "Test",
+            'employment_status' => "Test",
+            'company_name' => "Test",
+            'company_position' => "Test",
+            'company_contact' => "Test",
+            'sss' => "Test",
+            'tin_number' => "Test"
         ]);
     }
 }
