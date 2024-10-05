@@ -390,7 +390,7 @@
 					<br>
 	                <div class="row">
 
-	                	<section class="col-lg-4">
+	                	<section class="col-lg-3">
 		                    <div class="card">
 		                        <div class="card-header row">
 		                            <div class="col-md-12">
@@ -437,7 +437,7 @@
 		                    </div>
 		                </section>
 
-                    	<section class="col-lg-8">
+                    	<section class="col-lg-9">
     	                    <div class="card">
     	                        <div class="card-header row">
     	                            <div class="col-md-12">
@@ -456,17 +456,17 @@
                         				<div class="col-md-4">
                         					<span class="label">First Name</span>
                         					<br>
-                        					<span class="pInfo">${user.fname}</span>
+                        					<span class="pInfo">${user.fname ?? "-"}</span>
                         				</div>
                         				<div class="col-md-4">
                         					<span class="label">Middle Name</span>
                         					<br>
-                        					<span class="pInfo">${user.mname}</span>
+                        					<span class="pInfo">${user.mname ?? "-"}</span>
                         				</div>
                         				<div class="col-md-4">
                         					<span class="label">Last Name</span>
                         					<br>
-                        					<span class="pInfo">${user.lname}</span>
+                        					<span class="pInfo">${user.lname ?? "-"}</span>
                         				</div>
                         			</div>
 
@@ -518,21 +518,6 @@
                         					<br>
                         					<span class="pInfo">${user.religion}</span>
                         				</div>
-                        				<div class="col-md-4">
-                        					<span class="label">Contact</span>
-                        					<br>
-                        					<span class="pInfo">${user.contact}</span>
-                        				</div>
-                        			</div>
-
-                        			<br>
-                        			
-                        			<div class="row">
-                        				<div class="col-md-12">
-                        					<span class="label">Email</span>
-                        					<br>
-                        					<span class="pInfo">${user.email}</span>
-                        				</div>
                         			</div>
 
                         			<br>
@@ -549,9 +534,125 @@
     	                    </div>
     	                </section>
 	                </div>
+
+	                <div class="row">
+	                	<section class="col-lg-3">
+		                    <div class="card">
+		                        <div class="card-header row">
+		                            <div class="col-md-12">
+		                                <h3 class="card-title" style="width: 100%; text-align: left;">
+		                                    <i class="fas fa-phone mr-1"></i>
+
+		                                    Contact Information
+
+		                                </h3>
+		                            </div>
+		                        </div>
+
+		                        <div class="card-body">
+	                    			
+	                    			<div class="col-md-12 pInfo-left">
+	                    				<span class="label">Email</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.email ?? "-"}</span>
+	                    			</div>
+
+	                    			<br>
+
+	                    			<div class="col-md-12 pInfo-left">
+	                    				<span class="label">Contact</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.contact ?? "-"}</span>
+	                    			</div>
+	                    			
+	                    			<br>
+	                    			
+	                    			<div class="col-md-12 pInfo-left">
+	                    				<span class="label">Mother's Name</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.patient.mothers_name ?? "-"}</span>
+	                    			</div>
+	                    			
+	                    			<br>
+	                    			
+	                    			<div class="col-md-12 pInfo-left">
+	                    				<span class="label">Father's Name</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.patient.fathers_name ?? "-"}</span>
+	                    			</div>
+	                    			
+	                    			<br>
+	                    			
+	                    			<div class="col-md-12 pInfo-left">
+	                    				<span class="label">Guardian's Name</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.patient.guardians_name ?? "-"}</span>
+	                    			</div>
+
+		                        </div>
+		                    </div>
+		                </section>
+
+		                <section class="col-lg-9">
+    	                    <div class="card">
+    	                        <div class="card-header row">
+    	                            <div class="col-md-12">
+    	                                <h3 class="card-title" style="width: 100%; text-align: left;">
+    	                                    <i class="fas fa-briefcase mr-1"></i>
+
+    	                                    Employment Information
+
+    	                                </h3>
+    	                            </div>
+    	                        </div>
+
+    	                        <div class="card-body">
+
+                        			<div class="row">
+                        				<div class="col-md-4">
+                        					<span class="label">Employment Status</span>
+                        					<br>
+                        					<span class="pInfo">${user.patient.employment_status ?? "-"}</span>
+                        				</div>
+                        				<div class="col-md-4">
+                        					<span class="label">Company Name</span>
+                        					<br>
+                        					<span class="pInfo">${user.patient.company_name ?? "-"}</span>
+                        				</div>
+                        				<div class="col-md-4">
+                        					<span class="label">Position</span>
+                        					<br>
+                        					<span class="pInfo">${user.patient.company_position ?? "-"}</span>
+                        				</div>
+                        			</div>
+
+                        			<br>
+
+                        			<div class="row">
+                        				<div class="col-md-4">
+                        					<span class="label">Contact</span>
+                        					<br>
+                        					<span class="pInfo">${user.patient.company_contact ?? "-"}</span>
+                        				</div>
+                        				<div class="col-md-4">
+                        					<span class="label">SSS</span>
+                        					<br>
+                        					<span class="pInfo">${user.patient.sss ?? "-"}</span>
+                        				</div>
+                        				<div class="col-md-4">
+                        					<span class="label">TIN</span>
+                        					<br>
+                        					<span class="pInfo">${user.patient.tin_number ?? "-"}</span>
+                        				</div>
+                        			</div>
+
+    	                        </div>
+    	                    </div>
+    	                </section>
+	                </div>
 				`,
-				width: '1000px',
-				confirmButtonText: 'Ok',
+				width: '1200px',
+				confirmButtonText: 'OK',
 				// showCancelButton: true,
 				// cancelButtonColor: errorColor,
 				// cancelButtonText: 'Cancel',
