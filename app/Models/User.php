@@ -24,7 +24,7 @@ class User extends Authenticatable
         'password', 'civil_status',
         'username', 'nationality', 'religion',
         'avatar', 'birth_place',
-        'kyc_id'
+        'kyc_id', 'prefix'
     ];
 
     /**

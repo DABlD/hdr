@@ -22,6 +22,17 @@ class CreatePatientsTable extends Migration
             $table->string('hmo_provider')->nullable();
             $table->string('hmo_number')->nullable();
 
+            $table->string('mothers_name')->nullable();
+            $table->string('fathers_name')->nullable();
+            $table->string('guardian_name')->nullable();
+
+            $table->string('employment_status')->nullable();
+            $table->string('company_name')->nullable();
+            $table->string('company_position')->nullable();
+            $table->string('company_contact')->nullable();
+            $table->string('sss')->nullable();
+            $table->string('tin_number')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
 

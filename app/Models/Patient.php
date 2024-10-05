@@ -12,7 +12,16 @@ class Patient extends Model
     protected $fillable = [
         'hmo_provider',
         'hmo_number',
-        'patient_id'
+        'patient_id',
+        'mothers_name',
+        'fathers_name',
+        'guardian_name',
+        'employment_status',
+        'company_name',
+        'company_position',
+        'company_contact',
+        'sss',
+        'tin_number'
     ];
 
     protected $dates = [

@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->enum('role', ['Super Admin', 'Admin', 'Doctor', 'Nurse', 'Patient', 'Receptionist'])->nullable();
             
+            $table->string('prefix')->nullable();
             $table->string('fname')->nullable();
             $table->string('mname')->nullable();
             $table->string('lname')->nullable();
