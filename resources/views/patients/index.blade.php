@@ -48,6 +48,7 @@
 	{{-- <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}"> --}}
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 
 	<style>
 		.label{
@@ -73,6 +74,8 @@
 	<script src="{{ asset('js/datatables.min.js') }}"></script>
 	<script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
 	<script src="{{ asset('js/flatpickr.min.js') }}"></script>
+	<script src="{{ asset('js/select2.min.js') }}"></script>
+	<script src="{{ asset('js/numeral.min.js') }}"></script>
 
 	<script>
 		$(document).ready(()=> {
@@ -681,7 +684,127 @@
 		}
 
 		function packages(id){
-			console.log(id);
+			$.ajax({
+				url: '{{ route('patientPackage.get') }}',
+				data: {
+					select: "*",
+					where: ['user_id', id]
+				},
+				success: result => {
+					result = JSON.parse(result);
+
+					let packageString = `
+						<tr>
+							<td colspan="3" style="text-align: center;">No Package Purchased</td>
+						</tr>
+					`;
+
+					if(result.length){
+						packageString = '';
+
+						result.forEach(aPackage => {
+							details = JSON.parse(aPackage.details);
+
+							packageString += `
+								<tr>
+									<td>${details.name}</td>
+									<td>${"₱" + numeral(details.amount).format("0,0")}</td>
+									<td>${toDateTime(aPackage.created_at)}</td>
+								</tr>
+							`;
+						});
+					}
+
+					Swal.fire({
+						title: "Packages",
+						html: `
+							<div class="row">
+
+								<div class="col-md-10">
+									<select class="form-control" id="packageSelection">
+									</select>
+								</div>
+
+								<div class="col-md-2">
+									<a class="btn btn-info btn-sm" onclick="addPackage(${id})">Add</a>
+								</div>
+
+							</div>
+
+							<br>
+
+							<div class="row">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th>Package</th>
+											<th>Amount</th>
+											<th>Date</th>
+										</tr>
+									</thead>
+									<tbody id="availedPackage">
+										${packageString}
+									</tbody>
+								</table>
+							</div>
+						`,
+						didOpen: () => {
+							$.ajax({
+								url: '{{ route('package.get') }}',
+								data: {
+									select: "*",
+								},
+								success: packages => {
+									packages = JSON.parse(packages);
+
+									let aPackageString = "<option value=''>No Available Package</option>";
+
+									if(packages.length){
+										aPackageString = "<option value=''>Add Package</option>";
+
+										packages.forEach(aPackage => {
+											aPackageString += `
+												<option value="${aPackage.id}">${aPackage.name} - ${aPackage.amount}</option>
+											`;
+										});
+									}
+
+									$('#packageSelection').html(aPackageString);
+									$('#packageSelection').select2();
+								}
+							})
+						}
+					})
+				}
+			})
+		}
+
+		function addPackage(id){
+			let pid = $('#packageSelection').val();
+
+			if(pid){
+				$.ajax({
+					url: '{{ route('patientPackage.store') }}',
+					type: "POST",
+					data: {
+						user_id: 6,
+						package_id: pid,
+						_token: $('meta[name="csrf-token"]').attr('content')
+					},
+					success: result => {
+						ss('Successfully added package');
+						setTimeout(() => {
+							packages(id);
+						}, 1000);
+					}
+				})
+			}
+			else{
+				se('No Selected Package');
+				setTimeout(() => {
+					packages(id);
+				}, 1000);
+			}
 		}
 	</script>
 @endpush

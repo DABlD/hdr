@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PatientPackage;
+use App\Models\{PatientPackage, Patient, Package};
 
 use App\Helpers\Helper;
 
-class QuestionController extends Controller
+class PatientPackageController extends Controller
 {
     public function __construct(){
         $this->table = "patient_packages";
@@ -55,15 +55,19 @@ class QuestionController extends Controller
     }
 
     public function store(Request $req){
+        $patient = Patient::where('user_id', $req->user_id)->first();
+        $package = Package::find($req->package_id);
+
         $temp = new PatientPackage();
         $temp->user_id = $req->user_id;
-        $temp->patient_id = $req->patient_id;
-        $temp->package_id = $req->package_id;
-        $temp->details = $req->details;
+        $temp->patient_id = $patient->id;
+        $temp->package_id = $package->id;
+
+        $temp->details = json_encode($package->toArray());
         // $temp->question_with_answers = $req->question_with_answers;
         $temp->save();
 
-        Helper::log(auth()->user()->id, "$req->user_id bought package $req->package_id", $temp->id);
+        Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
 
         echo "success";
     }
