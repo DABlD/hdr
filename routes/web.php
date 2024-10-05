@@ -38,6 +38,14 @@ Route::group([
             ->name('dashboard')
             ->defaults('href', '/');
 
+        Route::get('/profile', 'UserController@profile')
+            ->defaults('sidebar', 1)
+            ->defaults('icon', 'fas fa-user-doctor')
+            ->defaults('name', 'Profile')
+            ->defaults('roles', array('Admin'))
+            ->name('dashboard')
+            ->defaults('href', '/profile');
+
         // USER ROUTES
         $cname = "user";
         Route::group([

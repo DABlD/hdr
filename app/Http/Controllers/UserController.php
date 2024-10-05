@@ -90,6 +90,12 @@ class UserController extends Controller
         $user->save();
     }
 
+    public function profile(){
+        return $this->_view('profile', [
+            'title' => "Profile"
+        ]);
+    }
+
     public function delete(Request $req){
         User::find($req->id)->delete();
         Helper::log(auth()->user()->id, 'deleted user', $req->id);
