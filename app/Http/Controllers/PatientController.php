@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Patient, User};
+use Image;
 use DB;
 
 use App\Helpers\Helper;
@@ -57,12 +58,27 @@ class PatientController extends Controller
 
     public function store(Request $req){
         $user = new User();
+
+        if($req->hasFile('avatar')){
+            $temp = $req->file('avatar');
+            $image = Image::make($temp);
+
+            $name = $req->lname . '_' . $req->fname . '-' . time() . "." . $temp->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/');
+
+            $image->resize(250, 250);
+            $image->save($destinationPath . $name);
+            $user->avatar = 'uploads/' . $name;
+        }
+
         $user->role = "Patient";
         $user->username = $req->email;
         $user->password = "12345678";
+        $user->prefix = $req->prefix;
         $user->fname = $req->fname;
         $user->mname = $req->mname;
         $user->lname = $req->lname;
+        $user->suffix = $req->suffix;
         $user->birthday = $req->birthday;
         $user->birth_place = $req->birth_place;
         $user->gender = $req->gender;
@@ -81,6 +97,15 @@ class PatientController extends Controller
         $patient->patient_id = "P" . now()->format('ymd') . str_pad($ctr+1, 5, '0', STR_PAD_LEFT);
         $patient->hmo_provider = $req->hmo_provider;
         $patient->hmo_number = $req->hmo_number;
+        $patient->mothers_name = $req->mothers_name;
+        $patient->fathers_name = $req->fathers_name;
+        $patient->guardian_name = $req->guardian_name;
+        $patient->employment_status = $req->employment_status;
+        $patient->company_name = $req->company_name;
+        $patient->company_position = $req->company_position;
+        $patient->company_contact = $req->company_contact;
+        $patient->sss = $req->sss;
+        $patient->tin_number = $req->tin_number;
         $patient->save();
 
         $user->username = $patient->patient_id;

@@ -57,6 +57,15 @@
 		.pInfo{
 			color: deepskyblue;
 		}
+
+	    #swal2-html-container .nav-pills>li>a {
+	    	border-top: 3px solid !important;
+	    }
+
+	    #swal2-html-container .nav-link.active {
+	    	color: #fff !important;
+	    	background-color: #337ab7 !important;
+	    }
 	</style>
 @endpush
 
@@ -119,52 +128,126 @@
 			Swal.fire({
 				title: "Enter Patient Details",
 				html: `
-	                ${input("fname", "First Name", null, 3, 9)}
-	                ${input("mname", "Middle Name", null, 3, 9)}
-	                ${input("lname", "Last Name", null, 3, 9)}
+					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
+					    <li class="nav-item">
+					        <a class="nav-link active" href="#tab1" data-toggle="tab">Personal Information</a>
+					    </li>
+					    &nbsp;
+					    <li class="nav-item">
+					        <a class="nav-link" href="#tab2" data-toggle="tab">Contact Information</a>
+					    </li>
+					    &nbsp;
+					    <li class="nav-item">
+					        <a class="nav-link" href="#tab3" data-toggle="tab">Employment Information</a>
+					    </li>
+					</ul>
 
-	                ${input("birthday", "Birthday", null, 3, 9)}
-	                ${input("birth_place", "Birth Place", null, 3, 9)}
+					<div class="tab-content p-0">
+					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
+					    	<br>
 
-					<div class="row iRow">
-					    <div class="col-md-3 iLabel">
-					        Gender
+					    	<img src="{{ asset("images/default_avatar.png") }}" alt="PHOTO" width="100" height="100" id="preview">
+					    	<br>
+					    	<label for="files" class="btn">Upload Image</label>
+					    	<br>
+					    	<input id="files" style="visibility:hidden;" type="file" accept="image/*">
+
+	        				<div class="row iRow">
+	        				    <div class="col-md-3 iLabel">
+	        				        Prefix
+	        				    </div>
+	        				    <div class="col-md-9 iInput">
+	        				        <select name="prefix" class="form-control">
+	        				        	<option value="">Select Prefix*</option>
+	        				        	<option value="Mr.">Mr.</option>
+	        				        	<option value="Ms.">Ms.</option>
+	        				        	<option value="Mrs.">Mrs.</option>
+	        				        	<option value="Dr.">Dr.</option>
+	        				        	<option value="Engr.">Engr.</option>
+	        				        	<option value="Prof.">Prof.</option>
+	        				        	<option value="Atty.">Atty.</option>
+	        				        	<option value="Hon.">Hon.</option>
+	        				        </select>
+	        				    </div>
+	        				</div>
+
+					        ${input("fname", "First Name", null, 3, 9)}
+					        ${input("mname", "Middle Name", null, 3, 9)}
+					        ${input("lname", "Last Name", null, 3, 9)}
+
+	        				<div class="row iRow">
+	        				    <div class="col-md-3 iLabel">
+	        				        Gender
+	        				    </div>
+	        				    <div class="col-md-9 iInput">
+	        				        <select name="suffix" class="form-control">
+	        				        	<option value="">Select Suffix*</option>
+	        				        	<option value="Jr.">Jr.</option>
+	        				        	<option value="Sr.">Sr.</option>
+	        				        	<option value="I">I</option>
+	        				        	<option value="II">II</option>
+	        				        	<option value="III">III</option>
+	        				        	<option value="IV">IV</option>
+	        				        	<option value="V">V</option>
+	        				        </select>
+	        				    </div>
+	        				</div>
+
+					        ${input("birthday", "Birthday", null, 3, 9)}
+					        ${input("birth_place", "Birth Place", null, 3, 9)}
+
+	        				<div class="row iRow">
+	        				    <div class="col-md-3 iLabel">
+	        				        Gender
+	        				    </div>
+	        				    <div class="col-md-9 iInput">
+	        				        <select name="gender" class="form-control">
+	        				        	<option value="">Select Gender</option>
+	        				        	<option value="Male">Male</option>
+	        				        	<option value="Female">Female</option>
+	        				        </select>
+	        				    </div>
+	        				</div>
+
+	        				<div class="row iRow">
+	        				    <div class="col-md-3 iLabel">
+	        				        Civil Status
+	        				    </div>
+	        				    <div class="col-md-9 iInput">
+	        				        <select name="civil_status" class="form-control">
+	        				        	<option value="">Select Civil Status</option>
+	        				        	<option value="Single">Single</option>
+	        				        	<option value="Married">Married</option>
+	        				        	<option value="Widowed">Widowed</option>
+	        				        </select>
+	        				    </div>
+	        				</div>
+
+	                        ${input("nationality", "Nationality", "Filipino", 3, 9)}
+	                        ${input("religion", "Religion", null, 3, 9)}
+
+	                		${input("address", "Address", null, 3, 9)}
 					    </div>
-					    <div class="col-md-9 iInput">
-					        <select name="gender" class="form-control">
-					        	<option value="">Select Gender</option>
-					        	<option value="Male">Male</option>
-					        	<option value="Female">Female</option>
-					        </select>
+					    <div class="chart tab-pane" id="tab2" style="position: relative;">
+					    	<br>
+	                        ${input("contact", "Contact", null, 3, 9)}
+	        				${input("email", "Email", null, 3, 9, 'email')}
+	                        ${input("mothers_name", "Mothers Name", null, 3, 9)}
+	                        ${input("fathers_name", "Fathers Name", null, 3, 9)}
+	                        ${input("guardian_name", "Guardian Name", null, 3, 9)}
+					    </div>
+					    <div class="chart tab-pane" id="tab3" style="position: relative;">
+					    	<br>
+			                ${input("employment_status", "Employment Status", null, 3, 9)}
+			                ${input("company_name", "Company Name", null, 3, 9)}
+			                ${input("company_position", "Position", null, 3, 9)}
+			                ${input("company_contact", "Contact", null, 3, 9)}
+			                ${input("sss", "SSS", null, 3, 9)}
+			                ${input("tin_number", "TIN", null, 3, 9)}
+			                ${input("hmo_provider", "HMO Provider", null, 3, 9)}
+			                ${input("hmo_number", "HMO Number", null, 3, 9)}
 					    </div>
 					</div>
-
-					<div class="row iRow">
-					    <div class="col-md-3 iLabel">
-					        Civil Status
-					    </div>
-					    <div class="col-md-9 iInput">
-					        <select name="civil_status" class="form-control">
-					        	<option value="">Select Civil Status</option>
-					        	<option value="Single">Single</option>
-					        	<option value="Married">Married</option>
-					        	<option value="Widowed">Widowed</option>
-					        </select>
-					    </div>
-					</div>
-
-	                ${input("nationality", "Nationality", "Filipino", 3, 9)}
-	                ${input("religion", "Religion", null, 3, 9)}
-
-	                ${input("contact", "Contact", null, 3, 9)}
-					${input("email", "Email", null, 3, 9, 'email')}
-
-	                ${input("address", "Address", null, 3, 9)}
-
-	                <br>
-
-	                ${input("hmo_provider", "HMO Provider", null, 3, 9)}
-	                ${input("hmo_number", "HMO Number", null, 3, 9)}
 				`,
 				allowOutsideClick: false,
 				allowEscapeKey: false,
@@ -173,21 +256,35 @@
 				showCancelButton: true,
 				cancelButtonColor: errorColor,
 				cancelButtonText: 'Cancel',
+				position: 'top',
 				didOpen: () => {
 					$('[name="birthday"]').flatpickr({
 						altInput: true,
 						altFormat: "M j, Y",
 						dateFormat: "Y-m-d",
 						maxDate: moment().format("YYYY-MM-DD")
-					})
+					});
+
+					$('#files').on('change', e => {
+					    var reader = new FileReader();
+					    reader.onload = function (e) {
+					        $('#preview').attr('src', e.target.result);
+					    }
+
+					    reader.readAsDataURL(e.target.files[0]);
+					});
 				},
 				preConfirm: () => {
 				    swal.showLoading();
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('.swal2-container input:placeholder-shown').length || $('[name="gender"]').val() == "" || $('[name="civil_status"]').val() == ""){
-			                Swal.showValidationMessage('Fill all fields');
+				    	let fname = $('[name="fname"]').val();
+				    	let lname = $('[name="lname"]').val();
+				    	let contact = $('[name="contact"]').val();
+
+			            if(fname == "" && lname == "" && contact == ""){
+			                Swal.showValidationMessage('Name, Contact, and Email is at least required');
 			            }
 			            else{
 			            	let bool = false;
@@ -213,33 +310,77 @@
 			}).then(result => {
 				if(result.value){
 					swal.showLoading();
-					$.ajax({
-						url: "{{ route('patient.store') }}",
-						type: "POST",
-						data: {
-							fname: $("[name='fname']").val(),
-							mname: $("[name='mname']").val(),
-							lname: $("[name='lname']").val(),
-							birthday: $("[name='birthday']").val(),
-							birth_place: $("[name='birth_place']").val(),
-							gender: $("[name='gender']").val(),
-							civil_status: $("[name='civil_status']").val(),
-							nationality: $("[name='nationality']").val(),
-							religion: $("[name='religion']").val(),
-							contact: $("[name='contact']").val(),
-							email: $("[name='email']").val(),
-							address: $("[name='address']").val(),
-							hmo_provider: $("[name='hmo_provider']").val(),
-							hmo_number: $("[name='hmo_number']").val(),
-							_token: $('meta[name="csrf-token"]').attr('content')
-						},
-						success: () => {
-							ss("Success");
-							reload();
-						}
-					})
+					uploadPatient({
+						avatar: $("#files").prop('files')[0],
+						prefix: $("[name='prefix']").val(),
+						fname: $("[name='fname']").val(),
+						mname: $("[name='mname']").val(),
+						lname: $("[name='lname']").val(),
+						suffix: $("[name='suffix']").val(),
+						birthday: $("[name='birthday']").val(),
+						birth_place: $("[name='birth_place']").val(),
+						gender: $("[name='gender']").val(),
+						civil_status: $("[name='civil_status']").val(),
+						nationality: $("[name='nationality']").val(),
+						religion: $("[name='religion']").val(),
+						contact: $("[name='contact']").val(),
+						email: $("[name='email']").val(),
+						address: $("[name='address']").val(),
+						hmo_provider: $("[name='hmo_provider']").val(),
+						hmo_number: $("[name='hmo_number']").val(),
+						mothers_name: $("[name='mothers_name']").val(),
+						fathers_name: $("[name='fathers_name']").val(),
+						guardian_name: $("[name='guardian_name']").val(),
+						employment_status: $("[name='employment_status']").val(),
+						company_name: $("[name='company_name']").val(),
+						company_position: $("[name='company_position']").val(),
+						company_contact: $("[name='company_contact']").val(),
+						sss: $("[name='sss']").val(),
+						tin_number: $("[name='tin_number']").val(),
+						_token: $('meta[name="csrf-token"]').attr('content')
+					});
 				}
 			});
+		}
+
+		async function uploadPatient(data){
+		    let formData = new FormData();
+
+		    formData.append('avatar', data.avatar);
+		    formData.append('prefix', data.prefix);
+		    formData.append('fname', data.fname);
+		    formData.append('mname', data.mname);
+		    formData.append('lname', data.lname);
+		    formData.append('suffix', data.suffix);
+		    formData.append('birthday', data.birthday);
+		    formData.append('birth_place', data.birth_place);
+		    formData.append('gender', data.gender);
+		    formData.append('civil_status', data.civil_status);
+		    formData.append('nationality', data.nationality);
+		    formData.append('religion', data.religion);
+		    formData.append('contact', data.contact);
+		    formData.append('email', data.email);
+		    formData.append('address', data.address);
+		    formData.append('hmo_provider', data.hmo_provider);
+		    formData.append('hmo_number', data.hmo_number);
+		    formData.append('mothers_name', data.mothers_name);
+		    formData.append('fathers_name', data.fathers_name);
+		    formData.append('guardian_name', data.guardian_name);
+		    formData.append('employment_status', data.employment_status);
+		    formData.append('company_name', data.company_name);
+		    formData.append('company_position', data.company_position);
+		    formData.append('company_contact', data.company_contact);
+		    formData.append('sss', data.sss);
+		    formData.append('tin_number', data.tin_number);
+		    formData.append('_token', data._token);
+
+	        await fetch('{{ route('patient.store') }}', {
+	    		method: "POST", 
+	    		body: formData
+	        });
+
+	        ss('Success');
+	        reload();
 		}
 
 		function showDetails(user){
