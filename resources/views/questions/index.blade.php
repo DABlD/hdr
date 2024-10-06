@@ -139,6 +139,8 @@
 
 	<script>
 		var sltpc = null;
+		var sltpc2 = null;
+		var fPackageName = null;
 		var fCompany = null;
 
 		$(document).ready(()=> {
@@ -205,7 +207,7 @@
 									<td>${a.name}</td>
 									<td>₱${numeral(a.amount).format("0,0")}</td>
 									<td>
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id})">
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id}, '${a.type}', '${a.name}')">
 											<i class="fas fa-search"></i>
 										</a>
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
@@ -237,7 +239,7 @@
 									<td>${a.name}</td>
 									<td>₱${numeral(a.amount).format("0,0")}</td>
 									<td>
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id})">
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id}, '${a.type}', '${a.name}')">
 											<i class="fas fa-search"></i>
 										</a>
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
@@ -333,8 +335,10 @@
 		}
 
 		// QUESTION FUNCTIONS
-		function viewPackage(id){
+		function viewPackage(id, type, name = fPackageName){
 			sltpc = id;
+			sltpc2 = type;
+			fPackageName = name;
 			$('#addCategory').show();
 
 			$.ajax({
@@ -361,7 +365,7 @@
 							    		&nbsp;
 							    		<tr>
 								    		<td>
-								    			<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Question" onclick="getQuestionData(${v.id})">
+								    			<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Inclusion" onclick="getQuestionData(${v.id})">
 								    				<i class="fas fa-plus"></i>
 								    			</a>
 								    			<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Category" onclick="deleteCategory(${v.id})">
@@ -376,7 +380,7 @@
 						    		<thead>
 						    			<tr>
 						    				<th>Name</th>
-						    				<th>Type</th>
+						    				<th class="tType">Type</th>
 						    				<th>Actions</th>
 						    			</tr>
 						    		</thead>
@@ -390,12 +394,12 @@
 							    	string += `
 							    		<tr>
 							    			<td>${temp[i].name}</td>
-							    			<td>${temp[i].type}</td>
+							    			<td class="tType">${temp[i].type}</td>
 							    			<td>
-							    				<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Question" onclick="editQuestion(${temp[i].id}, '${temp[i].name}', '${temp[i].type}')">
+							    				<a class="btn btn-info btn-sm tType" data-toggle="tooltip" title="Edit Inclusion" onclick="editQuestion(${temp[i].id}, '${temp[i].name}', '${temp[i].type}')">
 							    					<i class="fas fa-pencil"></i>
 							    				</a>
-							    				<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Question" onclick="deleteQuestion(${temp[i].id})">
+							    				<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Inclusion" onclick="deleteQuestion(${temp[i].id})">
 							    					<i class="fas fa-trash"></i>
 							    				</a>
 							    			</td>
@@ -424,7 +428,17 @@
 					$('#questions').slideUp(500);
 					
 					setTimeout(() => {
-						$('#questions').html(string);
+						$('#questions').html(
+							`
+								<h1 style="color: #0a73ad; text-align: left;"><b>
+						    		${fPackageName}
+						    	</b></h1>
+						    	${string}
+							`
+						);
+						if(sltpc2 == "Package"){
+							$('.tType').hide();
+						}
 						$('#questions').slideDown();
 					}, 500);
 				}
@@ -447,7 +461,7 @@
 			}
 
 			Swal.fire({
-				title: 'Enter Details',
+				title: 'Enter Category Name',
 				html: `
 					${input('name', 'Name', null, 4, 8)}
 				`,
@@ -478,7 +492,7 @@
 
 		function getQuestionData(cid){
 			Swal.fire({
-				title: 'Enter Details',
+				title: 'Enter Inclusion',
 				html: `
 					${input('name', 'Name', null, 3, 9)}
 					<div class="row iRow">
@@ -490,12 +504,19 @@
 					        	<option value="">Select Type</option>
 					        	<option value="Dichotomous">Dichotomous</option>
 					        	<option value="Text">Text</option>
+					        	<option value="Inclusion"></option>
 					        </select>
 					    </div>
 					</div>
 				`,
 				showCancelButton: true,
 				cancelButtonColor: errorColor,
+				didOpen: () => {
+					if(sltpc2 == "Package"){
+						$('[name="type"]').parent().parent().hide();
+						$('[name="type"]').val("Inclusion").change();
+					}
+				},
 				preConfirm: () => {
 				    swal.showLoading();
 				    return new Promise(resolve => {
@@ -514,7 +535,7 @@
 						package_id: sltpc,
 						category_id: cid,
 						name: $('[name="name"]').val(),
-						type: $('[name="type"]').val(),
+						type: sltpc2 == "Package" ? "Inclusion" : $('[name="type"]').val()
 					});
 				}
 			});
@@ -530,7 +551,7 @@
 				},
 				success: () => {
 					ss("Success");
-					viewPackage(sltpc);
+					viewPackage(sltpc, sltpc2);
 				}
 			})
 		}
@@ -582,7 +603,7 @@
 						},
 						message: "Success"
 					}, () => {
-						viewPackage(sltpc);
+						viewPackage(sltpc, sltpc2);
 					})
 				}
 			});
@@ -597,7 +618,7 @@
 						data: {id: id},
 						message: "Success"
 					}, () => {
-						viewPackage(sltpc);
+						viewPackage(sltpc, sltpc2);
 					})
 				}
 			});
@@ -612,7 +633,7 @@
 						data: {id: qid, category: true},
 						message: "Success"
 					}, () => {
-						viewPackage(sltpc);
+						viewPackage(sltpc, sltpc2);
 					})
 				}
 			});
