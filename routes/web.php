@@ -101,6 +101,7 @@ Route::group([
                 'prefix' => "$cname/"
             ], function () use($cname){
                 Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
+                Route::get("getCompanies/", ucfirst($cname) . "Controller@getCompanies")->name('getCompanies');
                 Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
                 Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
                 Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');

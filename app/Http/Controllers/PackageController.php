@@ -54,12 +54,17 @@ class PackageController extends Controller
         echo json_encode($array);
     }
 
+    public function getCompanies(){
+        echo Package::distinct()->pluck('company');
+    }
+
     public function store(Request $req){
         $temp = new Package();
 
         $temp->name = $req->name;
         $temp->amount = $req->amount;
         $temp->type = $req->type;
+        $temp->company = $req->company;
         $temp->save();
 
         Helper::log(auth()->user()->id, "created package", $temp->id);

@@ -18,6 +18,7 @@ class CreatePackagesTable extends Migration
 
             $table->string('name');
             $table->string('type');
+            $table->string('company');
             $table->double('amount', 8, 2);
             $table->double('discount', 8, 2)->nullable();
             $table->date('until')->nullable();

@@ -10,7 +10,7 @@ class Package extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name','amount','discount','until',
+        'name','amount','discount','until', 'company'
     ];
 
     protected $dates = [

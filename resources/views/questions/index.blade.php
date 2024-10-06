@@ -11,7 +11,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-table mr-1"></i>
-                            Packages
+                            Company Package
                         </h3>
                         
                         <h3 class="float-right">
@@ -21,7 +21,15 @@
                         </h3>
                     </div>
 
+
                     <div class="card-body table-responsive">
+	                    <select id="fCompany" style="width: 200px;">
+	                    	<option>Select Company</option>
+	                    </select>
+
+	                    <br>
+	                    <br>
+
                     	<table id="PackageTable" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
@@ -98,6 +106,7 @@
 	{{-- <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}"> --}}
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 
 	<style>
 		.card-body table td, .card-body table th, #questions{
@@ -127,13 +136,41 @@
 	<script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
 	<script src="{{ asset('js/flatpickr.min.js') }}"></script>
 	<script src="{{ asset('js/numeral.min.js') }}"></script>
+	<script src="{{ asset('js/select2.min.js') }}"></script>
 
 	<script>
 		var sltpc = null;
+		var fCompany = null;
 
 		$(document).ready(()=> {
+			loadCompanies();
 			loadPackages();
 		});
+
+		function loadCompanies(){
+			$.ajax({
+				url: '{{ route('package.getCompanies') }}',
+				success: result => {
+					result = JSON.parse(result);
+
+					let companyString = '';
+					result.forEach(company => {
+						companyString += `
+							<option value="${company}">${company}</option>
+						`;
+					});
+
+					$('#fCompany').append(companyString);
+					$('#fCompany').select2();
+
+					$('#fCompany').on('change', e => {
+						fCompany = e.target.value;
+						loadPackages();
+						clearPackageView();
+					});
+				}
+			})
+		}
 
 		// PACKAGES FUNCTIONS
 		function loadPackages(){
@@ -141,6 +178,7 @@
 				url: '{{ route('package.get') }}',
 				data: {
 					select: '*',
+					where: ['company', fCompany],
 					group: 'type'
 				},
 				success: result => {
@@ -151,7 +189,14 @@
 
 					let pString = "";
 
-					if(packages){
+					if(fCompany == null){
+						pString = `
+							<tr>
+								<td colspan="3">Select Company First</td>
+							</tr>
+						`;
+					}
+					else if(packages){
 						packages.forEach(a => {
 							pString += `
 								<tr>
@@ -221,6 +266,7 @@
 				title: 'Input Package Details',
 				html: `
 					${input('name', 'Name', null, 3, 9)}
+					${input('company', 'Company', null, 3, 9)}
 					${input('amount', 'Amount', null, 3, 9, 'number', 'min=0')}
 				`,
 				showCancelButton: true,
@@ -239,12 +285,12 @@
 				},
 			}).then(result => {
 				if(result.value){
-					storePackage($('[name="name"]').val(), $('[name="amount"]').val(), type);
+					storePackage($('[name="name"]').val(), $('[name="amount"]').val(), type, $('[name="company"]').val());
 				}
 			})
 		}
 
-		function storePackage(name, amount, type){
+		function storePackage(name, amount, type, company){
 			$.ajax({
 				url: '{{ route('package.store') }}',
 				type: "POST",
@@ -252,6 +298,7 @@
 					name: name,
 					amount: amount,
 					type: type,
+					company: company,
 					_token: $('meta[name="csrf-token"]').attr('content')
 				},
 				success: result => {
@@ -379,6 +426,15 @@
 					}, 500);
 				}
 			})
+		}
+
+		function clearPackageView(){
+			$('#questions').slideUp(500);
+			
+			setTimeout(() => {
+				$('#questions').html("No Selected Package");
+				$('#questions').slideDown();
+			}, 500);
 		}
 
 		function addCategory(){
