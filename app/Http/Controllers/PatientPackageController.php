@@ -55,19 +55,23 @@ class PatientPackageController extends Controller
     }
 
     public function store(Request $req){
-        $patient = Patient::where('user_id', $req->user_id)->first();
-        $package = Package::find($req->package_id);
+        $patient = Patient::where('user_id', $req->uid)->first();
 
-        $temp = new PatientPackage();
-        $temp->user_id = $req->user_id;
-        $temp->patient_id = $patient->id;
-        $temp->package_id = $package->id;
+        foreach($req->packages as $pid){
+            $package = Package::find($pid);
 
-        $temp->details = json_encode($package->toArray());
-        // $temp->question_with_answers = $req->question_with_answers;
-        $temp->save();
+            $temp = new PatientPackage();
+            $temp->user_id = $patient->user_id;
+            $temp->patient_id = $patient->id;
+            $temp->package_id = $package->id;
 
-        Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
+            $temp->details = json_encode($package->toArray());
+            // $temp->question_with_answers = $req->question_with_answers;
+            $temp->save();
+
+            Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
+        }
+
 
         echo "success";
     }

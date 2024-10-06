@@ -32,11 +32,27 @@ class DatatableController extends Controller
         //     $array = $array->join("$req->join as $alias", "$alias.fid", '=', 'users.id');
         // }
 
+        if(isset($req->filters)){
+            $filters = $req->filters;
+
+            $array = $array->where(function($q) use($filters){
+                $q->where('fname', 'LIKE', $filters["fFname"]);
+                $q->where('lname', 'LIKE', $filters["fLname"]);
+            });
+        }
+
         $array = $array->get();
 
         // FOR ACTIONS
-        foreach($array as $item){
-            $item->actions = $item->actions;
+        if(isset($req->filters)){
+            foreach($array as $item){
+                $item->medical = $item->medical;
+            }
+        }
+        else{
+            foreach($array as $item){
+                $item->actions = $item->actions;
+            }
         }
 
         // IF HAS LOAD

@@ -143,6 +143,37 @@ Route::group([
             }
         );
 
+        // TEMPLATE ROUTES
+        $cname = "exam";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+                Route::get("/ape", ucfirst($cname) . "Controller@ape")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fas fa-files-medical")
+                    ->defaults("name", "APE")
+                    ->defaults("roles", array("Admin", "Doctor"))
+                    ->defaults("group", "Exams")
+                    ->name($cname . "ape")
+                    ->defaults("href", "/$cname/ape");
+
+                Route::get("/pee", ucfirst($cname) . "Controller@pee")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fas fa-files-medical")
+                    ->defaults("name", "PE")
+                    ->defaults("roles", array("Admin", "Doctor"))
+                    ->defaults("group", "Exams")
+                    ->name($cname . 'pee')
+                    ->defaults("href", "/$cname/pee");
+
+                Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
+                Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
+                Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
+                Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
+            }
+        );
+
         // THEME ROUTES
         $cname = "theme";
         Route::group([

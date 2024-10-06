@@ -35,4 +35,12 @@ class Patient extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+
+    public function packages(){
+        return $this->hasMany('App\Models\Package', 'company', 'company_name');
+    }
+
+    public function exams(){
+        return $this->hasMany('App\Models\PatientPackage');
+    }
 }

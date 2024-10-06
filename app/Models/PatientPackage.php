@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatientPackage extends Model
 {
     protected $fillable = [
-        "user_id","patient_id","package_id","details","question_with_answers"
+        "user_id","patient_id","package_id","details","question_with_answers", 'remarks', 'type'
     ];
 
     protected $dates = [

@@ -15,12 +15,16 @@ class CreatePatientPackagesTable extends Migration
     {
         Schema::create('patient_packages', function (Blueprint $table) {
             $table->id();
+
+            $table->string('type'); //APE OR PEE
+
             $table->unsignedInteger("user_id");
             $table->unsignedBigInteger("patient_id");
 
             $table->unsignedInteger("package_id");
             $table->json('details');
             $table->json('question_with_answers')->nullable();
+            $table->text('remarks');
 
             $table->timestamps();
 

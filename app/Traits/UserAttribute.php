@@ -38,4 +38,15 @@ trait UserAttribute{
 
 		return $action;
 	}
+
+	public function getMedicalAttribute(){
+		$id = $this->id;
+		$action = "";
+
+		$action .= 	"<a class='btn btn-info' data-toggle='tooltip' title='Add Record' onClick='takeExam($id)'>" .
+				        "<i class='fas fa-notes-medical'></i>" .
+				    "</a>&nbsp;";
+
+		return $action;
+	}
 }
