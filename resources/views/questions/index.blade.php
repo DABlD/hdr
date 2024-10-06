@@ -48,7 +48,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-table mr-1"></i>
-                            Laboratory
+                            History
                         </h3>
                         
                         <h3 class="float-right">
@@ -155,9 +155,11 @@
 
 					let companyString = '';
 					result.forEach(company => {
-						companyString += `
-							<option value="${company}">${company}</option>
-						`;
+						if(company){
+							companyString += `
+								<option value="${company}">${company}</option>
+							`;
+						}
 					});
 
 					$('#fCompany').append(companyString);
