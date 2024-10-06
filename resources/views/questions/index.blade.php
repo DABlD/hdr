@@ -24,7 +24,6 @@
 
                     <div class="card-body table-responsive">
 	                    <select id="fCompany" style="width: 200px;">
-	                    	<option>Select Company</option>
 	                    </select>
 
 	                    <br>
@@ -153,7 +152,7 @@
 				success: result => {
 					result = JSON.parse(result);
 
-					let companyString = '';
+					let companyString = '<option>Select Company</option>';
 					result.forEach(company => {
 						if(company){
 							companyString += `
@@ -162,7 +161,7 @@
 						}
 					});
 
-					$('#fCompany').append(companyString);
+					$('#fCompany').html(companyString);
 					$('#fCompany').select2();
 
 					$('#fCompany').on('change', e => {
@@ -181,7 +180,8 @@
 				data: {
 					select: '*',
 					where: ['company', fCompany],
-					group: 'type'
+					group: 'type',
+					getLaboratory: true
 				},
 				success: result => {
 					result = JSON.parse(result);
@@ -309,6 +309,7 @@
 						swal.showLoading();
 						setTimeout(() => {
 							loadPackages();
+							loadCompanies();
 							swal.close();
 						}, 1000);
 					}, 1500);
