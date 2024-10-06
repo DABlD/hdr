@@ -43,8 +43,12 @@ trait UserAttribute{
 		$id = $this->id;
 		$action = "";
 
-		$action .= 	"<a class='btn btn-info' data-toggle='tooltip' title='Add Record' onClick='takeExam($id)'>" .
+		$action .= 	"<a class='btn btn-primary' data-toggle='tooltip' title='Add Record' onClick='takeExam($id)'>" .
 				        "<i class='fas fa-notes-medical'></i>" .
+				    "</a>&nbsp;";
+
+		$action .= 	"<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($id)'>" .
+				        "<i class='fas fa-list'></i>" .
 				    "</a>&nbsp;";
 
 		return $action;

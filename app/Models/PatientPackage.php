@@ -13,4 +13,8 @@ class PatientPackage extends Model
     protected $dates = [
         'created_at', 'updated_at'
     ];
+
+    public function package(){
+        return $this->belongsTo('App\Models\Package');
+    }
 }

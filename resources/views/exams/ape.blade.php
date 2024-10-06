@@ -343,6 +343,61 @@
 		                    	se('No Package Selected');
 		                    }
 		        		}
+		        	});
+        		}
+        	})
+        }
+
+        function requestList(id){
+        	$.ajax({
+        		url: '{{ route('patientPackage.get') }}',
+        		data: {
+    				select: "*",
+    				where: ["user_id", id],
+    				load: ["package"]
+        		},
+        		success: result => {
+        			result = JSON.parse(result);
+
+        			let packageString = "";
+
+        			if(result.length){
+        				result.forEach(pPackage => {
+	        				packageString += `
+	        					<tr>
+	        						<td>${pPackage.package.name}</td>
+	        						<td>${toDateTime(pPackage.created_at)}</td>
+	        						<td>-</td>
+	        					</tr>
+	        				`;
+        				});
+        			}
+        			else{
+        				packageString = `
+	        				<tr>
+	        					<td colspan="2">No Package Requested</td>
+	        				</tr>
+	        			`;
+        			}
+
+		        	Swal.fire({
+		        		title: "Request Package List",
+		        		html: `
+                			<table class="table table-hover table-bordered">
+                				<thead>
+                					<tr>
+                						<th>Package Name</th>
+                						<th>Date</th>
+                						<th>Result</th>
+                					</tr>
+                				</thead>
+                				<tbody>
+                					${packageString}
+                				</tbody>
+                			</table>
+		        		`,
+						width: '700px',
+						confirmButtonText: 'OK',
 		        	})
         		}
         	})
