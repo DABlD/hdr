@@ -367,6 +367,7 @@
 	        				packageString += `
 	        					<tr>
 	        						<td>${pPackage.package.name}</td>
+	        						<td>${pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
 	        						<td>-</td>
 	        					</tr>
@@ -388,6 +389,7 @@
                 				<thead>
                 					<tr>
                 						<th>Package Name</th>
+                						<th>Type</th>
                 						<th>Date</th>
                 						<th>Result</th>
                 					</tr>
