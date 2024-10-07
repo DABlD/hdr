@@ -24,7 +24,7 @@ class CreatePatientPackagesTable extends Migration
             $table->unsignedInteger("package_id");
             $table->json('details');
             $table->json('question_with_answers')->nullable();
-            $table->text('remarks');
+            $table->text('remarks')->nullable();
 
             $table->timestamps();
 
