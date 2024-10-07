@@ -323,6 +323,7 @@
 		                    		data: {
 		                    			packages: sPackage,
 		                    			uid: id,
+		                    			type: "APE",
 		                    			_token: $('meta[name="csrf-token"]').attr('content')
 		                    		},
 		                    		success: result => {
@@ -375,7 +376,7 @@
         			else{
         				packageString = `
 	        				<tr>
-	        					<td colspan="2">No Package Requested</td>
+	        					<td colspan="3" style="text-align: center;">No Package Requested</td>
 	        				</tr>
 	        			`;
         			}

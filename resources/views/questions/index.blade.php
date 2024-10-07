@@ -410,7 +410,7 @@
 						    else{
 						    	string += `
 						    		<tr>
-						    			<td colspan="3" style="text-align: center !important;">No Questions Added</td>
+						    			<td colspan="3" style="text-align: center !important;">No Inclusions Added</td>
 						    		</tr>
 						    	`;
 						    }
