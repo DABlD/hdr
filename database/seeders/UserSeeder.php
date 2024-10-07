@@ -118,10 +118,10 @@ class UserSeeder extends Seeder
             'mothers_name' => "Mary Doe",
             'fathers_name' => "Jason Doe",
             'guardian_name' => "Test",
-            'employment_status' => "Test",
-            'company_name' => "Test",
-            'company_position' => "Test",
-            'company_contact' => "Test",
+            'employment_status' => "Hired - Private",
+            'company_name' => "SOLPIA",
+            'company_position' => "Software Developer",
+            'company_contact' => "81234-123123",
             'sss' => "Test",
             'tin_number' => "Test"
         ]);
