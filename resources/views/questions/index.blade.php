@@ -381,6 +381,7 @@
 						    			<tr>
 						    				<th>Name</th>
 						    				<th class="tType">Type</th>
+						    				<th class="tCode">Code</th>
 						    				<th>Actions</th>
 						    			</tr>
 						    		</thead>
@@ -395,8 +396,9 @@
 							    		<tr>
 							    			<td>${temp[i].name}</td>
 							    			<td class="tType">${temp[i].type}</td>
+							    			<td class="tCode">${temp[i].code}</td>
 							    			<td>
-							    				<a class="btn btn-info btn-sm tType" data-toggle="tooltip" title="Edit Inclusion" onclick="editQuestion(${temp[i].id}, '${temp[i].name}', '${temp[i].type}')">
+							    				<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Inclusion" onclick="editQuestion(${temp[i].id}, '${temp[i].name}', '${temp[i].type}', '${temp[i].code}')">
 							    					<i class="fas fa-pencil"></i>
 							    				</a>
 							    				<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Inclusion" onclick="deleteQuestion(${temp[i].id})">
@@ -438,6 +440,9 @@
 						);
 						if(sltpc2 == "Package"){
 							$('.tType').hide();
+						}
+						else{
+							$('.tCode').hide();
 						}
 						$('#questions').slideDown();
 					}, 500);
@@ -495,6 +500,7 @@
 				title: 'Enter Inclusion',
 				html: `
 					${input('name', 'Name', null, 3, 9)}
+					${input('code', 'Code', null, 3, 9)}
 					<div class="row iRow">
 					    <div class="col-md-3 iLabel">
 					        Type
@@ -504,7 +510,7 @@
 					        	<option value="">Select Type</option>
 					        	<option value="Dichotomous">Dichotomous</option>
 					        	<option value="Text">Text</option>
-					        	<option value="Inclusion"></option>
+					        	<option class="d-none" value="Inclusion"></option>
 					        </select>
 					    </div>
 					</div>
@@ -516,13 +522,19 @@
 						$('[name="type"]').parent().parent().hide();
 						$('[name="type"]').val("Inclusion").change();
 					}
+					else{
+						$('[name="code"]').parent().parent().hide();
+					}
 				},
 				preConfirm: () => {
 				    swal.showLoading();
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('.swal2-container input:placeholder-shown').length || $('[name="type"]').val() == ""){
+			            if($('[name="name"]').val() == ""){
+			                Swal.showValidationMessage('Fill all fields');
+			            }
+			            else if(sltpc2 == "Package" && $('[name="code"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
 
@@ -535,6 +547,7 @@
 						package_id: sltpc,
 						category_id: cid,
 						name: $('[name="name"]').val(),
+						code: $('[name="code"]').val(),
 						type: sltpc2 == "Package" ? "Inclusion" : $('[name="type"]').val()
 					});
 				}
@@ -556,11 +569,12 @@
 			})
 		}
 
-		function editQuestion(id, name, type){
+		function editQuestion(id, name, type, code){
 			Swal.fire({
 				title: 'Enter Details',
 				html: `
 					${input('name', 'Name', name, 3, 9)}
+					${input('code', 'Code', code, 3, 9)}
 					<div class="row iRow">
 					    <div class="col-md-3 iLabel">
 					        Type
@@ -570,6 +584,7 @@
 					        	<option value="">Select Type</option>
 					        	<option value="Dichotomous">Dichotomous</option>
 					        	<option value="Text">Text</option>
+					        	<option class="d-none" value="Inclusion"></option>
 					        </select>
 					    </div>
 					</div>
@@ -578,6 +593,13 @@
 				cancelButtonColor: errorColor,
 				didOpen: () => {
 					$("[name='type']").val(type).trigger('change');
+
+					if(sltpc2 == "Package"){
+						$('[name="type"]').parent().parent().hide();
+					}
+					else{
+						$('[name="code"]').parent().parent().hide();
+					}
 				},
 				preConfirm: () => {
 				    swal.showLoading();
@@ -600,6 +622,7 @@
 							id: id,
 							name: $('[name="name"]').val(),
 							type: $('[name="type"]').val(),
+							code: $('[name="code"]').val(),
 						},
 						message: "Success"
 					}, () => {

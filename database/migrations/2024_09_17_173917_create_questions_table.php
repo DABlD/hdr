@@ -20,6 +20,7 @@ class CreateQuestionsTable extends Migration
 
             $table->string('name');
             $table->string('type');
+            $table->string('code')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

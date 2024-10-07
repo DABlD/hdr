@@ -60,6 +60,7 @@ class QuestionController extends Controller
         $temp->category_id = $req->category_id;
         $temp->name = $req->name;
         $temp->type = $req->type;
+        $temp->code = $req->code;
         $temp->save();
 
         Helper::log(auth()->user()->id, "created question for package #$req->package_id", $temp->id);
