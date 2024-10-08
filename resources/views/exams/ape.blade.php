@@ -383,7 +383,7 @@
         			}
 
 		        	Swal.fire({
-		        		title: "Request Package List",
+		        		title: "Package Request List",
 		        		html: `
                 			<table class="table table-hover table-bordered">
                 				<thead>
