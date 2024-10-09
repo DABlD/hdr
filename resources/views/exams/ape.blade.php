@@ -375,7 +375,6 @@
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
-	        							&nbsp;
 	        							<a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false})">
 	        								<i class="fas fa-file-pdf"></i>
 	        							</a>
@@ -475,7 +474,11 @@
         		se("Their are no available Result/Impressions");
         	}
         	else{
-        		
+        		let data = {};
+        		data.id = id;
+        		data.type = "RI";
+
+            	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
         	}
         }
 	</script>

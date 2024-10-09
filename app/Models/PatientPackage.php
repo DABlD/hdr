@@ -17,4 +17,8 @@ class PatientPackage extends Model
     public function package(){
         return $this->belongsTo('App\Models\Package');
     }
+
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
 }

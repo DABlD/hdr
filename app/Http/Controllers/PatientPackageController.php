@@ -7,6 +7,10 @@ use App\Models\{PatientPackage, Patient, Package};
 
 use App\Helpers\Helper;
 
+// PDF CLASSES
+use App\Exports\PDFExport;
+use PDF;
+
 class PatientPackageController extends Controller
 {
     public function __construct(){
@@ -81,6 +85,19 @@ class PatientPackageController extends Controller
         $result = PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
 
         echo Helper::log(auth()->user()->id, 'updated patient package', $req->id);
+    }
+
+    public function exportDocument(Request $req){
+        $data = PatientPackage::find($req->id);
+
+        $data->load('user.patient');
+        $data->load('package');
+
+        $fn = "RI" . now()->format('Ymd') . '-' . $data->user->lname . '_' . $data->user->fname;
+
+        $pdf = new PDFExport($data, $fn, "impressions");
+        // $pdf->getData();
+        return $pdf->download();
     }
 
     public function index(){
