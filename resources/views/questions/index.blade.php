@@ -319,6 +319,58 @@
 			})
 		}
 
+		function editPackage(id){
+			$.ajax({
+				url: "{{ route('package.get') }}",
+				data: {
+					select: '*',
+					where: ["id", id]
+				},
+				success: package => {
+					package = JSON.parse(package)[0];
+
+					Swal.fire({
+						title: 'Package Details',
+						html: `
+							${input('name', 'Name', package.name, 3, 9)}
+							${input('company', 'Company', package.company, 3, 9)}
+							${input('amount', 'Amount', package.amount, 3, 9, 'number', 'min=0')}
+						`,
+						showCancelButton: true,
+						cancelButtonColor: errorColor,
+						preConfirm: () => {
+						    swal.showLoading();
+						    return new Promise(resolve => {
+						    	let bool = true;
+
+					            if($('.swal2-container input:placeholder-shown').length){
+					                Swal.showValidationMessage('Fill all fields');
+					            }
+
+					            bool ? setTimeout(() => {resolve()}, 500) : "";
+						    });
+						},
+					}).then(result => {
+						if(result.value){
+							update({
+								url: "{{ route('package.update') }}",
+								data: {
+									id: id,
+									name: $('[name="name"]').val(),
+									company: $('[name="company"]').val(),
+									amount: $('[name="amount"]').val()
+								},
+								message: "Success"
+							}, () => {
+								loadPackages();
+								loadCompanies();
+							})
+						}
+					})
+				}
+			});
+		}
+
 		function deletePackage(id){
 			sc("Confirmation", "Are you sure you want to delete?", result => {
 				if(result.value){
@@ -329,6 +381,7 @@
 						message: "Success"
 					}, () => {
 						loadPackages();
+						loadCompanies();
 					})
 				}
 			});

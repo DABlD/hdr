@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 
 use App\Helpers\Helper;
+use DB;
 
 class PackageController extends Controller
 {
