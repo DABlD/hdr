@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\{User, Doctor};
 use DB;
 use Auth;
 
@@ -91,8 +91,12 @@ class UserController extends Controller
     }
 
     public function profile(){
+        $user = Doctor::where('user_id', auth()->user()->id)->first();
+        $user->load('user');
+
         return $this->_view('profile', [
-            'title' => "Profile"
+            'title' => "Profile",
+            'data' => $user
         ]);
     }
 

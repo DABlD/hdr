@@ -65,7 +65,7 @@
                                                     First Name
                                                 </strong>
                                             </label>
-                                            <input class="form-control" type="text" id="username-3" placeholder="Name" name="_firstname" value="Juan">
+                                            <input class="form-control" type="text"placeholder="Name" name="firstname" value="{{ $data->user->fname }}">
                                         </div>
                                     </div>
                                     <div class="col">
@@ -75,7 +75,7 @@
                                                     Middle Name
                                                 </strong>
                                             </label>
-                                            <input class="form-control" type="text" id="username-7" placeholder="Name" name="_middlename" value="D">
+                                            <input class="form-control" type="text"placeholder="Name" name="middlename" value="{{ $data->user->mname }}">
                                         </div>
                                     </div>
                                     <div class="col">
@@ -85,7 +85,7 @@
                                                     Last Name
                                                 </strong>
                                             </label>
-                                            <input class="form-control" type="text" id="username-6" placeholder="Name" name="_lastname" value="Dela Cruz">
+                                            <input class="form-control" type="text"placeholder="Name" name="lastname" value="{{ $data->user->lname }}">
                                         </div>
                                     </div>
                                     <div class="col">
@@ -96,7 +96,7 @@
                                                 </strong>
                                             </label>
 
-                                            <select id="_suffix" class="form-control" name="_suffix">
+                                            <select id="_suffix" class="form-control" name="suffix">
                                                 <option value="" selected="">None</option>
                                                 <option value="Jr">Jr</option>
                                                 <option value="Sr">Sr</option>
@@ -137,7 +137,11 @@
 
         .informations .nav-link.active {
             color: #fff !important;
-            background-color: #337ab7 !important;
+            background-color: #b96666 !important;
+        }
+
+        .card-header{
+            background-color: rgb(131, 200, 229);
         }
     </style>
 @endpush
