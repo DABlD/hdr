@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
-        "user_id", "sss","tin","philhealth","license_number","s2_number","ptr","specialization","pharma_partner","title","medical_association","diplomate","signature"
+        "user_id", "sss","tin","philhealth","pagibig","license_number","s2_number","ptr","specialization","pharma_partner","title","medical_association","diplomate","signature"
     ];
 
     protected $dates = [

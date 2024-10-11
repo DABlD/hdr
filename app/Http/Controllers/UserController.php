@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{User, Doctor};
+use App\Models\{User, Doctor, Nurse};
 use DB;
 use Auth;
 
@@ -69,10 +69,16 @@ class UserController extends Controller
         $data->address = $req->address;
         $data->contact = $req->contact;
         $data->password = $req->password;
+        $temp = $data->save();
 
-        Helper::log(auth()->user()->id, 'created user', $user->id);
+        Helper::log(auth()->user()->id, 'created user', $data->id);
+        
+        if($data->role == "Doctor"){
+            Doctor::create(["user_id" => $data->id]);
+            Helper::log(auth()->user()->id, 'created doctor', $data->id);
+        }
 
-        echo $data->save();
+        echo $temp;
     }
 
     public function update(Request $req){
@@ -94,9 +100,13 @@ class UserController extends Controller
         $user = Doctor::where('user_id', auth()->user()->id)->first();
         $user->load('user');
 
+        $nurse = Nurse::where('doctor_id', auth()->user()->id)->get();
+        $nurse->load('user');
+
         return $this->_view('profile', [
             'title' => "Profile",
-            'data' => $user
+            'data' => $user,
+            'nurses' => $nurse,
         ]);
     }
 

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{User, Patient};
+use App\Models\{User, Patient, Doctor, Nurse};
 
 class UserSeeder extends Seeder
 {
@@ -37,36 +37,37 @@ class UserSeeder extends Seeder
             'lname' => 'Mendoza',
             'role' => 'Admin',
             'email' => 'davidmendozaofficial@gmail.com',
-            'birthday' => null,
+            'birthday' => "1997-11-12",
             'gender' => 'Male',
-            'address' => null,
-            'contact' => null,
+            'address' => "M. Adriatico St, Malate, Manila, 1004 Metro Manila",
+            'contact' => "09154590172",
             'password' => '123456'
         ]);
 
-        User::create([
-            'username' => 'chanragmat',
-            'fname' => 'Christian',
-            'mname' => 'Lagunsad',
-            'lname' => 'Ragmat',
-            'role' => 'Admin',
-            'email' => 'chan.ragmat@gmail.com',
-            'birthday' => null,
-            'gender' => 'Male',
-            'address' => null,
-            'contact' => null,
-            'password' => '123456'
-        ]);
+        Doctor::create(['user_id' => 2]);
 
-        // DOCTOR
+        // User::create([
+        //     'username' => 'chanragmat',
+        //     'fname' => 'Christian',
+        //     'mname' => 'Lagunsad',
+        //     'lname' => 'Ragmat',
+        //     'role' => 'Admin',
+        //     'email' => 'chan.ragmat@gmail.com',
+        //     'birthday' => null,
+        //     'gender' => 'Male',
+        //     'address' => null,
+        //     'contact' => null,
+        //     'password' => '123456'
+        // ]);
 
+        // Nurse
         User::create([
-            'username' => 'doctor',
-            'fname' => 'John',
+            'username' => 'nurse',
+            'fname' => 'Nurse',
             'mname' => 'D',
             'lname' => 'Doe',
-            'role' => 'Doctor',
-            'email' => 'doctor@gmail.com',
+            'role' => 'Nurse',
+            'email' => 'nurse@gmail.com',
             'birthday' => null,
             'gender' => 'Male',
             'address' => null,
@@ -74,11 +75,12 @@ class UserSeeder extends Seeder
             'password' => '123456'
         ]);
 
-        // RECEPTIONIST
+        Nurse::create(['user_id' => 3, 'doctor_id' => 2]);
 
+        // RECEPTIONIST
         User::create([
             'username' => 'receptionist',
-            'fname' => 'Jane',
+            'fname' => 'Receptionist',
             'mname' => 'D',
             'lname' => 'Doe',
             'role' => 'Receptionist',
@@ -111,7 +113,7 @@ class UserSeeder extends Seeder
         ]);
 
         Patient::create([
-            'user_id' => 6,
+            'user_id' => 5,
             'patient_id' => 'P24091600001',
             'hmo_provider' => 'maxicare',
             'hmo_number' => '1234567809121482',

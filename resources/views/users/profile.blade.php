@@ -1,6 +1,48 @@
 @extends('layouts.app')
 @section('content')
 
+@php
+    $col = function($label, $name, $value, $type = "text", $mb = 3, $options = null){
+        if($type == "select"){
+            $optionString = "";
+            foreach($options as $option){
+                $optionString .= "<option value='$option'>$option</option>";
+            }
+
+            echo "
+                <div class='col'>
+                    <div class='mb-$mb'>
+                        <label class='form-label' for='$name'>
+                            <strong>
+                                $label
+                            </strong>
+                        </label>
+
+                        <select class='form-control' id='$name'>
+                            <option value='' selected=''>-</option>
+                            $optionString
+                        </select>
+                    </div>
+                </div>
+            ";
+        }
+        else{
+            echo "
+                <div class='col'>
+                    <div class='mb-$mb'>
+                        <label class='form-label' for='$name'>
+                            <strong>
+                                $label
+                            </strong>
+                        </label>
+                        <input class='form-control' type='$type' id='$name' value='$value'>
+                    </div>
+                </div>
+            ";
+        }
+    }
+@endphp
+
 <section class="content">
     <div class="container-fluid">
 
@@ -23,6 +65,54 @@
                             <br>
                             <label for="files" class="btn">Upload New Image</label>
                             <input id="files" class="d-none" type="file" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-users mr-1"></i>
+                            Assistants
+                        </h3>
+
+                        {{-- @include('users.includes.toolbar') --}}
+                    </div>
+
+                    <div class="card-body table-responsive">
+                        <div>
+                            <table class="table table-hover">
+                                <tbody>
+                                    @foreach($nurses as $nurse)
+                                        <tr>
+                                            <td class="nurse" data-id="{{ $nurse->user->id }}" onclick="selectRow(this)">
+                                                {{ $nurse->user->lname }}, {{ $nurse->user->fname }} {{ $nurse->user->mname }} ({{ substr($nurse->user->gender, 0, 1) }}{{ now()->parse($data->user->birthday)->age }})
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach($nurses as $nurse)
+                                        <tr>
+                                            <td class="nurse" data-id="{{ $nurse->user->id }}" onclick="selectRow(this)">
+                                                {{ $nurse->user->lname }}, {{ $nurse->user->fname }} {{ $nurse->user->mname }} ({{ substr($nurse->user->gender, 0, 1) }}{{ now()->parse($data->user->birthday)->age }})
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach($nurses as $nurse)
+                                        <tr>
+                                            <td class="nurse" data-id="{{ $nurse->user->id }}" onclick="selectRow(this)">
+                                                {{ $nurse->user->lname }}, {{ $nurse->user->fname }} {{ $nurse->user->mname }} ({{ substr($nurse->user->gender, 0, 1) }}{{ now()->parse($data->user->birthday)->age }})
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <a class="btn btn-primary" data-toggle="tooltip" title="View" onclick="viewAssistant()">VIEW</a>
+                        <a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deleteAssistant()">DELETE</a>
+
+                        <div class="float-right">
+                            <a class="btn btn-success" data-toggle="tooltip" title="Add" onclick="addAssistant()">Add</a>
                         </div>
                     </div>
                 </div>
@@ -57,58 +147,33 @@
                     <div class="card-body table-responsive">
                         <div class="tab-content p-0">
                             <div class="chart tab-pane active" id="tab1" style="position: relative;">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="name">
-                                                <strong>
-                                                    First Name
-                                                </strong>
-                                            </label>
-                                            <input class="form-control" type="text"placeholder="Name" name="firstname" value="{{ $data->user->fname }}">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="name">
-                                                <strong>
-                                                    Middle Name
-                                                </strong>
-                                            </label>
-                                            <input class="form-control" type="text"placeholder="Name" name="middlename" value="{{ $data->user->mname }}">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="name">
-                                                <strong>
-                                                    Last Name
-                                                </strong>
-                                            </label>
-                                            <input class="form-control" type="text"placeholder="Name" name="lastname" value="{{ $data->user->lname }}">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="name">
-                                                <strong>
-                                                    Suffix
-                                                </strong>
-                                            </label>
 
-                                            <select id="_suffix" class="form-control" name="suffix">
-                                                <option value="" selected="">None</option>
-                                                <option value="Jr">Jr</option>
-                                                <option value="Sr">Sr</option>
-                                                <option value="II">II</option>
-                                                <option value="III">III</option>
-                                                <option value="IV">IV</option>
-                                                <option value="V">V</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <div class="row">
+                                    {{ $col("First Name", "fname", $data->user->fname) }}
+                                    {{ $col("Middle Name", "mname", $data->user->mname) }}
+                                    {{ $col("Last Name", "lname", $data->user->lname) }}
+                                    {{ $col("Suffix", "suffix", $data->user->suffix, "select", null, ["Jr", "Sr", "II", "III", "IV", "V"]) }}
+                                </div>
+
+                                <div class="row">
+                                    {{ $col("Gender", "gender", $data->user->gender, "select", null, ["Male", "Female"]) }}
+                                    {{ $col("Birth Date", "birthday", $data->user->birthday) }}
+                                    {{ $col("Email", "email", $data->user->email) }}
+                                    {{ $col("Contact", "contact", $data->user->contact) }}
+                                </div>
+
+                                <div class="row">
+                                    {{ $col("Address", "address", $data->user->address, "text", 12) }}
+                                </div>
+
+                                <div class="row">
+                                    {{ $col("TIN", "tin", $data->tin) }}
+                                    {{ $col("Philhealth", "philhealth", $data->philhealth) }}
+                                    {{ $col("SSS", "sss", $data->sss) }}
+                                    {{ $col("Pagibig", "pagibig", $data->pagibig) }}
                                 </div>
                             </div>
+
                             <div class="chart tab-pane" id="tab2" style="position: relative;">
                                 <br>
                             </div>
@@ -129,6 +194,7 @@
 @push('styles')
 	<link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
 
     <style>
         .informations .nav-pills>li>a {
@@ -143,12 +209,21 @@
         .card-header{
             background-color: rgb(131, 200, 229);
         }
+
+        .mb-12{
+            margin-bottom: 1rem !important;
+        }
+
+        .selected{
+            background-color: #e8ecee;
+        }
     </style>
 @endpush
 
 @push('scripts')
 	<script src="{{ asset('js/datatables.min.js') }}"></script>
 	<script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/flatpickr.min.js') }}"></script>
 
 	<script>
 		$(document).ready(()=> {
@@ -163,6 +238,33 @@
 
                 reader.readAsDataURL(e.target.files[0]);
             });
+
+            // FILL FIELDS
+            $('#suffix').val("{{ $data->user->suffix }}")
+            $('#gender').val("{{ $data->user->gender }}")
+            $('#birthday').flatpickr({
+                altInput: true,
+                altFormat: 'F j, Y',
+                dateFormat: 'Y-m-d',
+                maxDate: moment().format(dateFormat)
+            });
 		});
+
+        function selectRow(row){
+            $('.nurse').parent().removeClass('selected');
+            $(row).parent().addClass('selected');
+        }
+
+        function viewAssistant(){
+            console.log("view");
+        }
+
+        function deleteAssistant(){
+            console.log("delete");
+        }
+
+        function addAssistant(){
+            console.log("add");
+        }
 	</script>
 @endpush
