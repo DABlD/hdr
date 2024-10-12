@@ -82,21 +82,7 @@
                     <div class="card-body table-responsive">
                         <div>
                             <table class="table table-hover">
-                                <tbody>
-                                    @foreach($nurses as $nurse)
-                                        <tr>
-                                            <td class="nurse" data-id="{{ $nurse->user->id }}" onclick="selectRow(this)">
-                                                {{ $nurse->user->lname }}, {{ $nurse->user->fname }} {{ $nurse->user->mname }} ({{ substr($nurse->user->gender, 0, 1) }}{{ now()->parse($data->user->birthday)->age }})
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    @foreach($nurses as $nurse)
-                                        <tr>
-                                            <td class="nurse" data-id="{{ $nurse->user->id }}" onclick="selectRow(this)">
-                                                {{ $nurse->user->lname }}, {{ $nurse->user->fname }} {{ $nurse->user->mname }} ({{ substr($nurse->user->gender, 0, 1) }}{{ now()->parse($data->user->birthday)->age }})
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                <tbody id="assistantList">
                                     @foreach($nurses as $nurse)
                                         <tr>
                                             <td class="nurse" data-id="{{ $nurse->user->id }}" onclick="selectRow(this)">
@@ -217,6 +203,14 @@
         .selected{
             background-color: #e8ecee;
         }
+
+        #swal2-html-container .label{
+            font-weight: bold;
+        }
+
+        #swal2-html-container .pInfo{
+            color: deepskyblue;
+        }
     </style>
 @endpush
 
@@ -256,15 +250,333 @@
         }
 
         function viewAssistant(){
-            console.log("view");
+            let id = $('tr.selected td').data('id');
+            if(id){
+                $.ajax({
+                    url: '{{ route('user.get') }}',
+                    data: {
+                        select: "*",
+                        where: ["id", id],
+                        load: ["nurse"]
+                    },
+                    success: result => {
+                        result = JSON.parse(result)[0];
+                        showAssistant(result);
+                    }
+                })
+            }
+            else{
+                se("No Selected Assistant");
+            }
+        }
+
+        function showAssistant(user){
+            Swal.fire({
+                title: "Nurse Information",
+                html: `
+                    <br>
+                    <div class="row">
+
+                        <section class="col-lg-3">
+                            <div class="card">
+                                <div class="card-header row">
+                                    <div class="col-md-12">
+                                        <h3 class="card-title" style="width: 100%; text-align: left;">
+                                            <i class="fas fa-user mr-1"></i>
+
+                                            Basic Information
+
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <div class="col-md-12">
+                                        <img src="${user.avatar}" alt="avatar" width="120" height="120">
+                                    </div>
+
+                                    <br>
+                                    
+                                    <div class="col-md-12 pInfo-left">
+                                        <span class="label">SSS</span>
+                                        <br>
+                                        <span class="pInfo">${user.nurse.sss}</span>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="col-md-12 pInfo-left">
+                                        <span class="label">TIN</span>
+                                        <br>
+                                        <span class="pInfo">${user.nurse.tin}</span>
+                                    </div>
+                                    
+                                    <br>
+                                    
+                                    <div class="col-md-12 pInfo-left">
+                                        <span class="label">Philhealth</span>
+                                        <br>
+                                        <span class="pInfo">${user.nurse.philhealth}</span>
+                                    </div>
+                                    
+                                    <br>
+                                    
+                                    <div class="col-md-12 pInfo-left">
+                                        <span class="label">Pagibig</span>
+                                        <br>
+                                        <span class="pInfo">${user.nurse.pagibig}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="col-lg-9">
+                            <div class="card">
+                                <div class="card-header row">
+                                    <div class="col-md-12">
+                                        <h3 class="card-title" style="width: 100%; text-align: left;">
+                                            <i class="fas fa-user mr-1"></i>
+
+                                            General Information
+
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <span class="label">First Name</span>
+                                            <br>
+                                            <span class="pInfo">${user.fname ?? "-"}</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span class="label">Middle Name</span>
+                                            <br>
+                                            <span class="pInfo">${user.mname ?? "-"}</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span class="label">Last Name</span>
+                                            <br>
+                                            <span class="pInfo">${user.lname ?? "-"}</span>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <span class="label">Birthday</span>
+                                            <br>
+                                            <span class="pInfo">${toDate(user.birthday)}</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span class="label">Age</span>
+                                            <br>
+                                            <span class="pInfo">${moment().diff(user.birthday, 'years')}</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span class="label">Gender</span>
+                                            <br>
+                                            <span class="pInfo">${user.gender}</span>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="label">Address</span>
+                                            <br>
+                                            <span class="pInfo">${user.address}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header row">
+                                    <div class="col-md-12">
+                                        <h3 class="card-title" style="width: 100%; text-align: left;">
+                                            <i class="fas fa-phone mr-1"></i>
+
+                                            Contact Information
+
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    
+                                    <div class="col-md-12 pInfo-left">
+                                        <span class="label">Email</span>
+                                        <br>
+                                        <span class="pInfo">${user.email ?? "-"}</span>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="col-md-12 pInfo-left">
+                                        <span class="label">Contact</span>
+                                        <br>
+                                        <span class="pInfo">${user.contact ?? "-"}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="row">
+                        <section class="col-lg-3">
+                            <div class="card">
+                                <div class="card-header row">
+                                    <div class="col-md-12">
+                                        <h3 class="card-title" style="width: 100%; text-align: left;">
+                                            <i class="fas fa-phone mr-1"></i>
+
+                                            Account Information
+
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    
+                                    <div class="col-md-12 pInfo-left">
+                                        <span class="label">Username</span>
+                                        <br>
+                                        <span class="pInfo">${user.username ?? "-"}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                `,
+                width: '1200px',
+                confirmButtonText: 'OK',
+                // showCancelButton: true,
+                // cancelButtonColor: errorColor,
+                // cancelButtonText: 'Cancel',
+                didOpen: () => {
+                    $('.pInfo').parent().css('text-align', 'left');
+                    $('#swal2-html-container .card-header').css('margin', "1px");
+                    $('#swal2-html-container .card-header').css('background-color', "#83c8e5");
+                    $('#swal2-html-container .card-body').css('border', "1px solid rgba(0,0,0,0.125)");
+                }
+            });
         }
 
         function deleteAssistant(){
-            console.log("delete");
+            let id = $('tr.selected td').data('id');
+            if(id){
+                swal.showLoading();
+                update({
+                    url: "{{ route('nurse.update') }}",
+                    data: {
+                        id: id,
+                        doctor_id: null
+                    },
+                    message: "Success"
+                },  () => {
+                    $('tr.selected').remove();
+                });
+            }
+            else{
+                se("No Selected Assistant");
+            }
         }
 
         function addAssistant(){
-            console.log("add");
+            $.ajax({
+                url: "{{ route('nurse.get') }}",
+                data: {
+                    select: "*",
+                    where: ["doctor_id", null],
+                    load: ['user']
+                },
+                success: nurses => {
+                    nurses = JSON.parse(nurses);
+                    nurseString = "";
+
+
+                    nurses.forEach(nurse => {
+                        let age = nurse.user.birthday ? moment().diff(moment(nurse.user.birthday), "years") : "";
+
+                        nurseString += `
+                            <option value="${nurse.user.id}">
+                                ${nurse.user.lname}, ${nurse.user.fname} (${nurse.user.gender[0] + age})
+                            </option>
+                        `;
+                    });
+
+                    Swal.fire({
+                        title: "Assistants",
+                        html: `
+                            <select class="form-control" id="assistant">
+                                <option value="">Select Assistant</option>
+                                ${nurseString}
+                            </select>
+                        `,
+                        showCancelButton: true,
+                        cancelButtonColor: errorColor,
+                        cancelButtonText: 'Cancel',
+                        preConfirm: () => {
+                            swal.showLoading();
+                            return new Promise(resolve => {
+                                setTimeout(() => {
+                                    if($('#assistant').val() == ""){
+                                        Swal.showValidationMessage('Select One');
+                                    }
+                                resolve()}, 500);
+                            });
+                        },
+                    }).then(result => {
+                        if(result.value){
+                            let id = $('#assistant').val();
+
+                            update({
+                                url: "{{ route('nurse.update') }}",
+                                data: {
+                                    id: id,
+                                    doctor_id: {{ auth()->user()->id }}
+                                }
+                            }, () => {
+                                ss("Success");
+                                displayNewAssistant(id);
+                            })
+                        }
+                    });
+                }
+            })
+        }
+
+        function displayNewAssistant(id){
+            $.ajax({
+                url: "{{ route('nurse.get') }}",
+                data: {
+                    select: "*",
+                    where: ["user_id", id],
+                    load: ['user']
+                },
+                success: nurse => {
+                    nurse = JSON.parse(nurse)[0];
+
+                    let age = nurse.user.birthday ? moment().diff(moment(nurse.user.birthday), "years") : "";
+
+                    $('#assistantList').append(`
+                        <tr>
+                            <td class="nurse" data-id="${id}" onclick="selectRow(this)">
+                                ${nurse.user.lname}, ${nurse.user.fname} (${nurse.user.gender[0] + age})
+                            </td>
+                        </tr>
+                    `);
+                }
+            });
+
         }
 	</script>
 @endpush

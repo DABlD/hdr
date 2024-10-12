@@ -63,10 +63,12 @@ Route::group([
                     ->defaults("href", "/$cname");
 
                 Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
+                Route::get("get2/", ucfirst($cname) . "Controller@get2")->name('get2');
                 Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
                 Route::post("restore/", ucfirst($cname) . "Controller@restore")->name('restore');
                 Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
                 Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
+                Route::post("update2/", ucfirst($cname) . "Controller@update2")->name('update2');
                 Route::post("updatePassword/", ucfirst($cname) . "Controller@updatePassword")->name('updatePassword');
             }
         );
@@ -86,6 +88,20 @@ Route::group([
                     // ->defaults("group", "Settings")
                     ->name($cname)
                     ->defaults("href", "/$cname");
+
+                Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
+                Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
+                Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
+                Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
+            }
+        );
+
+        // NURSE ROUTES
+        $cname = "nurse";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
 
                 Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
                 Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');

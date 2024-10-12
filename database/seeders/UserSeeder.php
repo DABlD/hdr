@@ -62,20 +62,54 @@ class UserSeeder extends Seeder
 
         // Nurse
         User::create([
-            'username' => 'nurse',
-            'fname' => 'Nurse',
-            'mname' => 'D',
-            'lname' => 'Doe',
+            'username' => 'nurse1',
+            'fname' => 'Amara',
+            'mname' => 'Q',
+            'lname' => 'Villanueva',
             'role' => 'Nurse',
-            'email' => 'nurse@gmail.com',
-            'birthday' => null,
-            'gender' => 'Male',
-            'address' => null,
-            'contact' => null,
+            'email' => 'amara.villanueva90@example.com',
+            'birthday' => "1990-08-15",
+            'gender' => 'Female',
+            'address' => "Philippines",
+            'contact' => "09123456789",
             'password' => '123456'
         ]);
 
         Nurse::create(['user_id' => 3, 'doctor_id' => 2]);
+
+        // Nurse
+        User::create([
+            'username' => 'nurse2',
+            'fname' => 'Luna ',
+            'mname' => 'W',
+            'lname' => 'Reyes',
+            'role' => 'Nurse',
+            'email' => 'luna.reyes85@example.com',
+            'birthday' => "1985-12-03",
+            'gender' => 'Female',
+            'address' => "Philippines",
+            'contact' => "09151234567",
+            'password' => '123456'
+        ]);
+
+        Nurse::create(['user_id' => 4, 'doctor_id' => 2]);
+
+        // Nurse
+        User::create([
+            'username' => 'nurse3',
+            'fname' => 'Isla',
+            'mname' => 'E',
+            'lname' => 'Ramirez',
+            'role' => 'Nurse',
+            'email' => 'isla.ramirez93@example.com',
+            'birthday' => "1985-12-03",
+            'gender' => 'Female',
+            'address' => "Philippines",
+            'contact' => "09186543210",
+            'password' => '123456'
+        ]);
+
+        Nurse::create(['user_id' => 5]);
 
         // RECEPTIONIST
         User::create([
@@ -113,7 +147,7 @@ class UserSeeder extends Seeder
         ]);
 
         Patient::create([
-            'user_id' => 5,
+            'user_id' => 7,
             'patient_id' => 'P24091600001',
             'hmo_provider' => 'maxicare',
             'hmo_number' => '1234567809121482',

@@ -64,6 +64,7 @@
 						select: "*",
 						where: ["role", "!=", "Super Admin"],
 						where2: ["role", "!=", "Patient"],
+						where3: ["role", "!=", "Admin"]
 					}
 				},
 				columns: [
@@ -85,13 +86,13 @@
 
 		function view(id){
 			$.ajax({
-				url: "{{ route('user.get') }}",
+				url: "{{ route('user.get2') }}",
 				data: {
 					select: '*',
 					where: ['id', id],
 				},
 				success: admin => {
-					admin = JSON.parse(admin)[0];
+					admin = JSON.parse(admin);
 					showDetails(admin);
 				}
 			})
@@ -130,6 +131,12 @@
 					        </select>
 					    </div>
 					</div>
+	                <br>
+
+	                ${input("tin", "TIN", null, 3, 9)}
+	                ${input("sss", "SSS", null, 3, 9)}
+	                ${input("philhealth", "Philhealth", null, 3, 9)}
+	                ${input("pagibig", "Pagibig", null, 3, 9)}
 
 	                <br>
 	                ${input("username", "Username", null, 3, 9)}
@@ -204,6 +211,10 @@
 							contact: $("[name='contact']").val(),
 							gender: $("[name='gender']").val(),
 							email: $("[name='email']").val(),
+							tin: $("[name='tin']").val(),
+							sss: $("[name='sss']").val(),
+							philhealth: $("[name='philhealth']").val(),
+							pagibig: $("[name='pagibig']").val(),
 							role: $("[name='role']").val(),
 							username: $("[name='username']").val(),
 							password: $("[name='password']").val(),
@@ -250,6 +261,12 @@
 					        </select>
 					    </div>
 					</div>
+	                <br>
+
+	                ${input("tin", "TIN", user.details.tin, 3, 9)}
+	                ${input("sss", "SSS", user.details.sss, 3, 9)}
+	                ${input("philhealth", "Philhealth", user.details.philhealth, 3, 9)}
+	                ${input("pagibig", "Pagibig", user.details.pagibig, 3, 9)}
 
 	                <br>
 	                ${input("username", "Username", user.username, 3, 9)}
@@ -311,7 +328,7 @@
 				if(result.value){
 					swal.showLoading();
 					update({
-						url: "{{ route('user.update') }}",
+						url: "{{ route('user.update2') }}",
 						data: {
 							id: $("[name='id']").val(),
 							role: $("[name='role']").val(),
@@ -319,6 +336,10 @@
 							lname: $("[name='lname']").val(),
 							contact: $("[name='contact']").val(),
 							gender: $("[name='gender']").val(),
+							tin: $("[name='tin']").val(),
+							sss: $("[name='sss']").val(),
+							philhealth: $("[name='philhealth']").val(),
+							pagibig: $("[name='pagibig']").val(),
 							email: $("[name='email']").val(),
 							username: $("[name='username']").val(),
 						},
