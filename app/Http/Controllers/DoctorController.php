@@ -9,7 +9,7 @@ use DB;
 
 use App\Helpers\Helper;
 
-class PatientController extends Controller
+class DoctorController extends Controller
 {
     public function __construct(){
         $this->table = "doctors";

@@ -167,9 +167,17 @@
                                 <br>
                             </div>
                         </div>
+
+                        <div class="float-right">
+                            <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save1()">
+                                Save
+                            </a>
+                        </div>
                     </div>
+
                 </div>
             </section>
+
         </div>
     </div>
 
@@ -576,7 +584,38 @@
                     `);
                 }
             });
+        }
 
+        function save1(){
+            swal.showLoading();
+            update({
+                url: "{{ route('user.update') }}",
+                data: {
+                    id: {{ $data->user->id }},
+                    fname: $('#fname').val(),
+                    mname: $('#mname').val(),
+                    lname: $('#lname').val(),
+                    suffix: $('#suffix').val(),
+                    gender: $('#gender').val(),
+                    birthday: $('#birthday').val(),
+                    email: $('#email').val(),
+                    contact: $('#contact').val(),
+                    address: $('#address').val()
+                }
+            }, () => {
+                update({
+                    url: "{{ route('doctor.update') }}",
+                    data: {
+                        id: {{ $data->id }},
+                        tin: $('#tin').val(),
+                        sss: $('#sss').val(),
+                        philhealth: $('#philhealth').val(),
+                        pagibig: $('#pagibig').val(),
+                    }
+                }, () => {
+                    ss("Success");
+                });
+            });
         }
 	</script>
 @endpush
