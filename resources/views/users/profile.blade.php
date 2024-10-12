@@ -94,8 +94,12 @@
                             </table>
                         </div>
 
-                        <a class="btn btn-primary" data-toggle="tooltip" title="View" onclick="viewAssistant()">VIEW</a>
-                        <a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deleteAssistant()">DELETE</a>
+                        <a class="btn btn-primary" data-toggle="tooltip" title="View" onclick="viewAssistant()">
+                            View
+                        </a>
+                        <a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deleteAssistant()">
+                            Delete
+                        </a>
 
                         <div class="float-right">
                             <a class="btn btn-success" data-toggle="tooltip" title="Add" onclick="addAssistant()">Add</a>
@@ -117,7 +121,7 @@
                                 &nbsp;
                                 <li class="nav-item">
                                     <a class="nav-link" href="#tab2" data-toggle="tab">
-                                        Contact Information
+                                        Professional Information
                                     </a>
                                 </li>
                                 &nbsp;
@@ -158,23 +162,67 @@
                                     {{ $col("SSS", "sss", $data->sss) }}
                                     {{ $col("Pagibig", "pagibig", $data->pagibig) }}
                                 </div>
+
+                                <div class="float-right">
+                                    <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save1()">
+                                        Save
+                                    </a>
+                                </div>
                             </div>
 
                             <div class="chart tab-pane" id="tab2" style="position: relative;">
-                                <br>
+                                <div class="row">
+                                    {{ $col("License Number", "license_number", $data->license_number) }}
+                                    {{ $col("S2 Number", "s2_number", $data->s2_number) }}
+                                    {{ $col("PTR Number", "ptr", $data->ptr) }}
+                                </div>
+
+                                <div class="row">
+                                    {{ $col("Specialization", "specialization", $data->specialization) }}
+                                    {{ $col("Pharma Partner", "pharma_partner", $data->pharma_partner) }}
+                                    {{ $col("Title", "Title", $data->title) }}
+                                </div>
+
+                                <div class="float-right">
+                                    <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save2()">
+                                        Save
+                                    </a>
+                                </div>
                             </div>
+
                             <div class="chart tab-pane" id="tab3" style="position: relative;">
                                 <br>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="card hidden group2">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-users mr-1"></i>
+                            Medical Association
+                        </h3>
+                    </div>
+
+                    <div class="card-body table-responsive">
+                        <div>
+                            <table class="table table-hover">
+                                <tbody id="medicalAssociation">
+                                </tbody>
+                            </table>
+                        </div>
+
 
                         <div class="float-right">
-                            <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save1()">
-                                Save
+                            <a class="btn btn-success" data-toggle="tooltip" title="Add" onclick="addAssociation()">
+                                Add
+                            </a>
+                            <a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deleteAssociation()">
+                                Delete
                             </a>
                         </div>
                     </div>
-
                 </div>
             </section>
 
@@ -189,6 +237,7 @@
 	<link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 
     <style>
         .informations .nav-pills>li>a {
@@ -226,6 +275,7 @@
 	<script src="{{ asset('js/datatables.min.js') }}"></script>
 	<script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
     <script src="{{ asset('js/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
 
 	<script>
 		$(document).ready(()=> {
@@ -250,6 +300,17 @@
                 dateFormat: 'Y-m-d',
                 maxDate: moment().format(dateFormat)
             });
+
+            $('[href="#tab1"]').on('click', () => {
+                $('.hidden').hide();
+            });
+
+            $('[href="#tab2"]').on('click', () => {
+                $('.group2').show();
+                getMedicalAssociation();
+            });
+
+            $('[href="#tab1"]').click();
 		});
 
         function selectRow(row){
@@ -479,7 +540,7 @@
         }
 
         function deleteAssistant(){
-            let id = $('tr.selected td').data('id');
+            let id = $('#assistantList tr.selected td').data('id');
             if(id){
                 swal.showLoading();
                 update({
@@ -490,7 +551,7 @@
                     },
                     message: "Success"
                 },  () => {
-                    $('tr.selected').remove();
+                    $('#assistantList tr.selected').remove();
                 });
             }
             else{
@@ -617,5 +678,123 @@
                 });
             });
         }
+
+        function getMedicalAssociation(){
+            $.ajax({
+                url: "{{ route("doctor.get") }}",
+                data: {
+                    select: "medical_association",
+                    where: ["user_id", {{ auth()->user()->id }}]
+                },
+                success: association => {
+                    association = JSON.parse(association)[0];
+
+                    if(association.medical_association){
+                        let array = JSON.parse(association.medical_association);
+                        array.forEach(assoc => {
+                            $('#medicalAssociation').append(`
+                                <tr onClick="selectRow2(this)">
+                                    <td class="data-ma">${assoc}</td>
+                                </tr>
+                            `);
+                        });
+                    }
+                }
+            })
+
+        }
+
+        function addAssociation(){
+            Swal.fire({
+                title: "Select Association to add",
+                html: `
+                    <select id="selectAssociation">
+                        <option value="">N/A</option>
+                        <option>Philippine Dental Association</option>
+                        <option>Philippine Medical Association</option>
+                        <option>Blue Cross Shield Association</option>
+                        <option>Philippine Veterinary Medical Association</option>
+                        <option>SBCA assoc.</option>
+                        <option>Philippine Heart Association</option>
+                        <option>Las Piñas Medical Society</option>
+                        <option>PRx</option>
+                    </select>
+                `,
+                didOpen: () => {
+                    $('#selectAssociation').select2({
+                        tag: true,
+                    });
+
+                    $('#select2-selectAssociation-container').css('text-align', 'left');
+                },
+                preConfirm: () => {
+                    swal.showLoading();
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            if($('#selectAssociation').val() == ""){
+                                Swal.showValidationMessage('Select One');
+                            }
+                        resolve()}, 500);
+                    });
+                },
+            }).then(result => {
+                if(result.value){
+                    $('#medicalAssociation').append(`
+                        <tr onclick="selectRow2(this)">
+                            <td class="data-ma">${$('#selectAssociation').val()}</td>
+                        </tr>
+                    `);
+
+                    let assocs = $('.data-ma');
+                    let array = [];
+
+                    assocs.each((key, assoc) => {
+                        array.push(assoc.innerHTML);
+                    });
+
+                    update({
+                        url: "{{ route('doctor.update') }}",
+                        data: {
+                            id: {{ $data->id }},
+                            medical_association: JSON.stringify(array)
+                        }
+                    }, () => {
+                        ss("Successfully Added");
+                    });
+                }
+            });
+        }
+
+        function selectRow2(row){
+            $('.data-ma').parent().removeClass('selected');
+            $(row).addClass('selected');
+        }
+
+        function deleteAssociation(){
+            if($('#medicalAssociation tr.selected').length){
+                $('#medicalAssociation tr.selected').remove();
+
+                let assocs = $('.data-ma');
+                let array = [];
+
+                assocs.each((key, assoc) => {
+                    array.push(assoc.innerHTML);
+                });
+
+                update({
+                    url: "{{ route('doctor.update') }}",
+                    data: {
+                        id: {{ $data->id }},
+                        medical_association: JSON.stringify(array)
+                    }
+                }, () => {
+                    ss("Successfully Added");
+                });
+            }
+            else{
+                se("Select one to delete");
+            }
+        }
 	</script>
 @endpush
+

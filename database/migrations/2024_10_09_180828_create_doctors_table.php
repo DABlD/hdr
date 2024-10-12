@@ -28,7 +28,7 @@ class CreateDoctorsTable extends Migration
             $table->string('ptr')->nullable();
             $table->string('specialization')->nullable();
             $table->string('pharma_partner')->nullable();
-            $table->json('title')->nullable();
+            $table->string('title')->nullable();
 
             $table->json('medical_association')->nullable();
             $table->json('diplomate')->nullable();
