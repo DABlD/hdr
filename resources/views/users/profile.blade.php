@@ -200,7 +200,7 @@
                 <div class="card hidden group2">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="fas fa-users mr-1"></i>
+                            <i class="fas fa-handshake-simple mr-1"></i>
                             Medical Association
                         </h3>
                     </div>
@@ -224,8 +224,31 @@
                         </div>
                     </div>
                 </div>
-            </section>
 
+                <div class="card hidden group2">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-graduation-cap mr-1"></i>
+                            Diplomate
+                        </h3>
+                    </div>
+
+                    <div class="card-body table-responsive">
+                        <div>
+                            {{ $col("Diplomate 1", "dp1", null, "text", 12) }}
+                            {{ $col("Diplomate 2", "dp2", null, "text", 12) }}
+                            {{ $col("Diplomate 3", "dp3", null, "text", 12) }}
+                        </div>
+
+
+                        <div class="float-right">
+                            <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save2()">
+                                Save
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 
@@ -318,9 +341,11 @@
             $('[href="#tab2"]').on('click', () => {
                 $('.group2').show();
                 getMedicalAssociation();
+                getDiplomate();
             });
 
             $('[href="#tab1"]').click();
+            // $('[href="#tab2"]').click(); //  FOR DEBUG
 		});
 
         async function updatePhoto(){
@@ -705,6 +730,23 @@
             });
         }
 
+        function save2(){
+            swal.showLoading();
+            update({
+                url: "{{ route('doctor.update') }}",
+                data: {
+                    id: {{ $data->id }},
+                    diplomate: [
+                        $('#dp1').val(),
+                        $('#dp2').val(),
+                        $('#dp3').val()
+                    ]
+                }
+            }, () => {
+                ss("Success");
+            });
+        }
+
         function getMedicalAssociation(){
             $.ajax({
                 url: "{{ route("doctor.get") }}",
@@ -727,7 +769,18 @@
                     }
                 }
             })
+        }
 
+        function getDiplomate(){
+            let diplomates = '{!! $data->diplomate !!}';
+
+            if(diplomates){
+                diplomates = JSON.parse(diplomates);
+
+                diplomates.forEach((diplomate, key) => {
+                    $('#dp' + (++key)).val(diplomate);
+                })
+            }
         }
 
         function addAssociation(){
