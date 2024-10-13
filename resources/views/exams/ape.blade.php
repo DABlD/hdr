@@ -436,7 +436,7 @@
 		        		html: `
 		        			<div id="summernote">${result.remarks ?? ""}</div>
 		        		`,
-		                width: 1000,
+		                width: 1500,
 		                confirmButtonText: "Save",
 						showCancelButton: true,
 						cancelButtonColor: errorColor,
@@ -445,7 +445,7 @@
 						allowEscapeKey: false,
 		        		didOpen: () => {
 							$('#summernote').summernote({
-								height: 300,
+								height: 500,
 		                		focus: true
 							});
 
