@@ -20,6 +20,7 @@
                     	<table id="table" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
+                    				<th>Company Name</th>
                     				<th>Patient ID</th>
                     				<th>Surname</th>
                     				<th>First Name</th>
@@ -96,10 +97,12 @@
 	                    f.select = "*";
 	                    f.filters = getFilters();
 	                    f.where = ["role", "Patient"];
+	                    f.where2 = ["type", "PEE"];
 	                    f.load = ["patient"]
 	                }
 				},
 				columns: [
+					{data: 'patient.company_name'},
 					{data: 'patient.patient_id'},
 					{data: 'lname'},
 					{data: 'fname'},
@@ -112,7 +115,7 @@
         		pageLength: 25,
 	            columnDefs: [
 	                {
-	                    targets: 4,
+	                    targets: 5,
 	                    render: birthday => {
 	                        return birthday ? toDate(birthday) + " " + `(${moment().diff(birthday, 'years')})` : "-";
 	                    },
@@ -160,6 +163,7 @@
 	        							&nbsp;&nbsp;
 	        							<span style="color: blue; font-weight: bold;">${package.name}</span> - 
 	        							<span style="color: green;">PHP ${package.amount}</span>
+	        							(${patient.company_name})
 	        						</td>
 	        				`;
 
@@ -478,6 +482,58 @@
 
             	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
         	}
+        }
+
+        function addPatient(){
+        	$.ajax({
+        		url: "{{ route('user.get') }}",
+        		data: {
+        			select: "*",
+        			where: ["role", "Patient"],
+        			where2: ["type", "!=", "PEE"]
+        		},
+        		success: users => {
+        			users = JSON.parse(users);
+        			let userString = "";
+
+        			users.forEach(user => {
+        				userString += `
+        					<option value="${user.id}">${user.fname} ${user.lname} (${user.gender})</option>
+        				`;
+        			});
+
+        			Swal.fire({
+        				title: "Select Patient",
+        				html: `
+        					<select id="ptadd" class="form-control">
+        						<option value="">N/A</option>
+        						${userString}
+        					</select>
+        				`,
+        				preConfirm: () => {
+        					let id = $('#ptadd').val();
+
+        					if(id == ""){
+        						Swal.showValidationMessage("Select One");
+        					}
+        					else{
+        						update({
+        							url: "{{ route('user.update') }}",
+        							data: {
+        								id: id,
+        								type: "PEE"
+        							}
+        						})
+        					}
+        				}
+        			}).then(result => {
+        				if(result.value){
+        					ss("Success");
+        					reload();
+        				}
+        			})
+        		}
+        	})
         }
 	</script>
 @endpush

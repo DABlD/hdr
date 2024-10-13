@@ -1,8 +1,3 @@
-<{{-- h3 class="float-right">
-    <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Admin" onclick="create()">
-        <i class="fas fa-plus fa-2xl"></i>
-    </a>
-< --}}/h3>
 <br><br>
 <h3>
     <div class="row iRow">
@@ -17,6 +12,14 @@
         <div class="col-md-1">
             <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Search" onclick="reload()">
                 <i class="fas fa-search"></i>
+            </a>
+        </div>
+
+        <div class="col-md-6"></div>
+
+        <div class="col-md-1" style="text-align: right;">
+            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="addPatient()">
+                <i class="fas fa-plus"></i> Add Patient
             </a>
         </div>
     </div>

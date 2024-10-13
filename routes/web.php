@@ -228,6 +228,7 @@ Route::group([
 
                 Route::get("user", ucfirst($cname) . "Controller@user")->name('user');
                 Route::get("patient", ucfirst($cname) . "Controller@patient")->name('patient');
+                Route::get("patientPackage", ucfirst($cname) . "Controller@patientPackage")->name('patientPackage');
             }
         );
     }

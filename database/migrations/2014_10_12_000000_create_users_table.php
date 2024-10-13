@@ -38,6 +38,9 @@ class CreateUsersTable extends Migration
             $table->string('nationality')->nullable();
             $table->string('religion')->nullable();
 
+            // FOR IDENTIFYING IF USER IS FOR APE OR PEE
+            $table->string('type')->default("");
+
             $table->string('avatar')->nullable()->default('images/default_avatar.png');
             $table->string('password');
 
