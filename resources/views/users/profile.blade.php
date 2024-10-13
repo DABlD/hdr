@@ -403,7 +403,7 @@
             });
 
             $('[href="#tab1"]').click();
-            $('[href="#tab3"]').click(); //  FOR DEBUG
+            // $('[href="#tab3"]').click(); //  FOR DEBUG
 		});
 
         async function updatePhoto(){
