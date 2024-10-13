@@ -195,7 +195,7 @@ Route::group([
                 Route::get("/pee", ucfirst($cname) . "Controller@pee")
                     ->defaults("sidebar", 1)
                     ->defaults("icon", "fas fa-files-medical")
-                    ->defaults("name", "PE")
+                    ->defaults("name", "PEE")
                     ->defaults("roles", array("Admin", "Doctor"))
                     ->defaults("group", "Exams")
                     ->name($cname . 'pee')
