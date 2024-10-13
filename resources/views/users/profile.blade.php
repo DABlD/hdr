@@ -106,6 +106,25 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card hidden group2">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-table mr-1"></i>
+                            Signature
+                        </h3>
+                    </div>
+
+                    <div class="card-body table-responsive">
+                        <div style="text-align: center;">
+                            <img src="{{ asset($data->signature) }}" alt="No Signature" width="300" height="200" id="preview2">
+
+                            <br>
+                            <label for="files2" class="btn">Upload New Image</label>
+                            <input id="files2" class="d-none" type="file" accept="image/*">
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section class="col-md-8 connectedSortable informations">
@@ -312,16 +331,18 @@
                 }
 
                 reader.readAsDataURL(e.target.files[0]);
+                updatePhoto();
             });
 
-            $('#files').on('change', e => {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#preview').attr('src', e.target.result);
+            // PREVIEW SIGNATURE
+            $('#files2').on('change', e => {
+                var reader2 = new FileReader();
+                reader2.onload = function (e) {
+                    $('#preview2').attr('src', e.target.result);
                 }
 
-                reader.readAsDataURL(e.target.files[0]);
-                updatePhoto();
+                reader2.readAsDataURL(e.target.files[0]);
+                updateSignature();
             });
 
             // FILL FIELDS
@@ -356,6 +377,22 @@
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
             await fetch('{{ route('user.update') }}', {
+                method: "POST", 
+                body: formData
+            });
+
+            ss('Success');
+            reload();
+        }
+
+        async function updateSignature(){
+            let formData = new FormData();
+
+            formData.append('id', {{ $data->id }});
+            formData.append('signature', $("#files2").prop('files')[0]);
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+            await fetch('{{ route('doctor.update') }}', {
                 method: "POST", 
                 body: formData
             });

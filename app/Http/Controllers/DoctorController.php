@@ -92,7 +92,25 @@ class DoctorController extends Controller
     }
 
     public function update(Request $req){
-        $result = DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token']));
+
+        if($req->hasFile('signature')){
+            $doctor = Doctor::find($req->id);
+            $doctor->load('user');
+
+            $temp = $req->file('signature');
+            $image = Image::make($temp);
+
+            $name = $doctor->user->lname . '_' . $doctor->user->fname . '-signature-' . time() . "." . $temp->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/');
+
+            $image->resize(250, 250);
+            $image->save($destinationPath . $name);
+            $doctor->signature = 'uploads/' . $name;
+            $doctor->save();
+        }
+        else{
+            $result = DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token']));
+        }
 
         echo Helper::log(auth()->user()->id, 'updated doctor', $req->id);
     }
