@@ -60,7 +60,7 @@
 
                     <div class="card-body table-responsive">
                     	<div style="text-align: center;">
-                            <img src="{{ asset("images/default_avatar.png") }}" width="150" height="150" id="preview">
+                            <img src="{{ asset(auth()->user()->avatar) }}" width="150" height="150" id="preview">
 
                             <br>
                             <label for="files" class="btn">Upload New Image</label>
@@ -291,6 +291,16 @@
                 reader.readAsDataURL(e.target.files[0]);
             });
 
+            $('#files').on('change', e => {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(e.target.files[0]);
+                updatePhoto();
+            });
+
             // FILL FIELDS
             $('#suffix').val("{{ $data->user->suffix }}")
             $('#gender').val("{{ $data->user->gender }}")
@@ -312,6 +322,22 @@
 
             $('[href="#tab1"]').click();
 		});
+
+        async function updatePhoto(){
+            let formData = new FormData();
+
+            formData.append('id', {{ auth()->user()->id }});
+            formData.append('avatar', $("#files").prop('files')[0]);
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+            await fetch('{{ route('user.update') }}', {
+                method: "POST", 
+                body: formData
+            });
+
+            ss('Success');
+            reload();
+        }
 
         function selectRow(row){
             $('.nurse').parent().removeClass('selected');

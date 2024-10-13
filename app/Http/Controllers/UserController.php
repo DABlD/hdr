@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{User, Doctor, Nurse};
 use DB;
 use Auth;
+use Image;
 
 use App\Helpers\Helper;
 
@@ -140,7 +141,23 @@ class UserController extends Controller
     }
 
     public function update(Request $req){
-        echo DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token']));
+        if($req->hasFile('avatar')){
+            $user = User::find($req->id);
+
+            $temp = $req->file('avatar');
+            $image = Image::make($temp);
+
+            $name = $user->lname . '_' . $user->fname . '-' . time() . "." . $temp->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/');
+
+            $image->resize(250, 250);
+            $image->save($destinationPath . $name);
+            $user->avatar = 'uploads/' . $name;
+            $user->save();
+        }
+        else{
+            echo DB::table($this->table)->where('id', $req->id)->update($req->except(['id', '_token', 'avatar']));
+        }
 
         echo Helper::log(auth()->user()->id, 'updated user', $req->id);
     }
