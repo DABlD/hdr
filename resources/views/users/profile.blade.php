@@ -146,7 +146,7 @@
                                 &nbsp;
                                 <li class="nav-item">
                                     <a class="nav-link" href="#tab3" data-toggle="tab">
-                                        Employment Information
+                                        Account Information
                                     </a>
                                 </li>
                             </ul>
@@ -210,7 +210,15 @@
                             </div>
 
                             <div class="chart tab-pane" id="tab3" style="position: relative;">
-                                <br>
+                                <div class="row">
+                                    {{ $col("Username", "username", $data->user->username) }}
+                                </div>
+
+                                <div class="float-right">
+                                    <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save3()">
+                                        Save
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -262,6 +270,29 @@
 
                         <div class="float-right">
                             <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save2()">
+                                Save
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card hidden group3">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-lock mr-1"></i>
+                            Change Password
+                        </h3>
+                    </div>
+
+                    <div class="card-body table-responsive">
+                        <div>
+                            {{ $col("New Password", "new_password", null, "password", 12) }}
+                            {{ $col("Confirm Password", "confirm_password", null, "password", 12) }}
+                        </div>
+
+
+                        <div class="float-right">
+                            <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save4()">
                                 Save
                             </a>
                         </div>
@@ -360,13 +391,19 @@
             });
 
             $('[href="#tab2"]').on('click', () => {
+                $('.hidden').hide();
                 $('.group2').show();
                 getMedicalAssociation();
                 getDiplomate();
             });
 
+            $('[href="#tab3"]').on('click', () => {
+                $('.hidden').hide();
+                $('.group3').show();
+            });
+
             $('[href="#tab1"]').click();
-            // $('[href="#tab2"]').click(); //  FOR DEBUG
+            $('[href="#tab3"]').click(); //  FOR DEBUG
 		});
 
         async function updatePhoto(){
@@ -784,6 +821,45 @@
             });
         }
 
+        function save3(){
+            swal.showLoading();
+            update({
+                url: "{{ route('user.update') }}",
+                data: {
+                    id: {{ $data->user->id }},
+                    username: $('#username').val()
+                }
+            }, () => {
+                ss("Success");
+            });
+        }
+
+        function save4(){
+            swal.showLoading();
+            let pass = $('#new_password').val();
+            let cpass = $('#confirm_password').val();
+
+            if(pass == ""){
+                se("Password must be at least 6 characters long.");
+            }
+            else if(pass === cpass){
+                update({
+                    url: "{{ route('user.updatePassword') }}",
+                    data: {
+                        id: {{ $data->user->id }},
+                        password: pass
+                    }
+                }, () => {
+                    ss("Success");
+                    $('#new_password').val("");
+                    $('#confirm_password').val("");
+                });
+            }
+            else{
+                se("Password not match. Try Again");
+            }
+        }
+
         function getMedicalAssociation(){
             $.ajax({
                 url: "{{ route("doctor.get") }}",
@@ -796,6 +872,7 @@
 
                     if(association.medical_association){
                         let array = JSON.parse(association.medical_association);
+                        $('#medicalAssociation').html("");
                         array.forEach(assoc => {
                             $('#medicalAssociation').append(`
                                 <tr onClick="selectRow2(this)">
