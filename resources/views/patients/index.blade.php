@@ -67,6 +67,10 @@
 	    	color: #fff !important;
 	    	background-color: #337ab7 !important;
 	    }
+
+	    .answer{
+	    	text-align: center;
+	    }
 	</style>
 @endpush
 
@@ -681,6 +685,197 @@
 					})
 				}
 			});
+		}
+
+		var historyString = "";
+		function medicalHistory(id){
+			$.ajax({
+				url: "{{ route("patientPackage.get") }}",
+				data: {
+					select: "*",
+					where: ["user_id", id],
+					where2: ["package_id", 1],
+					load: ["package"]
+				},
+				success: result => {
+					result = JSON.parse(result)[0];
+
+					if(result){
+						generateHistoryTable(result.package_id);
+						swal.showLoading();
+
+						setTimeout(() => {
+							Swal.fire({
+								title: "Personal Medical History",
+								html: `
+									${historyString}
+								`,
+								showClass: {backdrop: 'swal2-noanimation',popup: '',icon: ''},
+								hideClass: {popup: '',},
+								width: "1500px",
+								allowOutsideClick: false,
+								allowEscapeKey: false,
+								confirmButtonText: 'Save',
+								showCancelButton: true,
+								cancelButtonColor: errorColor,
+								cancelButtonText: 'Cancel',
+								didOpen: () => {
+									let qwa = result.question_with_answers;
+
+									if(qwa){
+										qwa = JSON.parse(qwa);
+
+										qwa.forEach(qwa => {
+											let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
+
+											if(type == "Dichotomous"){
+												$(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
+											}
+											else if(type == "Text"){
+												$(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+											}
+
+											$(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
+										});
+									}
+								},
+								preConfirm: () => {
+									let array = [];
+
+									let answers = $('td.answer');
+									let remarks = $('input.remark');
+
+									let len = $('td.answer').length;
+
+									for(let i = 0; i < len; i++){
+										let id = answers[i].dataset.id;
+										let type = answers[i].dataset.type;
+										let answer = "";
+
+										if(type == "Dichotomous"){
+											answer = $(`[name="rb${id}"]:checked`).val() ?? null;
+										}
+										else if(type == "Text"){
+											answer = $(`.answer input[data-id="${id}"]`).val();
+										}
+
+										array.push({
+											id: id,
+											answer: answer,
+											remark: $(`.remark[data-id="${id}"]`).val()
+										});
+									}
+
+									swal.showLoading();
+									update({
+										url: "{{ route("patientPackage.update") }}",
+										data: {
+											id: result.id,
+											question_with_answers: JSON.stringify(array)
+										},
+										message: "Saved"
+									}, () => {
+										medicalHistory(id);
+									})
+								},
+							})
+						}, 1500);
+					}
+					else{
+						se("No Medical History Record. Create One First");
+						$.ajax({
+							url: "{{ route('patientPackage.store') }}",
+							type: "POST",
+							data: {
+								uid: id,
+								packages: [1],
+								type: "PEE",
+								_token: $('meta[name="csrf-token"]').attr('content')
+							},
+							success: result => {
+								if(result){
+									setTimeout(() => {
+										medicalHistory(id);
+									}, 800);
+								}
+							}
+						})
+					}
+				}
+			})
+		}
+
+		function generateHistoryTable(packageId){
+			$.ajax({
+				url: "{{ route('question.get') }}",
+				data: {
+					select: "*",
+					where: ["package_id", packageId],
+					group: ['category_id']
+				},
+				success: questions => {
+					questions = JSON.parse(questions);
+
+					let keys = Object.keys(questions);
+					let categories = questions[keys[keys.length-1]];
+
+					let string = "";
+
+					for (let [k, v] of Object.entries(questions[""])) {
+					    string += `
+					    	<div class="row">
+					    		<div class="col-md-12" style="text-align: left;">
+						    		<b style="font-size: 1.5rem;">${v.name}</b>
+					    		</div>
+					    	</div>
+
+					    	<table class="table table-hover qtd" style="width: 100%; margin-top: 5px; text-align: left;">
+					    		<thead>
+					    			<tr>
+					    				<th style="width: 60%;">Name</th>
+					    				<th style="width: 10%;" class="answer">Answer</th>
+					    				<th style="width: 30%;" class="remark">Remark</th>
+					    			</tr>
+					    		</thead>
+					    		<tbody>
+					    `;
+
+					    let temp = questions[v.id];
+
+					    if(temp){
+						    for(let i = 0; i < temp.length; i++){
+						    	let answer = "";
+
+						    	if(temp[i].type == "Text"){
+						    		answer = `
+						    			<input type="text" class="form-control" data-id="${temp[i].id}">
+						    		`;
+						    	}
+						    	else if(temp[i].type == "Dichotomous"){
+						    		answer = `
+						    			<input type="radio" name="rb${temp[i].id}" value="1">Yes
+						    			&nbsp;
+						    			<input type="radio" name="rb${temp[i].id}" value="0">No
+						    		`;
+						    	}
+
+						    	string += `
+						    		<tr>
+						    			<td>${temp[i].name}</td>
+						    			<td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
+						    			<td>
+						    				<input type="text" class="form-control remark" data-id="${temp[i].id}">
+						    			</td>
+						    		</tr>
+						    	`;
+						    }
+					    }
+
+					    string += "</tbody></table><br>";
+					    historyString = string;
+					}
+				}
+			})
 		}
 
 		function packages(id){
