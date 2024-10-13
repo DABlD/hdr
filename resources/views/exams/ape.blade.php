@@ -426,11 +426,13 @@
         		url: '{{ route('patientPackage.get') }}',
         		data: {
         			select: '*',
-        			where: ['id', ppid]
+        			where: ['id', ppid],
+        			load: ["package.questions"]
         		},
         		success: result => {
         			result = JSON.parse(result)[0];
 
+        			// LIST OF INCLUSIONS
     				let list = "";
     				let questions = Object.groupBy(result.package.questions, ({ category_id }) => category_id);
 
@@ -449,6 +451,18 @@
         				}
     				});
 
+    				// FILES
+    				let attachment = "<span style='color: red;'>No Attached File</span>";
+
+
+    				if(result.file){
+    					attachment = `
+    						<span style="color: blue;">
+    							<a href="../${result.file}" target="_blank">Download</a>
+    						</span>
+    					`;
+    				}
+
 		        	Swal.fire({
 		        		title: "Result/Impressions",
 		        		html: `
@@ -457,6 +471,14 @@
 		        					<h2><u><b>Inclusions</b></u></h2>
 		        					<br>
 		        					${list}
+		        					<br>
+		        					<br>
+		        					<h2><u><b>Attachment</b></u></h2>
+		        					${attachment}
+		        					<br>
+		        					<br>
+		        					<label for="files" class="btn btn-info">Upload File</label>
+		        					<input id="files" class="d-none" type="file">
 		        				</div>
 		        				<div class="col-md-10">
 		        					<div id="summernote">${result.remarks ?? ""}</div>
@@ -478,6 +500,10 @@
 
 							$('.note-editable').css('text-align', 'left');
 							$('.note-insert').css('display', 'none');
+
+							$('#files').on('change', e => {
+							    updateFile(ppid);
+							});
 		        		}
 		        	}).then(result => {
 		        		if(result.value){
@@ -498,6 +524,21 @@
 		        	});
         		}
         	})
+        }
+
+        async function updateFile(ppid){
+            let formData = new FormData();
+
+            formData.append('id', ppid);
+            formData.append('file', $("#files").prop('files')[0]);
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+            await fetch('{{ route('patientPackage.update') }}', {
+                method: "POST", 
+                body: formData
+            });
+
+            Swal.showValidationMessage("New File Uploaded");
         }
 
         function pdfExport(id, rLength){

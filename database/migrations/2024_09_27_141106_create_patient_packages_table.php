@@ -25,6 +25,7 @@ class CreatePatientPackagesTable extends Migration
             $table->json('details');
             $table->json('question_with_answers')->nullable();
             $table->text('remarks')->nullable();
+            $table->string('file')->nullable();
 
             $table->timestamps();
 

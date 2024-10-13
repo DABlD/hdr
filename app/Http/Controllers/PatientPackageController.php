@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{PatientPackage, Patient, Package};
 
 use App\Helpers\Helper;
+use Image;
 
 // PDF CLASSES
 use App\Exports\PDFExport;
@@ -82,7 +83,20 @@ class PatientPackageController extends Controller
     }
 
     public function update(Request $req){
-        $result = PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
+        if($req->hasFile('file')){
+            $patientPackage = PatientPackage::find($req->id);
+            $patientPackage->load('user');
+
+            $file = $req->file('file');
+            $name = $patientPackage->user->lname . '_' . $patientPackage->user->fname . "-PP$req->id-" . time() . "." . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/'), $name);
+
+            $patientPackage->file = 'uploads/' . $name;
+            $patientPackage->save();
+        }
+        else{
+            $result = PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
+        }
 
         echo Helper::log(auth()->user()->id, 'updated patient package', $req->id);
     }
