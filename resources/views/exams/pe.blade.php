@@ -369,7 +369,14 @@
 	        						<td>${pPackage.package.name}</td>
 	        						<td>${pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
-	        						<td>-</td>
+	        						<td>
+	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
+	        								<i class="fas fa-file-prescription"></i>
+	        							</a>
+	        							<a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false})">
+	        								<i class="fas fa-file-pdf"></i>
+	        							</a>
+	        						</td>
 	        					</tr>
 	        				`;
         				});
@@ -404,6 +411,73 @@
 		        	})
         		}
         	})
+        }
+
+        function addResult(ppid){
+        	let string = "";
+
+        	$.ajax({
+        		url: '{{ route('patientPackage.get') }}',
+        		data: {
+        			select: '*',
+        			where: ['id', ppid]
+        		},
+        		success: result => {
+        			result = JSON.parse(result)[0];
+
+		        	Swal.fire({
+		        		title: "Result/Impressions",
+		        		html: `
+		        			<div id="summernote">${result.remarks ?? ""}</div>
+		        		`,
+		                width: 1000,
+		                confirmButtonText: "Save",
+						showCancelButton: true,
+						cancelButtonColor: errorColor,
+						cancelButtonText: 'Cancel',
+						allowOutsideClick: false,
+						allowEscapeKey: false,
+		        		didOpen: () => {
+							$('#summernote').summernote({
+								height: 300,
+		                		focus: true
+							});
+
+							$('.note-editable').css('text-align', 'left');
+							$('.note-insert').css('display', 'none');
+		        		}
+		        	}).then(result => {
+		        		if(result.value){
+		        			swal.showLoading();
+		        			update({
+		        				url: "{{ route('patientPackage.update') }}",
+		        				data: {
+		        					id: ppid,
+		        					remarks: $('#summernote').summernote('code')
+		        				},
+		        				message: "Successfully saved"
+		        			}, () => {
+		        				setTimeout(() => {
+		        					addResult(ppid);
+		        				}, 1500);
+		        			})
+		        		}
+		        	});
+        		}
+        	})
+        }
+
+        function pdfExport(id, rLength){
+        	if(!rLength){
+        		se("Their are no available Result/Impressions");
+        	}
+        	else{
+        		let data = {};
+        		data.id = id;
+        		data.type = "RI";
+
+            	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
+        	}
         }
 	</script>
 @endpush
