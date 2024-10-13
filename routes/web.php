@@ -23,6 +23,8 @@ Route::get('/', function(){
    return redirect()->route('login');
 });
 
+Route::get('company/dashboard', "CompanyController@dashboard")->name('company.dashboard');
+Route::post('company/import', "CompanyController@import")->name('company.import');
 
 Route::group([
         'middleware' => 'auth',
@@ -225,6 +227,7 @@ Route::group([
             ], function () use($cname){
 
                 Route::get("user", ucfirst($cname) . "Controller@user")->name('user');
+                Route::get("patient", ucfirst($cname) . "Controller@patient")->name('patient');
             }
         );
     }
