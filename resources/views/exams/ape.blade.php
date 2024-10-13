@@ -431,10 +431,37 @@
         		success: result => {
         			result = JSON.parse(result)[0];
 
+    				let list = "";
+    				let questions = Object.groupBy(result.package.questions, ({ category_id }) => category_id);
+
+    				questions[null].forEach(category => {
+        				let inclusions = "";
+
+        				if(questions[category.id]){
+        					questions[category.id].forEach(question => {
+        						inclusions += `${question.name}<br>`;
+        					});
+
+        					list += `
+        						- <b>${category.name}</b><br>
+	        					${inclusions}<br>
+        					`;
+        				}
+    				});
+
 		        	Swal.fire({
 		        		title: "Result/Impressions",
 		        		html: `
-		        			<div id="summernote">${result.remarks ?? ""}</div>
+		        			<div class="row">
+		        				<div class="col-md-2" style="text-align: left;">
+		        					<h2><u><b>Inclusions</b></u></h2>
+		        					<br>
+		        					${list}
+		        				</div>
+		        				<div class="col-md-10">
+		        					<div id="summernote">${result.remarks ?? ""}</div>
+		        				</div>
+		        			</div>
 		        		`,
 		                width: 1500,
 		                confirmButtonText: "Save",
