@@ -50,6 +50,7 @@
 	<link rel="stylesheet" href="{{ asset('css/datatables.bundle.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/summernote.min.css') }}">
 
 	<style>
 		.label{
@@ -82,6 +83,7 @@
 	<script src="{{ asset('js/flatpickr.min.js') }}"></script>
 	<script src="{{ asset('js/select2.min.js') }}"></script>
 	<script src="{{ asset('js/numeral.min.js') }}"></script>
+	<script src="{{ asset('js/summernote.min.js') }}"></script>
 
 	<script>
 		var fFname = "%%";
