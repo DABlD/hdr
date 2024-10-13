@@ -386,7 +386,7 @@
         			else{
         				packageString = `
 	        				<tr>
-	        					<td colspan="3" style="text-align: center;">No Package Requested</td>
+	        					<td colspan="4" style="text-align: center;">No Package Requested</td>
 	        				</tr>
 	        			`;
         			}
