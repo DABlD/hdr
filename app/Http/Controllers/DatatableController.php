@@ -37,10 +37,10 @@ class DatatableController extends Controller
         }
 
         // IF HAS JOIN
-        // if($req->join){
-        //     $alias = substr($req->join, 1);
-        //     $array = $array->join("$req->join as $alias", "$alias.fid", '=', 'users.id');
-        // }
+        if($req->join){
+            $alias = substr($req->join, 0,1);
+            $array = $array->join("$req->join as $alias", "$alias.user_id", '=', 'users.id');
+        }
 
         if(isset($req->filters)){
             $filters = $req->filters;
@@ -48,6 +48,7 @@ class DatatableController extends Controller
             $array = $array->where(function($q) use($filters){
                 $q->where('fname', 'LIKE', $filters["fFname"]);
                 $q->where('lname', 'LIKE', $filters["fLname"]);
+                $q->where('company_name', 'LIKE', $filters["fCompany"]);
             });
         }
 

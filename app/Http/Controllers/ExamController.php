@@ -8,14 +8,20 @@ use App\Models\{Patient, Package};
 class ExamController extends Controller
 {
     public function ape(){
+        $companies = Patient::pluck('company_name')->unique();
+
         return $this->_view('ape', [
-            'title' => "APE"
+            'title' => "APE",
+            'companies' => $companies
         ]);
     }
 
     public function pee(){
+        $companies = Patient::pluck('company_name')->unique();
+
         return $this->_view('pe', [
-            'title' => "PE"
+            'title' => "PE",
+            'companies' => $companies
         ]);
     }
 

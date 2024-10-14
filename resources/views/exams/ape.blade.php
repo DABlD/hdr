@@ -88,6 +88,7 @@
 	<script>
 		var fFname = "%%";
 		var fLname = "%%";
+		var fCompany = "%%";
 
 		$(document).ready(()=> {
 			var table = $('#table').DataTable({
@@ -96,11 +97,12 @@
                 	dataType: "json",
                 	dataSrc: "",
 	                data: f => {
-	                    f.select = "*";
+	                    f.select = ["users.*", "p.company_name"];
 	                    f.filters = getFilters();
 	                    f.where = ["role", "Patient"];
 	                    f.where2 = ["type", "APE"];
 	                    f.load = ["patient"];
+	                    f.join = "patients"
 	                }
 				},
 				columns: [
@@ -125,6 +127,8 @@
 	            ],
 			});
 
+			$('#fCompany').select2();
+
 			$('#fFname').on('change', e => {
 	            e = $(e.target);
 	            fFname = e.val();
@@ -134,12 +138,18 @@
 	            e = $(e.target);
 	            fLname = e.val();
 	        });
+
+			$('#fCompany').on('change', e => {
+	            e = $(e.target);
+	            fCompany = e.val();
+	        });
 		});
 
 		function getFilters(){
             return {
                 fFname: fFname,
                 fLname: fLname,
+                fCompany: fCompany,
             }
         }
 
