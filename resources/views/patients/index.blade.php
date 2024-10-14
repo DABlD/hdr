@@ -109,7 +109,7 @@
         		pageLength: 25,
 	            columnDefs: [
 	                {
-	                    targets: 4,
+	                    targets: 5,
 	                    render: birthday => {
 	                        return birthday ? toDate(birthday) + " " + `(${moment().diff(birthday, 'years')})` : "-";
 	                    },
