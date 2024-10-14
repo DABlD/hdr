@@ -20,6 +20,7 @@
                     	<table id="table" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
+                    				<th>Company</th>
                     				<th>Patient ID</th>
                     				<th>Surname</th>
                     				<th>First Name</th>
@@ -95,6 +96,7 @@
 					}
 				},
 				columns: [
+					{data: 'patient.company_name'},
 					{data: 'patient.patient_id'},
 					{data: 'lname'},
 					{data: 'fname'},
