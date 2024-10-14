@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\{EmployeeImport};
 
+use App\Helpers\Helper;
+
 class CompanyController extends Controller
 {
     public function dashboard(Request $req){
@@ -18,6 +20,8 @@ class CompanyController extends Controller
 
     public function import(Request $req){
         Excel::import(new EmployeeImport($req->company), $req->file('excel'));
+
+        Helper::log(auth()->user()->id, 'Imported Employees', 0);
     }
 
     private function _view($view, $data = array()){
