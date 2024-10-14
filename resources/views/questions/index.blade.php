@@ -34,7 +34,7 @@
                     			<tr>
                     				<th>Name</th>
                     				<th>Amount</th>
-                    				<th>Actions</th>
+                    				<th style="width: 130px;">Actions</th>
                     			</tr>
                     		</thead>
                     		<tbody>
