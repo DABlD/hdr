@@ -30,6 +30,7 @@ class PatientPackageSeeder extends Seeder
                 $temp->patient_id = $patient->id;
                 $temp->package_id = $package['id'];
                 $temp->details = json_encode($package);
+                $temp->created_at = now()->subDays(rand(0, 7))->toDateTimeString();
                 $temp->save();
 
                 $user = User::find($patient->user_id);

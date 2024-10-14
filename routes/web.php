@@ -30,6 +30,8 @@ Route::group([
         'middleware' => 'auth',
     ], function() {
         Route::get('/', "DashboardController@index")->name('dashboard');
+        Route::get('getReport1', "DashboardController@getReport1")->name('getReport1');
+        Route::get('getReport2', "DashboardController@getReport2")->name('getReport2');
 
 
         Route::get('/', 'DashboardController@index')

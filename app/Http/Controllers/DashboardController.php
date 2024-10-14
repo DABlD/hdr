@@ -30,6 +30,159 @@ class DashboardController extends Controller
         ]);
     }
 
+    function getReport1(Request $req){
+        $dates = $this->getDates($req->from, $req->to);
+
+        $temp = [];
+        $temp2 = []; //APE
+        $temp3 = []; //PEE
+        foreach($dates as $date){
+            $date = now()->parse($date)->toDateString();
+            $temp[$date] = 0;
+            $temp2[$date] = 0;
+            $temp3[$date] = 0;
+        }
+
+        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])->get();
+
+        foreach($data as $request){
+            $temp[now()->parse($request->created_at)->toDateString()]++;
+
+            if($request->type == "APE"){
+                $temp2[now()->parse($request->created_at)->toDateString()]++;
+            }
+            else{
+                $temp3[now()->parse($request->created_at)->toDateString()]++;
+            }
+        }
+
+        $labels = [];
+        foreach($dates as $date){
+            array_push($labels, now()->parse($date)->format('M d'));
+        }
+
+        // $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        // $color2 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        // $color3 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+
+        $color = "#36a2eb";
+        $color2 = "#fe6383";
+        $color3 = "#4ac0c0";
+
+        $dataset = [
+            [
+                'label' => "Total",
+                'data' => array_values($temp),
+                'borderColor' => $color,
+                'backgroundColor' => $color,
+                'hoverRadius' => 10,
+                'tension' => 0.1
+            ],
+            [
+                'label' => "APE",
+                'data' => array_values($temp2),
+                'borderColor' => $color2,
+                'backgroundColor' => $color2,
+                'hoverRadius' => 10,
+                'tension' => 0.1
+            ],
+            [
+                'label' => "PEE",
+                'data' => array_values($temp3),
+                'borderColor' => $color3,
+                'backgroundColor' => $color3,
+                'hoverRadius' => 10,
+                'tension' => 0.1
+            ]
+        ];
+
+        echo json_encode(['labels' => $labels, 'dataset' => $dataset]);
+    }
+
+    function getReport2(Request $req){
+        $dates = $this->getDates($req->from, $req->to);
+
+        $temp = [];
+        $temp2 = []; //APE
+        $temp3 = []; //PEE
+        foreach($dates as $date){
+            $date = now()->parse($date)->toDateString();
+            $temp[$date] = 0;
+            $temp2[$date] = 0;
+            $temp3[$date] = 0;
+        }
+
+        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])->get();
+
+        foreach($data as $request){
+            $details = json_decode($request->details);
+            $amount = $details->amount;
+
+            $temp[now()->parse($request->created_at)->toDateString()] += $amount;
+
+            if($request->type == "APE"){
+                $temp2[now()->parse($request->created_at)->toDateString()] += $amount;
+            }
+            else{
+                $temp3[now()->parse($request->created_at)->toDateString()] += $amount;
+            }
+        }
+
+        $labels = [];
+        foreach($dates as $date){
+            array_push($labels, now()->parse($date)->format('M d'));
+        }
+
+        // $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        // $color2 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        // $color3 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+
+        $color = "#ff9f40";
+        $color2 = "#9966ff";
+        $color3 = "#ffcc55";
+
+        $dataset = [
+            [
+                'label' => "Total",
+                'data' => array_values($temp),
+                'borderColor' => $color,
+                'backgroundColor' => $color,
+                'hoverRadius' => 10,
+                'tension' => 0.1
+            ],
+            [
+                'label' => "APE",
+                'data' => array_values($temp2),
+                'borderColor' => $color2,
+                'backgroundColor' => $color2,
+                'hoverRadius' => 10,
+                'tension' => 0.1
+            ],
+            [
+                'label' => "PEE",
+                'data' => array_values($temp3),
+                'borderColor' => $color3,
+                'backgroundColor' => $color3,
+                'hoverRadius' => 10,
+                'tension' => 0.1
+            ]
+        ];
+
+        echo json_encode(['labels' => $labels, 'dataset' => $dataset]);
+    }
+
+    private function getDates($from, $to){
+            $dates = [];
+
+            while($from <= $to){
+                $tempDate = now()->parse($from);
+                array_push($dates, $tempDate->toDateString());
+                $from = $tempDate->addDay()->toDateString();
+            }
+
+            return $dates;
+        }
+
     private function _view($view, $data = array()){
         return view($view, $data);
     }
