@@ -572,6 +572,9 @@
         						${userString}
         					</select>
         				`,
+        				didOpen: () => {
+        					$('#ptadd').select2()
+        				},
         				preConfirm: () => {
         					let id = $('#ptadd').val();
 
