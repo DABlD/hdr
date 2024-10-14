@@ -172,20 +172,25 @@
 	        				let list = "";
 	        				let questions = Object.groupBy(package.questions, ({ category_id }) => category_id);
 
-	        				questions[null].forEach(category => {
-		        				let inclusions = "";
+	        				if(questions[null]){
+		        				questions[null].forEach(category => {
+			        				let inclusions = "";
 
-		        				if(questions[category.id]){
-		        					questions[category.id].forEach(question => {
-		        						inclusions += `${question.name}<br>`;
-		        					});
+			        				if(questions[category.id]){
+			        					questions[category.id].forEach(question => {
+			        						inclusions += `${question.name}<br>`;
+			        					});
 
-		        					list += `
-		        						- <b>${category.name}</b><br>
-			        					${inclusions}<br>
-		        					`;
-		        				}
-	        				});
+			        					list += `
+			        						- <b>${category.name}</b><br>
+				        					${inclusions}<br>
+			        					`;
+			        				}
+		        				});
+	        				}
+	        				else{
+	        					list = "No Inclusions";
+	        				}
 
 	        				packageString += `
 	        						<td>
