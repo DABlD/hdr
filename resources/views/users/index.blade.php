@@ -64,7 +64,8 @@
 						select: "*",
 						where: ["role", "!=", "Super Admin"],
 						where2: ["role", "!=", "Patient"],
-						where3: ["role", "!=", "Admin"]
+						where3: ["role", "!=", "Admin"],
+						where3: ["role", "!=", "Company"]
 					}
 				},
 				columns: [

@@ -31,6 +31,11 @@ class DatatableController extends Controller
             $array = $array->where($req->where3[0], isset($req->where3[2]) ? $req->where3[1] : "=", $req->where3[2] ?? $req->where3[1]);
         }
 
+        // IF HAS WHERE4
+        if($req->where4){
+            $array = $array->where($req->where4[0], isset($req->where4[2]) ? $req->where4[1] : "=", $req->where4[2] ?? $req->where4[1]);
+        }
+
         // IF HAS JOIN
         // if($req->join){
         //     $alias = substr($req->join, 1);
