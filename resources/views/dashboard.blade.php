@@ -7,12 +7,12 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
-                        <p>New Orders</p>
+                        <h3>{{ $users }}</h3>
+                        <p>Total Patients</p>
                     </div>
 
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="nav-icon fas fa-users"></i>
                     </div>
                 </div>
             </div>
@@ -20,11 +20,11 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-                        <p>Bounce Rate</p>
+                        <h3>{{ $companies }}</h3>
+                        <p>Total Companies</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="nav-icon fas fa-buildings"></i>
                     </div>
                 </div>
             </div>
@@ -32,12 +32,12 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
-                        <p>New Orders</p>
+                        <h3>{{ $ppcount }}</h3>
+                        <p>Packages Sold</p>
                     </div>
 
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="nav-icon fas fa-cubes"></i>
                     </div>
                 </div>
             </div>
@@ -45,11 +45,11 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-                        <p>Bounce Rate</p>
+                        <h3>₱{{ number_format($total, 2) }}</h3>
+                        <p>Total Sold</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="nav-icon fas fa-sack-dollar"></i>
                     </div>
                 </div>
             </div>
