@@ -149,6 +149,12 @@
                                         Account Information
                                     </a>
                                 </li>
+                                &nbsp;
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#tab4" data-toggle="tab">
+                                        Clinic Settings
+                                    </a>
+                                </li>
                             </ul>
                         </h3>
                     </div>
@@ -216,6 +222,38 @@
 
                                 <div class="float-right">
                                     <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save3()">
+                                        Save
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="chart tab-pane" id="tab4" style="position: relative;">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div style="text-align: center;">
+                                            <img src="{{ isset($settings['logo']) ? $settings['logo'] : "-" }}" alt="No Logo" width="100%" id="preview3">
+
+                                            <br>
+                                            <label for="files3" class="btn">Upload New Logo</label>
+                                            <input id="files3" class="d-none" type="file" accept="image/*">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            {{ $col("Clinic Name", "clinic_name", isset($settings['clinic_name']) ? $settings['clinic_name'] : "", "text", 6) }}
+                                            {{ $col("Contact", "contact_no", isset($settings['contact_no']) ? $settings['contact_no'] : "", "text", 3) }}
+                                            {{ $col("PF", "pf", isset($settings['pf']) ? $settings['pf'] : "", "number", 3) }}
+                                        </div>
+
+                                        <div class="row">
+                                            {{ $col("Address", "sAddress", isset($settings['address']) ? $settings['address'] : "") }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="float-right">
+                                    <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save5()">
                                         Save
                                     </a>
                                 </div>
@@ -376,6 +414,17 @@
                 updateSignature();
             });
 
+            // PREVIEW LOGO
+            $('#files3').on('change', e => {
+                var reader3 = new FileReader();
+                reader3.onload = function (e) {
+                    $('#preview3').attr('src', e.target.result);
+                }
+
+                reader3.readAsDataURL(e.target.files[0]);
+                updateLogo();
+            });
+
             // FILL FIELDS
             $('#suffix').val("{{ $data->user->suffix }}")
             $('#gender').val("{{ $data->user->gender }}")
@@ -400,6 +449,10 @@
             $('[href="#tab3"]').on('click', () => {
                 $('.hidden').hide();
                 $('.group3').show();
+            });
+
+            $('[href="#tab4"]').on('click', () => {
+                $('.hidden').hide();
             });
 
             $('[href="#tab1"]').click();
@@ -436,6 +489,20 @@
 
             ss('Success');
             reload();
+        }
+
+        async function updateLogo(){
+            let formData = new FormData();
+
+            formData.append('logo', $("#files3").prop('files')[0]);
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+            await fetch('{{ route('setting.update') }}', {
+                method: "POST", 
+                body: formData
+            });
+
+            ss('Successfully Updated');
         }
 
         function selectRow(row){
@@ -858,6 +925,19 @@
             else{
                 se("Password not match. Try Again");
             }
+        }
+
+        function save5(){
+            update({
+                url: "{{ route("setting.update") }}",
+                data: {
+                    clinic_name: $('#clinic_name').val(),
+                    contact_no: $('#contact_no').val(),
+                    pf: $('#pf').val(),
+                    address: $('#sAddress').val()
+                },
+                message: "Success"
+            })
         }
 
         function getMedicalAssociation(){

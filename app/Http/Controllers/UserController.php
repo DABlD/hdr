@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{User, Doctor, Nurse};
+use App\Models\{User, Doctor, Nurse, Setting};
 use DB;
 use Auth;
 use Image;
@@ -204,10 +204,13 @@ class UserController extends Controller
         $nurse = Nurse::where('doctor_id', auth()->user()->id)->get();
         $nurse->load('user');
 
+        $settings = Setting::pluck('value', 'name');
+
         return $this->_view('profile', [
             'title' => "Profile",
             'data' => $user,
             'nurses' => $nurse,
+            'settings' => $settings
         ]);
     }
 
