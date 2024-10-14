@@ -36,7 +36,7 @@ class EmployeeImport implements ToCollection
                 $user->prefix = $data[$i][3];
                 $user->suffix = $data[$i][4];
                 $user->gender = $data[$i][5];
-                $user->birthday = $data[$i][6];
+                $user->birthday = $data[$i][6] != "" ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data[$i][6]) : "";
                 $user->civil_status = $data[$i][7];
                 $user->birth_place = $data[$i][8];
                 $user->address = $data[$i][9];
