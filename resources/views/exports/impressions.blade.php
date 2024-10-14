@@ -6,16 +6,33 @@
 	    right: 0px;
 	    height: 40px; 
 	}
+
+	.texts{
+		text-align: center;
+	}
 </style>
 
 <table>
-	<tr>
-		<td colspan="8">
-			<img src="{{ public_path('images/letterhead.png') }}" height="130px" width="730px">
+	<tr style="height: 10px;">
+		<td colspan="2">
+			<img src="{{ $settings['logo'] }}" alt="No Logo Uploaded" width="150px">
+		</td>
+		<td colspan="6" class="texts">
+			<span style="font-weight: bold; font-size: 20px;">{{ $settings['clinic_name'] }}</span>
+			<br>
+			{{ $settings['address'] }}
+			<br>
+			{{ $settings['contact_no'] }}
+			<br>
+			Accredited by the Department of Health (DOH)
+			<br>
+			Philippines Overseas Employement Administration (POEA)
+			<br>
+			ISO Certified
 		</td>
 	</tr>
 
-	<tr><td colspan="8" style="height: 30px;"></td></tr>
+	<tr><td colspan="8" style="height: 50px;"></td></tr>
 
 	<tr>
 		<td colspan="6"></td>

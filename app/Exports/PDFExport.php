@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use PDF;
+use App\Models\Setting;
 // use App\Models\{LineUpContract};
 
 class PDFExport
@@ -14,7 +15,9 @@ class PDFExport
     }
 
     public function download(){
-        $pdf = PDF::loadView('exports.' . $this->type, ['data' => $this->data]);
+        $settings = Setting::pluck('value', 'name');
+
+        $pdf = PDF::loadView('exports.' . $this->type, ['data' => $this->data, 'settings' => $settings]);
         $pdf->setPaper('a4', 'Portrait');
         return $pdf->download($this->filename . '.pdf');
     }
