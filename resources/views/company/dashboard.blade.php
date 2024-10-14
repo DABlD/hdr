@@ -592,6 +592,80 @@
             })
         }
 
+        function requestList(id){
+            $.ajax({
+                url: '{{ route('patientPackage.get') }}',
+                data: {
+                    select: "*",
+                    where: ["user_id", id],
+                    load: ["package"]
+                },
+                success: result => {
+                    result = JSON.parse(result);
+
+                    let packageString = "";
+
+                    if(result.length){
+                        result.forEach(pPackage => {
+                            packageString += `
+                                <tr>
+                                    <td>${pPackage.package.name}</td>
+                                    <td>${pPackage.type}</td>
+                                    <td>${toDateTime(pPackage.created_at)}</td>
+                                    <td>
+                                        <a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false})">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    }
+                    else{
+                        packageString = `
+                            <tr>
+                                <td colspan="4" style="text-align: center;">No Package Requested</td>
+                            </tr>
+                        `;
+                    }
+
+                    Swal.fire({
+                        title: "Package Request List",
+                        html: `
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Package Name</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${packageString}
+                                </tbody>
+                            </table>
+                        `,
+                        width: '700px',
+                        confirmButtonText: 'OK',
+                    })
+                }
+            })
+        }
+
+        function pdfExport(id, rLength){
+            if(!rLength){
+                se("Their are no available Result/Impressions");
+            }
+            else{
+                let data = {};
+                data.id = id;
+                data.type = "RI";
+
+                window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
+            }
+        }
+
         function importEmployees(){
             Swal.fire({
                 title: 'Select Excel File',
