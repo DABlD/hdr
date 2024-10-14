@@ -61,7 +61,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-chart-pie mr-1"></i>
-                            Sales
+                            Reports
                         </h3>
 
                         <div class="card-tools">
