@@ -226,7 +226,7 @@
 				html: `
 					${input('fname', 'Name', null, 3, 9)}
 					<br>
-					${input('username', 'Username', null, 3, 9, 'password')}
+					${input('username', 'Username', null, 3, 9)}
 					${input('password', 'Password', null, 3, 9, 'password')}
 				`,
 				preConfirm: () => {
@@ -314,9 +314,6 @@
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
 											<i class="fas fa-pencil"></i>
 										</a>
-										<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Employee Input Link" onclick="employeeLink('${a.company}')">
-											<i class="fas fa-link"></i>
-										</a>
 										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="deletePackage(${a.id})">
 											<i class="fas fa-trash"></i>
 										</a>
@@ -366,13 +363,6 @@
 					}
 					$('#LaboratoryTable tbody').html(lString);
 				}
-			})
-		}
-
-		function employeeLink(company){
-			Swal.fire({
-				title: "Copy Link",
-				text: "{{ route('company.dashboard') }}" + "?code=" + btoa(company)
 			})
 		}
 
