@@ -11,7 +11,7 @@ use App\Helpers\Helper;
 class CompanyController extends Controller
 {
     public function dashboard(Request $req){
-        $company = base64_decode($req->code);
+        $company = auth()->user()->fname;
 
         return $this->_view('company.dashboard', [
             'title' => $company
