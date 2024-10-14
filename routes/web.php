@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+// Route::get('company/dashboard', "CompanyController@dashboard")->name('company.dashboard');
+// Route::post('company/import', "CompanyController@import")->name('company.import');
+
 Route::get('/', function(){
    return redirect()->route('login');
 });
-
-Route::get('company/dashboard', "CompanyController@dashboard")->name('company.dashboard');
-Route::post('company/import', "CompanyController@import")->name('company.import');
 
 Route::group([
         'middleware' => 'auth',
@@ -123,6 +123,18 @@ Route::group([
                 Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
                 Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
                 Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
+            }
+        );
+
+        // COMPANY ROUTES
+        $cname = "company";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+
+                Route::get("dashboard/", ucfirst($cname) . "Controller@dashboard")->name('dashboard');
+                Route::post("import/", ucfirst($cname) . "Controller@import")->name('import');
             }
         );
 

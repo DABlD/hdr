@@ -21,8 +21,14 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             Helper::log(auth()->user()->id, 'logged in.');
+
+            if(auth()->user()->role == "Company"){
+                return redirect()->route('company.dashboard');
+            }
+            else{
+                return redirect()->route('dashboard');
+            }
     
-            return redirect()->route('dashboard');
         }
     
         return back()->withErrors([
