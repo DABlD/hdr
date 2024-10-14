@@ -46,6 +46,34 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
+                            <i class="fas fa-building mr-1"></i>
+                            Companies
+                        </h3>
+                        
+                        <h3 class="float-right">
+                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Company" onclick="createCompany()">
+                                <i class="fas fa-plus fa-2xl"></i>
+                            </a>
+                        </h3>
+                    </div>
+
+                    <div class="card-body table-responsive">
+                    	<table id="companyTable" class="table table-hover" style="width: 100%;">
+                    		<thead>
+                    			<tr>
+                    				<th>Name</th>
+                    				<th>Actions</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody>
+                    		</tbody>
+                    	</table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
                             <i class="fas fa-table mr-1"></i>
                             History
                         </h3>
@@ -150,17 +178,32 @@
 
 		function loadCompanies(){
 			$.ajax({
-				url: '{{ route('package.getCompanies') }}',
+				url: '{{ route('user.get') }}',
+				data: {
+					select: "*",
+					where: ["role", "Company"]
+				},
 				success: result => {
 					result = JSON.parse(result);
 
-					let companyString = '<option>Select Company</option>';
+					let companyString = '<option>Filter by Company</option>';
+					let companyTableString = null;
+
 					result.forEach(company => {
-						if(company){
-							companyString += `
-								<option value="${company}">${company}</option>
-							`;
-						}
+						companyString += `
+							<option value="${company.fname}">${company.fname}</option>
+						`;
+
+						companyTableString += `
+							<tr>
+								<td>${company.fname}</td>
+								<td>
+									<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="deleteCompany(${company.id})">
+										<i class="fas fa-trash"></i>
+									</a>
+								</td>
+							</tr>
+						`;
 					});
 
 					$('#fCompany').html(companyString);
@@ -171,8 +214,66 @@
 						loadPackages();
 						clearPackageView();
 					});
+
+					$('#companyTable tbody').html(companyTableString ?? "<tr><td colspan='2'>No Company Added</td></tr>")
+				}
+			});
+		}
+
+		function createCompany(){
+			Swal.fire({
+				title: "Enter Company Details",
+				html: `
+					${input('fname', 'Name', null, 3, 9)}
+					<br>
+					${input('username', 'Username', null, 3, 9, 'password')}
+					${input('password', 'Password', null, 3, 9, 'password')}
+				`,
+				preConfirm: () => {
+					let name = $('[name="fname"]').val();
+					let username = $('[name="username"]').val();
+					let password = $('[name="password"]').val();
+
+					if(name == "" || password == "" || username == ""){
+						Swal.showValidationMessage("Fill all details");
+					}
+				}
+			}).then(result => {
+				if(result.value){
+					$.ajax({
+						url: "{{ route('user.store') }}",
+						type: "POST",
+						data: {
+							fname: $('[name="fname"]').val(),
+							role: "Company",
+							username: $('[name="username"]').val(),
+							password: $('[name="password"]').val(),
+							_token: $('meta[name="csrf-token"]').attr('content')
+						},
+						success: result => {
+							ss("Successfully Added Company");
+							loadCompanies();
+							loadPackages();
+						}
+					})
 				}
 			})
+		}
+
+		function deleteCompany(id){
+			sc("Confirmation", "Are you sure you want to delete?", result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('user.delete') }}",
+						data: {id: id},
+						message: "Success"
+					}, () => {
+						loadCompanies();
+						loadPackages();
+					})
+				}
+			});
 		}
 
 		// PACKAGES FUNCTIONS
@@ -279,18 +380,48 @@
 			Swal.fire({
 				title: 'Input Package Details',
 				html: `
+					<div class="row iRow">
+					    <div class="col-md-3 iLabel">
+					        Company
+					    </div>
+					    <div class="col-md-9 iInput">
+					        <select name="company" class="form-control">
+					        	<option value="">Select Company</option>
+					        </select>
+					    </div>
+					</div>
+
 					${input('name', 'Name', null, 3, 9)}
-					${input('company', 'Company', null, 3, 9)}
 					${input('amount', 'Amount', null, 3, 9, 'number', 'min=0')}
 				`,
 				showCancelButton: true,
 				cancelButtonColor: errorColor,
+				didOpen: () => {
+					$.ajax({
+						url: "{{ route('user.get') }}",
+						data: {
+							select: "fname",
+							where: ["role", "Company"]
+						},
+						success: result => {
+							result = JSON.parse(result);
+
+							result.forEach(company => {
+								$('[name="company"]').append(`
+									<option value="${company.fname}">${company.fname}</option>
+								`);
+							});
+
+							$('[name="company"]').select2();
+						}
+					})
+				},
 				preConfirm: () => {
 				    swal.showLoading();
 				    return new Promise(resolve => {
 				    	let bool = true;
-
-			            if($('.swal2-container input:placeholder-shown').length){
+				    	
+			            if($('.swal2-container input:placeholder-shown').length || $('[name="company"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
 

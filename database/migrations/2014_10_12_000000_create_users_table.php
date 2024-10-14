@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('kyc_id')->nullable();
             $table->string('username')->unique();
-            $table->enum('role', ['Super Admin', 'Admin', 'Doctor', 'Nurse', 'Patient', 'Receptionist'])->nullable();
+            $table->enum('role', ['Super Admin', 'Admin', 'Doctor', 'Nurse', 'Patient', 'Receptionist', 'Company'])->nullable();
             
             $table->string('prefix')->nullable();
             $table->string('fname')->nullable();
