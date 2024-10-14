@@ -26,8 +26,8 @@
                     				<th>First Name</th>
                     				<th>Gender</th>
                     				<th>Age</th>
-                    				<th>Contact</th>
-                    				<th>Nationality</th>
+                    				<th>Package</th>
+                    				<th>Amount</th>
                     				<th>Actions</th>
                     			</tr>
                     		</thead>
@@ -101,7 +101,7 @@
 	                    f.filters = getFilters();
 	                    f.where = ["role", "Patient"];
 	                    f.where2 = ["type", "PEE"];
-	                    f.load = ["patient"];
+	                    f.load = ["patient.exams"];
 	                    f.join = "patients"
 	                }
 				},
@@ -112,8 +112,8 @@
 					{data: 'fname'},
 					{data: 'gender'},
 					{data: 'birthday'},
-					{data: 'contact'},
-					{data: 'nationality'},
+					{data: 'id'},
+					{data: 'id'},
 					{data: 'medical'}
 				],
         		pageLength: 25,
@@ -122,6 +122,42 @@
 	                    targets: 5,
 	                    render: birthday => {
 	                        return birthday ? toDate(birthday) + " " + `(${moment().diff(birthday, 'years')})` : "-";
+	                    },
+	                },
+	                {
+	                    targets: 6,
+	                    render: (a,b,row) => {
+	                    	if(row.patient.exams.length){
+	                    		let latestPackage = "";
+
+	                    		row.patient.exams.forEach(exam => {
+	                    			let temp = JSON.parse(exam.details);
+	                    			latestPackage = temp.name;
+	                    		});
+
+	                    		return latestPackage;
+	                    	}
+	                    	else{
+	                        	return "-";
+	                    	}
+	                    },
+	                },
+	                {
+	                    targets: 7,
+	                    render: (a,b,row) => {
+	                    	if(row.patient.exams.length){
+	                    		let amount = 0;
+
+	                    		row.patient.exams.forEach(exam => {
+	                    			let temp = JSON.parse(exam.details);
+	                    			amount += temp.amount;
+	                    		});
+
+	                    		return "₱" + numeral(amount).format("0,0");
+	                    	}
+	                    	else{
+	                        	return "-";
+	                    	}
 	                    },
 	                }
 	            ],
