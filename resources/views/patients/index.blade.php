@@ -83,17 +83,21 @@
 	<script src="{{ asset('js/numeral.min.js') }}"></script>
 
 	<script>
+		var fCompany = "%%";
+
 		$(document).ready(()=> {
 			var table = $('#table').DataTable({
 				ajax: {
 					url: "{{ route('datatable.user') }}",
                 	dataType: "json",
                 	dataSrc: "",
-					data: {
-						select: "*",
-						where: ["role", "=", "Patient"],
-						load: ['patient']
-					}
+	                data: f => {
+	                    f.select = ["users.*", "p.company_name"];
+	                    f.filters = getFilters();
+	                    f.where = ["role", "Patient"];
+	                    f.load = ["patient"];
+	                    f.join = "patients"
+	                }
 				},
 				columns: [
 					{data: 'patient.company_name'},
@@ -116,7 +120,19 @@
 	                }
 	            ],
 			});
+
+			$('#fCompany').on('change', e => {
+	            e = $(e.target);
+	            fCompany = e.val();
+	            reload();
+	        });
 		});
+		
+		function getFilters(){
+			return {
+			    fCompany: fCompany,
+			}
+		}
 
 		function view(id){
 			$.ajax({

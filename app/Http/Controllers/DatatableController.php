@@ -46,8 +46,12 @@ class DatatableController extends Controller
             $filters = $req->filters;
 
             $array = $array->where(function($q) use($filters){
-                $q->where('fname', 'LIKE', $filters["fFname"]);
-                $q->where('lname', 'LIKE', $filters["fLname"]);
+                if(isset($filters["fFname"])){
+                    $q->where('fname', 'LIKE', $filters["fFname"]);
+                }
+                else if(isset($filters["fFname"])){
+                    $q->where('lname', 'LIKE', $filters["fLname"]);
+                }
                 $q->where('company_name', 'LIKE', $filters["fCompany"]);
             });
         }
@@ -55,7 +59,7 @@ class DatatableController extends Controller
         $array = $array->get();
 
         // FOR ACTIONS
-        if(isset($req->filters)){
+        if(isset($req->filters) && sizeof($req->filters) > 1){
             foreach($array as $item){
                 $item->medical = $item->medical;
             }

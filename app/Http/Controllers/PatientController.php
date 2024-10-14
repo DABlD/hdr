@@ -128,8 +128,11 @@ class PatientController extends Controller
     }
 
     public function index(){
+        $companies = Patient::pluck('company_name')->unique();
+
         return $this->_view('index', [
-            'title' => ucfirst($this->table)
+            'title' => ucfirst($this->table),
+            'companies' => $companies
         ]);
     }
 
