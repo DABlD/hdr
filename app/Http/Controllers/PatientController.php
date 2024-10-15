@@ -128,7 +128,7 @@ class PatientController extends Controller
     }
 
     public function index(){
-        $companies = Patient::pluck('company_name')->unique();
+        $companies = User::where('role', 'Company')->distinct()->pluck('company');
 
         return $this->_view('index', [
             'title' => ucfirst($this->table),
