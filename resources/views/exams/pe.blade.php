@@ -604,7 +604,7 @@
 
         			users.forEach(user => {
         				userString += `
-        					<option value="${user.id}">${user.fname} ${user.lname} (${user.gender})</option>
+        					<option value="${user.id}">${user.fname} ${user.lname} (${user.gender ?? "-"})</option>
         				`;
         			});
 
