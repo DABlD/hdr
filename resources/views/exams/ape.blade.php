@@ -424,7 +424,7 @@
 	        				packageString += `
 	        					<tr>
 	        						<td>${pPackage.package.name}</td>
-	        						<td>${pPackage.type}</td>
+	        						<td>${pPackage.type == "PEE" ? "PPE" : pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
 	        						<td>
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">

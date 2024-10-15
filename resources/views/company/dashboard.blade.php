@@ -610,7 +610,7 @@
                             packageString += `
                                 <tr>
                                     <td>${pPackage.package.name}</td>
-                                    <td>${pPackage.type}</td>
+                                    <td>${pPackage.type == "PEE" ? "PPE" : pPackage.type}</td>
                                     <td>${toDateTime(pPackage.created_at)}</td>
                                     <td>
                                         <a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false})">
