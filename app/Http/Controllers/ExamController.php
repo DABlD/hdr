@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Patient, Package};
+use App\Models\{Patient, Package, User};
 
 class ExamController extends Controller
 {
     public function ape(){
-        $companies = Patient::pluck('company_name')->unique();
+        $companies = User::where('role', 'Company')->distinct()->pluck('fname');
 
         return $this->_view('ape', [
             'title' => "APE",
@@ -17,7 +17,7 @@ class ExamController extends Controller
     }
 
     public function pee(){
-        $companies = Patient::pluck('company_name')->unique();
+        $companies = User::where('role', 'Company')->distinct()->pluck('fname');
 
         return $this->_view('pe', [
             'title' => "PE",
