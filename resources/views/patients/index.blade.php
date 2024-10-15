@@ -264,7 +264,18 @@
 					    <div class="chart tab-pane" id="tab3" style="position: relative;">
 					    	<br>
 			                ${input("employment_status", "Employment Status", null, 3, 9)}
-			                ${input("company_name", "Company Name", null, 3, 9)}
+
+			                <div class="row iRow">
+	        				    <div class="col-md-3 iLabel">
+	        				        Company Name
+	        				    </div>
+	        				    <div class="col-md-9 iInput">
+	        				        <select name="company_name" class="form-control">
+	        				        	<option value="">Select Company</option>
+	        				        </select>
+	        				    </div>
+	        				</div>
+
 			                ${input("company_position", "Position", null, 3, 9)}
 			                ${input("company_contact", "Contact", null, 3, 9)}
 			                ${input("sss", "SSS", null, 3, 9)}
@@ -298,6 +309,24 @@
 
 					    reader.readAsDataURL(e.target.files[0]);
 					});
+
+					$.ajax({
+						url: "{{ route('package.getCompanies') }}",
+						success: companies => {
+							companies = JSON.parse(companies);
+							let companyString = "";
+
+							companies.forEach(company => {
+								if(company != null){
+									companyString += `
+										<option value="${company}">${company}</option>
+									`;
+								}
+							});
+
+							$('[name="company_name"]').append(companyString);
+						}
+					})
 				},
 				preConfirm: () => {
 				    swal.showLoading();
