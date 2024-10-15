@@ -611,7 +611,8 @@
         		data: {
         			select: "*",
         			where: ["role", "Patient"],
-        			where2: ["type", "!=", "APE"]
+        			where2: ["type", "!=", "APE"],
+        			load: ['patient']
         		},
         		success: users => {
         			users = JSON.parse(users);
@@ -619,7 +620,7 @@
 
         			users.forEach(user => {
         				userString += `
-        					<option value="${user.id}">${user.fname} ${user.lname} (${user.gender ?? "-"})</option>
+        					<option value="${user.id}">${user.fname} ${user.lname} - ${user.patient.company_name} (${user.gender ?? "-"})</option>
         				`;
         			});
 
