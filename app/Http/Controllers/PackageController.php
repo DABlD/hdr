@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Package;
+use App\Models\{Package, User};
 
 use App\Helpers\Helper;
 use DB;
@@ -60,7 +60,8 @@ class PackageController extends Controller
     }
 
     public function getCompanies(){
-        echo Package::distinct()->pluck('company');
+        echo User::where('role', 'Company')->distinct()->pluck('company');
+        // echo Package::distinct()->pluck('company');
     }
 
     public function store(Request $req){
