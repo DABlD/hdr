@@ -60,7 +60,7 @@ class PackageController extends Controller
     }
 
     public function getCompanies(){
-        echo User::where('role', 'Company')->distinct()->pluck('company');
+        echo User::where('role', 'Company')->distinct()->pluck('fname');
         // echo Package::distinct()->pluck('company');
     }
 
