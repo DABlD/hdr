@@ -85,13 +85,13 @@
 		<tr>
 			<td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 			<td colspan="3" style="text-decoration: underline; text-align: center;">
-				{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}
+				{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, {{ auth()->user()->doctor->title }}
 			</td>
 		</tr>
 		<tr>
 			<td colspan="5"></td>
 			<td colspan="3" style="text-align: center;">
-				Doctor
+				{{ auth()->user()->doctor->specialization ?? "Doctor" }}
 			</td>
 		</tr>
 	</table>
