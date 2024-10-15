@@ -578,16 +578,26 @@
         }
 
         function pdfExport(id, rLength){
-        	if(!rLength){
-        		se("Their are no available Result/Impressions");
-        	}
-        	else{
-        		let data = {};
-        		data.id = id;
-        		data.type = "RI";
+        	$.ajax({
+        		url: "{{ route('setting.checkClinicSettings') }}",
+        		success: result => {
+        			if(result){
+			        	if(!rLength){
+			        		se("Their are no available Result/Impressions");
+			        	}
+			        	else{
+			        		let data = {};
+			        		data.id = id;
+			        		data.type = "RI";
 
-            	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
-        	}
+			            	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
+			        	}
+        			}
+        			else{
+        				se("Complete clinic settings first before exporting");
+        			}
+        		}
+        	})
         }
 
         function addPatient(){
