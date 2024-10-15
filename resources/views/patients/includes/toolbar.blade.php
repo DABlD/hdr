@@ -6,7 +6,9 @@
         <select class="form-control" id="fCompany">
             <option value="">All Company</option>
             @foreach($companies as $company)
-                <option value="{{ $company }}">{{ $company }}</option>
+                @if($company != null)
+                    <option value="{{ $company }}">{{ $company }}</option>
+                @endif
             @endforeach
         </select>
     </div>
