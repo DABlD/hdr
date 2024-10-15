@@ -46,6 +46,16 @@ class SettingController extends Controller
         echo json_encode($array);
     }
 
+    public function checkClinicSettings(){
+        $ctr = Setting::whereIn('name', ["logo","clinic_name","address","contact_no"])->count();
+        if($ctr >= 4){
+            echo true;
+        }
+        else{
+            echo false;
+        }
+    }
+
     public function update(Request $req){
         if($req->hasFile('logo')){
             $setting = Setting::where("name", "logo")->first();
