@@ -18,6 +18,10 @@ trait UserAttribute{
 					    "</a>&nbsp;";
 
 			if($this->role == "Patient"){
+				$action .= 	"<a class='btn btn-info' data-toggle='tooltip' title='Edit' onClick='edit($id)'>" .
+						        "<i class='fas fa-pencil'></i>" .
+						    "</a>&nbsp;";
+
 				$action .= 	"<a class='btn btn-primary' data-toggle='tooltip' title='History' onClick='medicalHistory($id)'>" .
 						        "<i class='fas fa-clipboard-prescription'></i>" .
 						    "</a>&nbsp;";	
