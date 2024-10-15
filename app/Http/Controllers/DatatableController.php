@@ -52,7 +52,19 @@ class DatatableController extends Controller
                 else if(isset($filters["fFname"])){
                     $q->where('lname', 'LIKE', $filters["fLname"]);
                 }
-                $q->where('company_name', 'LIKE', $filters["fCompany"]);
+            });
+
+            $array = $array->where(function($q) use($filters){
+                if($filters["fCompany"] == ""){
+                    $q->whereNull('company_name');
+                }
+                else{
+                    $q->where('company_name', 'LIKE', $filters["fCompany"]);
+
+                    if($filters["fCompany"] == "%%"){
+                        $q->orWhereNull('company_name');
+                    }
+                }
             });
         }
 
