@@ -455,7 +455,7 @@
                 						<th>Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
-                						<th>Result</th>
+                						<th style="width: 120px;">Result</th>
                 					</tr>
                 				</thead>
                 				<tbody>
@@ -463,7 +463,7 @@
                 				</tbody>
                 			</table>
 		        		`,
-						width: '700px',
+						width: '800px',
 						confirmButtonText: 'OK',
 		        	})
         		}
