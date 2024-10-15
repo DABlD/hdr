@@ -205,7 +205,7 @@
                                 <div class="row">
                                     {{ $col("Specialization", "specialization", $data->specialization) }}
                                     {{ $col("Pharma Partner", "pharma_partner", $data->pharma_partner) }}
-                                    {{ $col("Title", "Title", $data->title) }}
+                                    {{ $col("Title", "title", $data->title) }}
                                 </div>
 
                                 <div class="float-right">
@@ -307,7 +307,7 @@
 
 
                         <div class="float-right">
-                            <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save2()">
+                            <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save6()">
                                 Save
                             </a>
                         </div>
@@ -872,6 +872,24 @@
         }
 
         function save2(){
+            swal.showLoading();
+            update({
+                url: "{{ route('doctor.update') }}",
+                data: {
+                    id: {{ $data->id }},
+                    license_number: $('#license_number').val(),
+                    s2_number: $('#s2_number').val(),
+                    ptr: $('#ptr').val(),
+                    specialization: $('#specialization').val(),
+                    pharma_partner: $('#pharma_partner').val(),
+                    title: $('#title').val(),
+                }
+            }, () => {
+                ss("Success");
+            });
+        }
+
+        function save6(){
             swal.showLoading();
             update({
                 url: "{{ route('doctor.update') }}",
