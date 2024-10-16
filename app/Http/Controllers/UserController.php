@@ -188,6 +188,10 @@ class UserController extends Controller
         echo Helper::log(auth()->user()->id, 'updated user', $req->id);
     }
 
+    public function removeType(Request $req){
+        echo User::where('id', $req->id)->update(["type" => ""]);
+    }
+
     public function updatePassword(Request $req){
         $user = User::find($req->id);
         $user->password = $req->password;
