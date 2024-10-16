@@ -632,42 +632,46 @@
 			}).then(result => {
 				if(result.value){
 					swal.showLoading();
+					let userData = {
+						id: user.id,
+						prefix: $("[name='prefix']").val(),
+						fname: $("[name='fname']").val(),
+						mname: $("[name='mname']").val(),
+						lname: $("[name='lname']").val(),
+						suffix: $("[name='suffix']").val(),
+						birthday: $("[name='birthday']").val(),
+						birth_place: $("[name='birth_place']").val(),
+						gender: $("[name='gender']").val(),
+						civil_status: $("[name='civil_status']").val(),
+						nationality: $("[name='nationality']").val(),
+						religion: $("[name='religion']").val(),
+						contact: $("[name='contact']").val(),
+						email: $("[name='email']").val(),
+						address: $("[name='address']").val(),
+					};
+
+					let patientData = {
+						id: user.patient.id,
+						hmo_provider: $("[name='hmo_provider']").val(),
+						hmo_number: $("[name='hmo_number']").val(),
+						mothers_name: $("[name='mothers_name']").val(),
+						fathers_name: $("[name='fathers_name']").val(),
+						guardian_name: $("[name='guardian_name']").val(),
+						employment_status: $("[name='employment_status']").val(),
+						company_name: $("[name='company_name']").val(),
+						company_position: $("[name='company_position']").val(),
+						company_contact: $("[name='company_contact']").val(),
+						sss: $("[name='sss']").val(),
+						tin_number: $("[name='tin_number']").val()
+					}
+
 					update({
 						url: "{{ route('user.update') }}",
-						data: {
-							id: user.id,
-							prefix: $("[name='prefix']").val(),
-							fname: $("[name='fname']").val(),
-							mname: $("[name='mname']").val(),
-							lname: $("[name='lname']").val(),
-							suffix: $("[name='suffix']").val(),
-							birthday: $("[name='birthday']").val(),
-							birth_place: $("[name='birth_place']").val(),
-							gender: $("[name='gender']").val(),
-							civil_status: $("[name='civil_status']").val(),
-							nationality: $("[name='nationality']").val(),
-							religion: $("[name='religion']").val(),
-							contact: $("[name='contact']").val(),
-							email: $("[name='email']").val(),
-							address: $("[name='address']").val(),
-						}
+						data: userData
 					}, () => {
 						update({
 							url: "{{ route('patient.update') }}",
-							data: {
-								id: user.patient.id,
-								hmo_provider: $("[name='hmo_provider']").val(),
-								hmo_number: $("[name='hmo_number']").val(),
-								mothers_name: $("[name='mothers_name']").val(),
-								fathers_name: $("[name='fathers_name']").val(),
-								guardian_name: $("[name='guardian_name']").val(),
-								employment_status: $("[name='employment_status']").val(),
-								company_name: $("[name='company_name']").val(),
-								company_position: $("[name='company_position']").val(),
-								company_contact: $("[name='company_contact']").val(),
-								sss: $("[name='sss']").val(),
-								tin_number: $("[name='tin_number']").val()
-							},
+							data: patientData,
 							message: "Successfully Updated"
 						}, () => {
 							reload();
