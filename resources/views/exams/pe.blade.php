@@ -86,8 +86,8 @@
 	<script src="{{ asset('js/summernote.min.js') }}"></script>
 
 	<script>
-		var fFname = "%%";
-		var fLname = "%%";
+		var fFname = "";
+		var fLname = "";
 		var fCompany = "%%";
 
 		$(document).ready(()=> {

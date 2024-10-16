@@ -47,10 +47,10 @@ class DatatableController extends Controller
 
             $array = $array->where(function($q) use($filters){
                 if(isset($filters["fFname"])){
-                    $q->where('fname', 'LIKE', $filters["fFname"]);
+                    $q->where('fname', 'LIKE', "%" . $filters["fFname"] . "%");
                 }
-                else if(isset($filters["fFname"])){
-                    $q->where('lname', 'LIKE', $filters["fLname"]);
+                if(isset($filters["fLname"])){
+                    $q->where('lname', 'LIKE', "%" . $filters["fLname"] . "%");
                 }
             });
 
