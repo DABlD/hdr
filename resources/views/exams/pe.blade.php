@@ -499,6 +499,9 @@
         				}
     				});
 
+    				// FILES
+    				let attachment = "<span style='color: red;'>No Attached File</span>";
+
 		        	Swal.fire({
 		        		title: "Result/Impressions",
 		        		html: `
