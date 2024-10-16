@@ -631,9 +631,9 @@
 				if(result.value){
 					swal.showLoading();
 					update({
-						url: "{{ route('patient.update') }}",
+						url: "{{ route('user.update') }}",
 						data: {
-							id: user.patient.id,
+							id: user.id,
 							prefix: $("[name='prefix']").val(),
 							fname: $("[name='fname']").val(),
 							mname: $("[name='mname']").val(),
@@ -648,21 +648,28 @@
 							contact: $("[name='contact']").val(),
 							email: $("[name='email']").val(),
 							address: $("[name='address']").val(),
-							hmo_provider: $("[name='hmo_provider']").val(),
-							hmo_number: $("[name='hmo_number']").val(),
-							mothers_name: $("[name='mothers_name']").val(),
-							fathers_name: $("[name='fathers_name']").val(),
-							guardian_name: $("[name='guardian_name']").val(),
-							employment_status: $("[name='employment_status']").val(),
-							company_name: $("[name='company_name']").val(),
-							company_position: $("[name='company_position']").val(),
-							company_contact: $("[name='company_contact']").val(),
-							sss: $("[name='sss']").val(),
-							tin_number: $("[name='tin_number']").val()
-						},
-						message: "Successfully Updated"
+						}
 					}, () => {
-						reload();
+						update({
+							url: "{{ route('patient.update') }}",
+							data: {
+								id: user.patient.id,
+								hmo_provider: $("[name='hmo_provider']").val(),
+								hmo_number: $("[name='hmo_number']").val(),
+								mothers_name: $("[name='mothers_name']").val(),
+								fathers_name: $("[name='fathers_name']").val(),
+								guardian_name: $("[name='guardian_name']").val(),
+								employment_status: $("[name='employment_status']").val(),
+								company_name: $("[name='company_name']").val(),
+								company_position: $("[name='company_position']").val(),
+								company_contact: $("[name='company_contact']").val(),
+								sss: $("[name='sss']").val(),
+								tin_number: $("[name='tin_number']").val()
+							},
+							message: "Successfully Updated"
+						}, () => {
+							reload();
+						})
 					})
 				}
 			});
