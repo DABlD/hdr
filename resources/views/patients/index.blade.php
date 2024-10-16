@@ -20,6 +20,7 @@
                     	<table id="table" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
+                    				<th>Created At</th>
                     				<th>Company</th>
                     				<th>Patient ID</th>
                     				<th>Surname</th>
@@ -100,6 +101,7 @@
 	                }
 				},
 				columns: [
+					{data: 'created_at', visible: false},
 					{data: 'patient.company_name'},
 					{data: 'patient.patient_id'},
 					{data: 'lname'},
@@ -113,7 +115,7 @@
         		pageLength: 25,
 	            columnDefs: [
 	                {
-	                    targets: 5,
+	                    targets: 6,
 	                    render: birthday => {
 	                        return birthday ? toDate(birthday) + " " + `(${moment().diff(birthday, 'years')})` : "-";
 	                    },
