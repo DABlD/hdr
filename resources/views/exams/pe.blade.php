@@ -503,7 +503,7 @@
     				let attachment = "<span style='color: red;'>No Attached File</span>";
 
 		        	Swal.fire({
-		        		title: "Result/Impressions",
+		        		// title: "Result/Impressions",
 		        		html: `
 		        			<div class="row">
 		        				<div class="col-md-2" style="text-align: left;">
@@ -520,7 +520,42 @@
 		        					<input id="files" class="d-none" type="file">
 		        				</div>
 		        				<div class="col-md-10">
-		        					<div id="summernote">${result.remarks ?? ""}</div>
+
+		        					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
+		        					    <li class="nav-item">
+		        					        <a class="nav-link active" href="#tab1" data-toggle="tab">
+		        					            Result/Impressions
+		        					        </a>
+		        					    </li>
+		        					    &nbsp;
+		        					    <li class="nav-item">
+		        					        <a class="nav-link" href="#tab2" data-toggle="tab">
+		        					            Clinical Assessment
+		        					        </a>
+		        					    </li>
+		        					    &nbsp;
+		        					    <li class="nav-item">
+		        					        <a class="nav-link" href="#tab3" data-toggle="tab">
+		        					            Recommendation
+		        					        </a>
+		        					    </li>
+		        					</ul>
+
+		        					<br>
+
+		        					<div class="tab-content p-0">
+		        					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
+		        					    	<div id="summernote1">${result.remarks ?? ""}</div>
+		        					    </div>
+
+		        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
+		        					    	<div id="summernote2">${result.clinical_assessment ?? ""}</div>
+		        					    </div>
+
+		        					    <div class="chart tab-pane" id="tab3" style="position: relative;">
+		        					    	<div id="summernote3">${result.recommendation ?? ""}</div>
+		        					    </div>
+		        					</div>
 		        				</div>
 		        			</div>
 		        		`,
@@ -532,7 +567,7 @@
 						allowOutsideClick: false,
 						allowEscapeKey: false,
 		        		didOpen: () => {
-							$('#summernote').summernote({
+							$('#summernote1, #summernote2, #summernote3').summernote({
 								height: 600,
 		                		focus: true
 							});
@@ -551,7 +586,9 @@
 		        				url: "{{ route('patientPackage.update') }}",
 		        				data: {
 		        					id: ppid,
-		        					remarks: $('#summernote').summernote('code')
+		        					remarks: $('#summernote1').summernote('code'),
+		        					clinical_assessment: $('#summernote2').summernote('code'),
+		        					recommendation: $('#summernote3').summernote('code')
 		        				},
 		        				message: "Successfully saved"
 		        			}, () => {
