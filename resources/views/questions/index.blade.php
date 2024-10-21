@@ -90,7 +90,6 @@
                     		<thead>
                     			<tr>
                     				<th>Name</th>
-                    				<th>Amount</th>
                     				<th>Actions</th>
                     			</tr>
                     		</thead>
@@ -99,6 +98,35 @@
                     	</table>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-table mr-1"></i>
+                            Subjective
+                        </h3>
+                        
+                        <h3 class="float-right">
+                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Laboratory" onclick="createPackage('Laboratory')">
+                                <i class="fas fa-plus fa-2xl"></i>
+                            </a>
+                        </h3>
+                    </div>
+
+                    <div class="card-body table-responsive">
+                    	<table id="SubjectiveTable" class="table table-hover" style="width: 100%;">
+                    		<thead>
+                    			<tr>
+                    				<th>Name</th>
+                    				<th>Actions</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody>
+                    		</tbody>
+                    	</table>
+                    </div>
+                </div>
+
             </section>
 
             {{-- QUESTIONS --}}
@@ -291,6 +319,7 @@
 					
 					let packages = result.Package;
 					let labs = result.Laboratory;
+					let subs = result.Subjective;
 
 					let pString = "";
 
@@ -338,7 +367,6 @@
 							lString += `
 								<tr>
 									<td>${a.name}</td>
-									<td>₱${numeral(a.amount).format("0,0")}</td>
 									<td>
 										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id}, '${a.type}', '${a.name}')">
 											<i class="fas fa-search"></i>
@@ -362,6 +390,37 @@
 						`;
 					}
 					$('#LaboratoryTable tbody').html(lString);
+
+					let sString = "";
+
+					if(subs){
+						subs.forEach(a => {
+							sString += `
+								<tr>
+									<td>${a.name}</td>
+									<td>
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id}, '${a.type}', '${a.name}')">
+											<i class="fas fa-search"></i>
+										</a>
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit" onclick="editPackage(${a.id})">
+											<i class="fas fa-pencil"></i>
+										</a>
+										<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="deletePackage(${a.id})">
+											<i class="fas fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							`;
+						});
+					}
+					else{
+						sString = `
+							<tr>
+								<td colspan="3">No Subjective</td>
+							</tr>
+						`;
+					}
+					$('#SubjectiveTable tbody').html(sString);
 				}
 			})
 		}

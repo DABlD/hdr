@@ -36,6 +36,10 @@ class PackageController extends Controller
             $array = $array->orWhere('type', 'Laboratory');
         }
 
+        if($req->getSubjective){
+            $array = $array->orWhere('type', 'Subjective');
+        }
+
         // IF HAS JOIN
         if($req->join){
             $alias = substr($req->join, 1);
