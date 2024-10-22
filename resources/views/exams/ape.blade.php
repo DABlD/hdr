@@ -20,6 +20,7 @@
                     	<table id="table" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
+                    				<th>HIDDEN</th>
                     				<th>Company Name</th>
                     				<th>Patient ID</th>
                     				<th>Surname</th>
@@ -108,6 +109,7 @@
 	                }
 				},
 				columns: [
+					{data: 'created_at', visible: false},
 					{data: 'user.patient.company_name'},
 					{data: 'user.patient.patient_id'},
 					{data: 'user.lname'},
@@ -118,16 +120,17 @@
 					{data: 'user.id'},
 					{data: 'medical'}
 				],
+				order: [[0, 'desc']],
         		pageLength: 25,
 	            columnDefs: [
 	                {
-	                    targets: 5,
+	                    targets: 6,
 	                    render: birthday => {
 	                        return birthday ? toDate(birthday) + " " + `(${moment().diff(birthday, 'years')})` : "-";
 	                    },
 	                },
 	                {
-	                    targets: 6,
+	                    targets: 7,
 	                    render: (a,b,row) => {
 	                    	if(row.user.patient.exams.length){
 	                    		let latestPackage = "";
@@ -145,7 +148,7 @@
 	                    },
 	                },
 	                {
-	                    targets: 7,
+	                    targets: 8,
 	                    render: (a,b,row) => {
 	                    	if(row.user.patient.exams.length){
 	                    		let amount = "";

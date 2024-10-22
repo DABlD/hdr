@@ -20,6 +20,7 @@
                     	<table id="table" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
+                    				<th>HIDDEN</th>
                     				<th>Company Name</th>
                     				<th>Patient ID</th>
                     				<th>Surname</th>
@@ -108,6 +109,7 @@
 	                }
 				},
 				columns: [
+					{data: 'created_at', visible: false},
 					{data: 'user.patient.company_name'},
 					{data: 'user.patient.patient_id'},
 					{data: 'user.lname'},
@@ -118,6 +120,7 @@
 					{data: 'user.id'},
 					{data: 'medical'}
 				],
+				order: [[0, 'desc']],
         		pageLength: 25,
 	            columnDefs: [
 	                {
