@@ -82,6 +82,7 @@
 	<script src="{{ asset('js/flatpickr.min.js') }}"></script>
 	<script src="{{ asset('js/select2.min.js') }}"></script>
 	<script src="{{ asset('js/numeral.min.js') }}"></script>
+	<script src="{{ asset('js/qrcode.min.js') }}"></script>
 
 	<script>
 		var fCompany = "%%";
@@ -1304,6 +1305,18 @@
 					packages(id);
 				}, 1000);
 			}
+		}
+
+		function qr(id){
+			Swal.fire({
+				title: "Scan QR",
+				html: `
+					<div id="qrcode" style="text-align: -webkit-center;"></div>
+				`,
+				didOpen: () => {
+					new QRCode(document.getElementById("qrcode"), "{{ route('patient.subjective') }}?id=" + id);
+				}
+			})
 		}
 	</script>
 @endpush

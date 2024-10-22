@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Patient, User};
+use App\Models\{Patient, User, PatientPackage, Package};
 use Image;
 use DB;
 
@@ -112,6 +112,20 @@ class PatientController extends Controller
         $user->save();
 
         Helper::log(auth()->user()->id, 'created patient', $user->id);
+
+        $package = Package::find(2);
+
+        $temp = new PatientPackage();
+        $temp->user_id = $patient->user_id;
+        $temp->patient_id = $patient->id;
+        $temp->package_id = $package->id;
+        $temp->type = "PEE";
+
+        $temp->details = json_encode($package->toArray());
+        // $temp->question_with_answers = $req->question_with_answers;
+        $temp->save();
+
+        Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
 
         echo "success";
     }

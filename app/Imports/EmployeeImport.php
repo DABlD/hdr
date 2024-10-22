@@ -3,7 +3,7 @@
 namespace App\Imports;
 use Illuminate\Http\Request;
 
-use App\Models\{User, Patient};
+use App\Models\{User, Patient, Package, PatientPackage};
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\{ToCollection, WithHeadingRow};
 
@@ -63,6 +63,20 @@ class EmployeeImport implements ToCollection
                 $patient->sss = $data[$i][22];
                 $patient->tin_number = $data[$i][22];
                 $patient->save();
+
+                $package = Package::find(2);
+
+                $temp = new PatientPackage();
+                $temp->user_id = $patient->user_id;
+                $temp->patient_id = $patient->id;
+                $temp->package_id = $package->id;
+                $temp->type = "PEE";
+
+                $temp->details = json_encode($package->toArray());
+                // $temp->question_with_answers = $req->question_with_answers;
+                $temp->save();
+
+                Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
 
                 $ctr++;
             }

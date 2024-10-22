@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-// Route::get('company/dashboard', "CompanyController@dashboard")->name('company.dashboard');
+Route::get('patient/subjective', "SubjectiveController@index")->name('patient.subjective');
 // Route::post('company/import', "CompanyController@import")->name('company.import');
 
 Route::get('/', function(){
