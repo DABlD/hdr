@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{PatientPackage, Patient, Package};
+use App\Models\{PatientPackage, Patient, Package, Question};
 
 use App\Helpers\Helper;
 use Image;
@@ -107,6 +107,19 @@ class PatientPackageController extends Controller
         $data->load('user.patient');
         $data->load('package');
 
+        $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first();
+        $answers = [];
+
+        foreach(json_decode($pmr->question_with_answers) as $answer){
+            $answers[$answer->id]["answer"] = $answer->answer;
+            $answers[$answer->id]["remark"] = $answer->remark;
+        }
+
+        $questions = Question::where('package_id', $pmr->package_id)->get()->groupBy('category_id');
+
+        $data->questions = $questions->toArray();
+        $data->answers = $answers;
+
         $fn = "RI" . now()->format('Ymd') . '-' . $data->user->lname . '_' . $data->user->fname;
 
         $pdf = new PDFExport($data, $fn, "impressions");
@@ -116,7 +129,7 @@ class PatientPackageController extends Controller
 
     public function index(){
         return $this->_view('index', [
-            'title' => "Patient Packages"
+            'title' => "Patient Packages",
         ]);
     }
 

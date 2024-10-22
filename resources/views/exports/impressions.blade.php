@@ -1,3 +1,8 @@
+@php
+	$answers = $data->questions_with_answers;
+	// dd($ids, $data->questions);
+@endphp
+
 <style type="text/css">
 	footer {
 	    position: fixed; 
@@ -12,7 +17,7 @@
 	}
 </style>
 
-<table>
+<table style="width: 100%;">
 	<tr style="height: 10px;">
 		<td colspan="2">
 			<img src="{{ $settings['logo'] }}" alt="No Logo Uploaded" width="150px">
@@ -55,7 +60,7 @@
 			Name: {{ $data->user->fname }} {{ $data->user->mname }} {{ $data->user->lname }}
 		</td>
 		<td colspan="3">
-			Examination Done: ---
+			Examination Done: {{ $data->created_at->format('F j, Y') }}
 		</td>
 	</tr>
 
@@ -71,14 +76,39 @@
 		</td>
 	</tr>
 
-	<tr><td colspan="8"s style="height: 50px;"></td></tr>
+	<tr><td colspan="8" style="height: 50px;"></td></tr>
 
-	<tr>
+	{{-- <tr>
 		<td colspan="8">
 			{!! $data->remarks !!}
 		</td>
-	</tr>
+	</tr> --}}
 </table>
+
+@foreach($data->questions[""] as $category)
+	<h3>{{ $category["name"] }}</h3>
+	<table>
+	@foreach($data->questions[$category['id']] as $key => $question)
+		<tr>
+			<td style="font-size: 10px;">
+				{{ $key+1 }}.) {{ $question['name'] }}
+			</td>
+			<td></td>
+			<td style="font-size: 10px; text-align: center;">
+				@if($question['type'] == "Dichotomous")
+					@if($data->answers[$question['id']]['answer'])
+						Yes
+					@else
+						No
+					@endif
+				@else
+					{{ $data->answers[$question['id']]['answer'] }}
+				@endif
+			</td>
+		</tr>
+	@endforeach
+	</table>
+@endforeach
 
 <footer>
 	<table style="width: 100%">
