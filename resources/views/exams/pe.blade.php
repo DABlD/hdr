@@ -539,6 +539,12 @@
 		        					            Recommendation
 		        					        </a>
 		        					    </li>
+		        					    &nbsp;
+		        					    <li class="nav-item">
+		        					        <a class="nav-link" href="#tab4" data-toggle="tab">
+		        					            Classification
+		        					        </a>
+		        					    </li>
 		        					</ul>
 
 		        					<br>
@@ -554,6 +560,18 @@
 
 		        					    <div class="chart tab-pane" id="tab3" style="position: relative;">
 		        					    	<div id="summernote3">${result.recommendation ?? ""}</div>
+		        					    </div>
+
+		        					    <div class="chart tab-pane" id="tab4" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
+	                                        <input type="radio" name="classification" value="Fit to work"> Fit to work
+	                                        <br>
+	                                        <input type="radio" name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
+	                                        <br>
+	                                        <input type="radio" name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
+	                                        <br>
+	                                        <input type="radio" name="classification" value="Unfit to work"> Unfit to work
+	                                        <br>
+	                                        <input type="radio" name="classification" value="Pending"> Pending
 		        					    </div>
 		        					</div>
 		        				</div>
@@ -575,6 +593,8 @@
 							$('.note-editable').css('text-align', 'left');
 							$('.note-insert').css('display', 'none');
 
+							$(`[name="classification"][value="${result.classification}"]`).click();
+
 							$('#files').on('change', e => {
 							    updateFile(ppid);
 							});
@@ -588,7 +608,8 @@
 		        					id: ppid,
 		        					remarks: $('#summernote1').summernote('code'),
 		        					clinical_assessment: $('#summernote2').summernote('code'),
-		        					recommendation: $('#summernote3').summernote('code')
+		        					recommendation: $('#summernote3').summernote('code'),
+		        					classification: $('[name="classification"]:checked').val()
 		        				},
 		        				message: "Successfully saved"
 		        			}, () => {
