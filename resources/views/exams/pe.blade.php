@@ -410,6 +410,7 @@
         		data: {
     				select: "*",
     				where: ["user_id", id],
+    				where2: ["package_id", ">", 2],
     				load: ["package"]
         		},
         		success: result => {
