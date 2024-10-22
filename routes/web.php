@@ -170,6 +170,18 @@ Route::group([
             }
         );
 
+        // PATIENT PACKAGE ROUTES
+        $cname = "examList";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+                Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
+                Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
+                Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
+            }
+        );
+
         // TEMPLATE ROUTES
         $cname = "question";
         Route::group([
@@ -255,6 +267,7 @@ Route::group([
 
                 Route::get("user", ucfirst($cname) . "Controller@user")->name('user');
                 Route::get("patient", ucfirst($cname) . "Controller@patient")->name('patient');
+                Route::get("examinees", ucfirst($cname) . "Controller@examinees")->name('examinees');
                 Route::get("patientPackage", ucfirst($cname) . "Controller@patientPackage")->name('patientPackage');
             }
         );

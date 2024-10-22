@@ -59,10 +59,6 @@ trait UserAttribute{
 				        "<i class='fas fa-list'></i>" .
 				    "</a>&nbsp;";
 
-		$action .= 	"<a class='btn btn-danger' data-toggle='tooltip' title='Delete' onClick='deleteType($id)'>" .
-				        "<i class='fas fa-trash'></i>" .
-				    "</a>&nbsp;";
-
 		return $action;
 	}
 }

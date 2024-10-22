@@ -89,31 +89,33 @@
 		var fFname = "";
 		var fLname = "";
 		var fCompany = "%%";
+		var fType = "APE";
+		var fDate = moment().format("YYYY-MM-DD");
 
 		$(document).ready(()=> {
 			var table = $('#table').DataTable({
 				ajax: {
-					url: "{{ route('datatable.user') }}",
+					url: "{{ route('datatable.examinees') }}",
                 	dataType: "json",
                 	dataSrc: "",
 	                data: f => {
-	                    f.select = ["users.*", "p.company_name"];
+	                    f.select = ['exam_lists.*', 'p.company_name'];
 	                    f.filters = getFilters();
-	                    f.where = ["role", "Patient"];
-	                    f.where2 = ["type", "APE"];
-	                    f.load = ["patient.exams"];
-	                    f.join = "patients"
+	                    // f.where = ["role", "Patient"];
+	                    // f.where2 = ["type", "APE"];
+	                    f.load = ["user.patient.exams"];
+	                    // f.join = "patients"
 	                }
 				},
 				columns: [
-					{data: 'patient.company_name'},
-					{data: 'patient.patient_id'},
-					{data: 'lname'},
-					{data: 'fname'},
-					{data: 'gender'},
-					{data: 'birthday'},
-					{data: 'id'},
-					{data: 'id'},
+					{data: 'user.patient.company_name'},
+					{data: 'user.patient.patient_id'},
+					{data: 'user.lname'},
+					{data: 'user.fname'},
+					{data: 'user.gender'},
+					{data: 'user.birthday'},
+					{data: 'user.id'},
+					{data: 'user.id'},
 					{data: 'medical'}
 				],
         		pageLength: 25,
@@ -127,10 +129,10 @@
 	                {
 	                    targets: 6,
 	                    render: (a,b,row) => {
-	                    	if(row.patient.exams.length){
+	                    	if(row.user.patient.exams.length){
 	                    		let latestPackage = "";
 
-	                    		row.patient.exams.forEach(exam => {
+	                    		row.user.patient.exams.forEach(exam => {
 	                    			let temp = JSON.parse(exam.details);
 	                    			latestPackage = temp.name;
 	                    		});
@@ -145,10 +147,10 @@
 	                {
 	                    targets: 7,
 	                    render: (a,b,row) => {
-	                    	if(row.patient.exams.length){
+	                    	if(row.user.patient.exams.length){
 	                    		let amount = "";
 
-	                    		row.patient.exams.forEach(exam => {
+	                    		row.user.patient.exams.forEach(exam => {
 	                    			let temp = JSON.parse(exam.details);
 	                    			amount += temp.amount;
 	                    		});
@@ -162,6 +164,13 @@
 	                }
 	            ],
 			});
+
+			$('#fDate').flatpickr({
+			    altInput: true,
+			    altFormat: 'F j, Y',
+			    dateFormat: 'Y-m-d',
+			    defaultDate: moment().format("YYYY-MM-DD")
+			})
 
 			$('#fCompany').select2();
 
@@ -179,6 +188,11 @@
 	            e = $(e.target);
 	            fCompany = e.val();
 	        });
+
+			$('#fDate').on('change', e => {
+	            e = $(e.target);
+	            fDate = e.val();
+	        });
 		});
 
 		function getFilters(){
@@ -186,6 +200,8 @@
                 fFname: fFname,
                 fLname: fLname,
                 fCompany: fCompany,
+                fType: fType,
+                fDate: fDate,
             }
         }
 
@@ -678,7 +694,6 @@
         		data: {
         			select: "*",
         			where: ["role", "Patient"],
-        			where2: ["type", "!=", "APE"],
         			load: ['patient']
         		},
         		success: users => {
@@ -710,9 +725,9 @@
         					}
         					else{
         						update({
-        							url: "{{ route('user.update') }}",
+        							url: "{{ route('examList.store') }}",
         							data: {
-        								id: id,
+        								user_id: id,
         								type: "APE"
         							}
         						})
@@ -733,8 +748,8 @@
         		if(result.value){
         			swal.showLoading();
         			update({
-        				url: "{{ route('user.removeType') }}",
-        				data: {id: id},
+        				url: "{{ route('examList.update') }}",
+        				data: {id: id, deleted_at: dateTimeNow()},
         				message: "Success"
         			}, () => {
         				reload();
