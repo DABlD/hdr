@@ -60,7 +60,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="fas fa-chart-pie mr-1"></i>
+                            <i class="fas fa-box-archive mr-1"></i>
                             Packages Sold
                         </h3>
                     </div>
@@ -79,6 +79,20 @@
 
                         <div class="row">
                             <canvas id="report" width="100%"></canvas>
+
+                            <div class="table-container">
+                                <table class="table table-hover" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Company</th>
+                                            <th>Package</th>
+                                            <th>Type</th>
+                                        </tr>
+                                        <tbody id="table1"></tbody>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -119,6 +133,18 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
+
+    <style>
+        table{
+            margin-top: 30px;
+        }
+
+        .table-container{
+            height: 500px;
+            width: 100%;
+            overflow-y: scroll;
+        }
+    </style>
 @endpush
 
 @push('scripts')
@@ -183,16 +209,32 @@
                     to: to
                 },
                 success: result => {
-                    result = JSON.parse(result);
+                    let chart = JSON.parse(result)["chart"];
+                    let table = JSON.parse(result)["table"];
 
                     ctx = document.getElementById('report').getContext('2d');
                     myChart = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: result.labels,
-                            datasets: result.dataset
+                            labels: chart.labels,
+                            datasets: chart.dataset
                         }
                     });
+
+                    let tableString = "";
+
+                    table.forEach((row, index) => {
+                        tableString = `
+                            <tr>
+                                <td>${index+1}</td>
+                                <td>${row.package.company}</td>
+                                <td>${row.package.name}</td>
+                                <td>${row.type}</td>
+                            </tr>
+                        ` + tableString;
+                    });
+
+                    $('#table1').html(tableString);
                 }
             });
         }
@@ -205,14 +247,15 @@
                     to: to2
                 },
                 success: result => {
-                    result = JSON.parse(result);
+                    let chart = JSON.parse(result)["chart"];
+                    let table = JSON.parse(result)["table"];
 
                     ctx = document.getElementById('report2').getContext('2d');
                     myChart = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: result.labels,
-                            datasets: result.dataset
+                            labels: chart.labels,
+                            datasets: chart.dataset
                         }
                     });
                 }
