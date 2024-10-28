@@ -9,6 +9,7 @@ class SubjectiveController extends Controller
 {
     public function index(Request $req){
         $user = User::find($req->id);
+        $user->load('patient');
 
         return $this->_view('index', [
             'title' => "Fill-up Info",

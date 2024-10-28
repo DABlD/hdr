@@ -70,11 +70,13 @@
                         <div class="row">
                             <section class="col-lg-8 offset-lg-2">
                                 <div class="card">
-                                    {{-- <div class="card-header">
-                                        <h3 class="card-title" style="text-align: center;">
-                                            Personal Medical Record
+                                    <div class="card-header">
+                                        <h3 class="card-title" style="text-align: left;">
+                                            <b>Patient Name:</b> {{ $user->fname }} {{ $user->mname }} {{ $user->lname }} {{ $user->suffix }}
+                                            <br>
+                                            <b>Company:</b> {{ $user->patient->company_name }}
                                         </h3>
-                                    </div> --}}
+                                    </div>
 
                                     <div class="card-body">
                                         <div id="questionnaire"></div>
