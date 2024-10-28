@@ -110,19 +110,30 @@
 	</table>
 @endforeach
 
-<footer>
-	<table style="width: 100%">
-		<tr>
-			<td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-			<td colspan="3" style="text-decoration: underline; text-align: center;">
-				{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, {{ auth()->user()->doctor->title }}
-			</td>
-		</tr>
-		<tr>
-			<td colspan="5"></td>
-			<td colspan="3" style="text-align: center;">
-				{{ auth()->user()->doctor->specialization ?? "Doctor" }}
-			</td>
-		</tr>
-	</table>
-</footer>
+<h3>Remarks</h3>
+{!! $data->remarks !!}
+
+<h3>Clinical Assessment</h3>
+{!! $data->clinical_assessment !!}
+
+<h3>Recommendation</h3>
+{!! $data->recommendation !!}
+
+<h3>Classification</h3>
+{{ $data->classification }}
+
+<br>
+<table style="width: 100%">
+	<tr>
+		<td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td colspan="3" style="text-decoration: underline; text-align: center; font-weight: bold;">
+			{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, {{ auth()->user()->doctor->title }}
+		</td>
+	</tr>
+	<tr>
+		<td colspan="5"></td>
+		<td colspan="3" style="text-align: center; font-weight: bold;">
+			{{ auth()->user()->doctor->specialization ?? "Doctor" }}
+		</td>
+	</tr>
+</table>

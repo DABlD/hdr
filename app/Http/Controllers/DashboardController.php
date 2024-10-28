@@ -96,7 +96,9 @@ class DashboardController extends Controller
             ]
         ];
 
-        echo json_encode(['labels' => $labels, 'dataset' => $dataset]);
+        $data->load('package');
+
+        echo json_encode(["table" => $data, "chart" => ['labels' => $labels, 'dataset' => $dataset]]);
     }
 
     function getReport2(Request $req){
@@ -168,7 +170,9 @@ class DashboardController extends Controller
             ]
         ];
 
-        echo json_encode(['labels' => $labels, 'dataset' => $dataset]);
+        $data->load('package');
+
+        echo json_encode(["table" => $data, "chart" => ['labels' => $labels, 'dataset' => $dataset]]);
     }
 
     private function getDates($from, $to){

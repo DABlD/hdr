@@ -15,7 +15,7 @@
 
     <div class="col-md-10">
         <h3 class="float-right">
-            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Admin" onclick="create()">
+            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="create()">
                 <i class="fas fa-plus fa-2xl"></i>
             </a>
         </h3>

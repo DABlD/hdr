@@ -184,16 +184,16 @@
                             }
 
                             string += "</tbody></table><br>";
-
-                            string += `
-                                <div class="float-right">
-                                    <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save(${result.id})">
-                                        SAVE
-                                    </a>
-                                </div>
-                            `;
                             historyString = string;
                         }
+
+                        historyString += `
+                            <div class="float-right">
+                                <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save(${result.id})">
+                                    SAVE
+                                </a>
+                            </div>
+                        `;
 
                         $('#questionnaire').html(historyString);
 
