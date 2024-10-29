@@ -87,14 +87,19 @@
 
 @foreach($data->questions[""] as $category)
 	<h3>{{ $category["name"] }}</h3>
-	<table>
-	@foreach($data->questions[$category['id']] as $key => $question)
+	<table style="width: 100%;">
+
+	@php
+		$array = $data->questions[$category['id']];
+		$newArray = array_chunk($array, ceil(sizeof($array) / 2));
+	@endphp
+
+	@foreach($newArray[0] as $key => $question)
 		<tr>
-			<td style="font-size: 10px;">
+			<td style="font-size: 10px; width: 30%;">
 				{{ $key+1 }}.) {{ $question['name'] }}
 			</td>
-			<td></td>
-			<td style="font-size: 10px; text-align: center;">
+			<td style="font-size: 10px; text-align: left; width: 20%;">
 				@if($question['type'] == "Dichotomous")
 					@if($data->answers[$question['id']]['answer'])
 						Yes
@@ -102,9 +107,26 @@
 						No
 					@endif
 				@else
-					{{ $data->answers[$question['id']]['answer'] }}
+					{{ $data->answers[$question['id']]['answer'] != "" ? $data->answers[$question['id']]['answer'] : "-" }}
 				@endif
 			</td>
+
+			@if(isset($newArray[1][$key]))
+				<td style="font-size: 10px; width: 30%;">
+					{{ sizeof($newArray[0]) + ($key + 1) }}.) {{ $newArray[1][$key]['name'] }}
+				</td>
+				<td style="font-size: 10px; text-align: left; width: 20%;">
+					@if($newArray[1][$key]['type'] == "Dichotomous")
+						@if($data->answers[$newArray[1][$key]['id']]['answer'])
+							Yes
+						@else
+							No
+						@endif
+					@else
+						{{ $data->answers[$newArray[1][$key]['id']]['answer'] != "" ? $data->answers[$newArray[1][$key]['id']]['answer'] : "-" }}
+					@endif
+				</td>
+			@endif
 		</tr>
 	@endforeach
 	</table>
