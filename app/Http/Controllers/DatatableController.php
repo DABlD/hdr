@@ -181,7 +181,6 @@ class DatatableController extends Controller
             $array = $array->groupBy($req->group);
         }
 
-
         echo json_encode($array);
     }
 

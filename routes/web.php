@@ -258,6 +258,16 @@ Route::group([
             }
         );
 
+        // THEME ROUTES
+        $cname = "report";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+                Route::get("exam/", ucfirst($cname) . "Controller@exam")->name('exam');
+            }
+        );
+
         // DATATABLES
         $cname = "datatable";
         Route::group([

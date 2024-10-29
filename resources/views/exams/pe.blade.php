@@ -753,5 +753,14 @@
         		}
         	});
         }
+
+        function exportExcel(){
+        	let data = {
+        		filters: getFilters(),
+        		type: "PPE"
+        	};
+
+        	window.location.href = "{{ route('report.exam') }}?" + $.param(data);
+        }
 	</script>
 @endpush
