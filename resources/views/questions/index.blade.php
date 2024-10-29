@@ -78,11 +78,11 @@
                             History
                         </h3>
                         
-                        <h3 class="float-right">
+                        {{-- <h3 class="float-right">
                             <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Laboratory" onclick="createPackage('Laboratory')">
                                 <i class="fas fa-plus fa-2xl"></i>
                             </a>
-                        </h3>
+                        </h3> --}}
                     </div>
 
                     <div class="card-body table-responsive">
@@ -106,11 +106,11 @@
                             Subjective
                         </h3>
                         
-                        <h3 class="float-right">
+                        {{-- <h3 class="float-right">
                             <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Laboratory" onclick="createPackage('Laboratory')">
                                 <i class="fas fa-plus fa-2xl"></i>
                             </a>
-                        </h3>
+                        </h3> --}}
                     </div>
 
                     <div class="card-body table-responsive">
@@ -746,7 +746,7 @@
 					${input('code', 'Code', null, 3, 9)}
 					<div class="row iRow">
 					    <div class="col-md-3 iLabel">
-					        Type
+					        Type`
 					    </div>
 					    <div class="col-md-9 iInput">
 					        <select name="type" class="form-control">
