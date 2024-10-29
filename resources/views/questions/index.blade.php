@@ -746,7 +746,7 @@
 					${input('code', 'Code', null, 3, 9)}
 					<div class="row iRow">
 					    <div class="col-md-3 iLabel">
-					        Type`
+					        Type
 					    </div>
 					    <div class="col-md-9 iInput">
 					        <select name="type" class="form-control">
