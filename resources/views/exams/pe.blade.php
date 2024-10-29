@@ -450,7 +450,7 @@
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
-	        							<a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false})">
+	        							<a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
 	        								<i class="fas fa-file-pdf"></i>
 	        							</a>
 	        						</td>
@@ -660,21 +660,42 @@
             Swal.showValidationMessage("New File Uploaded");
         }
 
-        function pdfExport(id, rLength){
+        function pdfExport(id, rLength, uid){
         	$.ajax({
         		url: "{{ route('setting.checkClinicSettings') }}",
         		success: result => {
         			if(result){
-			        	if(!rLength){
-			        		se("Their are no available Result/Impressions");
-			        	}
-			        	else{
-			        		let data = {};
-			        		data.id = id;
-			        		data.type = "RI";
+        				$.ajax({
+        					url: "{{ route('patientPackage.get') }}",
+        					data: {
+        						select: "*",
+        						where: ["user_id", uid],
+        						where2: ["package_id", 2]
+        					},
+        					success: result2 => {
+        						result2 = JSON.parse(result2)[0];
+        						
+					        	if(!rLength){
+					        		se("Their are no available Result/Impressions");
+					        		setTimeout(() => {
+					        			requestList(uid);
+					        		}, 800);
+					        	}
+					        	else if(result2 == undefined || result2['question_with_answers'] == null){
+					        		se("No Medical Examination Report Record");
+					        		setTimeout(() => {
+					        			requestList(uid);
+					        		}, 800);
+					        	}
+					        	else{
+					        		let data = {};
+					        		data.id = id;
+					        		data.type = "RI";
 
-			            	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
-			        	}
+					            	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
+					        	}
+        					}
+        				})
         			}
         			else{
         				se("Complete clinic settings first before exporting");

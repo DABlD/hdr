@@ -678,10 +678,10 @@
         					data: {
         						select: "*",
         						where: ["user_id", uid],
-        						where: ["package_id", 2]
+        						where2: ["package_id", 2]
         					},
         					success: result2 => {
-        						result2 = JSON.parse(result2);
+        						result2 = JSON.parse(result2)[0];
         						
 					        	if(!rLength){
 					        		se("Their are no available Result/Impressions");
@@ -689,7 +689,7 @@
 					        			requestList(uid);
 					        		}, 800);
 					        	}
-					        	else if(result2.length == 0){
+					        	else if(result2 == undefined || result2['question_with_answers'] == null){
 					        		se("No Medical Examination Report Record");
 					        		setTimeout(() => {
 					        			requestList(uid);
