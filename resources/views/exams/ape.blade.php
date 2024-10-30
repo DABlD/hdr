@@ -137,7 +137,10 @@
 
 	                    		row.user.patient.exams.forEach(exam => {
 	                    			let temp = JSON.parse(exam.details);
-	                    			latestPackage = temp.name;
+
+	                    			if(!['Medical Examination Report', 'Personal Medical History'].includes(temp.name)){
+	                    				latestPackage = temp.name;
+	                    			}
 	                    		});
 
 	                    		return latestPackage;
@@ -155,7 +158,10 @@
 
 	                    		row.user.patient.exams.forEach(exam => {
 	                    			let temp = JSON.parse(exam.details);
-	                    			amount += temp.amount;
+
+	                    			if(!['Medical Examination Report', 'Personal Medical History'].includes(temp.name)){
+	                    				amount += temp.amount;
+	                    			}
 	                    		});
 
 
