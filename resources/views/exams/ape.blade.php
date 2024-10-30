@@ -614,6 +614,7 @@
 		        				</div>
 		        			</div>
 		        		`,
+		        		position: "top",
 		                width: 1500,
 		                confirmButtonText: "Save",
 						showCancelButton: true,
