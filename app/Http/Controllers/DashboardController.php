@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     function index(){
         $users = User::where('role', 'Patient')->count();
-        $companies = User::where('role', 'Company')->count();
+        $companies = User::where('role', 'Company')->distinct()->get();
 
         $pps = PatientPackage::all();
 
@@ -43,9 +43,12 @@ class DashboardController extends Controller
             $temp3[$date] = 0;
         }
 
-        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])
+        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, $req->to])
                                 ->where('package_id', '!=', 1)
                                 ->where('package_id', '!=', 2)
+                                ->where('p.company', 'like', $req->company)
+                                ->select('patient_packages.*', 'p.company')
+                                ->join('packages as p', 'p.id', '=', 'patient_packages.package_id')
                                 ->get();
 
         foreach($data as $request){
@@ -90,7 +93,7 @@ class DashboardController extends Controller
                 'tension' => 0.1
             ],
             [
-                'label' => "PEE",
+                'label' => "PPE",
                 'data' => array_values($temp3),
                 'borderColor' => $color3,
                 'backgroundColor' => $color3,
@@ -117,9 +120,12 @@ class DashboardController extends Controller
             $temp3[$date] = 0;
         }
 
-        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])
+        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, $req->to])
                                 ->where('package_id', '!=', 1)
                                 ->where('package_id', '!=', 2)
+                                ->where('p.company', 'like', $req->company)
+                                ->select('patient_packages.*', 'p.company')
+                                ->join('packages as p', 'p.id', '=', 'patient_packages.package_id')
                                 ->get();
 
         foreach($data as $request){
@@ -167,7 +173,7 @@ class DashboardController extends Controller
                 'tension' => 0.1
             ],
             [
-                'label' => "PEE",
+                'label' => "PPE",
                 'data' => array_values($temp3),
                 'borderColor' => $color3,
                 'backgroundColor' => $color3,

@@ -20,7 +20,7 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>{{ $companies }}</h3>
+                        <h3>{{ $companies->count() }}</h3>
                         <p>Total Companies</p>
                     </div>
                     <div class="icon">
@@ -75,6 +75,15 @@
                                 <label for="to">To</label>
                                 <input type="text" id="to" class="form-control" value="{{ now()->format("Y-m-d") }}">
                             </div>
+                            <div class="col-md-3">
+                                <label for="company">Company</label>
+                                <select class="form-control" id="company" style="margin-bottom: 0px;">
+                                    <option value="%%">All</option>
+                                    @foreach($companies as $company)
+                                        <option value="{!! $company->fname !!}">{!! $company->fname !!}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -117,6 +126,16 @@
                                 <label for="to2">To</label>
                                 <input type="text" id="to2" class="form-control" value="{{ now()->format("Y-m-d") }}">
                             </div>
+                            <div class="col-md-3">
+                                <label for="company2">Company</label>
+                                <select class="form-control" id="company2" style="margin-bottom: 0px;">
+                                    <option value="%%">All</option>
+                                    @foreach($companies as $company)
+                                        <option value="{!! $company->fname !!}">{!! $company->fname !!}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                         </div>
 
                         <div class="row">
@@ -154,8 +173,10 @@
     <script>
         var from = moment().subtract(7, 'days').format(dateFormat);
         var to = dateNow();
+        var company = "%%";
         var from2 = moment().subtract(7, 'days').format(dateFormat);
         var to2 = dateNow();
+        var company2 = "%%";
         var ctx, myChart, ctx2, myChart2;
 
         let settings = {
@@ -174,7 +195,7 @@
         $("#from").on('change', e => {
             from = e.target.value;
             myChart.destroy();
-            createChart();
+            createChart1();
         });
 
         $("#to").on('change', e => {
@@ -189,14 +210,20 @@
             createChart2();
         });
 
-        $("#to").on('change', e => {
-            to = e.target.value;
+        $("#to2").on('change', e => {
+            to2 = e.target.value;
+            myChart2.destroy();
+            createChart2();
+        });
+
+        $("#company").on('change', e => {
+            company = e.target.value;
             myChart.destroy();
             createChart1();
         });
 
-        $("#to2").on('change', e => {
-            to2 = e.target.value;
+        $("#company2").on('change', e => {
+            company2 = e.target.value;
             myChart2.destroy();
             createChart2();
         });
@@ -206,7 +233,8 @@
                 url: "{{ route("getReport1") }}",
                 data:{
                     from: from,
-                    to: to
+                    to: to,
+                    company: company
                 },
                 success: result => {
                     let chart = JSON.parse(result)["chart"];
@@ -229,7 +257,7 @@
                                 <td>${index+1}</td>
                                 <td>${row.package.company}</td>
                                 <td>${row.package.name}</td>
-                                <td>${row.type == "PEE" ? PPE : row.type}</td>
+                                <td>${row.type == "PEE" ? "PPE" : row.type}</td>
                             </tr>
                         ` + tableString;
                     });
@@ -244,14 +272,15 @@
                 url: "{{ route("getReport2") }}",
                 data:{
                     from: from2,
-                    to: to2
+                    to: to2,
+                    company: company2
                 },
                 success: result => {
                     let chart = JSON.parse(result)["chart"];
                     let table = JSON.parse(result)["table"];
 
                     ctx = document.getElementById('report2').getContext('2d');
-                    myChart = new Chart(ctx, {
+                    myChart2 = new Chart(ctx, {
                         type: 'line',
                         data: {
                             labels: chart.labels,
