@@ -84,6 +84,12 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-md-3" style="text-align: right; margin: auto;">
+                                <br>
+                                <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel1()">
+                                    <i class="fas fa-file-excel"></i> Export
+                                </a>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -265,6 +271,16 @@
                     $('#table1').html(tableString);
                 }
             });
+        }
+
+        function exportExcel1(){
+            let data = {
+                from: from,
+                to: to,
+                company: company
+            };
+
+            window.location.href = "{{ route('report.packagesSold') }}?" + $.param(data);
         }
 
         function createChart2(){

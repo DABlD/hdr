@@ -5,7 +5,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 
-use App\Models\ExamList;
+use App\Models\{ExamList, PatientPackage};
 
 class ReportController extends Controller
 {
@@ -51,5 +51,30 @@ class ReportController extends Controller
         $class = "App\\Exports\\Exam";
 
         return Excel::download(new $class($array, $req->type), "$filename.xlsx");
+    }
+
+    function packagesSold(Request $req){
+        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, $req->to])
+                ->where('package_id', '!=', 1)
+                ->where('package_id', '!=', 2)
+                ->where('p.company', 'like', $req->company)
+                ->select('patient_packages.*', 'p.company')
+                ->join('packages as p', 'p.id', '=', 'patient_packages.package_id')
+                ->get();
+
+        $data->load('user.patient');
+        $data->load('package');
+
+        $company = $req->company == "%%" ? "All Company" : preg_replace('/[^A-Za-z0-9\-]/', '', $req->company);
+
+        $filename = "Packages Sold ($req->from - $req->to) ($company)";
+        
+        $class = "App\\Exports\\PackageSold";
+
+        return Excel::download(new $class($data), "$filename.xlsx");
+    }
+
+    function amountSold(Request $req){
+        
     }
 }
