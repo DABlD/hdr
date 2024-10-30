@@ -27,8 +27,11 @@
 
 				if(sizeof($examinee->user->patient->exams)){
 					$temp = json_decode($examinee->user->patient->exams->last()->details);
-					$amount = $temp->amount;
-					$latestPackage = $temp->name;
+
+					if(!in_array($temp->name, ['Personal Medical History', 'Medical Examination Report'])){
+						$amount = $temp->amount;
+						$latestPackage = $temp->name;
+					}
 				}
 			@endphp
 			<tr>
