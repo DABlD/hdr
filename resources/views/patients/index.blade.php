@@ -266,7 +266,7 @@
 	        				        	<option value="">Select Company</option>
 	        				        	@foreach($companies as $company)
 	        				        	    @if($company != null)
-	        				        	        <option value="{{ $company }}">{{ $company }}</option>
+	        				        	        <option value="{!! $company !!}">{{ $company }}</option>
 	        				        	    @endif
 	        				        	@endforeach
 	        				        </select>
@@ -533,7 +533,7 @@
 	        				        	<option value="">Select Company</option>
 	        				        	@foreach($companies as $company)
 	        				        	    @if($company != null)
-	        				        	        <option value="{{ $company }}">{{ $company }}</option>
+	        				        	        <option value="{!! $company !!}">{{ $company }}</option>
 	        				        	    @endif
 	        				        	@endforeach
 	        				        </select>
