@@ -253,7 +253,7 @@
 
                 swal.showLoading();
                 update({
-                    url: "{{ route("patient.update") }}",
+                    url: "{{ route("patient.updateSubjective") }}",
                     data: {
                         id: id,
                         question_with_answers: JSON.stringify(array)
