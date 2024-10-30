@@ -81,7 +81,7 @@
                     dataSrc: "",
                     data: {
                         select: "*",
-                        where: ["company_name", "=", "{{ $title }}"],
+                        where: ["company_name", "=", "{!! $title !!}"],
                         load: ['user']
                     }
                 },
