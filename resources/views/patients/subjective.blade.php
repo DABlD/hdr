@@ -134,14 +134,19 @@
                         let string = "";
 
                         for (let [k, v] of Object.entries(questions[""])) {
+                            let hide = "";
+                            if(["Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
+                                hide = "d-none";
+                            }
+
                             string += `
-                                <div class="row">
+                                <div class="row ${hide}">
                                     <div class="col-md-12" style="text-align: left;">
                                         <b style="font-size: 1.5rem;">${v.name}</b>
                                     </div>
                                 </div>
 
-                                <table class="table table-hover qtd" style="width: 100%; margin-top: 5px; text-align: left;">
+                                <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
                                     <thead>
                                         <tr>
                                             <th style="width: 40%;">Name</th>
@@ -183,7 +188,7 @@
                                 }
                             }
 
-                            string += "</tbody></table><br>";
+                            string += "</tbody></table>";
                             historyString = string;
                         }
 
