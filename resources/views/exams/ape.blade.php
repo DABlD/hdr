@@ -505,10 +505,13 @@
         		data: {
         			select: '*',
         			where: ['id', ppid],
-        			load: ["package.questions"]
+        			load: ["package.questions"],
+        			mhr: true,
         		},
         		success: result => {
-        			result = JSON.parse(result)[0];
+        			mhr = JSON.parse(result)["mhr"];
+        			mhrQuestions = JSON.parse(result)["questions"];
+        			result = JSON.parse(result)["package"];
 
         			// LIST OF INCLUSIONS
     				let list = "";
@@ -541,6 +544,8 @@
     					`;
     				}
 
+    				let subjective = generateSubjective(mhrQuestions);
+
 		        	Swal.fire({
 		        		// title: "Result/Impressions",
 		        		html: `
@@ -561,24 +566,30 @@
 		        					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
 		        					    <li class="nav-item">
 		        					        <a class="nav-link active" href="#tab1" data-toggle="tab">
-		        					            Result/Impressions
+		        					            Subjective
 		        					        </a>
 		        					    </li>
 		        					    &nbsp;
 		        					    <li class="nav-item">
 		        					        <a class="nav-link" href="#tab2" data-toggle="tab">
-		        					            Clinical Assessment
+		        					            Result/Impressions
 		        					        </a>
 		        					    </li>
 		        					    &nbsp;
 		        					    <li class="nav-item">
 		        					        <a class="nav-link" href="#tab3" data-toggle="tab">
-		        					            Recommendation
+		        					            Clinical Assessment
 		        					        </a>
 		        					    </li>
 		        					    &nbsp;
 		        					    <li class="nav-item">
 		        					        <a class="nav-link" href="#tab4" data-toggle="tab">
+		        					            Recommendation
+		        					        </a>
+		        					    </li>
+		        					    &nbsp;
+		        					    <li class="nav-item">
+		        					        <a class="nav-link" href="#tab5" data-toggle="tab">
 		        					            Classification
 		        					        </a>
 		        					    </li>
@@ -588,18 +599,22 @@
 
 		        					<div class="tab-content p-0">
 		        					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
-		        					    	<div id="summernote1">${result.remarks ?? ""}</div>
+		        					    	${subjective}
 		        					    </div>
 
 		        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
-		        					    	<div id="summernote2">${result.clinical_assessment ?? ""}</div>
+		        					    	<div id="summernote1">${result.remarks ?? ""}</div>
 		        					    </div>
 
 		        					    <div class="chart tab-pane" id="tab3" style="position: relative;">
+		        					    	<div id="summernote2">${result.clinical_assessment ?? ""}</div>
+		        					    </div>
+
+		        					    <div class="chart tab-pane" id="tab4" style="position: relative;">
 		        					    	<div id="summernote3">${result.recommendation ?? ""}</div>
 		        					    </div>
 
-		        					    <div class="chart tab-pane" id="tab4" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
+		        					    <div class="chart tab-pane" id="tab5" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
 	                                        <input type="radio" name="classification" value="Fit to work"> Fit to work
 	                                        <br>
 	                                        <input type="radio" name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
@@ -614,6 +629,11 @@
 		        				</div>
 		        			</div>
 		        		`,
+					  	showClass: {
+					    	backdrop: 'swal2-noanimation', // disable backdrop animation
+					    	popup: '',                     // disable popup animation
+					    	icon: ''                       // disable icon animation
+					  	},
 		        		position: "top",
 		                width: 1500,
 		                confirmButtonText: "Save",
@@ -622,6 +642,41 @@
 						cancelButtonText: 'Cancel',
 						allowOutsideClick: false,
 						allowEscapeKey: false,
+						preConfirm: () => {
+							let array = [];
+
+							let answers = $('td.answer');
+							let remarks = $('input.remark');
+
+							let len = $('td.answer').length;
+
+							for(let i = 0; i < len; i++){
+							    let id = answers[i].dataset.id;
+							    let type = answers[i].dataset.type;
+							    let answer = "";
+
+							    if(type == "Dichotomous"){
+							        answer = $(`[name="rb${id}"]:checked`).val() ?? null;
+							    }
+							    else if(type == "Text"){
+							        answer = $(`.answer input[data-id="${id}"]`).val();
+							    }
+
+							    array.push({
+							        id: id,
+							        answer: answer,
+							        remark: $(`.remark[data-id="${id}"]`).val()
+							    });
+							}
+
+							update({
+							    url: "{{ route("patientPackage.update") }}",
+							    data: {
+							        id: mhr.id,
+							        question_with_answers: JSON.stringify(array)
+							    }
+							});
+						},
 		        		didOpen: () => {
 							$('#summernote1, #summernote2, #summernote3').summernote({
 								height: 600,
@@ -636,6 +691,25 @@
 							$('#files').on('change', e => {
 							    updateFile(ppid);
 							});
+
+							let qwa = mhr.question_with_answers;
+
+							if(qwa){
+							    qwa = JSON.parse(qwa);
+
+							    qwa.forEach(qwa => {
+							        let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
+
+							        if(type == "Dichotomous"){
+							            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
+							        }
+							        else if(type == "Text"){
+							            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+							        }
+
+							        $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
+							    });
+							}
 		        		}
 		        	}).then(result => {
 		        		if(result.value){
@@ -659,6 +733,74 @@
 		        	});
         		}
         	})
+        }
+
+        function generateSubjective(questions){
+            let keys = Object.keys(questions);
+            let categories = questions[keys[keys.length-1]];
+
+            let string = "";
+
+            for (let [k, v] of Object.entries(questions[""])) {
+            	let hide = "";
+				if(!["Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
+					hide = "d-none";
+				}
+
+                string += `
+                    <div class="row ${hide}">
+                        <div class="col-md-12" style="text-align: left;">
+                            <b style="font-size: 1.5rem;">${v.name}</b>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Name</th>
+                                <th style="width: 30%;" class="answer">Answer</th>
+                                <th style="width: 30%;" class="remark">Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                let temp = questions[v.id];
+
+                if(temp){
+                    for(let i = 0; i < temp.length; i++){
+                        let answer = "";
+
+                        if(temp[i].type == "Text"){
+                            answer = `
+                                <input type="text" class="form-control" data-id="${temp[i].id}">
+                            `;
+                        }
+                        else if(temp[i].type == "Dichotomous"){
+                            answer = `
+                                <input type="radio" name="rb${temp[i].id}" value="1">Yes
+                                &nbsp;
+                                <input type="radio" name="rb${temp[i].id}" value="0">No
+                            `;
+                        }
+
+                        string += `
+                            <tr>
+                                <td>${temp[i].name}</td>
+                                <td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
+                                <td>
+                                    <input type="text" class="form-control remark" data-id="${temp[i].id}">
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+
+                string += "</tbody></table>";
+                historyString = string;
+            }
+
+            return historyString;
         }
 
         async function updateFile(ppid){

@@ -56,6 +56,22 @@ class PatientPackageController extends Controller
             $array = $array->groupBy($req->group);
         }
 
+        if($req->mhr){
+            $package = $array->first();
+
+            $questions = null;
+
+            $mhr = PatientPackage::select('*')->where('user_id', $package->user_id)->where('package_id', 2)->get();
+            if($mhr){
+                $mhr = $mhr->first();
+                $mhr->load('package');
+
+                $questions = Question::where("package_id", 2)->get()->groupBy("category_id");
+            }
+
+            $array = ["package" => $package, "mhr" => $mhr, "questions" => $questions];
+        }
+
         echo json_encode($array);
     }
 
