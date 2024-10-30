@@ -1269,6 +1269,8 @@
 				title: "Scan QR",
 				html: `
 					<div id="qrcode" style="text-align: -webkit-center;"></div>
+					<br>
+					{{ route('patient.subjective') }}?id=${id}
 				`,
 				didOpen: () => {
 					new QRCode(document.getElementById("qrcode"), "{{ route('patient.subjective') }}?id=" + id);
