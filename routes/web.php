@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('patient/subjective', "SubjectiveController@index")->name('patient.subjective');
+Route::get('patient/getQuestion', "SubjectiveController@getQuestion")->name('patient.getQuestion');
+Route::get('patient/getPatientPackage', "SubjectiveController@getPatientPackage")->name('patient.getPatientPackage');
+Route::get('patient/update', "SubjectiveController@update")->name('patient.update');
 // Route::post('company/import', "CompanyController@import")->name('company.import');
 
 Route::get('/', function(){

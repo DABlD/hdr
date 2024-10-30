@@ -103,7 +103,7 @@
         <script>
             $(document).ready(() => {
                 $.ajax({
-                    url: "{{ route("patientPackage.get") }}",
+                    url: "{{ route("patient.getPatientPackage") }}",
                     data: {
                         select: "*",
                         where: ["user_id", {{ $user->id }}],
@@ -119,7 +119,7 @@
 
             function generateString(result){
                 $.ajax({
-                    url: "{{ route('question.get') }}",
+                    url: "{{ route('patient.getQuestion') }}",
                     data: {
                         select: "*",
                         where: ["package_id", result.package_id],
@@ -253,7 +253,7 @@
 
                 swal.showLoading();
                 update({
-                    url: "{{ route("patientPackage.update") }}",
+                    url: "{{ route("patient.update") }}",
                     data: {
                         id: id,
                         question_with_answers: JSON.stringify(array)
