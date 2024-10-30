@@ -43,7 +43,10 @@ class DashboardController extends Controller
             $temp3[$date] = 0;
         }
 
-        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])->get();
+        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])
+                                ->where('package_id', '!=', 1)
+                                ->where('package_id', '!=', 2)
+                                ->get();
 
         foreach($data as $request){
             $temp[now()->parse($request->created_at)->toDateString()]++;
@@ -114,7 +117,10 @@ class DashboardController extends Controller
             $temp3[$date] = 0;
         }
 
-        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])->get();
+        $data = PatientPackage::whereBetween('created_at', [$req->from, $req->to])
+                                ->where('package_id', '!=', 1)
+                                ->where('package_id', '!=', 2)
+                                ->get();
 
         foreach($data as $request){
             $details = json_decode($request->details);
