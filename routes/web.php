@@ -50,7 +50,7 @@ Route::group([
             ->defaults('icon', 'fas fa-user-doctor')
             ->defaults('name', 'Profile')
             ->defaults('roles', array('Admin'))
-            ->name('dashboard')
+            ->name('profile')
             ->defaults('href', '/profile');
 
         // USER ROUTES
