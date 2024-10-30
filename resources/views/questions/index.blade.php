@@ -312,7 +312,8 @@
 					select: '*',
 					where: ['company', fCompany],
 					group: 'type',
-					getLaboratory: true
+					getLaboratory: true,
+					getSubjective: true
 				},
 				success: result => {
 					result = JSON.parse(result);
