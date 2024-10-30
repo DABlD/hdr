@@ -118,7 +118,7 @@
 					{data: 'user.birthday'},
 					{data: 'user.id'},
 					{data: 'user.id'},
-					{data: 'medical'}
+					{data: 'medical', width: "120px"}
 				],
 				order: [[0, 'desc']],
         		pageLength: 25,
