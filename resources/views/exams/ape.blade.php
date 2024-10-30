@@ -151,12 +151,13 @@
 	                    targets: 8,
 	                    render: (a,b,row) => {
 	                    	if(row.user.patient.exams.length){
-	                    		let amount = "";
+	                    		let amount = 0;
 
 	                    		row.user.patient.exams.forEach(exam => {
 	                    			let temp = JSON.parse(exam.details);
 	                    			amount += temp.amount;
 	                    		});
+
 
 	                    		return "₱" + numeral(amount).format("0,0");
 	                    	}

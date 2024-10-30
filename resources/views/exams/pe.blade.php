@@ -124,13 +124,13 @@
         		pageLength: 25,
 	            columnDefs: [
 	                {
-	                    targets: 5,
+	                    targets: 6,
 	                    render: birthday => {
 	                        return birthday ? toDate(birthday) + " " + `(${moment().diff(birthday, 'years')})` : "-";
 	                    },
 	                },
 	                {
-	                    targets: 6,
+	                    targets: 7,
 	                    render: (a,b,row) => {
 	                    	if(row.user.patient.exams.length){
 	                    		let latestPackage = "";
@@ -148,7 +148,7 @@
 	                    },
 	                },
 	                {
-	                    targets: 7,
+	                    targets: 8,
 	                    render: (a,b,row) => {
 	                    	if(row.user.patient.exams.length){
 	                    		let amount = 0;
@@ -157,6 +157,7 @@
 	                    			let temp = JSON.parse(exam.details);
 	                    			amount += temp.amount;
 	                    		});
+
 
 	                    		return "₱" + numeral(amount).format("0,0");
 	                    	}
