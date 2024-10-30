@@ -417,7 +417,7 @@
 				                    	setTimeout(() => {
 			                    			ss("Success");
 					                    	setTimeout(() => {
-					                    		takeExam(id);
+					                    		requestList(id);
 					                    	}, 1000);
 				                    	}, 2000);
 		                    		}
