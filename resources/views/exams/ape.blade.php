@@ -517,220 +517,225 @@
     				let list = "";
     				let questions = Object.groupBy(result.package.questions, ({ category_id }) => category_id);
 
-    				questions[null].forEach(category => {
-        				let inclusions = "";
+    				if(questions[null]){
+	    				questions[null].forEach(category => {
+	        				let inclusions = "";
 
-        				if(questions[category.id]){
-        					questions[category.id].forEach(question => {
-        						inclusions += `${question.name}<br>`;
-        					});
+	        				if(questions[category.id]){
+	        					questions[category.id].forEach(question => {
+	        						inclusions += `${question.name}<br>`;
+	        					});
 
-        					list += `
-        						- <b>${category.name}</b><br>
-	        					${inclusions}<br>
-        					`;
-        				}
-    				});
+	        					list += `
+	        						- <b>${category.name}</b><br>
+		        					${inclusions}<br>
+	        					`;
+	        				}
+	    				});
 
-    				// FILES
-    				let attachment = "<span style='color: red;'>No Attached File</span>";
+	    				// FILES
+	    				let attachment = "<span style='color: red;'>No Attached File</span>";
 
 
-    				if(result.file){
-    					attachment = `
-    						<span style="color: blue;">
-    							<a href="../${result.file}" target="_blank">Download</a>
-    						</span>
-    					`;
-    				}
+	    				if(result.file){
+	    					attachment = `
+	    						<span style="color: blue;">
+	    							<a href="../${result.file}" target="_blank">Download</a>
+	    						</span>
+	    					`;
+	    				}
 
-    				let subjective = generateSubjective(mhrQuestions);
+	    				let subjective = generateSubjective(mhrQuestions);
 
-		        	Swal.fire({
-		        		// title: "Result/Impressions",
-		        		html: `
-		        			<div class="row">
-		        				<div class="col-md-2" style="text-align: left;">
-		        					<h2><u><b>Inclusions</b></u></h2>
-		        					<br>
-		        					${list}
-		        					<h2><u><b>Attachment</b></u></h2>
-		        					${attachment}
-		        					<label for="files" class="btn btn-info">Upload File</label>
-		        					<br>
-		        					<input id="files" class="d-none" type="file">
+			        	Swal.fire({
+			        		// title: "Result/Impressions",
+			        		html: `
+			        			<div class="row">
+			        				<div class="col-md-2" style="text-align: left;">
+			        					<h2><u><b>Inclusions</b></u></h2>
+			        					<br>
+			        					${list}
+			        					<h2><u><b>Attachment</b></u></h2>
+			        					${attachment}
+			        					<label for="files" class="btn btn-info">Upload File</label>
+			        					<br>
+			        					<input id="files" class="d-none" type="file">
 
-		        				</div>
-		        				<div class="col-md-10">
+			        				</div>
+			        				<div class="col-md-10">
 
-		        					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
-		        					    <li class="nav-item">
-		        					        <a class="nav-link active" href="#tab1" data-toggle="tab">
-		        					            Subjective
-		        					        </a>
-		        					    </li>
-		        					    &nbsp;
-		        					    <li class="nav-item">
-		        					        <a class="nav-link" href="#tab2" data-toggle="tab">
-		        					            Result/Impressions
-		        					        </a>
-		        					    </li>
-		        					    &nbsp;
-		        					    <li class="nav-item">
-		        					        <a class="nav-link" href="#tab3" data-toggle="tab">
-		        					            Clinical Assessment
-		        					        </a>
-		        					    </li>
-		        					    &nbsp;
-		        					    <li class="nav-item">
-		        					        <a class="nav-link" href="#tab4" data-toggle="tab">
-		        					            Recommendation
-		        					        </a>
-		        					    </li>
-		        					    &nbsp;
-		        					    <li class="nav-item">
-		        					        <a class="nav-link" href="#tab5" data-toggle="tab">
-		        					            Classification
-		        					        </a>
-		        					    </li>
-		        					</ul>
+			        					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
+			        					    <li class="nav-item">
+			        					        <a class="nav-link active" href="#tab1" data-toggle="tab">
+			        					            Subjective
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab2" data-toggle="tab">
+			        					            Result/Impressions
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab3" data-toggle="tab">
+			        					            Clinical Assessment
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab4" data-toggle="tab">
+			        					            Recommendation
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab5" data-toggle="tab">
+			        					            Classification
+			        					        </a>
+			        					    </li>
+			        					</ul>
 
-		        					<br>
+			        					<br>
 
-		        					<div class="tab-content p-0">
-		        					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
-		        					    	${subjective}
-		        					    </div>
+			        					<div class="tab-content p-0">
+			        					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
+			        					    	${subjective}
+			        					    </div>
 
-		        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
-		        					    	<div id="summernote1">${result.remarks ?? ""}</div>
-		        					    </div>
+			        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
+			        					    	<div id="summernote1">${result.remarks ?? ""}</div>
+			        					    </div>
 
-		        					    <div class="chart tab-pane" id="tab3" style="position: relative;">
-		        					    	<div id="summernote2">${result.clinical_assessment ?? ""}</div>
-		        					    </div>
+			        					    <div class="chart tab-pane" id="tab3" style="position: relative;">
+			        					    	<div id="summernote2">${result.clinical_assessment ?? ""}</div>
+			        					    </div>
 
-		        					    <div class="chart tab-pane" id="tab4" style="position: relative;">
-		        					    	<div id="summernote3">${result.recommendation ?? ""}</div>
-		        					    </div>
+			        					    <div class="chart tab-pane" id="tab4" style="position: relative;">
+			        					    	<div id="summernote3">${result.recommendation ?? ""}</div>
+			        					    </div>
 
-		        					    <div class="chart tab-pane" id="tab5" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
-	                                        <input type="radio" name="classification" value="Fit to work"> Fit to work
-	                                        <br>
-	                                        <input type="radio" name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
-	                                        <br>
-	                                        <input type="radio" name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
-	                                        <br>
-	                                        <input type="radio" name="classification" value="Unfit to work"> Unfit to work
-	                                        <br>
-	                                        <input type="radio" name="classification" value="Pending"> Pending
-		        					    </div>
-		        					</div>
-		        				</div>
-		        			</div>
-		        		`,
-					  	showClass: {
-					    	backdrop: 'swal2-noanimation', // disable backdrop animation
-					    	popup: '',                     // disable popup animation
-					    	icon: ''                       // disable icon animation
-					  	},
-		        		position: "top",
-		                width: 1500,
-		                confirmButtonText: "Save",
-						showCancelButton: true,
-						cancelButtonColor: errorColor,
-						cancelButtonText: 'Cancel',
-						allowOutsideClick: false,
-						allowEscapeKey: false,
-						preConfirm: () => {
-							let array = [];
+			        					    <div class="chart tab-pane" id="tab5" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
+		                                        <input type="radio" name="classification" value="Fit to work"> Fit to work
+		                                        <br>
+		                                        <input type="radio" name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
+		                                        <br>
+		                                        <input type="radio" name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
+		                                        <br>
+		                                        <input type="radio" name="classification" value="Unfit to work"> Unfit to work
+		                                        <br>
+		                                        <input type="radio" name="classification" value="Pending"> Pending
+			        					    </div>
+			        					</div>
+			        				</div>
+			        			</div>
+			        		`,
+						  	showClass: {
+						    	backdrop: 'swal2-noanimation', // disable backdrop animation
+						    	popup: '',                     // disable popup animation
+						    	icon: ''                       // disable icon animation
+						  	},
+			        		position: "top",
+			                width: 1500,
+			                confirmButtonText: "Save",
+							showCancelButton: true,
+							cancelButtonColor: errorColor,
+							cancelButtonText: 'Cancel',
+							allowOutsideClick: false,
+							allowEscapeKey: false,
+							preConfirm: () => {
+								let array = [];
 
-							let answers = $('td.answer');
-							let remarks = $('input.remark');
+								let answers = $('td.answer');
+								let remarks = $('input.remark');
 
-							let len = $('td.answer').length;
+								let len = $('td.answer').length;
 
-							for(let i = 0; i < len; i++){
-							    let id = answers[i].dataset.id;
-							    let type = answers[i].dataset.type;
-							    let answer = "";
+								for(let i = 0; i < len; i++){
+								    let id = answers[i].dataset.id;
+								    let type = answers[i].dataset.type;
+								    let answer = "";
 
-							    if(type == "Dichotomous"){
-							        answer = $(`[name="rb${id}"]:checked`).val() ?? null;
-							    }
-							    else if(type == "Text"){
-							        answer = $(`.answer input[data-id="${id}"]`).val();
-							    }
+								    if(type == "Dichotomous"){
+								        answer = $(`[name="rb${id}"]:checked`).val() ?? null;
+								    }
+								    else if(type == "Text"){
+								        answer = $(`.answer input[data-id="${id}"]`).val();
+								    }
 
-							    array.push({
-							        id: id,
-							        answer: answer,
-							        remark: $(`.remark[data-id="${id}"]`).val()
-							    });
-							}
+								    array.push({
+								        id: id,
+								        answer: answer,
+								        remark: $(`.remark[data-id="${id}"]`).val()
+								    });
+								}
 
-							update({
-							    url: "{{ route("patientPackage.update") }}",
-							    data: {
-							        id: mhr.id,
-							        question_with_answers: JSON.stringify(array)
-							    }
-							});
-						},
-		        		didOpen: () => {
-							$('#summernote1, #summernote2, #summernote3').summernote({
-								height: 600,
-		                		focus: true
-							});
+								update({
+								    url: "{{ route("patientPackage.update") }}",
+								    data: {
+								        id: mhr.id,
+								        question_with_answers: JSON.stringify(array)
+								    }
+								});
+							},
+			        		didOpen: () => {
+								$('#summernote1, #summernote2, #summernote3').summernote({
+									height: 600,
+			                		focus: true
+								});
 
-							$('.note-editable').css('text-align', 'left');
-							$('.note-insert').css('display', 'none');
+								$('.note-editable').css('text-align', 'left');
+								$('.note-insert').css('display', 'none');
 
-							$(`[name="classification"][value="${result.classification}"]`).click();
+								$(`[name="classification"][value="${result.classification}"]`).click();
 
-							$('#files').on('change', e => {
-							    updateFile(ppid);
-							});
+								$('#files').on('change', e => {
+								    updateFile(ppid);
+								});
 
-							let qwa = mhr.question_with_answers;
+								let qwa = mhr.question_with_answers;
 
-							if(qwa){
-							    qwa = JSON.parse(qwa);
+								if(qwa){
+								    qwa = JSON.parse(qwa);
 
-							    qwa.forEach(qwa => {
-							        let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
+								    qwa.forEach(qwa => {
+								        let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
 
-							        if(type == "Dichotomous"){
-							            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
-							        }
-							        else if(type == "Text"){
-							            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
-							        }
+								        if(type == "Dichotomous"){
+								            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
+								        }
+								        else if(type == "Text"){
+								            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+								        }
 
-							        $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
-							    });
-							}
-		        		}
-		        	}).then(result => {
-		        		if(result.value){
-		        			swal.showLoading();
-		        			update({
-		        				url: "{{ route('patientPackage.update') }}",
-		        				data: {
-		        					id: ppid,
-		        					remarks: $('#summernote1').summernote('code'),
-		        					clinical_assessment: $('#summernote2').summernote('code'),
-		        					recommendation: $('#summernote3').summernote('code'),
-		        					classification: $('[name="classification"]:checked').val()
-		        				},
-		        				message: "Successfully saved"
-		        			}, () => {
-		        				setTimeout(() => {
-		        					addResult(ppid);
-		        				}, 1500);
-		        			})
-		        		}
-		        	});
+								        $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
+								    });
+								}
+			        		}
+			        	}).then(result => {
+			        		if(result.value){
+			        			swal.showLoading();
+			        			update({
+			        				url: "{{ route('patientPackage.update') }}",
+			        				data: {
+			        					id: ppid,
+			        					remarks: $('#summernote1').summernote('code'),
+			        					clinical_assessment: $('#summernote2').summernote('code'),
+			        					recommendation: $('#summernote3').summernote('code'),
+			        					classification: $('[name="classification"]:checked').val()
+			        				},
+			        				message: "Successfully saved"
+			        			}, () => {
+			        				setTimeout(() => {
+			        					addResult(ppid);
+			        				}, 1500);
+			        			})
+			        		}
+			        	});
+			        }
+			        else{
+			        	se("Package has no inclusions yet.");
+			        }
         		}
         	})
         }
