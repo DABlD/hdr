@@ -229,7 +229,7 @@
                                 <td>${index+1}</td>
                                 <td>${row.package.company}</td>
                                 <td>${row.package.name}</td>
-                                <td>${row.type}</td>
+                                <td>${row.type == "PEE" ? PPE : row.type}</td>
                             </tr>
                         ` + tableString;
                     });
