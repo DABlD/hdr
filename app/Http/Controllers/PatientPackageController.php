@@ -143,6 +143,11 @@ class PatientPackageController extends Controller
         return $pdf->download();
     }
 
+    public function delete(Request $req){
+        PatientPackage::find($req->id)->delete();
+        Helper::log(auth()->user()->id, 'deleted patient package', $req->id);
+    }
+
     public function index(){
         return $this->_view('index', [
             'title' => "Patient Packages",

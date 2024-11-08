@@ -501,6 +501,9 @@
 	        							<a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
 	        								<i class="fas fa-file-pdf"></i>
 	        							</a>
+	        							<a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deletepPackage(${pPackage.id})">
+	        								<i class="fas fa-times"></i>
+	        							</a>
 	        						</td>
 	        					</tr>
 	        				`;
@@ -523,7 +526,7 @@
                 						<th>Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
-                						<th style="width: 120px;">Result</th>
+                						<th style="width: 155px;">Result</th>
                 					</tr>
                 				</thead>
                 				<tbody>
@@ -536,6 +539,21 @@
 		        	})
         		}
         	})
+        }
+
+        function deletepPackage(id){
+        	sc("Confirmation", "Are you sure you want to delete?", result => {
+        		if(result.value){
+        			swal.showLoading();
+        			update({
+        				url: "{{ route('patientPackage.delete') }}",
+        				data: {id: id},
+        				message: "Success"
+        			}, () => {
+        				reload();
+        			})
+        		}
+        	});
         }
 
         function addResult(ppid){
@@ -722,11 +740,7 @@
 			        					classification: $('[name="classification"]:checked').val()
 			        				},
 			        				message: "Successfully saved"
-			        			}, () => {
-			        				setTimeout(() => {
-			        					addResult(ppid);
-			        				}, 1500);
-			        			})
+			        			});
 			        		}
 			        	});
 			        }
