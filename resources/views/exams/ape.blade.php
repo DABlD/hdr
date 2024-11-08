@@ -574,7 +574,7 @@
 			        					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
 			        					    <li class="nav-item">
 			        					        <a class="nav-link active" href="#tab1" data-toggle="tab">
-			        					            Subjective
+			        					            Medical Evaluation
 			        					        </a>
 			        					    </li>
 			        					    &nbsp;

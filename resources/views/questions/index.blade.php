@@ -103,7 +103,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-table mr-1"></i>
-                            Subjective
+                            Medical Evaluation
                         </h3>
                         
                         {{-- <h3 class="float-right">
