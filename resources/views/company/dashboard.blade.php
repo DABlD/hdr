@@ -13,12 +13,20 @@
                         </h3>
 
                         <div class="card-tools">
-                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="create()">
-                                <i class="fas fa-plus fa-2xl"></i>
+                            <a class="btn btn-success" data-toggle="tooltip" title="Add Patient" onclick="create()">
+                                <i class="fas fa-plus"></i>
+                                Add Employee
                             </a>
                             <a class="btn btn-info" data-toggle="tooltip" title="Import From Excel" onclick="importEmployees()">
                                 <i class="fas fa-file-excel"></i>
                                 Import
+                            </a>
+
+                            <a href="{{ asset('files/HDR IMPORT TEMPLATE.xlsx') }}" download id="template"></a>
+
+                            <a class="btn btn-primary" data-toggle="tooltip" title="Download Template" onclick="downloadTemplate()">
+                                <i class="fas fa-download"></i>
+                                Template
                             </a>
                         </div>
                     </div>
@@ -1215,6 +1223,10 @@
                 method: "POST", 
                 body: formData
             });
+        }
+
+        function downloadTemplate(){
+            document.getElementById('template').click();
         }
     </script>
 @endpush
