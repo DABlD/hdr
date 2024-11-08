@@ -127,6 +127,7 @@
 					    <div class="col-md-9 iInput">
 					        <select name="role" class="form-control">
 					        	<option value="">Select Role</option>
+					        	<option value="Doctor">Doctor</option>
 					        	<option value="Nurse">Nurse</option>
 					        	<option value="Receptionist">Receptionist</option>
 					        </select>
@@ -257,6 +258,7 @@
 					    </div>
 					    <div class="col-md-9 iInput">
 					        <select name="role" class="form-control">
+					        	<option value="Doctor" ${user.role == "Doctor" ? "Selected" : ""}>Doctor</option>
 					        	<option value="Nurse" ${user.role == "Nurse" ? "Selected" : ""}>Nurse</option>
 					        	<option value="Receptionist" ${user.role == "Receptionist" ? "Selected" : ""}>Receptionist</option>
 					        </select>

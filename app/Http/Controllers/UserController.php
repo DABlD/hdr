@@ -94,9 +94,12 @@ class UserController extends Controller
         if($array->role == "Nurse"){
             $array->details = $array->nurse;
         }
-        elseif($array->role == "Receptionist"){
-            $array->details = $array->receptionist;
+        elseif($array->role == "Doctor"){
+            $array->details = $array->doctor;
         }
+        // elseif($array->role == "Receptionist"){
+        //     $array->details = $array->receptionist;
+        // }
 
         // IF HAS GROUP
         if($req->group){
@@ -124,17 +127,26 @@ class UserController extends Controller
         Helper::log(auth()->user()->id, 'created user', $data->id);
         
         if($data->role == "Doctor"){
-            Doctor::create(["user_id" => $data->id]);
+            Doctor::create([
+                "user_id" => $data->id,
+                "sss" => $req->sss,
+                "tin" => $req->tin,
+                "philhealth" => $req->philhealth,
+                "pagibig" => $req->pagibig
+            ]);
+
             Helper::log(auth()->user()->id, 'created doctor', $data->id);
         }
         elseif($data->role == "Nurse"){
             Nurse::create([
                 "user_id" => $data->id,
-                "sss" => $data->sss,
-                "tin" => $data->tin,
-                "philhealth" => $data->philhealth,
-                "pagibig" => $data->pagibig,
+                "sss" => $req->sss,
+                "tin" => $req->tin,
+                "philhealth" => $req->philhealth,
+                "pagibig" => $req->pagibig,
             ]);
+
+            Helper::log(auth()->user()->id, 'created nurse', $data->id);
         }
 
         echo $temp;
@@ -183,6 +195,15 @@ class UserController extends Controller
             $receptionist->pagibig = $req->pagibig;
             $receptionist->save();
             echo Helper::log(auth()->user()->id, 'updated receptionist', $nurse->id);
+        }
+        elseif($user->role == "Doctor"){
+            $doctor = Doctor::where('user_id', $req->id)->first();
+            $doctor->sss = $req->sss;
+            $doctor->tin = $req->tin;
+            $doctor->philhealth = $req->philhealth;
+            $doctor->pagibig = $req->pagibig;
+            $doctor->save();
+            echo Helper::log(auth()->user()->id, 'updated doctor', $doctor->id);
         }
 
         echo Helper::log(auth()->user()->id, 'updated user', $req->id);
