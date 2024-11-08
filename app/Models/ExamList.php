@@ -10,7 +10,7 @@ class ExamList extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        "user_id",'type'
+        "user_id",'doctor_id','type'
     ];
 
     protected $dates = [
