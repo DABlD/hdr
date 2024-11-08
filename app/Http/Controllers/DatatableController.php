@@ -154,11 +154,26 @@ class DatatableController extends Controller
         // FOR ACTIONS
         if(isset($req->filters) && sizeof($req->filters) > 1){
             foreach($array as $item){
+                if(auth()->user()->role != "Doctor")
+                {
+                    $medical = $item->user->medical;
+                    $medical .=   "<a class='btn btn-warning' data-toggle='tooltip' title='Assigned Doctor' onClick='assignedDoctor($item->id)'>" .
+                                    "<i class='fas fa-user-doctor'></i>" .
+                                "</a>&nbsp;";
+                    $medical .=   "<a class='btn btn-danger' data-toggle='tooltip' title='Delete' onClick='deleteType($item->id)'>" .
+                                    "<i class='fas fa-trash'></i>" .
+                                "</a>&nbsp;";
+                }
+                else{
+                    $medical =  "<a class='btn btn-primary' data-toggle='tooltip' title='Medical Evaluation' onClick='evaluation($item->user_id)'>" .
+                                    "<i class='fas fa-clipboard-prescription'></i>" .
+                                "</a>&nbsp;";
+                    $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id)'>" .
+                                    "<i class='fas fa-list'></i>" .
+                                "</a>&nbsp;";
+                }
 
-                $medical = $item->user->medical;
-                $medical .=   "<a class='btn btn-danger' data-toggle='tooltip' title='Delete' onClick='deleteType($item->id)'>" .
-                                "<i class='fas fa-trash'></i>" .
-                            "</a>&nbsp;";
+
 
                 $item->medical = $medical;
             }

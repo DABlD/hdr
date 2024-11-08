@@ -102,6 +102,9 @@
 	                data: f => {
 	                    f.select = ['exam_lists.*', 'p.company_name'];
 	                    f.filters = getFilters();
+	                    @if(auth()->user()->role == "Doctor")
+	                    	f.where = ["doctor_id", {{ auth()->user()->id }}];
+	                    @endif
 	                    // f.where = ["role", "Patient"];
 	                    // f.where2 = ["type", "APE"];
 	                    f.load = ["user.patient.exams"];
@@ -118,7 +121,11 @@
 					{data: 'user.birthday'},
 					{data: 'user.id'},
 					{data: 'user.id'},
-					{data: 'medical', width: "120px"}
+					@if(auth()->user()->role != "Doctor")
+						{data: 'medical', width: "165px"}
+					@else
+						{data: 'medical', width: "85px"}
+					@endif
 				],
 				order: [[0, 'desc']],
         		pageLength: 25,
@@ -944,6 +951,145 @@
         	};
 
         	window.location.href = "{{ route('report.exam') }}?" + $.param(data);
+        }
+
+        function assignedDoctor(id){
+        	$.ajax({
+        		url: "{{ route("examList.get") }}",
+        		data: {
+        			select: "*",
+        			where: ['id', id],
+        			load: ['attending_doctor.doctor']
+        		},
+        		success: result => {
+        			result = JSON.parse(result)[0];
+
+        			let user = result.attending_doctor;
+        			let string = "";
+
+        			if(user){
+        				string = `
+	    					<div class="card">
+		                        <div class="card-header row" style="margin: 1px; background-color: rgb(131, 200, 229);">
+		                            <div class="col-md-12">
+		                                <h3 class="card-title" style="width: 100%; text-align: left;">
+		                                    <i class="fas fa-user mr-1"></i>
+		                                    Assigned Doctor
+		                                </h3>
+		                            </div>
+		                        </div>
+
+		                        <div class="card-body" style="border: 1px solid rgba(0, 0, 0, 0.125);">
+	                    			<div class="col-md-12">
+	    	                			<img src="../${user.avatar}" alt="avatar" width="100" height="100">
+	                    			</div>
+
+	                    			<br>
+	                    			
+	                    			<div class="col-md-12 pInfo-left" style="text-align: left;">
+	                    				<span class="label">Name</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.fname ?? "-"} ${user.lname ?? "-"}</span>
+	                    			</div>
+
+	                    			<br>
+
+	                    			<div class="col-md-12 pInfo-left" style="text-align: left;">
+	                    				<span class="label">Specialization</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.doctor.specialization ?? "-"}</span>
+	                    			</div>
+	                    			
+	                    			<br>
+	                    			
+	                    			<div class="col-md-12 pInfo-left" style="text-align: left;">
+	                    				<span class="label">Title</span>
+	                    				<br>
+	                    				<span class="pInfo">${user.doctor.title ?? "-"}</span>
+	                    			</div>
+		                        </div>
+		                    </div>
+        				`;
+        			}
+        			else{
+        				string = "<b><h2>No Assigned Doctor</h2></b>";
+        			}
+
+        			Swal.fire({
+        				html: `
+        					${string}
+        				`,
+        				confirmButtonText: "Assign New",
+        				showCancelButton: true,
+        				cancelButtonColor: successColor,
+        				cancelButtonText: "OK"
+        			}).then(result => {
+        				if(result.value){
+        					assignDoctor(id);
+        				}
+        			})
+        		}
+        	})
+        }
+
+        function assignDoctor(id){
+			$.ajax({
+				url: "{{ route('user.get') }}",
+				data: {
+					where: ['role', 'Doctor'],
+					select: "*"
+				},
+				success: result => {
+					result = JSON.parse(result);
+
+					let doctorString = "";
+
+					result.forEach(doctor => {
+						doctorString += `
+							<option value="${doctor.id}">${doctor.fname} ${doctor.lname}</option>
+						`;
+					});
+
+					Swal.fire({
+						title: "Select Doctor to assign",
+						html: `
+							<select id="assigned_doctor" class="form-control">
+								<option value="">Select One</option>
+								${doctorString}
+							</select>
+						`,
+						showCancelButton: true,
+						cancelButtonColor: errorColor,
+						didOpen: () => {
+							$('#assigned_doctor').select2();
+						},
+						preConfirm: () => {
+							if($('#assigned_doctor').val() == ""){
+								Swal.showValidationMessage("You have not selected yet");
+							}
+						}
+					}).then(result2 => {
+						if(result2.value){
+							update({
+							    url: "{{ route("examList.update") }}",
+							    data: {
+							        id: id,
+							        doctor_id: $('#assigned_doctor').val()
+							    },
+							    message: "Successfully updated assigned doctor"
+							}, () => {
+								setTimeout(() => {
+									assignedDoctor(id);
+								}, 1500);
+							})
+						}
+					})
+				}
+			})
+        }
+
+        function evaluation(id){
+        	window.open(`{{ route('patient.subjective') }}?id=${id}`, '_blank').focus();
         }
 	</script>
 @endpush

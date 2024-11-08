@@ -20,4 +20,8 @@ class ExamList extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+
+    public function attending_doctor(){
+        return $this->belongsTo('App\Models\User', 'doctor_id', 'id');
+    }
 }

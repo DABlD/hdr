@@ -30,13 +30,15 @@
 
         <div class="col-md-1"></div>
 
-        <div class="col-md-2" style="text-align: right;">
-            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="addPatient()">
-                <i class="fas fa-plus"></i> Add Patient
-            </a>
-            <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel()">
-                <i class="fas fa-file-excel"></i> Export
-            </a>
-        </div>
+        @if(auth()->user()->role != "Doctor")
+            <div class="col-md-2" style="text-align: right;">
+                <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="addPatient()">
+                    <i class="fas fa-plus"></i> Add Patient
+                </a>
+                <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel()">
+                    <i class="fas fa-file-excel"></i> Export
+                </a>
+            </div>
+        @endif
     </div>
 </h3>
