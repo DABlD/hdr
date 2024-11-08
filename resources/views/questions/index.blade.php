@@ -10,6 +10,34 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
+                            <i class="fas fa-building mr-1"></i>
+                            Companies
+                        </h3>
+                        
+                        <h3 class="float-right">
+                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Company" onclick="createCompany()">
+                                <i class="fas fa-plus fa-2xl"></i>
+                            </a>
+                        </h3>
+                    </div>
+
+                    <div class="card-body table-responsive">
+                    	<table id="companyTable" class="table table-hover" style="width: 100%;">
+                    		<thead>
+                    			<tr>
+                    				<th>Name</th>
+                    				<th>Actions</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody>
+                    		</tbody>
+                    	</table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
                             <i class="fas fa-table mr-1"></i>
                             Company Package
                         </h3>
@@ -35,34 +63,6 @@
                     				<th>Name</th>
                     				<th>Amount</th>
                     				<th style="width: 130px;">Actions</th>
-                    			</tr>
-                    		</thead>
-                    		<tbody>
-                    		</tbody>
-                    	</table>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-building mr-1"></i>
-                            Companies
-                        </h3>
-                        
-                        <h3 class="float-right">
-                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Company" onclick="createCompany()">
-                                <i class="fas fa-plus fa-2xl"></i>
-                            </a>
-                        </h3>
-                    </div>
-
-                    <div class="card-body table-responsive">
-                    	<table id="companyTable" class="table table-hover" style="width: 100%;">
-                    		<thead>
-                    			<tr>
-                    				<th>Name</th>
-                    				<th>Actions</th>
                     			</tr>
                     		</thead>
                     		<tbody>
