@@ -149,12 +149,14 @@
                                         Account Information
                                     </a>
                                 </li>
-                                &nbsp;
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#tab4" data-toggle="tab">
-                                        Clinic Settings
-                                    </a>
-                                </li>
+                                @if(auth()->user()->role == "Admin")
+                                    &nbsp;
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#tab4" data-toggle="tab">
+                                            Clinic Settings
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </h3>
                     </div>

@@ -49,7 +49,7 @@ Route::group([
             ->defaults('sidebar', 1)
             ->defaults('icon', 'fas fa-user-doctor')
             ->defaults('name', 'Profile')
-            ->defaults('roles', array('Admin'))
+            ->defaults('roles', array('Admin', 'Doctor'))
             ->name('profile')
             ->defaults('href', '/profile');
 
@@ -92,7 +92,7 @@ Route::group([
                     ->defaults("sidebar", 1)
                     ->defaults("icon", "fa-duotone fas fa-users-medical")
                     ->defaults("name", ucfirst($cname) . "s")
-                    ->defaults("roles", array("Super Admin", "Admin", "Doctor", "Nurse", "Receptionist"))
+                    ->defaults("roles", array("Super Admin", "Admin", "Nurse", "Receptionist"))
                     // ->defaults("group", "Settings")
                     ->name($cname)
                     ->defaults("href", "/$cname");
@@ -195,7 +195,7 @@ Route::group([
                     ->defaults("sidebar", 1)
                     ->defaults("icon", "fas fa-list-check")
                     ->defaults("name", "Template Manager")
-                    ->defaults("roles", array("Super Admin", "Admin", "Doctor"))
+                    ->defaults("roles", array("Super Admin", "Admin"))
                     // ->defaults("group", "Settings")
                     ->name($cname)
                     ->defaults("href", "/$cname");

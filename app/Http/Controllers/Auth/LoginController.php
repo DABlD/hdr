@@ -28,6 +28,9 @@ class LoginController extends Controller
             elseif(in_array(auth()->user()->role, ["Nurse", "Receptionist"])){
                 return redirect()->route('patient.patient');
             }
+            elseif(in_array(auth()->user()->role, ["Doctor"])){
+                return redirect()->route('exam.examape');
+            }
             else{
                 return redirect()->route('dashboard');
             }
