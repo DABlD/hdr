@@ -145,6 +145,7 @@
 <h3>Recommendation</h3>
 {!! !in_array($data->recommendation, ["", "<p><br></p>"]) ? $data->recommendation : $defaultText !!}
 
+<br>
 <h3>Classification</h3>
 {{ $data->classification ?? $defaultText }}
 
