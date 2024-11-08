@@ -601,7 +601,7 @@
                 url: '{{ route('patientPackage.get') }}',
                 data: {
                     select: "*",
-                    where: ["user_id", id],
+                    where: ["patient_id", id],
                     load: ["package"]
                 },
                 success: result => {
