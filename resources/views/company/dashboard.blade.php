@@ -64,6 +64,15 @@
         .pInfo{
             color: deepskyblue;
         }
+
+        #swal2-html-container .nav-pills>li>a {
+            border-top: 3px solid !important;
+        }
+
+        #swal2-html-container .nav-link.active {
+            color: #fff !important;
+            background-color: #337ab7 !important;
+        }
     </style>
 @endpush
 
