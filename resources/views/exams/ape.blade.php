@@ -619,6 +619,12 @@
 			        					            Classification
 			        					        </a>
 			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item" style="position: absolute; right: 15px;">
+			        					    	<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Save" onclick="saveShortcut()">
+			        					    	    <i class="fas fa-save"></i>
+			        					    	</a>
+			        					    </li>
 			        					</ul>
 
 			        					<br>
@@ -759,6 +765,10 @@
 			        }
         		}
         	})
+        }
+
+        function saveShortcut(){
+        	$('.swal2-confirm').click();
         }
 
         function generateSubjective(questions){
