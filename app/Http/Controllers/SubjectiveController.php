@@ -13,9 +13,15 @@ class SubjectiveController extends Controller
         $user = User::find($req->id);
         $user->load('patient');
 
-        return $this->_view('index', [
+        return $this->_view('subjective', [
             'title' => "Fill-up Info",
             'user' => $user
+        ]);
+    }
+
+    public function search(Request $req){
+        return $this->_view('search', [
+            'title' => "Search Patient"
         ]);
     }
 
@@ -124,6 +130,6 @@ class SubjectiveController extends Controller
     }
 
     private function _view($view, $data = array()){
-        return view("patients.subjective", $data);
+        return view("patients.$view", $data);
     }
 }
