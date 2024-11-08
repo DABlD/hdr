@@ -49,7 +49,7 @@
 	<tr>
 		<td colspan="6"></td>
 		<td colspan="2">
-			X-ray No.:
+			{{-- X-ray No.: --}}
 		</td>
 	</tr>
 
@@ -132,17 +132,21 @@
 	</table>
 @endforeach
 
+@php
+	$defaultText = "Currently, there are no available results. Please check back later or contact your healthcare provider for further assistance.";
+@endphp
+
 <h3>Remarks</h3>
-{!! $data->remarks !!}
+{!! $data->remarks != "" ? $data->remarks : $defaultText !!}
 
 <h3>Clinical Assessment</h3>
-{!! $data->clinical_assessment !!}
+{!! $data->clinical_assessment != "" ? $data->clinical_assessment : $defaultText !!}
 
 <h3>Recommendation</h3>
-{!! $data->recommendation !!}
+{!! $data->recommendation != "" ? $data->recommendation : $defaultText !!}
 
 <h3>Classification</h3>
-{{ $data->classification }}
+{{ $data->classification ?? $defaultText }}
 
 <br>
 <table style="width: 100%">
