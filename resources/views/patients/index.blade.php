@@ -1274,6 +1274,14 @@
 				`,
 				didOpen: () => {
 					new QRCode(document.getElementById("qrcode"), "{{ route('patient.subjective') }}?id=" + id);
+				},
+				showCancelButton: true,
+				cancelButtonText: "Ok",
+				cancelButtonColor: successColor,
+				confirmButtonText: "View"
+			}).then(result => {
+				if(result.value){
+					window.open(`{{ route('patient.subjective') }}?id=${id}`, '_blank').focus();
 				}
 			})
 		}
