@@ -602,6 +602,7 @@
                 data: {
                     select: "*",
                     where: ["patient_id", id],
+                    where2: ["package_id", ">", 2],
                     load: ["package"]
                 },
                 success: result => {
