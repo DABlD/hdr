@@ -124,7 +124,8 @@ class SubjectiveController extends Controller
     }
 
     public function updateSubjective(Request $req){
-        $result = PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
+        $result = PatientPackage::where('id', $req->id)->first();
+        PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
 
         echo Helper::log($result->user_id, 'subjective was answered', null);
     }
