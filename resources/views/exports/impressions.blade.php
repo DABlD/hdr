@@ -137,13 +137,13 @@
 @endphp
 
 <h3>Remarks</h3>
-{!! $data->remarks != "" ? $data->remarks : $defaultText !!}
+{!! !in_array($data->remarks, ["", "<p><br></p>"]) ? $data->remarks : $defaultText !!}
 
 <h3>Clinical Assessment</h3>
-{!! $data->clinical_assessment != "" ? $data->clinical_assessment : $defaultText !!}
+{!! !in_array($data->clinical_assessment, ["", "<p><br></p>"]) ? $data->clinical_assessment : $defaultText !!}
 
 <h3>Recommendation</h3>
-{!! $data->recommendation != "" ? $data->recommendation : $defaultText !!}
+{!! !in_array($data->recommendation, ["", "<p><br></p>"]) ? $data->recommendation : $defaultText !!}
 
 <h3>Classification</h3>
 {{ $data->classification ?? $defaultText }}
