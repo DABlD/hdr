@@ -87,6 +87,8 @@ class PatientPackageController extends Controller
             $temp->package_id = $package->id;
             $temp->type = $req->type;
 
+            $temp->remarks = $req->remarks;
+
             $temp->details = json_encode($package->toArray());
             // $temp->question_with_answers = $req->question_with_answers;
             $temp->save();
