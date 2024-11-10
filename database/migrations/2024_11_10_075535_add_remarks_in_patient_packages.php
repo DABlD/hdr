@@ -14,7 +14,7 @@ class AddRemarksInPatientPackages extends Migration
     public function up()
     {
         Schema::table('patient_packages', function (Blueprint $table) {
-            $table->text('remarks')->nullable()->after('classification');
+            $table->text('c_remarks')->nullable()->after('classification');
         });
     }
 
@@ -26,7 +26,7 @@ class AddRemarksInPatientPackages extends Migration
     public function down()
     {
         Schema::table('patient_packages', function (Blueprint $table) {
-            $table->dropColumn('remarks');
+            $table->dropColumn('c_remarks');
         });
     }
 }
