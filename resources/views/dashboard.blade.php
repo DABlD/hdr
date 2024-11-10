@@ -321,16 +321,28 @@
                     });
 
                     let tableString = "";
+                    let total = 0;
 
                     chart.labels.forEach((label, index) => {
+                        total += chart.dataset[0].data[[index]];
+
                         tableString = `
                             <tr>
                                 <td>${index+1}</td>
                                 <td>${label}</td>
-                                <td>₱${numeral(chart.dataset[0].data[[index]]).format("0,0")}</td>
+                                <td>₱${numeral(chart.dataset[0].data[[index]]).format("0,0.00")}</td>
                             </tr>
                         ` + tableString;
                     });
+
+                    tableString = `
+                        <tr>
+                            <td></td>
+                            <td>Total</td>
+                            <td>₱${numeral(total).format("0,0.00")}</td>
+                        </tr>
+                        ${tableString}
+                    `;
 
                     $('#table2').html(tableString);
                 }
