@@ -102,6 +102,7 @@
                                             <th>#</th>
                                             <th>Company</th>
                                             <th>Package</th>
+                                            <th>Amount</th>
                                             <th>Type</th>
                                         </tr>
                                         <tbody id="table1"></tbody>
@@ -175,6 +176,7 @@
 @push('scripts')
     <script src="{{ asset('js/flatpickr.min.js') }}"></script>
     <script src="{{ asset('js/charts.min.js') }}"></script>
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
 
     <script>
         var from = moment().subtract(7, 'days').format(dateFormat);
@@ -263,6 +265,7 @@
                                 <td>${index+1}</td>
                                 <td>${row.package.company}</td>
                                 <td>${row.package.name}</td>
+                                <td>₱${numeral(row.package.amount).format("0,0")}</td>
                                 <td>${row.type == "PEE" ? "PPE" : row.type}</td>
                             </tr>
                         ` + tableString;
