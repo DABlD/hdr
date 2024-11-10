@@ -147,6 +147,19 @@
 
                         <div class="row">
                             <canvas id="report2" width="100%"></canvas>
+
+                            <div class="table-container">
+                                <table class="table table-hover" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                        <tbody id="table2"></tbody>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -306,6 +319,20 @@
                             datasets: chart.dataset
                         }
                     });
+
+                    let tableString = "";
+
+                    chart.labels.forEach((label, index) => {
+                        tableString = `
+                            <tr>
+                                <td>${index+1}</td>
+                                <td>${label}</td>
+                                <td>₱${numeral(chart.dataset[0].data[[index]]).format("0,0")}</td>
+                            </tr>
+                        ` + tableString;
+                    });
+
+                    $('#table2').html(tableString);
                 }
             });
         }
