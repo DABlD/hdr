@@ -142,7 +142,12 @@
                                     @endforeach
                                 </select>
                             </div>
-
+                            <div class="col-md-3" style="text-align: right; margin: auto;">
+                                <br>
+                                <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel2()">
+                                    <i class="fas fa-file-excel"></i> Export
+                                </a>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -347,6 +352,16 @@
                     $('#table2').html(tableString);
                 }
             });
+        }
+
+        function exportExcel2(){
+            let data = {
+                from: from,
+                to: to,
+                company: company
+            };
+
+            window.location.href = "{{ route('report.sales') }}?" + $.param(data);
         }
     </script>
 @endpush

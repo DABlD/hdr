@@ -74,7 +74,56 @@ class ReportController extends Controller
         return Excel::download(new $class($data), "$filename.xlsx");
     }
 
-    function amountSold(Request $req){
+    function sales(Request $req){
+        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, $req->to])
+                                ->where('package_id', '!=', 1)
+                                ->where('package_id', '!=', 2)
+                                ->where('p.company', 'like', $req->company)
+                                ->select('patient_packages.*', 'p.company')
+                                ->join('packages as p', 'p.id', '=', 'patient_packages.package_id')
+                                ->get();
         
+        $dates = $this->getDates($req->from, $req->to);
+        $total = 0;
+        $array = [];
+
+        foreach($data as $request){
+            $details = json_decode($request->details);
+            $amount = $details->amount;
+
+            if(isset($array[now()->parse($request->created_at)->toDateString()])){
+                $array[now()->parse($request->created_at)->toDateString()] += $amount;
+            }
+            else{
+                $array[now()->parse($request->created_at)->toDateString()] = $amount;
+            }
+
+            $total += $amount;
+        }
+
+        $company = $req->company == "%%" ? "All Company" : preg_replace('/[^A-Za-z0-9\-]/', '', $req->company);
+
+        $filename = "Sales ($req->from - $req->to) ($company)";
+        
+        $class = "App\\Exports\\Sales";
+
+        $data = [];
+        $data['sales'] = $array;
+        $data['dates'] = $dates;
+        $data['total'] = $total;
+
+        return Excel::download(new $class($data), "$filename.xlsx");
+    }
+
+    private function getDates($from, $to){
+        $dates = [];
+
+        while($from <= $to){
+            $tempDate = now()->parse($from);
+            array_push($dates, $tempDate->toDateString());
+            $from = $tempDate->addDay()->toDateString();
+        }
+
+        return $dates;
     }
 }

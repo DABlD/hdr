@@ -270,7 +270,7 @@ Route::group([
             ], function () use($cname){
                 Route::get("exam/", ucfirst($cname) . "Controller@exam")->name('exam');
                 Route::get("packagesSold/", ucfirst($cname) . "Controller@packagesSold")->name('packagesSold');
-                Route::get("amountSold/", ucfirst($cname) . "Controller@amountSold")->name('amountSold');
+                Route::get("sales/", ucfirst($cname) . "Controller@sales")->name('sales');
             }
         );
 
