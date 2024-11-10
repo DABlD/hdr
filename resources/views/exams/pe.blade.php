@@ -391,41 +391,6 @@
 						cancelButtonText: 'Cancel',
 						allowOutsideClick: false,
 						allowEscapeKey: false,
-						preConfirm: () => {
-							let array = [];
-
-							let answers = $('td.answer');
-							let remarks = $('input.remark');
-
-							let len = $('td.answer').length;
-
-							for(let i = 0; i < len; i++){
-							    let id = answers[i].dataset.id;
-							    let type = answers[i].dataset.type;
-							    let answer = "";
-
-							    if(type == "Dichotomous"){
-							        answer = $(`[name="rb${id}"]:checked`).val() ?? null;
-							    }
-							    else if(type == "Text"){
-							        answer = $(`.answer input[data-id="${id}"]`).val();
-							    }
-
-							    array.push({
-							        id: id,
-							        answer: answer,
-							        remark: $(`.remark[data-id="${id}"]`).val()
-							    });
-							}
-
-							update({
-							    url: "{{ route("patientPackage.update") }}",
-							    data: {
-							        id: mhr.id,
-							        question_with_answers: JSON.stringify(array)
-							    }
-							});
-						},
 						didOpen: () => {
 							$('.pInfo').parent().css('text-align', 'left');
 							$('#swal2-html-container .card-header').css('margin', "1px");
@@ -681,6 +646,10 @@
 		                                        <input type="radio" name="classification" value="Unfit to work"> Unfit to work
 		                                        <br>
 		                                        <input type="radio" name="classification" value="Pending"> Pending
+		                                        <br>
+		                                        <br>
+		                                        <label htmlFor="c_remarks">Remarks</label>
+		                                        <input type="text" id="c_remarks" class="form-control" value="${result.c_remarks ?? ""}">
 			        					    </div>
 			        					</div>
 			        				</div>
@@ -699,6 +668,41 @@
 							cancelButtonText: 'Cancel',
 							allowOutsideClick: false,
 							allowEscapeKey: false,
+							preConfirm: () => {
+								let array = [];
+
+								let answers = $('td.answer');
+								let remarks = $('input.remark');
+
+								let len = $('td.answer').length;
+
+								for(let i = 0; i < len; i++){
+								    let id = answers[i].dataset.id;
+								    let type = answers[i].dataset.type;
+								    let answer = "";
+
+								    if(type == "Dichotomous"){
+								        answer = $(`[name="rb${id}"]:checked`).val() ?? null;
+								    }
+								    else if(type == "Text"){
+								        answer = $(`.answer input[data-id="${id}"]`).val();
+								    }
+
+								    array.push({
+								        id: id,
+								        answer: answer,
+								        remark: $(`.remark[data-id="${id}"]`).val()
+								    });
+								}
+
+								update({
+								    url: "{{ route("patientPackage.update") }}",
+								    data: {
+								        id: mhr.id,
+								        question_with_answers: JSON.stringify(array)
+								    }
+								});
+							},
 			        		didOpen: () => {
 								$('#summernote1, #summernote2, #summernote3').summernote({
 									height: 600,
@@ -743,7 +747,8 @@
 			        					remarks: $('#summernote1').summernote('code'),
 			        					clinical_assessment: $('#summernote2').summernote('code'),
 			        					recommendation: $('#summernote3').summernote('code'),
-			        					classification: $('[name="classification"]:checked').val()
+			        					classification: $('[name="classification"]:checked').val(),
+			        					c_remarks: $('#c_remarks').val(),
 			        				},
 			        				message: "Successfully saved"
 			        			});
