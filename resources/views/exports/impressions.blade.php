@@ -148,6 +148,13 @@
 <br>
 <h3>Classification</h3>
 {{ $data->classification ?? $defaultText }}
+@if($data->c_remarks != "")
+<br>
+<br>
+<b>Remarks:</b> {!! $data->c_remarks !!}
+<br>
+<br>
+@endif
 
 <br>
 <table style="width: 100%">
