@@ -146,21 +146,33 @@
 <h3>Recommendation</h3>
 {!! !in_array($data->recommendation, ["", "<p><br></p>"]) ? $data->recommendation : $defaultText !!}
 
+<br>
 <h3>Classification</h3>
 {{ $data->classification ?? $defaultText }}
+@if($data->c_remarks != "")
+<br>
+<br>
+<b>Remarks:</b> {!! $data->c_remarks !!}
+<br>
+<br>
+@endif
 
 <br>
 <table style="width: 100%">
 	<tr>
 		<td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td colspan="3" style="text-decoration: underline; text-align: center; font-weight: bold;">
-			{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, {{ auth()->user()->doctor->title }}
+			@if(in_array(auth()->user()->role, ["Admin", "Doctor"]))
+				{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, {{ auth()->user()->doctor->title }}
+			@endif
 		</td>
 	</tr>
 	<tr>
 		<td colspan="5"></td>
 		<td colspan="3" style="text-align: center; font-weight: bold;">
-			{{ auth()->user()->doctor->specialization ?? "Doctor" }}
+			@if(in_array(auth()->user()->role, ["Admin", "Doctor"]))
+				{{ auth()->user()->doctor->specialization ?? "Doctor" }}
+			@endif
 		</td>
 	</tr>
 </table>

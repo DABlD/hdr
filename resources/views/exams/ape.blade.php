@@ -620,6 +620,12 @@
 			        					            Classification
 			        					        </a>
 			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item" style="position: absolute; right: 15px;">
+			        					    	<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Save" onclick="saveShortcut()">
+			        					    	    <i class="fas fa-save"></i>
+			        					    	</a>
+			        					    </li>
 			        					</ul>
 
 			        					<br>
@@ -642,15 +648,19 @@
 			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab5" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
-		                                        <input type="radio" name="classification" value="Fit to work"> Fit to work
+		                                        <input type="radio" name="classification" value="Fit to work"> A - Fit to work
 		                                        <br>
-		                                        <input type="radio" name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
+		                                        <input type="radio" name="classification" value="Physically fit with minor illness"> B - Physically fit with minor illness
 		                                        <br>
-		                                        <input type="radio" name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
+		                                        <input type="radio" name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> C - Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
 		                                        <br>
-		                                        <input type="radio" name="classification" value="Unfit to work"> Unfit to work
+		                                        <input type="radio" name="classification" value="Unfit to work"> D - Unfit to work
 		                                        <br>
 		                                        <input type="radio" name="classification" value="Pending"> Pending
+		                                        <br>
+		                                        <br>
+		                                        <label htmlFor="c_remarks">Remarks</label>
+		                                        <input type="text" id="c_remarks" class="form-control" value="${result.c_remarks ?? ""}">
 			        					    </div>
 			        					</div>
 			        				</div>
@@ -748,7 +758,8 @@
 			        					remarks: $('#summernote1').summernote('code'),
 			        					clinical_assessment: $('#summernote2').summernote('code'),
 			        					recommendation: $('#summernote3').summernote('code'),
-			        					classification: $('[name="classification"]:checked').val()
+			        					classification: $('[name="classification"]:checked').val(),
+			        					c_remarks: $('#c_remarks').val(),
 			        				},
 			        				message: "Successfully saved"
 			        			});
@@ -762,6 +773,10 @@
         	})
         }
 
+        function saveShortcut(){
+        	$('.swal2-confirm').click();
+        }
+
         function generateSubjective(questions){
             let keys = Object.keys(questions);
             let categories = questions[keys[keys.length-1]];
@@ -770,7 +785,7 @@
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
-				if(!["Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
+				if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
 					hide = "d-none";
 				}
 

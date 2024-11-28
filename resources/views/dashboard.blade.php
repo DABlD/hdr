@@ -102,6 +102,7 @@
                                             <th>#</th>
                                             <th>Company</th>
                                             <th>Package</th>
+                                            <th>Amount</th>
                                             <th>Type</th>
                                         </tr>
                                         <tbody id="table1"></tbody>
@@ -141,11 +142,29 @@
                                     @endforeach
                                 </select>
                             </div>
-
+                            <div class="col-md-3" style="text-align: right; margin: auto;">
+                                <br>
+                                <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel2()">
+                                    <i class="fas fa-file-excel"></i> Export
+                                </a>
+                            </div>
                         </div>
 
                         <div class="row">
                             <canvas id="report2" width="100%"></canvas>
+
+                            <div class="table-container">
+                                <table class="table table-hover" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                        <tbody id="table2"></tbody>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,6 +194,7 @@
 @push('scripts')
     <script src="{{ asset('js/flatpickr.min.js') }}"></script>
     <script src="{{ asset('js/charts.min.js') }}"></script>
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
 
     <script>
         var from = moment().subtract(7, 'days').format(dateFormat);
@@ -263,6 +283,7 @@
                                 <td>${index+1}</td>
                                 <td>${row.package.company}</td>
                                 <td>${row.package.name}</td>
+                                <td>₱${numeral(row.package.amount).format("0,0")}</td>
                                 <td>${row.type == "PEE" ? "PPE" : row.type}</td>
                             </tr>
                         ` + tableString;
@@ -303,8 +324,44 @@
                             datasets: chart.dataset
                         }
                     });
+
+                    let tableString = "";
+                    let total = 0;
+
+                    chart.labels.forEach((label, index) => {
+                        total += chart.dataset[0].data[[index]];
+
+                        tableString = `
+                            <tr>
+                                <td>${index+1}</td>
+                                <td>${label}</td>
+                                <td>₱${numeral(chart.dataset[0].data[[index]]).format("0,0.00")}</td>
+                            </tr>
+                        ` + tableString;
+                    });
+
+                    tableString = `
+                        <tr>
+                            <td></td>
+                            <td>Total</td>
+                            <td>₱${numeral(total).format("0,0.00")}</td>
+                        </tr>
+                        ${tableString}
+                    `;
+
+                    $('#table2').html(tableString);
                 }
             });
+        }
+
+        function exportExcel2(){
+            let data = {
+                from: from,
+                to: to,
+                company: company
+            };
+
+            window.location.href = "{{ route('report.sales') }}?" + $.param(data);
         }
     </script>
 @endpush
