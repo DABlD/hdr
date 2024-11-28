@@ -567,6 +567,7 @@
 	    						<span style="color: blue;">
 	    							<a href="../${result.file}" target="_blank">Download</a>
 	    						</span>
+	    						<br>
 	    					`;
 	    				}
 
@@ -584,7 +585,7 @@
 			        					${attachment}
 			        					<label for="files" class="btn btn-info">Upload File</label>
 			        					<br>
-			        					<input id="files" class="d-none" type="file">
+			        					<input id="files" class="d-none" type="file" accept="application/pdf">
 
 			        				</div>
 			        				<div class="col-md-10">

@@ -1,6 +1,7 @@
 @php
 	$answers = $data->questions_with_answers;
 	// dd($ids, $data->questions);
+	// dd($data);
 @endphp
 
 <style type="text/css">
@@ -163,3 +164,6 @@
 		</td>
 	</tr>
 </table>
+
+{{-- PAGE BREAK --}}
+<div style="page-break-after: always;"></div>
