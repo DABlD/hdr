@@ -749,6 +749,7 @@
 			        					recommendation: $('#summernote3').summernote('code'),
 			        					classification: $('[name="classification"]:checked').val(),
 			        					c_remarks: $('#c_remarks').val(),
+			        					doctor_id: {{ auth()->user()->id }}
 			        				},
 			        				message: "Successfully saved"
 			        			});
