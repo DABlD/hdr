@@ -22,9 +22,9 @@ trait UserAttribute{
 						        "<i class='fas fa-pencil'></i>" .
 						    "</a>&nbsp;";
 
-				$action .= 	"<a class='btn btn-primary' data-toggle='tooltip' title='History' onClick='medicalHistory($id)'>" .
-						        "<i class='fas fa-clipboard-prescription'></i>" .
-						    "</a>&nbsp;";	
+				// $action .= 	"<a class='btn btn-primary' data-toggle='tooltip' title='History' onClick='medicalHistory($id)'>" .
+				// 		        "<i class='fas fa-clipboard-prescription'></i>" .
+				// 		    "</a>&nbsp;";	
 
 				$action .= 	"<a class='btn btn-warning' data-toggle='tooltip' title='QR' onClick='qr($id)'>" .
 						        "<i class='fas fa-qrcode'></i>" .
