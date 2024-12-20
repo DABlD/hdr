@@ -175,6 +175,14 @@
 			@endif
 		</td>
 	</tr>
+	<tr>
+		<td colspan="5"></td>
+		<td colspan="3" style="text-align: center;">
+			@if(in_array(auth()->user()->role, ["Admin", "Doctor"]))
+				Lic. No. <span style="text-decoration: underline; font-family: DejaVu Sans, sans-serif;">&#8205;&#8205; </span><span style="text-decoration: underline;">{{ auth()->user()->doctor->license_number }}<span style="text-decoration: underline; font-family: DejaVu Sans, sans-serif;">&#8205;&#8205; </span></span>
+			@endif
+		</td>
+	</tr>
 </table>
 
 {{-- PAGE BREAK --}}
