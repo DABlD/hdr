@@ -86,6 +86,21 @@ class QuestionController extends Controller
         }
     }
 
+    public function reorderRows(Request $req){
+        $questions = Question::whereIn('id', $req->ids)->get();
+        $backup = $questions->keyBy('id')->toArray();
+
+        foreach($questions as $i => $question){
+            $question->name = $backup[$req->ids[$i]]['name'];
+            $question->type = $backup[$req->ids[$i]]['type'];
+            $question->code = $backup[$req->ids[$i]]['code'];
+            $question->save();
+        }
+
+        Helper::log(auth()->user()->id, 'reordered package', $questions->first()->package_id);
+        echo "Success";
+    }
+
     public function index(){
         return $this->_view('index', [
             'title' => "Template Manager"

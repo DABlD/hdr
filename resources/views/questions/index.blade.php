@@ -192,6 +192,7 @@
 	<script src="{{ asset('js/flatpickr.min.js') }}"></script>
 	<script src="{{ asset('js/numeral.min.js') }}"></script>
 	<script src="{{ asset('js/select2.min.js') }}"></script>
+	<script src="{{ asset('js/table-dnd.js') }}"></script>
 
 	<script>
 		var sltpc = null;
@@ -631,7 +632,7 @@
 						    if(temp){
 							    for(let i = 0; i < temp.length; i++){
 							    	string += `
-							    		<tr>
+							    		<tr id="${temp[i].id}">
 							    			<td>${temp[i].name}</td>
 							    			<td class="tType">${temp[i].type}</td>
 							    			<td class="tCode">${temp[i].code}</td>
@@ -683,6 +684,32 @@
 							$('.tCode').hide();
 						}
 						$('#questions').slideDown();
+
+						$('.qtd').tableDnD({
+							onDrop: e => {
+								let ids = [];
+								
+								$(e).find('tr').each((i,row) => {
+									if(row.id != ""){
+										ids.push(row.id);
+									}
+								});
+
+								$.ajax({
+									url: "{{ route('question.reorderRows') }}",
+									type: "POST",
+									data: {
+										ids: ids,
+										_token: $('meta[name="csrf-token"]').attr('content')
+									},
+									success: result => {
+										if(result){
+											ss("Successfully reordered inclusion");
+										}
+									}
+								})
+							}
+						});
 					}, 500);
 				}
 			})

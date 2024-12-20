@@ -206,6 +206,8 @@ Route::group([
                 Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
                 Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
                 Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
+
+                Route::post("reorderRows/", ucfirst($cname) . "Controller@reorderRows")->name('reorderRows');
             }
         );
 
