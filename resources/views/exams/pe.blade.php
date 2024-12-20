@@ -991,7 +991,27 @@
         		type: "PPE"
         	};
 
-        	window.location.href = "{{ route('report.exam') }}?" + $.param(data);
+        	Swal.fire({
+        		title: "Choose Date Range",
+        		html: `
+        			${input('from', 'From', data.filters.fDate, 3, 9)}
+        			${input('to', 'To', data.filters.fDate, 3, 9)}
+        		`,
+        		didOpen: () => {
+        			$('[name="from"], [name="to"]').flatpickr({
+        			    altInput: true,
+        			    altFormat: 'F j, Y',
+        			    dateFormat: 'Y-m-d',
+        			})
+        		}
+        	}).then(result => {
+        		if(result.value){
+        			data.filters.from = $('[name="from"]').val();
+        			data.filters.to = $('[name="to"]').val();
+        			
+        			window.location.href = "{{ route('report.exam') }}?" + $.param(data);
+        		}
+        	});
         }
 
         function assignedDoctor(id){

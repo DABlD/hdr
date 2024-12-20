@@ -40,13 +40,14 @@ class ReportController extends Controller
         });
 
         $array = $array->where('exam_lists.type', $filters['fType']);
-        $array = $array->where('exam_lists.created_at', 'like', $filters['fDate'] . '%');
+        $array = $array->where('exam_lists.created_at', '>=', $filters['from']);
+        $array = $array->where('exam_lists.created_at', '<=', $filters['to']);
         // END FILTERS
 
         $array = $array->get();
         $array->load('user.patient.exams');
 
-        $filename = "$req->type - " . $filters['fDate'];
+        $filename = "$req->type - " . str_replace('-', '', $filters['from']) . '-' . str_replace('-', '', $filters['to']);
 
         $class = "App\\Exports\\Exam";
 
