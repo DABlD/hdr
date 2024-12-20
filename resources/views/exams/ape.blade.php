@@ -588,8 +588,10 @@
 			        					${list}
 			        					<h2><u><b>Attachment</b></u></h2>
 			        					${attachment}
-			        					<label for="files" class="btn btn-info">Upload File</label>
+			        					@if(auth()->user()->role != "Admin" && auth()->user()->role != "Receptionist")
+			        						<label for="files" class="btn btn-info">Upload File</label>
 			        					<br>
+			        					@endif
 			        					<input id="files" class="d-none" type="file" accept="application/pdf">
 
 			        				</div>

@@ -580,7 +580,10 @@
 			        					${attachment}
 			        					<br>
 			        					<br>
-			        					<label for="files" class="btn btn-info">Upload File</label>
+			        					@if(auth()->user()->role != "Admin" && auth()->user()->role != "Receptionist")
+			        						<label for="files" class="btn btn-info">Upload File</label>
+			        					<br>
+			        					@endif
 			        					<input id="files" class="d-none" type="file">
 			        				</div>
 			        				<div class="col-md-10">
