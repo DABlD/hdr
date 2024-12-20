@@ -42,10 +42,10 @@ class PDFExport
         $settings = Setting::pluck('value', 'name');
 
         // CREATE TEMP IF NOT EXISTS;
-        $path = "uploads/invoice ";
-        is_dir($path) ? true : mkdir($path);
+        // $path = "uploads/invoice ";
+        // is_dir($path) ? true : mkdir($path);
 
-        $path = "uploads/temp/$this->filename.pdf";
+        // $path = "uploads/invoice/$this->filename.pdf";
         $pdf = PDF::loadView('exports.' . $this->type, ['data' => $this->data, 'settings' => $settings]);
         $pdf->setPaper('a4', 'Portrait');
         return $pdf->download($this->filename . '.pdf');
