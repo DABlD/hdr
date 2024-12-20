@@ -463,6 +463,9 @@
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
+	        							<a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
+	        								<i class="fas fa-file-pdf"></i>
+	        							</a>
 	        							<a class="btn btn-warning" data-toggle="tooltip" title="Export to PDF" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
 	        								<i class="fas fa-file-pdf"></i>
 	        							</a>
@@ -491,7 +494,7 @@
                 						<th>Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
-                						<th style="width: 155px;">Result</th>
+                						<th style="width: 200px;">Result</th>
                 					</tr>
                 				</thead>
                 				<tbody>
@@ -848,6 +851,23 @@
             });
 
             Swal.showValidationMessage("New File Uploaded");
+        }
+
+        function invoice(id){
+        	$.ajax({
+        		url: "{{ route('setting.checkClinicSettings') }}",
+        		success: result => {
+        			if(result){
+		        		let data = {};
+		        		data.id = id;
+
+		            	window.location.href = `{{ route('patientPackage.exportInvoice') }}?` + $.param(data);
+        			}
+        			else{
+        				se("Complete clinic settings first before exporting");
+        			}
+        		}
+        	})
         }
 
         function pdfExport(id, rLength, uid){
