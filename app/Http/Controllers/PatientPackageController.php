@@ -119,6 +119,18 @@ class PatientPackageController extends Controller
         echo Helper::log(auth()->user()->id, 'updated patient package', $req->id);
     }
 
+    public function exportInvoice(Request $req){
+        $data = PatientPackage::find($req->id);
+
+        $data->load('user.patient');
+        $data->load('package');
+
+        $fn = "OHN-INV-" . str_pad($data->id, 9, '0', STR_PAD_LEFT) . '-' . $data->user->lname . '_' . $data->user->fname;
+
+        $pdf = new PDFExport($data, $fn, "invoice");
+        return $pdf->invoice();
+    }
+
     public function exportDocument(Request $req){
         $data = PatientPackage::find($req->id);
 
@@ -142,7 +154,7 @@ class PatientPackageController extends Controller
 
         $pdf = new PDFExport($data, $fn, "impressions");
         // $pdf->getData();
-        return $pdf->download();
+        return $pdf->report();
     }
 
     public function delete(Request $req){

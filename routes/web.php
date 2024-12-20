@@ -171,6 +171,7 @@ Route::group([
                 Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
 
                 Route::get("exportDocument/", ucfirst($cname) . "Controller@exportDocument")->name('exportDocument');
+                Route::get("exportInvoice/", ucfirst($cname) . "Controller@exportInvoice")->name('exportInvoice');
             }
         );
 

@@ -14,7 +14,7 @@ class PDFExport
         $this->type = $type;
     }
 
-    public function download(){
+    public function report(){
         $settings = Setting::pluck('value', 'name');
 
         // CREATE TEMP IF NOT EXISTS;
@@ -36,5 +36,18 @@ class PDFExport
         $oMerger->merge();
         $oMerger->setFileName($this->filename . '.pdf');
         $oMerger->download();
+    }
+
+    public function invoice(){
+        $settings = Setting::pluck('value', 'name');
+
+        // CREATE TEMP IF NOT EXISTS;
+        $path = "uploads/invoice ";
+        is_dir($path) ? true : mkdir($path);
+
+        $path = "uploads/temp/$this->filename.pdf";
+        $pdf = PDF::loadView('exports.' . $this->type, ['data' => $this->data, 'settings' => $settings]);
+        $pdf->setPaper('a4', 'Portrait');
+        return $pdf->download($this->filename . '.pdf');
     }
 }
