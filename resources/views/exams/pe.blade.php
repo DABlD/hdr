@@ -564,6 +564,8 @@
 
 	    				let subjective = generateSubjective(mhrQuestions);
 
+	    				let disabled = "{{ auth()->user()->role == "Receptionist" ? "disabled" : "" }}";
+
 			        	Swal.fire({
 			        		// title: "Result/Impressions",
 			        		html: `
@@ -640,19 +642,19 @@
 			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab5" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
-		                                        <input type="radio" name="classification" value="Fit to work"> Fit to work
+		                                        <input type="radio" ${disabled} name="classification" value="Fit to work"> Fit to work
 		                                        <br>
-		                                        <input type="radio" name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
+		                                        <input type="radio" ${disabled} name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
 		                                        <br>
-		                                        <input type="radio" name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
+		                                        <input type="radio" ${disabled} name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
 		                                        <br>
-		                                        <input type="radio" name="classification" value="Unfit to work"> Unfit to work
+		                                        <input type="radio" ${disabled} name="classification" value="Unfit to work"> Unfit to work
 		                                        <br>
-		                                        <input type="radio" name="classification" value="Pending"> Pending
+		                                        <input type="radio" ${disabled} name="classification" value="Pending"> Pending
 		                                        <br>
 		                                        <br>
 		                                        <label htmlFor="c_remarks">Remarks</label>
-		                                        <input type="text" id="c_remarks" class="form-control" value="${result.c_remarks ?? ""}">
+		                                        <input type="text" id="c_remarks" class="form-control" value="${result.c_remarks ?? ""}" ${disabled}>
 			        					    </div>
 			        					</div>
 			        				</div>
@@ -712,9 +714,15 @@
 			                		focus: true
 								});
 
+								@if(auth()->user()->role == "Receptionist")
+									$('.note-editable').css('background-color','#FFFFFF');
+									$('.note-editable').attr('contenteditable', false);
+								@endif
+
 								$('.note-editable').css('text-align', 'left');
 								$('.note-insert').css('display', 'none');
 
+								$(`[name="classification"][value="${result.classification}"]`).prop('disabled', false);
 								$(`[name="classification"][value="${result.classification}"]`).click();
 
 								$('#files').on('change', e => {
@@ -730,6 +738,7 @@
 								        let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
 
 								        if(type == "Dichotomous"){
+								            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).prop('disabled', false);
 								            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
 								        }
 								        else if(type == "Text"){
@@ -776,6 +785,8 @@
 
             let string = "";
 
+	    	let disabled = "{{ auth()->user()->role == "Receptionist" ? "disabled" : "" }}";
+
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
 				if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
@@ -808,14 +819,14 @@
 
                         if(temp[i].type == "Text"){
                             answer = `
-                                <input type="text" class="form-control" data-id="${temp[i].id}">
+                                <input type="text" class="form-control" data-id="${temp[i].id}" ${disabled}>
                             `;
                         }
                         else if(temp[i].type == "Dichotomous"){
                             answer = `
-                                <input type="radio" name="rb${temp[i].id}" value="1">Yes
+                                <input type="radio" name="rb${temp[i].id}" value="1" ${disabled}>Yes
                                 &nbsp;
-                                <input type="radio" name="rb${temp[i].id}" value="0">No
+                                <input type="radio" name="rb${temp[i].id}" value="0" ${disabled}>No
                             `;
                         }
 
@@ -824,7 +835,7 @@
                                 <td>${temp[i].name}</td>
                                 <td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
                                 <td>
-                                    <input type="text" class="form-control remark" data-id="${temp[i].id}">
+                                    <input type="text" class="form-control remark" data-id="${temp[i].id}" ${disabled}>
                                 </td>
                             </tr>
                         `;
