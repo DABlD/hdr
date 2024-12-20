@@ -564,7 +564,7 @@
 
 	    				let subjective = generateSubjective(mhrQuestions);
 
-	    				let disabled = "{{ in_array(auth()->user()->role, ['Admin', 'Doctor']) ? "" : "disabled" }}";
+	    				let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}";
 
 			        	Swal.fire({
 			        		// title: "Result/Impressions",
@@ -810,7 +810,7 @@
                 `;
 
                 let temp = questions[v.id];
-	    		let disabled = "{{ in_array(auth()->user()->role, ['Admin', 'Doctor']) ? "" : "disabled" }}"; //DISABLE EDITING FOR NON ADMIN/DOCTOR
+	    		let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}"; //DISABLE EDITING FOR NON ADMIN/DOCTOR
 
 	    		//ENABLE EDITING FOR THIS 3 CATEGORIES FOR NURSES
 	    		@if(auth()->user()->role == "Nurse")
