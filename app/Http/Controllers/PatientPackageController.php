@@ -130,7 +130,25 @@ class PatientPackageController extends Controller
             $result = PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
             echo Helper::log(auth()->user()->id, 'updated patient package', $req->id);
         }
+    }
 
+    public function deleteFile(Request $req){
+        $patientPackage = PatientPackage::find($req->id);
+        $files = json_decode($patientPackage->file);
+        $temp = [];
+
+        foreach($files as $file){
+            if($file != $req->filename){
+                array_push($temp, $file);
+            }
+            else{
+                File::delete($file);
+            }
+        }
+
+        $patientPackage->file = json_encode($temp);
+        $patientPackage->save();
+        echo true;
     }
 
     public function exportInvoice(Request $req){

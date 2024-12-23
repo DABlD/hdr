@@ -575,7 +575,10 @@
 									<span style="color: blue;" data-fid="${files[x].split('/').slice(-1)[0]}">
 										<a href="../${files[x]}" target="_blank">${files[x].split('/').slice(-1)[0]}</a>
 									</span>
-									<br>
+									<span style="color: red;" onclick="deleteFile(this, ${ppid})" data-fid="${files[x].split('/').slice(-1)[0]}">
+										<i class="fas fa-times"></i>
+									</span>
+									<br data-fid="${files[x].split('/').slice(-1)[0]}">
 				    			`;
 							}
 	    				}
@@ -603,6 +606,7 @@
 			        					@endif
 			        					<input id="files" class="d-none" type="file" accept="application/pdf" multiple>
 			        					<div id="uploadsuccess" class="d-none" style="color: green;">New file/s uploaded</div>
+			        					<div id="deletesuccess" class="d-none" style="color: red;">Successfully deleted file</div>
 			        				</div>
 			        				<div class="col-md-10">
 
@@ -897,7 +901,10 @@
 						<span style="color: blue;" data-fid="${files[x].name}">
 							<a href="../uploads/PP${ppid}/${files[x].name}" target="_blank">${files[x].name}</a>
 						</span>
-						<br>
+						<span style="color: red;" onclick="deleteFile(this, ${ppid})" data-fid="${files[x].name}">
+							<i class="fas fa-times"></i>
+						</span>
+						<br data-fid="${files[x].name}">
 	    			`;
 			    }
 			}
@@ -910,7 +917,25 @@
             })
 
     		$('#uploadsuccess').removeClass('d-none');
+    		$('#deletesuccess').addClass('d-none');
         	$('#attachments').append(string);
+        }
+
+        function deleteFile(e, ppid){
+            $.ajax({
+            	url: "{{ route('patientPackage.deleteFile') }}",
+            	data: {
+            		filename: `uploads/PP${ppid}/` + $(e).data('fid'),
+            		id: ppid
+            	},
+            	success: result => {
+            		console.log(result);
+		    		$('#uploadsuccess').addClass('d-none');
+		    		$('#deletesuccess').removeClass('d-none');
+		        	$(`[data-fid="${$(e).data('fid')}"]`).remove();
+            	}
+            })
+
         }
 
         function invoice(id){

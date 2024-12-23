@@ -170,6 +170,8 @@ Route::group([
                 Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
                 Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
 
+                Route::get("deleteFile/", ucfirst($cname) . "Controller@deleteFile")->name('deleteFile');
+
                 Route::get("exportDocument/", ucfirst($cname) . "Controller@exportDocument")->name('exportDocument');
                 Route::get("exportInvoice/", ucfirst($cname) . "Controller@exportInvoice")->name('exportInvoice');
             }
