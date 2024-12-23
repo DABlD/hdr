@@ -580,7 +580,7 @@
 			        					${attachment}
 			        					<br>
 			        					<br>
-			        					@if(auth()->user()->role != "Admin" && auth()->user()->role != "Receptionist")
+			        					@if(auth()->user()->role != "Admin")
 			        						<label for="files" class="btn btn-info">Upload File</label>
 			        					<br>
 			        					@endif
