@@ -562,16 +562,22 @@
 	    				});
 
 	    				// FILES
-	    				let attachment = "<span style='color: red;'>No Attached File</span>";
+	    				let attachment = "<span id='nofile' style='color: red;'>No uploaded file<br></span>";
 
+	    				let files = JSON.parse(result.file);
 
-	    				if(result.file){
-	    					attachment = `
-	    						<span style="color: blue;">
-	    							<a href="../${result.file}" target="_blank">Download</a>
-	    						</span>
-	    						<br>
-	    					`;
+	    				if(files){
+	    					attachment = "";
+
+							for (var x = 0; x < files.length; x++) {
+								let temp = 
+				    			attachment += `
+									<span style="color: blue;" data-fid="${files[x].split('/').slice(-1)[0]}">
+										<a href="../${files[x]}" target="_blank">${files[x].split('/').slice(-1)[0]}</a>
+									</span>
+									<br>
+				    			`;
+							}
 	    				}
 
 	    				let subjective = generateSubjective(mhrQuestions);
@@ -587,13 +593,16 @@
 			        					<br>
 			        					${list}
 			        					<h2><u><b>Attachment</b></u></h2>
-			        					${attachment}
+			        					<div id="attachments">
+			        						${attachment}
+			        					</div>
 			        					@if(auth()->user()->role != "Admin")
+			        						<br>
 			        						<label for="files" class="btn btn-info">Upload File</label>
 			        					<br>
 			        					@endif
-			        					<input id="files" class="d-none" type="file" accept="application/pdf">
-
+			        					<input id="files" class="d-none" type="file" accept="application/pdf" multiple>
+			        					<div id="uploadsuccess" class="d-none" style="color: green;">New file/s uploaded</div>
 			        				</div>
 			        				<div class="col-md-10">
 
@@ -872,15 +881,36 @@
             let formData = new FormData();
 
             formData.append('id', ppid);
-            formData.append('file', $("#files").prop('files')[0]);
+
+            var files = document.getElementById('files').files;
+        	let string = "";
+
+        	if(files.length){
+        		$('#nofile').remove();
+        	}
+
+			for (var x = 0; x < files.length; x++) {
+			    formData.append("files[]", files[x]);
+
+			    if($(`[data-fid="${files[x].name}"]`).length == 0){
+	    			string += `
+						<span style="color: blue;" data-fid="${files[x].name}">
+							<a href="../uploads/PP${ppid}/${files[x].name}" target="_blank">${files[x].name}</a>
+						</span>
+						<br>
+	    			`;
+			    }
+			}
+
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
             await fetch('{{ route('patientPackage.update') }}', {
                 method: "POST", 
                 body: formData
-            });
+            })
 
-            Swal.showValidationMessage("New File Uploaded");
+    		$('#uploadsuccess').removeClass('d-none');
+        	$('#attachments').append(string);
         }
 
         function invoice(id){

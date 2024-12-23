@@ -11,6 +11,7 @@ use Image;
 // PDF CLASSES
 use App\Exports\PDFExport;
 use PDF;
+use File;
 
 class PatientPackageController extends Controller
 {
@@ -101,22 +102,35 @@ class PatientPackageController extends Controller
     }
 
     public function update(Request $req){
-        if($req->hasFile('file')){
+        if($req->hasFile('files')){
             $patientPackage = PatientPackage::find($req->id);
             $patientPackage->load('user');
+            $uname = $patientPackage->user->lname . '_' . $patientPackage->user->fname;
 
-            $file = $req->file('file');
-            $name = $patientPackage->user->lname . '_' . $patientPackage->user->fname . "-PP$req->id-" . time() . "." . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/'), $name);
+            $files = $patientPackage->file ? json_decode($patientPackage->file) : [];
 
-            $patientPackage->file = 'uploads/' . $name;
+            foreach ($req->file('files') as $file) {
+                $name = $file->getClientOriginalName();
+                $path = "uploads/PP$req->id/";
+                File::isDirectory($path) or File::makeDirectory($path, 0775, true, true);
+                $file->move($path, $name);
+
+                if(!in_array($path . $name, $files)){
+                    array_push($files, $path . $name);
+                }
+            }
+
+            $patientPackage->file = json_encode($files);
             $patientPackage->save();
+            Helper::log(auth()->user()->id, 'updated patient package', $req->id);
+
+            echo json_encode($files);
         }
         else{
             $result = PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
+            echo Helper::log(auth()->user()->id, 'updated patient package', $req->id);
         }
 
-        echo Helper::log(auth()->user()->id, 'updated patient package', $req->id);
     }
 
     public function exportInvoice(Request $req){
