@@ -560,7 +560,26 @@
 	    				});
 
 	    				// FILES
-	    				let attachment = "<span style='color: red;'>No Attached File</span>";
+	    				let attachment = "<span id='nofile' style='color: red;'>No uploaded file<br></span>";
+
+	    				let files = JSON.parse(result.file);
+
+	    				if(files){
+	    					attachment = "";
+
+							for (var x = 0; x < files.length; x++) {
+								let temp = 
+				    			attachment += `
+									<span style="color: blue;" data-fid="${files[x].split('/').slice(-1)[0]}">
+										<a href="../${files[x]}" target="_blank">${files[x].split('/').slice(-1)[0]}</a>
+									</span>
+									<span style="color: red;" onclick="deleteFile(this, ${ppid})" data-fid="${files[x].split('/').slice(-1)[0]}">
+										<i class="fas fa-times"></i>
+									</span>
+									<br data-fid="${files[x].split('/').slice(-1)[0]}">
+				    			`;
+							}
+	    				}
 
 	    				let subjective = generateSubjective(mhrQuestions);
 
@@ -574,17 +593,18 @@
 			        					<h2><u><b>Inclusions</b></u></h2>
 			        					<br>
 			        					${list}
-			        					<br>
-			        					<br>
 			        					<h2><u><b>Attachment</b></u></h2>
-			        					${attachment}
-			        					<br>
-			        					<br>
+			        					<div id="attachments">
+			        						${attachment}
+			        					</div>
 			        					@if(auth()->user()->role != "Admin")
+			        						<br>
 			        						<label for="files" class="btn btn-info">Upload File</label>
 			        					<br>
 			        					@endif
-			        					<input id="files" class="d-none" type="file">
+			        					<input id="files" class="d-none" type="file" accept="application/pdf" multiple>
+			        					<div id="uploadsuccess" class="d-none" style="color: green;">New file/s uploaded</div>
+			        					<div id="deletesuccess" class="d-none" style="color: red;">Successfully deleted file</div>
 			        				</div>
 			        				<div class="col-md-10">
 
@@ -862,15 +882,56 @@
             let formData = new FormData();
 
             formData.append('id', ppid);
-            formData.append('file', $("#files").prop('files')[0]);
+
+            var files = document.getElementById('files').files;
+        	let string = "";
+
+        	if(files.length){
+        		$('#nofile').remove();
+        	}
+
+			for (var x = 0; x < files.length; x++) {
+			    formData.append("files[]", files[x]);
+
+			    if($(`[data-fid="${files[x].name}"]`).length == 0){
+	    			string += `
+						<span style="color: blue;" data-fid="${files[x].name}">
+							<a href="../uploads/PP${ppid}/${files[x].name}" target="_blank">${files[x].name}</a>
+						</span>
+						<span style="color: red;" onclick="deleteFile(this, ${ppid})" data-fid="${files[x].name}">
+							<i class="fas fa-times"></i>
+						</span>
+						<br data-fid="${files[x].name}">
+	    			`;
+			    }
+			}
+
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
             await fetch('{{ route('patientPackage.update') }}', {
                 method: "POST", 
                 body: formData
-            });
+            })
 
-            Swal.showValidationMessage("New File Uploaded");
+    		$('#uploadsuccess').removeClass('d-none');
+    		$('#deletesuccess').addClass('d-none');
+        	$('#attachments').append(string);
+        }
+
+        function deleteFile(e, ppid){
+            $.ajax({
+            	url: "{{ route('patientPackage.deleteFile') }}",
+            	data: {
+            		filename: `uploads/PP${ppid}/` + $(e).data('fid'),
+            		id: ppid
+            	},
+            	success: result => {
+            		console.log(result);
+		    		$('#uploadsuccess').addClass('d-none');
+		    		$('#deletesuccess').removeClass('d-none');
+		        	$(`[data-fid="${$(e).data('fid')}"]`).remove();
+            	}
+            })
         }
 
         function invoice(id){
