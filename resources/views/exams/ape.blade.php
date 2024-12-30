@@ -460,6 +460,7 @@
 	        						<td>${pPackage.package.name}</td>
 	        						<td>${pPackage.type == "PEE" ? "PPE" : pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
+	        						<td>${pPackage.status}</td>
 	        						<td>
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
 	        								<i class="fas fa-file-prescription"></i>
@@ -495,6 +496,7 @@
                 						<th>Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
+                						<th>Status</th>
                 						<th style="width: 200px;">Result</th>
                 					</tr>
                 				</thead>
