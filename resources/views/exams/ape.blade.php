@@ -29,6 +29,7 @@
                     				<th>Age</th>
                     				<th>Package Name</th>
                     				<th>Amount</th>
+                    				<th>Status</th>
                     				<th>Actions</th>
                     			</tr>
                     		</thead>
@@ -121,6 +122,7 @@
 					{data: 'user.birthday'},
 					{data: 'user.id'},
 					{data: 'user.id'},
+					{data: 'status'},
 					@if(auth()->user()->role != "Doctor")
 						{data: 'medical', width: "165px"}
 					@else
@@ -455,12 +457,22 @@
 
         			if(result.length){
         				result.forEach(pPackage => {
+        					let complete = `
+        						&nbsp;
+        						<a class="btn btn-success btn-xs" data-toggle="tooltip" title="Mark as Completed" onclick="complete(${pPackage.id}, ${id})">
+        							<i class="fas fa-check fa-2xs"></i>
+        						</a>
+        					`;
+
 	        				packageString += `
 	        					<tr>
 	        						<td>${pPackage.package.name}</td>
 	        						<td>${pPackage.type == "PEE" ? "PPE" : pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
-	        						<td>${pPackage.status}</td>
+	        						<td>
+	        							${pPackage.status}
+	        							${pPackage.status == "Pending" ? complete : ""}
+	        						</td>
 	        						<td>
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
 	        								<i class="fas fa-file-prescription"></i>
@@ -482,7 +494,7 @@
         			else{
         				packageString = `
 	        				<tr>
-	        					<td colspan="4" style="text-align: center;">No Package Requested</td>
+	        					<td colspan="5" style="text-align: center;">No Package Requested</td>
 	        				</tr>
 	        			`;
         			}
@@ -505,11 +517,35 @@
                 				</tbody>
                 			</table>
 		        		`,
-						width: '800px',
+						width: '850px',
 						confirmButtonText: 'OK',
 		        	})
         		}
         	})
+        }
+
+        function complete(pid, id){
+        	sc("Confirmation", "Are you sure you want to complete?", result => {
+        		if(result.value){
+        			swal.showLoading();
+        			update({
+        				url: "{{ route('patientPackage.update') }}",
+        				data: {id: pid, status: "Completed"},
+        				message: "Success",
+        			}, () => {
+        				setTimeout(() => {
+        					requestList(id);
+        				}, 1500);
+        			});
+        		}
+        		else{
+    				setTimeout(() => {
+    					requestList(id);
+    				}, 1500);
+        		}
+
+        		reload();
+        	});
         }
 
         function deletepPackage(id){

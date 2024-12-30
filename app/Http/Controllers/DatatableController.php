@@ -176,8 +176,7 @@ class DatatableController extends Controller
                                 "</a>&nbsp;";
                 }
 
-
-
+                $item->status = PatientPackage::where('user_id', $item->user_id)->latest()->first()->status;
                 $item->medical = $medical;
             }
         }
