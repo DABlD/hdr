@@ -15,6 +15,7 @@ class AddStatusInPatientPackages extends Migration
     {
         Schema::table('patient_packages', function (Blueprint $table) {
             $table->string('status')->after('classification')->default('Pending')->nullable();
+            $table->string('vitals')->after('status')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ class AddStatusInPatientPackages extends Migration
     {
         Schema::table('patient_packages', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->dropColumn('vitals');
         });
     }
 }
