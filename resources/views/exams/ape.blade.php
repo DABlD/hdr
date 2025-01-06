@@ -922,6 +922,7 @@
 
             let string = "";
             let historyString = [];
+            historyString['main'] = "";
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
