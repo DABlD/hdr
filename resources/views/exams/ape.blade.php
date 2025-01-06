@@ -651,13 +651,43 @@
 			        					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
 			        					    <li class="nav-item">
 			        					        <a class="nav-link active" href="#tab1" data-toggle="tab">
-			        					            Medical Evaluation
+			        					            Medical History
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab1-2" data-toggle="tab">
+			        					            Obstetrical History
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab1-3" data-toggle="tab">
+			        					            Vitals
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab1-4" data-toggle="tab">
+			        					            Anthropometrics
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab1-5" data-toggle="tab">
+			        					            Visual Acuity
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab1-6" data-toggle="tab">
+			        					            Systematic Examination
 			        					        </a>
 			        					    </li>
 			        					    &nbsp;
 			        					    <li class="nav-item">
 			        					        <a class="nav-link" href="#tab2" data-toggle="tab">
-			        					            Result/Impressions
+			        					            Impressions
 			        					        </a>
 			        					    </li>
 			        					    &nbsp;
@@ -692,6 +722,12 @@
 			        					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
 			        					    	${subjective}
 			        					    </div>
+
+			        					    <div class="chart tab-pane Obstetrical-History" id="tab1-2" style="position: relative;"></div>
+			        					    <div class="chart tab-pane Vital-Signs" id="tab1-3" style="position: relative;"></div>
+			        					    <div class="chart tab-pane Anthropometrics" id="tab1-4" style="position: relative;"></div>
+			        					    <div class="chart tab-pane Visual-Acuity" id="tab1-5" style="position: relative;"></div>
+			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-6" style="position: relative;"></div>
 
 			        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
 			        					    	<div id="summernote1" ${disabled}>${result.remarks ?? ""}</div>
@@ -730,7 +766,7 @@
 						    	icon: ''                       // disable icon animation
 						  	},
 			        		position: "top",
-			                width: 1500,
+			                width: 1700,
 			                confirmButtonText: "Save",
 							showCancelButton: true,
 							cancelButtonColor: errorColor,
@@ -777,6 +813,8 @@
 									height: 600,
 			                		focus: true
 								});
+
+								$('#swal2-html-container .nav-link').css('font-size', '13px');
 
 								@if(auth()->user()->role == "Receptionist")
 									$('.note-editable').css('background-color','#FFFFFF');
@@ -851,9 +889,9 @@
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
-				if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
-					hide = "d-none";
-				}
+				// if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
+				// 	hide = "d-none";
+				// }
 
                 string += `
                     <div class="row ${hide}">
@@ -913,6 +951,11 @@
                 }
 
                 string += "</tbody></table>";
+
+				if(["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination"].includes(v.name)){
+					$(`.${v.name.replace(' ', '-')}`).append(string);
+				}
+
                 historyString = string;
             }
 
