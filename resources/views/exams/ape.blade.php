@@ -646,6 +646,7 @@
 	    				}
 
 	    				let subjective = generateSubjective(mhrQuestions);
+	    				console.log(subjective);
 
 	    				let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}";
 
@@ -744,14 +745,24 @@
 
 			        					<div class="tab-content p-0">
 			        					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
-			        					    	${subjective}
+			        					    	${subjective.main}
 			        					    </div>
 
-			        					    <div class="chart tab-pane Obstetrical-History" id="tab1-2" style="position: relative;"></div>
-			        					    <div class="chart tab-pane Vital-Signs" id="tab1-3" style="position: relative;"></div>
-			        					    <div class="chart tab-pane Anthropometrics" id="tab1-4" style="position: relative;"></div>
-			        					    <div class="chart tab-pane Visual-Acuity" id="tab1-5" style="position: relative;"></div>
-			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-6" style="position: relative;"></div>
+			        					    <div class="chart tab-pane Obstetrical-History" id="tab1-2" style="position: relative;">
+			        					    	${subjective.Obstetrical_History}
+			        					    </div>
+			        					    <div class="chart tab-pane Vital-Signs" id="tab1-3" style="position: relative;">
+			        					    	${subjective.Vital_Signs}
+			        					    </div>
+			        					    <div class="chart tab-pane Anthropometrics" id="tab1-4" style="position: relative;">
+			        					    	${subjective.Anthropometrics}
+			        					    </div>
+			        					    <div class="chart tab-pane Visual-Acuity" id="tab1-5" style="position: relative;">
+			        					    	${subjective.Visual_Acuity}
+			        					    </div>
+			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-6" style="position: relative;">
+			        					    	${subjective.Systematic_Examination}
+			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
 			        					    	<div id="summernote1" ${disabled}>${result.remarks ?? ""}</div>
@@ -910,6 +921,7 @@
             let categories = questions[keys[keys.length-1]];
 
             let string = "";
+            let historyString = [];
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
@@ -917,7 +929,7 @@
 				// 	hide = "d-none";
 				// }
 
-                string += `
+                string = `
                     <div class="row ${hide}">
                         <div class="col-md-12" style="text-align: left;">
                             <b style="font-size: 1.5rem;">${v.name}</b>
@@ -977,10 +989,11 @@
                 string += "</tbody></table>";
 
 				if(["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination"].includes(v.name)){
-					$(`.${v.name.replace(' ', '-')}`).append(string);
+					historyString[`${v.name.replace(' ', '_')}`] = string;
 				}
-
-                historyString = string;
+				else{
+					historyString['main'] += string;
+				}
             }
 
             return historyString;
