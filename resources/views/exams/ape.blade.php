@@ -464,11 +464,21 @@
         						</a>
         					`;
 
+        					let vitals = `
+        						&nbsp;
+        						<a class="btn btn-success btn-xs" data-toggle="tooltip" title="Mark as Checked" onclick="checked(${pPackage.id}, ${id})">
+        							<i class="fas fa-check fa-2xs"></i>
+        						</a>
+        					`;
+
 	        				packageString += `
 	        					<tr>
 	        						<td>${pPackage.package.name}</td>
 	        						<td>${pPackage.type == "PEE" ? "PPE" : pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
+	        						<td>
+	        							${pPackage.vitals == null ? vitals : "Checked"}
+	        						</td>
 	        						<td>
 	        							${pPackage.status}
 	        							${pPackage.status == "Pending" ? complete : ""}
@@ -494,7 +504,7 @@
         			else{
         				packageString = `
 	        				<tr>
-	        					<td colspan="5" style="text-align: center;">No Package Requested</td>
+	        					<td colspan="6" style="text-align: center;">No Package Requested</td>
 	        				</tr>
 	        			`;
         			}
@@ -508,6 +518,7 @@
                 						<th>Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
+                						<th>Vitals</th>
                 						<th>Status</th>
                 						<th style="width: 200px;">Result</th>
                 					</tr>
@@ -517,7 +528,7 @@
                 				</tbody>
                 			</table>
 		        		`,
-						width: '850px',
+						width: '900px',
 						confirmButtonText: 'OK',
 		        	})
         		}
@@ -535,17 +546,30 @@
         			}, () => {
         				setTimeout(() => {
         					requestList(id);
-        				}, 1500);
+        				}, 1000);
         			});
         		}
         		else{
     				setTimeout(() => {
     					requestList(id);
-    				}, 1500);
+    				}, 1000);
         		}
 
         		reload();
         	});
+        }
+
+        function checked(pid, id){
+    		swal.showLoading();
+    		update({
+    			url: "{{ route('patientPackage.update') }}",
+    			data: {id: pid, vitals: 1},
+    			message: "Success",
+    		}, () => {
+    			setTimeout(() => {
+    				requestList(id);
+    			}, 1000);
+    		});
         }
 
         function deletepPackage(id){
