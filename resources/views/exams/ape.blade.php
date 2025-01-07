@@ -681,26 +681,8 @@
 			        					    </li>
 			        					    &nbsp;
 			        					    <li class="nav-item">
-			        					        <a class="nav-link" href="#tab1-2" data-toggle="tab">
-			        					            Obstetrical History
-			        					        </a>
-			        					    </li>
-			        					    &nbsp;
-			        					    <li class="nav-item">
 			        					        <a class="nav-link" href="#tab1-3" data-toggle="tab">
 			        					            Vitals
-			        					        </a>
-			        					    </li>
-			        					    &nbsp;
-			        					    <li class="nav-item">
-			        					        <a class="nav-link" href="#tab1-4" data-toggle="tab">
-			        					            Anthropometrics
-			        					        </a>
-			        					    </li>
-			        					    &nbsp;
-			        					    <li class="nav-item">
-			        					        <a class="nav-link" href="#tab1-5" data-toggle="tab">
-			        					            Visual Acuity
 			        					        </a>
 			        					    </li>
 			        					    &nbsp;
@@ -748,20 +730,11 @@
 			        					    	${subjective.main}
 			        					    </div>
 
-			        					    <div class="chart tab-pane Obstetrical-History" id="tab1-2" style="position: relative;">
-			        					    	${subjective.Obstetrical_History}
-			        					    </div>
 			        					    <div class="chart tab-pane Vital-Signs" id="tab1-3" style="position: relative;">
-			        					    	${subjective.Vital_Signs}
-			        					    </div>
-			        					    <div class="chart tab-pane Anthropometrics" id="tab1-4" style="position: relative;">
-			        					    	${subjective.Anthropometrics}
-			        					    </div>
-			        					    <div class="chart tab-pane Visual-Acuity" id="tab1-5" style="position: relative;">
-			        					    	${subjective.Visual_Acuity}
+			        					    	${subjective.vitals}
 			        					    </div>
 			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-6" style="position: relative;">
-			        					    	${subjective.Systematic_Examination}
+			        					    	${subjective.physical}
 			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
@@ -801,7 +774,7 @@
 						    	icon: ''                       // disable icon animation
 						  	},
 			        		position: "top",
-			                width: 1700,
+			                width: 1200,
 			                confirmButtonText: "Save",
 							showCancelButton: true,
 							cancelButtonColor: errorColor,
@@ -923,6 +896,8 @@
             let string = "";
             let historyString = [];
             historyString['main'] = "";
+            historyString['vitals'] = "";
+            historyString['physical'] = "";
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
@@ -989,8 +964,11 @@
 
                 string += "</tbody></table>";
 
-				if(["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination"].includes(v.name)){
-					historyString[`${v.name.replace(' ', '_')}`] = string;
+				if(["Vital Signs", "Anthropometrics", "Visual Acuity"].includes(v.name)){
+					historyString[`vitals`] += string;
+				}
+				else if(["Systematic Examination"].includes(v.name)){
+					historyString[`physical`] += string;
 				}
 				else{
 					historyString['main'] += string;
