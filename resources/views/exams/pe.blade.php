@@ -690,6 +690,12 @@
 			        					    </li>
 			        					    &nbsp;
 			        					    <li class="nav-item">
+			        					        <a class="nav-link" href="#tab1-7" data-toggle="tab">
+			        					            Medical Evaluation
+			        					        </a>
+			        					    </li>
+			        					    &nbsp;
+			        					    <li class="nav-item">
 			        					        <a class="nav-link" href="#tab2" data-toggle="tab">
 			        					            Result/Impressions
 			        					        </a>
@@ -732,6 +738,9 @@
 			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-6" style="position: relative;">
 			        					    	${subjective.physical}
 			        					    </div>
+			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-7" style="position: relative;">
+			        					    	${subjective.medical}
+			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
 			        					    	<div id="summernote1">${result.remarks ?? ""}</div>
@@ -770,7 +779,7 @@
 						    	icon: ''                       // disable icon animation
 						  	},
 			        		position: "top",
-			                width: 1200,
+			                width: 1400,
 			                confirmButtonText: "Save",
 							showCancelButton: true,
 							cancelButtonColor: errorColor,
@@ -963,6 +972,9 @@
 				}
 				else if(["Systematic Examination"].includes(v.name)){
 					historyString['physical'] += string;
+				}
+				else if(["Medical Evaluation"].includes(v.name)){
+					historyString['medical'] += string;
 				}
 				else{
 					historyString['main'] += string;
