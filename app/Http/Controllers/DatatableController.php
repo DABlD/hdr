@@ -158,7 +158,7 @@ class DatatableController extends Controller
                 {
                     $medical = $item->user->medical;
 
-                    if(auth()->user()->role == "Admin"){
+                    if(in_array(auth()->user()->role, ["Admin", "Receptionist"])){
                         $medical .=   "<a class='btn btn-warning' data-toggle='tooltip' title='Assigned Doctor' onClick='assignedDoctor($item->id)'>" .
                                         "<i class='fas fa-user-doctor'></i>" .
                                     "</a>&nbsp;";
