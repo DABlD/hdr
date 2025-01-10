@@ -66,7 +66,7 @@
 	</tr>
 
 	<tr>
-		<td colspan="2">Doctor's name: {{ isset($data->doctor) ? $data->doctor->fname . ' ' . $data->doctor->mname . ' ' . $data->doctor->lname . ', ' . $data->doctor->doctor->title : "-" }}</td>
+		<td colspan="2">Doctor's name: {{ isset($data->doctor) ? $data->doctor->fname . ' ' . $data->doctor->mname . ' ' . $data->doctor->lname . ', ' . $data->doctor->doctor->title ?? "" : "-" }}</td>
 		<td colspan="3">Company name: {{ $data->package->company }}</td>
 	</tr>
 
