@@ -29,15 +29,15 @@ class PDFExport
         $pdf->setWarnings(false)->save($path);
         $oMerger->addPDF($path);
 
-        if(is_array($this->data->file)){
+        // if(is_array($this->data->file)){
             $files = json_decode($this->data->file);
             foreach ($files as $file) {
                 $oMerger->addPDF(public_path($file));
             }
-        }
-        else{
-            $oMerger->addPDF(public_path($this->data->file));
-        }
+        // }
+        // else{
+        //     $oMerger->addPDF(public_path($this->data->file));
+        // }
 
         $oMerger->merge();
         $oMerger->setFileName($this->filename . '.pdf');
