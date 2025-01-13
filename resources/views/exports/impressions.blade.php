@@ -163,7 +163,7 @@
 		<td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td colspan="3" style="text-decoration: underline; text-align: center; font-weight: bold;">
 			@if(in_array(auth()->user()->role, ["Admin", "Doctor"]))
-				{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, {{ auth()->user()->doctor->title }}
+				{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, MD, {{ auth()->user()->doctor->title }}
 			@endif
 		</td>
 	</tr>
