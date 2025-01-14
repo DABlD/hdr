@@ -61,4 +61,8 @@ class User extends Authenticatable
     public function nurse(){
         return $this->hasOne('App\Models\Nurse');
     }
+
+    public function receptionist(){
+        return $this->hasOne('App\Models\Receptionist');
+    }
 }

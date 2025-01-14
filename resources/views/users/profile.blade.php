@@ -765,7 +765,6 @@
                     nurses = JSON.parse(nurses);
                     nurseString = "";
 
-
                     nurses.forEach(nurse => {
                         let age = nurse.user.birthday ? moment().diff(moment(nurse.user.birthday), "years") : "";
 

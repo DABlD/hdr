@@ -232,6 +232,7 @@
 		}
 
 		function showDetails(user){
+			console.log(user);
 			Swal.fire({
 				html: `
 	                ${input("id", "", user.id, 3, 9, 'hidden')}

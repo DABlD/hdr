@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{User, Doctor, Nurse, Setting};
+use App\Models\{User, Doctor, Nurse, Setting, Receptionist};
 use DB;
 use Auth;
 use Image;
@@ -94,12 +94,12 @@ class UserController extends Controller
         if($array->role == "Nurse"){
             $array->details = $array->nurse;
         }
-        elseif($array->role == "Doctor"){
+        elseif($array->role == "Doctor" || $array->role == "Admin"){
             $array->details = $array->doctor;
         }
-        // elseif($array->role == "Receptionist"){
-        //     $array->details = $array->receptionist;
-        // }
+        elseif($array->role == "Receptionist"){
+            $array->details = $array->receptionist;
+        }
 
         // IF HAS GROUP
         if($req->group){
@@ -147,6 +147,17 @@ class UserController extends Controller
             ]);
 
             Helper::log(auth()->user()->id, 'created nurse', $data->id);
+        }
+        elseif($data->role == "Receptionist"){
+            Receptionist::create([
+                "user_id" => $data->id,
+                "sss" => $req->sss,
+                "tin" => $req->tin,
+                "philhealth" => $req->philhealth,
+                "pagibig" => $req->pagibig,
+            ]);
+
+            Helper::log(auth()->user()->id, 'created receptionist', $data->id);
         }
 
         echo $temp;
@@ -240,7 +251,20 @@ class UserController extends Controller
     }
 
     public function delete(Request $req){
-        User::find($req->id)->delete();
+        $user = User::find($req->id);
+
+        if($user->role == "Nurse"){
+            Nurse::where('user_id', $user->id)->delete();
+        }
+        elseif($user->role == "Receptionist"){
+            Receptionist::where('user_id', $user->id)->delete();
+        }
+        elseif($user->role == "Doctor"){
+            Doctor::where('user_id', $user->id)->delete();
+        }
+
+        $user->delete();
+
         Helper::log(auth()->user()->id, 'deleted user', $req->id);
     }
 
