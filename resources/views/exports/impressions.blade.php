@@ -97,36 +97,48 @@
 
 	@foreach($newArray[0] as $key => $question)
 		<tr>
-			<td style="font-size: 10px; width: 30%;">
-				{{ $key+1 }}.) {{ $question['name'] }}
-			</td>
-			<td style="font-size: 10px; text-align: left; width: 20%;">
-				@if($question['type'] == "Dichotomous")
-					@if($data->answers[$question['id']]['answer'])
-						Yes
-					@else
-						No
-					@endif
-				@else
-					{{ $data->answers[$question['id']]['answer'] != "" ? $data->answers[$question['id']]['answer'] : "-" }}
+			{{-- if medication history --}}
+			@if(in_array($question['id'], [131,132,133]))
+				@if(is_array($data->answers[130]['answer']) && ($question['id'] == 131))
+					@foreach($data->answers[130]['answer'] as $ans)
+						<td style="font-size: 10px; width: 30%;">
+							{{ $key+1 }}.) {{ $ans->name }} / {{ $ans->dosage }} / {{ $ans->frequency }}
+						</td>
+						{{ $key++ }}
+					@endforeach
 				@endif
-			</td>
-
-			@if(isset($newArray[1][$key]))
+			@else
 				<td style="font-size: 10px; width: 30%;">
-					{{ sizeof($newArray[0]) + ($key + 1) }}.) {{ $newArray[1][$key]['name'] }}
+					{{ $key+1 }}.) {{ $question['name'] }}
 				</td>
 				<td style="font-size: 10px; text-align: left; width: 20%;">
-					@if($newArray[1][$key]['type'] == "Dichotomous")
-						@if($data->answers[$newArray[1][$key]['id']]['answer'])
+					@if($question['type'] == "Dichotomous")
+						@if($data->answers[$question['id']]['answer'])
 							Yes
 						@else
 							No
 						@endif
 					@else
-						{{ $data->answers[$newArray[1][$key]['id']]['answer'] != "" ? $data->answers[$newArray[1][$key]['id']]['answer'] : "-" }}
+						{{ $data->answers[$question['id']]['answer'] != "" ? $data->answers[$question['id']]['answer'] : "-" }}
 					@endif
 				</td>
+
+				@if(isset($newArray[1][$key]))
+					<td style="font-size: 10px; width: 30%;">
+						{{ sizeof($newArray[0]) + ($key + 1) }}.) {{ $newArray[1][$key]['name'] }}
+					</td>
+					<td style="font-size: 10px; text-align: left; width: 20%;">
+						@if($newArray[1][$key]['type'] == "Dichotomous")
+							@if($data->answers[$newArray[1][$key]['id']]['answer'])
+								Yes
+							@else
+								No
+							@endif
+						@else
+							{{ $data->answers[$newArray[1][$key]['id']]['answer'] != "" ? $data->answers[$newArray[1][$key]['id']]['answer'] : "-" }}
+						@endif
+					</td>
+				@endif
 			@endif
 		</tr>
 	@endforeach
