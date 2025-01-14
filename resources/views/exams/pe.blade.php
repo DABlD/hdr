@@ -813,6 +813,32 @@
 								    });
 								}
 
+				                let names = $('.medication-name');
+				                let dosages = $('.medication-dosage');
+				                let frequencys = $('.medication-frequency');
+
+				                let medhistory = [];
+
+				                for(let i = 0; i < names.length; i++){
+				                    let name = names[i].value;
+				                    let dosage = dosages[i].value;
+				                    let frequency = frequencys[i].value;
+
+				                    if(name != "" || dosage != "" || frequency != ""){
+				                        medhistory.push({
+				                            name: name,
+				                            dosage: dosage,
+				                            frequency: frequency
+				                        });
+				                    }
+				                }
+
+				                array.push({
+				                    id: '130',
+				                    answer: medhistory,
+				                    remark: ''
+				                });
+
 								update({
 								    url: "{{ route("patientPackage.update") }}",
 								    data: {
@@ -850,17 +876,31 @@
 								    qwa = JSON.parse(qwa);
 
 								    qwa.forEach(qwa => {
-								        let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
+		                                // IF MEDICATION HISTORY
+		                                if(qwa.id == 130){
+		                                    if(Array.isArray(qwa.answer)){
+		                                        let medications = qwa.answer;
+		                                        medications.forEach(medication => {
+		                                            addMedication(qwa.id);
+		                                            $(`.mn${qwa.id}.medication-name:last`).val(medication.name);
+		                                            $(`.mn${qwa.id}.medication-dosage:last`).val(medication.dosage);
+		                                            $(`.mn${qwa.id}.medication-frequency:last`).val(medication.frequency);
+		                                        });
+		                                    }
+		                                }
+		                                else{
+									        let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
 
-								        if(type == "Dichotomous"){
-								            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).prop('disabled', false);
-								            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
-								        }
-								        else if(type == "Text"){
-								            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
-								        }
+									        if(type == "Dichotomous"){
+									            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).prop('disabled', false);
+									            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
+									        }
+									        else if(type == "Text"){
+									            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+									        }
 
-								        $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
+									        $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
+		                                }
 								    });
 								}
 			        		}
@@ -890,6 +930,18 @@
         	})
         }
 
+        function addMedication(id=null){
+        	let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}"; //DISABLE EDITING FOR NON ADMIN/DOCTOR
+
+            $('#medications').append(`
+                <tr>
+                    <td><input type="text" class="form-control mn${id} medication-name" ${disabled}></td>
+                    <td><input type="text" class="form-control mn${id} medication-dosage" ${disabled}></td>
+                    <td><input type="text" class="form-control mn${id} medication-frequency" ${disabled}></td>
+                </tr>
+            `);
+        }
+
         function saveShortcut(){
         	$('.swal2-confirm').click();
         }
@@ -908,61 +960,91 @@
 				// 	hide = "d-none";
 				// }
 
-                string = `
-                    <div class="row ${hide}">
-                        <div class="col-md-12" style="text-align: left;">
-                            <b style="font-size: 1.5rem;">${v.name}</b>
-                        </div>
-                    </div>
 
-                    <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
-                        <thead>
-                            <tr>
-                                <th style="width: 40%;">Name</th>
-                                <th style="width: 30%;" class="answer">Answer</th>
-                                <th style="width: 30%;" class="remark">Remark</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
+            	if(v.name == "Medication History"){
+	                string = `
+	                    <div class="row ${hide}">
+	                        <div class="col-md-12" style="text-align: left;">
+	                            <b style="font-size: 1.5rem;">${v.name}</b>
+	                        </div>
+	                    </div>
 
-                let temp = questions[v.id];
-	    		let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}"; //DISABLE EDITING FOR NON ADMIN/DOCTOR
+	                    <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
+	                        <thead>
+	                            <tr>
+	                                <th style="width: 40%;">Medication</th>
+	                                <th style="width: 30%;">Dosage</th>
+	                                <th style="width: 30%;">
+	                                    Frequency
+	                                    <div class="float-right">
+	                                        <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add" onclick="addMedication()">
+	                                            <i class="fas fa-plus"></i>
+	                                        </a>
+	                                    </div>
+	                                </th>
+	                            </tr>
+	                        </thead>
+							<tbody id="medications">
+	                `;
+            	}
+            	else{
+	                string = `
+	                    <div class="row ${hide}">
+	                        <div class="col-md-12" style="text-align: left;">
+	                            <b style="font-size: 1.5rem;">${v.name}</b>
+	                        </div>
+	                    </div>
 
-	    		//ENABLE EDITING FOR THIS 3 CATEGORIES FOR NURSES
-	    		@if(auth()->user()->role == "Nurse")
-		    		if(["Vital Signs", "Anthropometrics", "Visual Acuity"].includes(v.name)){
-		    			disabled = "";
-		    		}
-	    		@endif
+	                    <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
+	                        <thead>
+	                            <tr>
+	                                <th style="width: 40%;">Name</th>
+	                                <th style="width: 30%;" class="answer">Answer</th>
+	                                <th style="width: 30%;" class="remark">Remark</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                `;
 
-                if(temp){
-                    for(let i = 0; i < temp.length; i++){
-                        let answer = "";
+	                let temp = questions[v.id];
+		    		let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}"; //DISABLE EDITING FOR NON ADMIN/DOCTOR
 
-                        if(temp[i].type == "Text"){
-                            answer = `
-                                <input type="text" class="form-control" data-id="${temp[i].id}" ${disabled}>
-                            `;
-                        }
-                        else if(temp[i].type == "Dichotomous"){
-                            answer = `
-                                <input type="radio" name="rb${temp[i].id}" value="1" ${disabled}>Yes
-                                &nbsp;
-                                <input type="radio" name="rb${temp[i].id}" value="0" ${disabled}>No
-                            `;
-                        }
+		    		//ENABLE EDITING FOR THIS 3 CATEGORIES FOR NURSES
+		    		@if(auth()->user()->role == "Nurse")
+			    		if(["Vital Signs", "Anthropometrics", "Visual Acuity"].includes(v.name)){
+			    			disabled = "";
+			    		}
+		    		@endif
 
-                        string += `
-                            <tr>
-                                <td>${temp[i].name}</td>
-                                <td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
-                                <td>
-                                    <input type="text" class="form-control remark" data-id="${temp[i].id}" ${disabled}>
-                                </td>
-                            </tr>
-                        `;
-                    }
+	                if(temp){
+	                    for(let i = 0; i < temp.length; i++){
+	                        let answer = "";
+
+	                        if(temp[i].type == "Text"){
+	                            answer = `
+	                                <input type="text" class="form-control" data-id="${temp[i].id}" ${disabled}>
+	                            `;
+	                        }
+	                        else if(temp[i].type == "Dichotomous"){
+	                            answer = `
+	                                <input type="radio" name="rb${temp[i].id}" value="1" ${disabled}>Yes
+	                                &nbsp;
+	                                <input type="radio" name="rb${temp[i].id}" value="0" ${disabled}>No
+	                            `;
+	                        }
+
+	                        string += `
+	                            <tr>
+	                                <td>${temp[i].name}</td>
+	                                <td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
+	                                <td>
+	                                    <input type="text" class="form-control remark" data-id="${temp[i].id}" ${disabled}>
+	                                </td>
+	                            </tr>
+	                        `;
+	                    }
+
+	                }
                 }
 
                 string += "</tbody></table>";
