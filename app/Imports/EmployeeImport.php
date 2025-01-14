@@ -7,6 +7,8 @@ use App\Models\{User, Patient, Package, PatientPackage};
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\{ToCollection, WithHeadingRow};
 
+use App\Helpers\Helper;
+
 class EmployeeImport implements ToCollection
 {
     /**
@@ -27,7 +29,7 @@ class EmployeeImport implements ToCollection
 
         for($i = 1; $i < $size; $i++)
         {
-            if($data[$i][0] != "" && $data[$i][1] != ""){
+            if($data[$i][0] != "" && $data[$i][2] != ""){
                 $user = new User();
                 $user->role = "Patient";
                 $user->fname = $data[$i][0];
@@ -76,7 +78,7 @@ class EmployeeImport implements ToCollection
                 // $temp->question_with_answers = $req->question_with_answers;
                 $temp->save();
 
-                Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
+                Helper::log(auth()->user()->id, "bought package $package->id", $patient->id);
 
                 $ctr++;
             }
