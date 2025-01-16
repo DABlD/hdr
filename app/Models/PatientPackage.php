@@ -15,7 +15,7 @@ class PatientPackage extends Model
     ];
 
     public function package(){
-        return $this->belongsTo('App\Models\Package');
+        return $this->belongsTo('App\Models\Package')->withTrashed();
     }
 
     public function user(){
