@@ -196,10 +196,17 @@
                                     for(let i = 0; i < temp.length; i++){
                                         let answer = "";
 
+                                        let remark = `
+                                            <td>
+                                                <input type="text" class="form-control remark" data-id="${temp[i].id}">
+                                            </td>
+                                        `;
+
                                         if(temp[i].type == "Text"){
                                             answer = `
                                                 <input type="text" class="form-control" data-id="${temp[i].id}">
                                             `;
+                                            remark = "";
                                         }
                                         else if(temp[i].type == "Dichotomous"){
                                             answer = `
@@ -213,9 +220,7 @@
                                             <tr>
                                                 <td>${temp[i].name}</td>
                                                 <td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
-                                                <td>
-                                                    <input type="text" class="form-control remark" data-id="${temp[i].id}">
-                                                </td>
+                                                ${remark}
                                             </tr>
                                         `;
                                     }
@@ -256,12 +261,12 @@
 
                                     if(type == "Dichotomous"){
                                         $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
+                                        $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
                                     }
                                     else if(type == "Text"){
                                         $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
                                     }
 
-                                    $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
                                 }
                             });
                         }
@@ -281,9 +286,11 @@
                     let id = answers[i].dataset.id;
                     let type = answers[i].dataset.type;
                     let answer = "";
+                    let remark = "";
 
                     if(type == "Dichotomous"){
                         answer = $(`[name="rb${id}"]:checked`).val() ?? null;
+                        remark = $(`.remark[data-id="${id}"]`).val();
                     }
                     else if(type == "Text"){
                         answer = $(`.answer input[data-id="${id}"]`).val();
@@ -292,7 +299,7 @@
                     array.push({
                         id: id,
                         answer: answer,
-                        remark: $(`.remark[data-id="${id}"]`).val()
+                        remark: remark
                     });
                 }
 
