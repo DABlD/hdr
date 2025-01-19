@@ -745,7 +745,7 @@
 
                             <div class="row iRow">
                                 <div class="col-md-3 iLabel">
-                                    Gender
+                                    Suffix
                                 </div>
                                 <div class="col-md-9 iInput">
                                     <select name="suffix" class="form-control">
@@ -845,27 +845,25 @@
 
                         let fname = $('[name="fname"]').val();
                         let lname = $('[name="lname"]').val();
-                        let contact = $('[name="contact"]').val();
+                        
+                        let gender = $('[name="gender"]').val();
+                        let civil_status = $('[name="civil_status"]').val();
 
-                        if(fname == "" && lname == "" && contact == ""){
-                            Swal.showValidationMessage('Name, Contact, and Email is at least required');
-                        }
-                        else{
-                            let bool = false;
-                            $.ajax({
-                                url: "{{ route('user.get') }}",
-                                data: {
-                                    select: "id",
-                                    where: ["email", $("[name='email']").val()]
-                                },
-                                success: result => {
-                                    result = JSON.parse(result);
-                                    if(result.length){
-                                        Swal.showValidationMessage('Email already used');
-                                        setTimeout(() => {resolve()}, 500);
-                                    }
-                                }
-                            });
+                        let birthday = $('[namme="birthday"]').val();
+                        let birth_place = $('[namme="birth_place"]').val();
+                        let nationality = $('[namme="nationality"]').val();
+                        let religion = $('[namme="religion"]').val();
+                        let address = $('[namme="address"]').val();
+                        let contact = $('[namme="contact"]').val();
+                        let email = $('[namme="email"]').val();
+                        let employment_status = $('[namme="employment_status"]').val();
+                        let company_position = $('[namme="company_position"]').val();
+                        let company_contact = $('[namme="company_contact"]').val();
+                        let sss = $('[namme="sss"]').val();
+                        let tin_number = $('[namme="tin_number"]').val();
+
+                        if(fname == "" || lname == "" || contact == "" || gender == "" || civil_status == "" || birthday == "" || birth_place == "" || nationality == "" || religion == "" || address == "" || contact == "" || email == "" || employment_status == "" || company_position == "" || company_contact == "" || sss == "" || tin_number == "" ){
+                            Swal.showValidationMessage('All fiels is required except HMO details.');
                         }
 
                         bool ? setTimeout(() => {resolve()}, 500) : "";
@@ -1015,7 +1013,7 @@
 
                             <div class="row iRow">
                                 <div class="col-md-3 iLabel">
-                                    Gender
+                                    Suffix
                                 </div>
                                 <div class="col-md-9 iInput">
                                     <select name="suffix" class="form-control">
@@ -1121,10 +1119,25 @@
 
                         let fname = $('[name="fname"]').val();
                         let lname = $('[name="lname"]').val();
-                        let contact = $('[name="contact"]').val();
+                        
+                        let gender = $('[name="gender"]').val();
+                        let civil_status = $('[name="civil_status"]').val();
 
-                        if(fname == "" && lname == "" && contact == ""){
-                            Swal.showValidationMessage('Name, Contact, and Email is at least required');
+                        let birthday = $('[namme="birthday"]').val();
+                        let birth_place = $('[namme="birth_place"]').val();
+                        let nationality = $('[namme="nationality"]').val();
+                        let religion = $('[namme="religion"]').val();
+                        let address = $('[namme="address"]').val();
+                        let contact = $('[namme="contact"]').val();
+                        let email = $('[namme="email"]').val();
+                        let employment_status = $('[namme="employment_status"]').val();
+                        let company_position = $('[namme="company_position"]').val();
+                        let company_contact = $('[namme="company_contact"]').val();
+                        let sss = $('[namme="sss"]').val();
+                        let tin_number = $('[namme="tin_number"]').val();
+
+                        if(fname == "" || lname == "" || contact == "" || gender == "" || civil_status == "" || birthday == "" || birth_place == "" || nationality == "" || religion == "" || address == "" || contact == "" || email == "" || employment_status == "" || company_position == "" || company_contact == "" || sss == "" || tin_number == "" ){
+                            Swal.showValidationMessage('All fiedls is required except HMO details.');
                         }
 
                         bool ? setTimeout(() => {resolve()}, 500) : "";
