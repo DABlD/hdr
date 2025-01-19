@@ -97,9 +97,9 @@ class PatientController extends Controller
         $patient->patient_id = "P" . now()->format('ymd') . str_pad($ctr+1, 5, '0', STR_PAD_LEFT);
         $patient->hmo_provider = $req->hmo_provider;
         $patient->hmo_number = $req->hmo_number;
-        $patient->mothers_name = $req->mothers_name;
-        $patient->fathers_name = $req->fathers_name;
-        $patient->guardian_name = $req->guardian_name;
+        // $patient->mothers_name = $req->mothers_name;
+        // $patient->fathers_name = $req->fathers_name;
+        // $patient->guardian_name = $req->guardian_name;
         $patient->employment_status = $req->employment_status;
         $patient->company_name = $req->company_name;
         $patient->company_position = $req->company_position;

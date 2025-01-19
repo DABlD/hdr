@@ -321,31 +321,6 @@
                                         <br>
                                         <span class="pInfo">${user.contact ?? "-"}</span>
                                     </div>
-                                    
-                                    <br>
-                                    
-                                    <div class="col-md-12 pInfo-left">
-                                        <span class="label">Mother's Name</span>
-                                        <br>
-                                        <span class="pInfo">${user.patient.mothers_name ?? "-"}</span>
-                                    </div>
-                                    
-                                    <br>
-                                    
-                                    <div class="col-md-12 pInfo-left">
-                                        <span class="label">Father's Name</span>
-                                        <br>
-                                        <span class="pInfo">${user.patient.fathers_name ?? "-"}</span>
-                                    </div>
-                                    
-                                    <br>
-                                    
-                                    <div class="col-md-12 pInfo-left">
-                                        <span class="label">Guardian's Name</span>
-                                        <br>
-                                        <span class="pInfo">${user.patient.guardians_name ?? "-"}</span>
-                                    </div>
-
                                 </div>
                             </div>
                         </section>
@@ -825,9 +800,6 @@
                             <br>
                             ${input("contact", "Contact", null, 3, 9)}
                             ${input("email", "Email", null, 3, 9, 'email')}
-                            ${input("mothers_name", "Mothers Name", null, 3, 9)}
-                            ${input("fathers_name", "Fathers Name", null, 3, 9)}
-                            ${input("guardian_name", "Guardian Name", null, 3, 9)}
                         </div>
                         <div class="chart tab-pane" id="tab3" style="position: relative;">
                             <br>
@@ -920,9 +892,9 @@
                         address: $("[name='address']").val(),
                         hmo_provider: $("[name='hmo_provider']").val(),
                         hmo_number: $("[name='hmo_number']").val(),
-                        mothers_name: $("[name='mothers_name']").val(),
-                        fathers_name: $("[name='fathers_name']").val(),
-                        guardian_name: $("[name='guardian_name']").val(),
+                        // mothers_name: $("[name='mothers_name']").val(),
+                        // fathers_name: $("[name='fathers_name']").val(),
+                        // guardian_name: $("[name='guardian_name']").val(),
                         employment_status: $("[name='employment_status']").val(),
                         company_name: "{{ auth()->user()->fname }}",
                         company_position: $("[name='company_position']").val(),
@@ -955,9 +927,9 @@
             formData.append('address', data.address);
             formData.append('hmo_provider', data.hmo_provider);
             formData.append('hmo_number', data.hmo_number);
-            formData.append('mothers_name', data.mothers_name);
-            formData.append('fathers_name', data.fathers_name);
-            formData.append('guardian_name', data.guardian_name);
+            // formData.append('mothers_name', data.mothers_name);
+            // formData.append('fathers_name', data.fathers_name);
+            // formData.append('guardian_name', data.guardian_name);
             formData.append('employment_status', data.employment_status);
             formData.append('company_name', data.company_name);
             formData.append('company_position', data.company_position);
@@ -1098,9 +1070,6 @@
                             <br>
                             ${input("contact", "Contact", user.contact, 3, 9)}
                             ${input("email", "Email", user.email, 3, 9, 'email')}
-                            ${input("mothers_name", "Mothers Name", user.patient.mothers_name, 3, 9)}
-                            ${input("fathers_name", "Fathers Name", user.patient.fathers_name, 3, 9)}
-                            ${input("guardian_name", "Guardian Name", user.patient.guardian_name, 3, 9)}
                         </div>
                         <div class="chart tab-pane" id="tab3" style="position: relative;">
                             <br>
@@ -1186,9 +1155,9 @@
                         id: user.patient.id,
                         hmo_provider: $("[name='hmo_provider']").val(),
                         hmo_number: $("[name='hmo_number']").val(),
-                        mothers_name: $("[name='mothers_name']").val(),
-                        fathers_name: $("[name='fathers_name']").val(),
-                        guardian_name: $("[name='guardian_name']").val(),
+                        // mothers_name: $("[name='mothers_name']").val(),
+                        // fathers_name: $("[name='fathers_name']").val(),
+                        // guardian_name: $("[name='guardian_name']").val(),
                         employment_status: $("[name='employment_status']").val(),
                         company_position: $("[name='company_position']").val(),
                         company_contact: $("[name='company_contact']").val(),
