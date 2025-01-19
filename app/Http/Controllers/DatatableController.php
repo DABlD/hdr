@@ -204,7 +204,7 @@ class DatatableController extends Controller
     }
 
     public function patient(Request $req){
-        $array = Patient::select($req->select);
+        $array = Patient::select("patients.*", 'u.deleted_at');
 
         // IF HAS SORT PARAMETER $ORDER
         if($req->order){
@@ -226,11 +226,8 @@ class DatatableController extends Controller
             $array = $array->where($req->where3[0], isset($req->where3[2]) ? $req->where3[1] : "=", $req->where3[2] ?? $req->where3[1]);
         }
 
-        // IF HAS JOIN
-        // if($req->join){
-        //     $alias = substr($req->join, 1);
-        //     $array = $array->join("$req->join as $alias", "$alias.fid", '=', 'users.id');
-        // }
+        $array = $array->join("users as u", "u.id", '=', 'patients.user_id');
+        $array = $array->whereNull('u.deleted_at');
 
         if(isset($req->filters)){
             $filters = $req->filters;
@@ -266,7 +263,6 @@ class DatatableController extends Controller
         if($req->group){
             $array = $array->groupBy($req->group);
         }
-
 
         echo json_encode($array);
     }
