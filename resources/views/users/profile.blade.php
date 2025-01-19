@@ -248,7 +248,7 @@
                                         <div class="row">
                                             {{ $col("Clinic Name", "clinic_name", isset($settings['clinic_name']) ? $settings['clinic_name'] : "", "text", 6) }}
                                             {{ $col("Contact", "contact_no", isset($settings['contact_no']) ? $settings['contact_no'] : "", "text", 3) }}
-                                            {{ $col("PF", "pf", isset($settings['pf']) ? $settings['pf'] : "", "number", 3) }}
+                                            {{-- {{ $col("PF", "pf", isset($settings['pf']) ? $settings['pf'] : "", "number", 3) }} --}}
                                         </div>
 
                                         <div class="row">
@@ -955,7 +955,7 @@
                 data: {
                     clinic_name: $('#clinic_name').val(),
                     contact_no: $('#contact_no').val(),
-                    pf: $('#pf').val(),
+                    // pf: $('#pf').val(),
                     address: $('#sAddress').val()
                 },
                 message: "Success"
