@@ -527,7 +527,7 @@
         			else{
         				packageString = `
 	        				<tr>
-	        					<td colspan="6" style="text-align: center;">No Package Requested</td>
+	        					<td colspan="8" style="text-align: center;">No Package Requested</td>
 	        				</tr>
 	        			`;
         			}
@@ -688,7 +688,6 @@
 	    				}
 
 	    				let subjective = generateSubjective(mhrQuestions);
-	    				console.log(subjective);
 
 	    				let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}";
 
@@ -845,17 +844,20 @@
 								    let type = answers[i].dataset.type;
 								    let answer = "";
 
+								    let remark = $(`.remark[data-id="${id}"]`).val();
+
 								    if(type == "Dichotomous"){
 								        answer = $(`[name="rb${id}"]:checked`).val() ?? null;
 								    }
 								    else if(type == "Text"){
 								        answer = $(`.answer input[data-id="${id}"]`).val();
+								        remark = "";
 								    }
 
 								    array.push({
 								        id: id,
 								        answer: answer,
-								        remark: $(`.remark[data-id="${id}"]`).val()
+								        remark: remark
 								    });
 								}
 
@@ -940,12 +942,12 @@
 									        if(type == "Dichotomous"){
 									            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).prop('disabled', false);
 									            $(`[name="rb${qwa.id}"][value="${qwa.answer}"]`).click();
+									        	$(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
 									        }
 									        else if(type == "Text"){
 									            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
 									        }
 
-									        $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
 		                                }
 								    });
 								}
@@ -1009,7 +1011,7 @@
 				// }
 
                 if(v.name == "Medication History"){
-                    string += `
+                    string = `
                         <div class="row ${hide}">
                             <div class="col-md-12" style="text-align: left;">
                                 <b style="font-size: 1.5rem;">${v.name}</b>
@@ -1073,10 +1075,17 @@
 	                    for(let i = 0; i < temp.length; i++){
 	                        let answer = "";
 
+	                        let remark = `
+	                        	<td>
+	                        	    <input type="text" class="form-control remark" data-id="${temp[i].id}" ${disabled}>
+	                        	</td>
+	                        `;
+
 	                        if(temp[i].type == "Text"){
 	                            answer = `
 	                                <input type="text" class="form-control" data-id="${temp[i].id}" ${disabled}>
 	                            `;
+	                            remark = "";
 	                        }
 	                        else if(temp[i].type == "Dichotomous"){
 	                            answer = `
@@ -1090,9 +1099,7 @@
 	                            <tr>
 	                                <td>${temp[i].name}</td>
 	                                <td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
-	                                <td>
-	                                    <input type="text" class="form-control remark" data-id="${temp[i].id}" ${disabled}>
-	                                </td>
+	                                ${remark}
 	                            </tr>
 	                        `;
 	                    }

@@ -166,36 +166,20 @@
 			            }
 			            else{
 			            	let bool = false;
-            				$.ajax({
-            					url: "{{ route('user.get') }}",
-            					data: {
-            						select: "id",
-            						where: ["email", $("[name='email']").val()]
-            					},
-            					success: result => {
-            						result = JSON.parse(result);
-            						if(result.length){
-            			    			Swal.showValidationMessage('Email already used');
+	        				$.ajax({
+	        					url: "{{ route('user.get') }}",
+	        					data: {
+	        						select: "id",
+	        						where: ["username", $("[name='username']").val()]
+	        					},
+	        					success: result => {
+	        						result = JSON.parse(result);
+	        						if(result.length){
+	        			    			Swal.showValidationMessage('Username already used');
 	            						setTimeout(() => {resolve()}, 500);
-            						}
-            						else{
-			            				$.ajax({
-			            					url: "{{ route('user.get') }}",
-			            					data: {
-			            						select: "id",
-			            						where: ["username", $("[name='username']").val()]
-			            					},
-			            					success: result => {
-			            						result = JSON.parse(result);
-			            						if(result.length){
-			            			    			Swal.showValidationMessage('Username already used');
-				            						setTimeout(() => {resolve()}, 500);
-			            						}
-			            					}
-			            				});
-            						}
-            					}
-            				});
+	        						}
+	        					}
+	        				});
 			            }
 
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
@@ -297,30 +281,14 @@
             					url: "{{ route('user.get') }}",
             					data: {
             						select: "id",
-            						where: ["email", $("[name='email']").val()]
+            						where: ["username", $("[name='username']").val()]
             					},
             					success: result => {
             						result = JSON.parse(result);
             						if(result.length && result[0].id != user.id){
-            			    			Swal.showValidationMessage('Email already used');
+            			    			Swal.showValidationMessage('Username already used');
 	            						setTimeout(() => {resolve()}, 500);
             						}
-			            			else{
-			            				$.ajax({
-			            					url: "{{ route('user.get') }}",
-			            					data: {
-			            						select: "id",
-			            						where: ["username", $("[name='username']").val()]
-			            					},
-			            					success: result => {
-			            						result = JSON.parse(result);
-			            						if(result.length && result[0].id != user.id){
-			            			    			Swal.showValidationMessage('Username already used');
-				            						setTimeout(() => {resolve()}, 500);
-			            						}
-			            					}
-			            				});
-			            			}
             					}
             				});
 			            }

@@ -314,23 +314,7 @@
 			            if(fname == "" && lname == "" && contact == ""){
 			                Swal.showValidationMessage('Name, Contact, and Email is at least required');
 			            }
-			            else{
-			            	let bool = false;
-            				$.ajax({
-            					url: "{{ route('user.get') }}",
-            					data: {
-            						select: "id",
-            						where: ["email", $("[name='email']").val()]
-            					},
-            					success: result => {
-            						result = JSON.parse(result);
-            						if(result.length){
-            			    			Swal.showValidationMessage('Email already used');
-	            						setTimeout(() => {resolve()}, 500);
-            						}
-            					}
-            				});
-			            }
+			            
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
 				    });
 				},
