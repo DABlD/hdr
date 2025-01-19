@@ -459,16 +459,32 @@
         				result.forEach(pPackage => {
         					let complete = ``;
 
+        					@if(auth()->user()->role == "Receptionist")
         					let diagnostics = `
         						&nbsp;
         						<a class="btn btn-success btn-xs check-d${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'diagnostics')">
         							<i class="fas fa-check fa-2xs"></i>
         						</a>
         					`;
+        					@else
+        					let diagnostics = `
+        						&nbsp;
+        						<a style="pointer-events: none; background-color: grey;" class="btn btn-success btn-xs check-d${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'diagnostics')">
+        							<i class="fas fa-check fa-2xs"></i>
+        						</a>
+        					`;
+        					@endif
 
         					let vitals = `
         						&nbsp;
         						<a class="btn btn-success btn-xs check-v${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'vitals')">
+        							<i class="fas fa-check fa-2xs"></i>
+        						</a>
+        					`;
+
+        					let evaluation = `
+        						&nbsp;
+        						<a class="btn btn-success btn-xs check-e${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'evaluation')">
         							<i class="fas fa-check fa-2xs"></i>
         						</a>
         					`;
@@ -483,6 +499,9 @@
 	        						</td>
 	        						<td style="text-align: center;">
 	        							${pPackage.vitals == null ? vitals : "Checked"}
+	        						</td>
+	        						<td style="text-align: center;">
+	        							${pPackage.evaluation == null ? evaluation : "Checked"}
 	        						</td>
 	        						<td style="color: #${pPackage.status == "Pending" ? 'FFA500' : "008000"};">
 	        							${pPackage.status}
@@ -524,6 +543,7 @@
                 						<th>Date</th>
                 						<th>Diagnostics</th>
                 						<th>Vitals</th>
+                						<th>Doctor Evaluation</th>
                 						<th>Status</th>
                 						<th style="width: 200px;">Result</th>
                 					</tr>
@@ -533,7 +553,7 @@
                 				</tbody>
                 			</table>
 		        		`,
-						width: '1000px',
+						width: '1150px',
 						confirmButtonText: 'OK',
 		        	})
         		}
@@ -571,11 +591,14 @@
     		if(type == "vitals"){
     			data.vitals = 1;
     		}
-    		else{
+    		else if(type == "diagnostics"){
     			data.diagnostics = 1;
     		}
+    		else{
+    			data.evaluation = 1;
+    		}
 
-    		if($(`.check-d${pid}, .check-v${pid}`).length == 1){
+    		if($(`.check-d${pid}, .check-v${pid}, .check-e${pid}`).length == 1){
     			data.status = "Completed";
     		}
 

@@ -15,6 +15,7 @@ class AddDiagnosticsInPatientPackages extends Migration
     {
         Schema::table('patient_packages', function (Blueprint $table) {
             $table->string('diagnostics')->after('status')->nullable();
+            $table->string('evaluation')->after('vitals')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ class AddDiagnosticsInPatientPackages extends Migration
     {
         Schema::table('patient_packages', function (Blueprint $table) {
             $table->dropColumn('diagnostics');
+            $table->dropColumn('evaluation');
         });
     }
 }
