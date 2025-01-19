@@ -154,15 +154,21 @@
                                                 <th style="width: 30%;">Dosage</th>
                                                 <th style="width: 30%;">
                                                     Frequency
-                                                    <div class="float-right">
-                                                        <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add" onclick="addMedication()">
-                                                            <i class="fas fa-plus"></i>
-                                                        </a>
-                                                    </div>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody id="medications">
+                                            <tr>
+                                                <td>
+                                                    <textarea class="medication-name form-control"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="medication-dosage form-control"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="medication-frequency form-control"></textarea>
+                                                </td>
+                                            </tr>
                                 `;
                             }
                             else{
@@ -239,15 +245,11 @@
                             qwa.forEach(qwa => {
                                 // IF MEDICATION HISTORY
                                 if(qwa.id == 130){
-                                    if(Array.isArray(qwa.answer)){
-                                        let medications = qwa.answer;
-                                        medications.forEach(medication => {
-                                            addMedication(qwa.id);
-                                            $(`.mn${qwa.id}.medication-name:last`).val(medication.name);
-                                            $(`.mn${qwa.id}.medication-dosage:last`).val(medication.dosage);
-                                            $(`.mn${qwa.id}.medication-frequency:last`).val(medication.frequency);
-                                        });
-                                    }
+                                    let medication = qwa.answer;
+
+                                    $(`.medication-name`).val(medication.name);
+                                    $(`.medication-dosage`).val(medication.dosage);
+                                    $(`.medication-frequency`).val(medication.frequency);
                                 }
                                 else{
                                     let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
@@ -265,16 +267,6 @@
                         }
                     }
                 })
-            }
-
-            function addMedication(id=null){
-                $('#medications').append(`
-                    <tr>
-                        <td><input type="text" class="form-control mn${id} medication-name"></td>
-                        <td><input type="text" class="form-control mn${id} medication-dosage"></td>
-                        <td><input type="text" class="form-control mn${id} medication-frequency"></td>
-                    </tr>
-                `);
             }
 
             function save(id){ 
@@ -326,7 +318,11 @@
 
                 array.push({
                     id: '130',
-                    answer: medhistory,
+                    answer: {
+                        name: $('.medication-name').val(),
+                        dosage: $('.medication-dosage').val(),
+                        frequency: $('.medication-frequency').val()
+                    },
                     remark: ''
                 });
 

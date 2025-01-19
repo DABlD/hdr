@@ -839,7 +839,11 @@
 
 				                array.push({
 				                    id: '130',
-				                    answer: medhistory,
+				                    answer: {
+				                        name: $('.medication-name').val(),
+				                        dosage: $('.medication-dosage').val(),
+				                        frequency: $('.medication-frequency').val()
+				                    },
 				                    remark: ''
 				                });
 
@@ -882,15 +886,11 @@
 								    qwa.forEach(qwa => {
 		                                // IF MEDICATION HISTORY
 		                                if(qwa.id == 130){
-		                                    if(Array.isArray(qwa.answer)){
-		                                        let medications = qwa.answer;
-		                                        medications.forEach(medication => {
-		                                            addMedication(qwa.id);
-		                                            $(`.mn${qwa.id}.medication-name:last`).val(medication.name);
-		                                            $(`.mn${qwa.id}.medication-dosage:last`).val(medication.dosage);
-		                                            $(`.mn${qwa.id}.medication-frequency:last`).val(medication.frequency);
-		                                        });
-		                                    }
+		                                    let medication = qwa.answer;
+
+		                                    $(`.medication-name`).val(medication.name);
+		                                    $(`.medication-dosage`).val(medication.dosage);
+		                                    $(`.medication-frequency`).val(medication.frequency);
 		                                }
 		                                else{
 									        let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
@@ -966,32 +966,38 @@
 				// 	hide = "d-none";
 				// }
 
-            	if(v.name == "Medication History"){
-	                string = `
-	                    <div class="row ${hide}">
-	                        <div class="col-md-12" style="text-align: left;">
-	                            <b style="font-size: 1.5rem;">${v.name}</b>
-	                        </div>
-	                    </div>
+                if(v.name == "Medication History"){
+                    string += `
+                        <div class="row ${hide}">
+                            <div class="col-md-12" style="text-align: left;">
+                                <b style="font-size: 1.5rem;">${v.name}</b>
+                            </div>
+                        </div>
 
-	                    <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
-	                        <thead>
-	                            <tr>
-	                                <th style="width: 40%;">Medication</th>
-	                                <th style="width: 30%;">Dosage</th>
-	                                <th style="width: 30%;">
-	                                    Frequency
-	                                    <div class="float-right">
-	                                        <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add" onclick="addMedication()">
-	                                            <i class="fas fa-plus"></i>
-	                                        </a>
-	                                    </div>
-	                                </th>
-	                            </tr>
-	                        </thead>
-							<tbody id="medications">
-	                `;
-            	}
+                        <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%;">Medication</th>
+                                    <th style="width: 30%;">Dosage</th>
+                                    <th style="width: 30%;">
+                                        Frequency
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="medications">
+                                <tr>
+                                    <td>
+                                        <textarea class="medication-name form-control"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea class="medication-dosage form-control"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea class="medication-frequency form-control"></textarea>
+                                    </td>
+                                </tr>
+                    `;
+                }
             	else{
 	                string = `
 	                    <div class="row ${hide}">
