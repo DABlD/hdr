@@ -120,6 +120,8 @@ class DatatableController extends Controller
         $array->join('users as u', 'u.id', '=', 'exam_lists.user_id');
         $array->join('patients as p', 'p.user_id', '=', 'u.id');
 
+        $array->whereNull('u.deleted_at');
+
         if(isset($req->filters)){
             $filters = $req->filters;
 
