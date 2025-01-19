@@ -132,6 +132,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <ul class="nav nav-pills ml-auto" style="padding-left: revert;">
+                                @if(auth()->user()->role != "Admin")
                                 <li class="nav-item">
                                     <a class="nav-link active" href="#tab1" data-toggle="tab">
                                         Personal Information
@@ -144,11 +145,13 @@
                                     </a>
                                 </li>
                                 &nbsp;
+                                @endif
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#tab3" data-toggle="tab">
+                                    <a class="nav-link {{ auth()->user()->role == "Admin" ? "active" : "" }}" href="#tab3" data-toggle="tab">
                                         Account Information
                                     </a>
                                 </li>
+
                                 @if(auth()->user()->role == "Admin")
                                     &nbsp;
                                     <li class="nav-item">
