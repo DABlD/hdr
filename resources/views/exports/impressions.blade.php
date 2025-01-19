@@ -99,13 +99,11 @@
 		<tr>
 			{{-- if medication history --}}
 			@if(in_array($question['id'], [131,132,133]))
-				@if(is_array($data->answers[130]['answer']) && ($question['id'] == 131))
-					@foreach($data->answers[130]['answer'] as $ans)
-						<td style="font-size: 10px; width: 30%;">
-							{{ $key+1 }}.) {{ $ans->name }} / {{ $ans->dosage }} / {{ $ans->frequency }}
-						</td>
-						{{ $key++ }}
-					@endforeach
+				@if($question['id'] == 131)
+					<td style="font-size: 10px; width: 30%;">
+						{{ $key+1 }}.) {{ $data->answers[130]['answer']->name }} / {{ $data->answers[130]['answer']->dosage }} / {{ $data->answers[130]['answer']->frequency }}
+					</td>
+					{{ $key++ }}
 				@endif
 			@else
 				<td style="font-size: 10px; width: 30%;">
