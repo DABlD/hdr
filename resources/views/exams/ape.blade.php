@@ -457,16 +457,18 @@
 
         			if(result.length){
         				result.forEach(pPackage => {
-        					let complete = `
+        					let complete = ``;
+
+        					let diagnostics = `
         						&nbsp;
-        						<a class="btn btn-success btn-xs" data-toggle="tooltip" title="Mark as Completed" onclick="complete(${pPackage.id}, ${id})">
+        						<a class="btn btn-success btn-xs check-d${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'diagnostics')">
         							<i class="fas fa-check fa-2xs"></i>
         						</a>
         					`;
 
         					let vitals = `
         						&nbsp;
-        						<a class="btn btn-success btn-xs" data-toggle="tooltip" title="Mark as Checked" onclick="checked(${pPackage.id}, ${id})">
+        						<a class="btn btn-success btn-xs check-v${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'vitals')">
         							<i class="fas fa-check fa-2xs"></i>
         						</a>
         					`;
@@ -476,12 +478,14 @@
 	        						<td>${pPackage.package.name}</td>
 	        						<td>${pPackage.type == "PEE" ? "PPE" : pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
-	        						<td>
+	        						<td style="text-align: center;">
+	        							${pPackage.diagnostics == null ? diagnostics : "Checked"}
+	        						</td>
+	        						<td style="text-align: center;">
 	        							${pPackage.vitals == null ? vitals : "Checked"}
 	        						</td>
-	        						<td>
+	        						<td style="color: #${pPackage.status == "Pending" ? 'FFA500' : "008000"};">
 	        							${pPackage.status}
-	        							${pPackage.status == "Pending" ? complete : ""}
 	        						</td>
 	        						<td>
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
@@ -518,6 +522,7 @@
                 						<th>Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
+                						<th>Diagnostics</th>
                 						<th>Vitals</th>
                 						<th>Status</th>
                 						<th style="width: 200px;">Result</th>
@@ -528,7 +533,7 @@
                 				</tbody>
                 			</table>
 		        		`,
-						width: '900px',
+						width: '1000px',
 						confirmButtonText: 'OK',
 		        	})
         		}
@@ -559,11 +564,25 @@
         	});
         }
 
-        function checked(pid, id){
+        function checked(pid, id, type){
+    		let data = [];
+    		data.id = pid;
+
+    		if(type == "vitals"){
+    			data.vitals = 1;
+    		}
+    		else{
+    			data.diagnostics = 1;
+    		}
+
+    		if($(`.check-d${pid}, .check-v${pid}`).length == 1){
+    			data.status = "Completed";
+    		}
+
     		swal.showLoading();
     		update({
     			url: "{{ route('patientPackage.update') }}",
-    			data: {id: pid, vitals: 1},
+    			data: data,
     			message: "Success",
     		}, () => {
     			setTimeout(() => {
