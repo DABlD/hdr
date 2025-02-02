@@ -76,6 +76,12 @@
 	    	text-align: left;
 	    	vertical-align: middle;
 	    }
+
+        .i-error{
+            outline: none;
+            border-color: red;
+            box-shadow: 0 0 10px red;
+        }
 	</style>
 @endpush
 
@@ -837,6 +843,9 @@
 
 								let len = $('td.answer').length;
 
+				                let error = false;
+				                let ferror = null;
+
 								for(let i = 0; i < len; i++){
 								    let id = answers[i].dataset.id;
 								    let type = answers[i].dataset.type;
@@ -846,6 +855,18 @@
 
 								    if(type == "Dichotomous"){
 								        answer = $(`[name="rb${id}"]:checked`).val() ?? null;
+				                		
+				                		$(`.remark[data-id="${id}"]`).removeClass('i-error');
+								        if($(answers[i]).parents('.Systemic-Examination').length){ //CHECK FIRST IF UNDER SYSTEMIC
+								        	if(answer == 0 && remark == ""){
+								        		$(`.remark[data-id="${id}"]`).addClass('i-error');
+
+					                            if(!ferror){
+					                                ferror = $(`.remark[data-id="${id}"]`);
+					                            }
+								        	}
+
+								        }
 								    }
 								    else if(type == "Text"){
 								        answer = $(`.answer input[data-id="${id}"]`).val();
@@ -888,6 +909,17 @@
 				                    },
 				                    remark: ''
 				                });
+
+				                if(ferror){
+				                	Swal.showValidationMessage('Some remarks are required.');
+				                	$('[href="#tab1-6"]').click();
+
+				                	setTimeout(() => {
+				                		$('.swal2-container').animate({
+				                		    scrollTop: $(ferror).offset().top - 200
+				                		}, 1000);
+				                	},500);
+				                }
 
 								update({
 								    url: "{{ route("patientPackage.update") }}",
