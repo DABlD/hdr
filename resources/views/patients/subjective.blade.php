@@ -141,7 +141,7 @@
 
                         for (let [k, v] of Object.entries(questions[""])) {
                             let hide = "";
-                            if(["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation", 'Menstrual History'].includes(v.name)){
+                            if(["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systemic Examination", "Medical Evaluation", 'Menstrual History'].includes(v.name)){
                                 hide = "d-none";
                             }
 

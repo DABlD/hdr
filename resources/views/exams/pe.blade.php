@@ -728,7 +728,7 @@
 			        					    &nbsp;
 			        					    <li class="nav-item">
 			        					        <a class="nav-link" href="#tab1-6" data-toggle="tab">
-			        					            Systematic Examination
+			        					            Systemic Examination
 			        					        </a>
 			        					    </li>
 			        					    &nbsp;
@@ -778,10 +778,10 @@
 			        					    <div class="chart tab-pane Vital-Signs" id="tab1-3" style="position: relative;">
 			        					    	${subjective.vitals}
 			        					    </div>
-			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-6" style="position: relative;">
+			        					    <div class="chart tab-pane Systemic-Examination" id="tab1-6" style="position: relative;">
 			        					    	${subjective.physical}
 			        					    </div>
-			        					    <div class="chart tab-pane Systematic-Examination" id="tab1-7" style="position: relative;">
+			        					    <div class="chart tab-pane Systemic-Examination" id="tab1-7" style="position: relative;">
 			        					    	${subjective.medical}
 			        					    </div>
 
@@ -1002,7 +1002,7 @@
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
-				// if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systematic Examination", "Medical Evaluation"].includes(v.name)){
+				// if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systemic Examination", "Medical Evaluation"].includes(v.name)){
 				// 	hide = "d-none";
 				// }
 
@@ -1039,6 +1039,12 @@
                     `;
                 }
             	else{
+            		let label = "Answer";
+
+            		if(v.name == "Systemic Examination"){
+            			label = "Normal";
+            		}
+
 	                string = `
 	                    <div class="row ${hide}">
 	                        <div class="col-md-12" style="text-align: left;">
@@ -1050,7 +1056,7 @@
 	                        <thead>
 	                            <tr>
 	                                <th style="width: 40%;">Name</th>
-	                                <th style="width: 30%;" class="answer">Answer</th>
+	                                <th style="width: 30%;" class="answer">${label}</th>
 	                                <th style="width: 30%;" class="remark">Remark</th>
 	                            </tr>
 	                        </thead>
@@ -1108,7 +1114,7 @@
 				if(["Vital Signs", "Anthropometrics", "Visual Acuity"].includes(v.name)){
 					historyString['vitals'] += string;
 				}
-				else if(["Systematic Examination"].includes(v.name)){
+				else if(["Systemic Examination"].includes(v.name)){
 					historyString['physical'] += string;
 				}
 				else if(["Medical Evaluation"].includes(v.name)){

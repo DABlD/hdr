@@ -98,7 +98,7 @@ class SubjectiveSeeder extends Seeder
                 ["Left", "Text"],
                 ["Corrected", "Dichotomous"]
             ],
-            "Systematic Examination" => [
+            "Systemic Examination" => [
                 ["Skin", "Text"],
                 ["Head, Neck, Scalp", "Text"],
                 ["Eyes, external", "Text"],
