@@ -25,6 +25,12 @@
             #table td, #table th{
                 text-align: center;
             }
+
+            .i-error{
+                outline: none;
+                border-color: red;
+                box-shadow: 0 0 10px red;
+            }
         </style>
     </head>
 
@@ -282,6 +288,9 @@
 
                 let len = $('td.answer').length;
 
+                let error = false;
+                let ferror = null;
+
                 for(let i = 0; i < len; i++){
                     let id = answers[i].dataset.id;
                     let type = answers[i].dataset.type;
@@ -291,6 +300,15 @@
                     if(type == "Dichotomous"){
                         answer = $(`[name="rb${id}"]:checked`).val() ?? null;
                         remark = $(`.remark[data-id="${id}"]`).val();
+
+                        $(`.remark[data-id="${id}"]`).removeClass('i-error');
+                        if(answer == 1 && remark == "" && $(`.remark[data-id="${id}"]`).is(':visible')){
+                            $(`.remark[data-id="${id}"]`).addClass('i-error');
+
+                            if(!ferror){
+                                ferror = $(`.remark[data-id="${id}"]`);
+                            }
+                        }
                     }
                     else if(type == "Text"){
                         answer = $(`.answer input[data-id="${id}"]`).val();
@@ -333,15 +351,29 @@
                     remark: ''
                 });
 
-                swal.showLoading();
-                update({
-                    url: "{{ route("patient.updateSubjective") }}",
-                    data: {
-                        id: id,
-                        question_with_answers: JSON.stringify(array)
-                    },
-                    message: "Saved"
-                });
+                if(ferror){
+                    $('html, body').animate({
+                        scrollTop: $(ferror).offset().top - 200
+                    }, 1000);
+
+                    setTimeout(() => {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Highlighted fields are required.'
+                        });
+                    }, 1200);
+                }
+                else{
+                    swal.showLoading();
+                    update({
+                        url: "{{ route("patient.updateSubjective") }}",
+                        data: {
+                            id: id,
+                            question_with_answers: JSON.stringify(array)
+                        },
+                        message: "Saved"
+                    });
+                }
             }
         </script>
     </body>
