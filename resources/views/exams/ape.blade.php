@@ -677,7 +677,7 @@
 							for (var x = 0; x < files.length; x++) {
 								let temp = 
 				    			attachment += `
-									<span style="color: blue;" data-fid="${files[x].split('/').slice(-1)[0]}">
+									<span style="color: blue; font-size: 14px;" data-fid="${files[x].split('/').slice(-1)[0]}">
 										<a href="../${files[x]}" target="_blank">${files[x].split('/').slice(-1)[0]}</a>
 									</span>
 									<span style="color: red;" onclick="deleteFile(this, ${ppid})" data-fid="${files[x].split('/').slice(-1)[0]}">
@@ -696,7 +696,7 @@
 			        		// title: "Result/Impressions",
 			        		html: `
 			        			<div class="row">
-			        				<div class="col-md-2" style="text-align: left;">
+			        				<div class="col-md-3" style="text-align: left;">
 			        					<h2><u><b>Inclusions</b></u></h2>
 			        					<br>
 			        					${list}
@@ -713,7 +713,7 @@
 			        					<div id="uploadsuccess" class="d-none" style="color: green;">New file/s uploaded</div>
 			        					<div id="deletesuccess" class="d-none" style="color: red;">Successfully deleted file</div>
 			        				</div>
-			        				<div class="col-md-10">
+			        				<div class="col-md-9">
 
 			        					<ul class="nav nav-pills ml-auto" style="padding-left: revert;">
 			        					    <li class="nav-item">
@@ -740,7 +740,7 @@
 			        					        </a>
 			        					    </li>
 			        					    &nbsp;
-			        					    <li class="nav-item">
+			        					    <li class="nav-item d-none">
 			        					        <a class="nav-link" href="#tab2" data-toggle="tab">
 			        					            Impressions
 			        					        </a>
