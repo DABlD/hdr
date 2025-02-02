@@ -165,14 +165,15 @@
 	                    	if(row.user.patient.exams.length){
 	                    		let amount = 0;
 
-	                    		row.user.patient.exams.forEach(exam => {
-	                    			let temp = JSON.parse(exam.details);
+	                    		if(row.status != "Completed"){
+		                    		row.user.patient.exams.forEach(exam => {
+		                    			let temp = JSON.parse(exam.details);
 
-	                    			if(!['Medical Examination Report', 'Personal Medical History'].includes(temp.name)){
-	                    				amount += temp.amount;
-	                    			}
-	                    		});
-
+		                    			if(!['Medical Examination Report', 'Personal Medical History'].includes(temp.name)){
+		                    				amount += temp.amount;
+		                    			}
+		                    		});
+	                    		}
 
 	                    		return "₱" + numeral(amount).format("0,0");
 	                    	}
