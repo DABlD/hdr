@@ -923,10 +923,12 @@
 								    updateFile(ppid);
 								});
 
+								$('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
 								let qwa = mhr.question_with_answers;
 
 								if(qwa){
 								    qwa = JSON.parse(qwa);
+									console.log(qwa);
 
 								    qwa.forEach(qwa => {
 		                                // IF MEDICATION HISTORY
@@ -1180,7 +1182,6 @@
             		id: ppid
             	},
             	success: result => {
-            		console.log(result);
 		    		$('#uploadsuccess').addClass('d-none');
 		    		$('#deletesuccess').removeClass('d-none');
 		        	$(`[data-fid="${$(e).data('fid')}"]`).remove();
