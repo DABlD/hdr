@@ -849,6 +849,9 @@
 				                let error = false;
 				                let ferror = null;
 
+				                let error2 = false;
+				                let ferror2 = null;
+
 								for(let i = 0; i < len; i++){
 								    let id = answers[i].dataset.id;
 								    let type = answers[i].dataset.type;
@@ -868,7 +871,15 @@
 					                                ferror = $(`.remark[data-id="${id}"]`);
 					                            }
 								        	}
+								        }
+								        else if($(answers[i]).parents('.Medical-Evaluation').length){ //CHECK FIRST IF UNDER Diagnostic
+								        	if(answer == 0 && remark == ""){
+								        		$(`.remark[data-id="${id}"]`).addClass('i-error');
 
+					                            if(!ferror2){
+					                                ferror2 = $(`.remark[data-id="${id}"]`);
+					                            }
+								        	}
 								        }
 								    }
 								    else if(type == "Text"){
@@ -920,6 +931,16 @@
 				                	setTimeout(() => {
 				                		$('.swal2-container').animate({
 				                		    scrollTop: $(ferror).offset().top - 200
+				                		}, 1000);
+				                	},500);
+				                }
+				                else if(ferror2){
+				                	Swal.showValidationMessage('Some remarks are required.');
+				                	$('[href="#tab1-7"]').click();
+
+				                	setTimeout(() => {
+				                		$('.swal2-container').animate({
+				                		    scrollTop: $(ferror2).offset().top - 200
 				                		}, 1000);
 				                	},500);
 				                }
