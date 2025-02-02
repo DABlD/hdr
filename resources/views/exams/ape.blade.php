@@ -1191,7 +1191,8 @@
 		        		let data = {};
 		        		data.id = id;
 
-		            	window.location.href = `{{ route('patientPackage.exportInvoice') }}?` + $.param(data);
+		            	// window.location.href = `{{ route('patientPackage.exportInvoice') }}?` + $.param(data);
+		            	window.open(`{{ route('patientPackage.exportInvoice') }}?` + $.param(data), '_blank');
         			}
         			else{
         				se("Complete clinic settings first before exporting");
@@ -1232,7 +1233,8 @@
 					        		data.id = id;
 					        		data.type = "RI";
 
-					            	window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
+					            	// window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
+					            	window.open(`{{ route('patientPackage.exportDocument') }}?` + $.param(data), '_blank');
 					        	}
         					}
         				})

@@ -41,7 +41,7 @@ class PDFExport
 
         $oMerger->merge();
         $oMerger->setFileName($this->filename . '.pdf');
-        $oMerger->download();
+        $oMerger->stream();
     }
 
     public function invoice(){
@@ -54,6 +54,6 @@ class PDFExport
         // $path = "uploads/invoice/$this->filename.pdf";
         $pdf = PDF::loadView('exports.' . $this->type, ['data' => $this->data, 'settings' => $settings]);
         $pdf->setPaper('a4', 'Portrait');
-        return $pdf->download($this->filename . '.pdf');
+        return $pdf->stream($this->filename . '.pdf');
     }
 }

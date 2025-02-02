@@ -101,7 +101,7 @@
 			@if(in_array($question['id'], [131,132,133]))
 				@if($question['id'] == 131)
 					<td style="font-size: 10px; width: 30%;">
-						{{ $key+1 }}.) {{ $data->answers[130]['answer']->name }} / {{ $data->answers[130]['answer']->dosage }} / {{ $data->answers[130]['answer']->frequency }}
+						{{ $key+1 }}.) {{ $data->answers[130]['answer'][0]->name }} / {{ $data->answers[130]['answer'][0]->dosage }} / {{ $data->answers[130]['answer'][0]->frequency }}
 					</td>
 					{{ $key++ }}
 				@endif
