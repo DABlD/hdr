@@ -928,7 +928,6 @@
 
 								if(qwa){
 								    qwa = JSON.parse(qwa);
-									console.log(qwa);
 
 								    qwa.forEach(qwa => {
 		                                // IF MEDICATION HISTORY
