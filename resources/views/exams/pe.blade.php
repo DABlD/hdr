@@ -1072,10 +1072,15 @@
                     `;
                 }
             	else{
+            		let iname = "Name";
             		let label = "Answer";
 
-            		if(v.name == "Systemic Examination"){
+            		if(v.name == "Systemic Examination" || v.name == "Diagnostic Examination"){
             			label = "Normal";
+            		}
+
+            		if(v.name == "Diagnostic Examination"){
+            			iname = "Diagnostic Test";
             		}
 
 	                string = `
@@ -1088,7 +1093,7 @@
 	                    <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
 	                        <thead>
 	                            <tr>
-	                                <th style="width: 40%;">Name</th>
+	                                <th style="width: 40%;">${iname}</th>
 	                                <th style="width: 30%;" class="answer">${label}</th>
 	                                <th style="width: 30%;" class="remark">Remark</th>
 	                            </tr>
