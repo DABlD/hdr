@@ -520,7 +520,7 @@
 	        							${pPackage.status}
 	        						</td>
 	        						<td>
-	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id})">
+	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}')">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
 	        							<a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
@@ -642,7 +642,7 @@
         	});
         }
 
-        function addResult(ppid){
+        function addResult(ppid, status){
         	let string = "";
 
         	$.ajax({
@@ -1014,6 +1014,13 @@
 		                                }
 								    });
 								}
+
+								setTimeout(() => {
+									if(status == "Completed"){
+										$('.swal2-container input, .swal2-container radio').prop('disabled', true);
+										$('.swal2-container .note-editable').css('pointer-events', 'none');
+									}
+								}, 500);
 			        		}
 			        	}).then(result => {
 			        		if(result.value){
