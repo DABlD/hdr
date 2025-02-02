@@ -454,6 +454,7 @@
     				select: "*",
     				where: ["user_id", id],
     				where2: ["package_id", ">", 2],
+    				order: ['created_at', 'desc'],
     				load: ["package"]
         		},
         		success: result => {
