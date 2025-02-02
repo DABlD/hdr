@@ -118,7 +118,7 @@ class SubjectiveSeeder extends Seeder
                 ["Reflexes", "Text"],
                 ["Extremeties", "Text"]
             ],
-            "Medical Evaluation" => [
+            "Diagnostic Examination" => [
                 ["Diagnostic Examination", "Text"],
                 ["Laboratory Findings", "Text"],
                 ["Complete Blood Count", "Text"],

@@ -170,7 +170,7 @@ class DatatableController extends Controller
                                 "</a>&nbsp;";
                 }
                 else{
-                    $medical =  "<a class='btn btn-primary' data-toggle='tooltip' title='Medical Evaluation' onClick='evaluation($item->user_id)'>" .
+                    $medical =  "<a class='btn btn-primary' data-toggle='tooltip' title='Diagnostic Examination' onClick='evaluation($item->user_id)'>" .
                                     "<i class='fas fa-clipboard-prescription'></i>" .
                                 "</a>&nbsp;";
                     $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id)'>" .

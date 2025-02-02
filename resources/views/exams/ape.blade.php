@@ -742,7 +742,7 @@
 			        					    &nbsp;
 			        					    <li class="nav-item">
 			        					        <a class="nav-link" href="#tab1-7" data-toggle="tab">
-			        					            Medical Evaluation
+			        					            Diagnostic Examination
 			        					        </a>
 			        					    </li>
 			        					    &nbsp;
@@ -1040,7 +1040,7 @@
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
-				// if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systemic Examination", "Medical Evaluation"].includes(v.name)){
+				// if(!["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systemic Examination", "Diagnostic Examination"].includes(v.name)){
 				// 	hide = "d-none";
 				// }
 
@@ -1148,13 +1148,15 @@
 
                 string += "</tbody></table>";
 
+                console.log(string);
+
 				if(["Vital Signs", "Anthropometrics", "Visual Acuity"].includes(v.name)){
 					historyString[`vitals`] += string;
 				}
 				else if(["Systemic Examination"].includes(v.name)){
 					historyString[`physical`] += string;
 				}
-				else if(["Medical Evaluation"].includes(v.name)){
+				else if(["Diagnostic Examination"].includes(v.name)){
 					historyString[`medical`] += string;
 				}
 				else{
