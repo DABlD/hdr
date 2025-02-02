@@ -944,14 +944,15 @@
 				                		}, 1000);
 				                	},500);
 				                }
-
-								update({
-								    url: "{{ route("patientPackage.update") }}",
-								    data: {
-								        id: mhr.id,
-								        question_with_answers: JSON.stringify(array)
-								    }
-								});
+				                else{
+									update({
+									    url: "{{ route("patientPackage.update") }}",
+									    data: {
+									        id: mhr.id,
+									        question_with_answers: JSON.stringify(array)
+									    }
+									});
+				                }
 							},
 			        		didOpen: () => {
 								$('#summernote1, #summernote2, #summernote3').summernote({
