@@ -956,6 +956,7 @@
 								});
 
 								$('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
+
 								let qwa = mhr.question_with_answers;
 
 								if(qwa){
@@ -1152,8 +1153,6 @@
             	}
 
                 string += "</tbody></table>";
-
-                console.log(string);
 
 				if(["Vital Signs", "Anthropometrics", "Visual Acuity"].includes(v.name)){
 					historyString[`vitals`] += string;
