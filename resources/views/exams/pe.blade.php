@@ -488,9 +488,15 @@
         						</a>
         					`;
 
+        					let disabled = pPackage.vitals == 1 ? "" : 'pointer-events: none; background-color: grey;';
+
+        					@if(!in_array(auth()->user()->role, ['Doctor', 'Receptionist']))
+        						disabled = 'pointer-events: none; background-color: grey;';
+        					@endif
+
         					let evaluation = `
         						&nbsp;
-        						<a class="btn btn-success btn-xs check-e${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'evaluation')">
+        						<a class="btn btn-success btn-xs check-e${pPackage.id}" style="${disabled}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'evaluation')">
         							<i class="fas fa-check fa-2xs"></i>
         						</a>
         					`;
