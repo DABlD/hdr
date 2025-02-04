@@ -307,9 +307,9 @@
 				    	let bool = true;
 				    	let fname = $('[name="fname"]').val();
 				    	let lname = $('[name="lname"]').val();
-				    	let contact = $('[name="contact"]').val();
-			            if(fname == "" && lname == "" && contact == ""){
-			                Swal.showValidationMessage('Name, Contact, and Email is at least required');
+
+			            if(fname == "" || lname == ""){
+			                Swal.showValidationMessage('Name is required');
 			            }
 			            
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
@@ -555,8 +555,8 @@
 				    	let fname = $('[name="fname"]').val();
 				    	let lname = $('[name="lname"]').val();
 				    	let contact = $('[name="contact"]').val();
-			            if(fname == "" && lname == "" && contact == ""){
-			                Swal.showValidationMessage('Name, Contact, and Email is at least required');
+			            if(fname == "" || lname == ""){
+			                Swal.showValidationMessage('Name is required');
 			            }
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
 				    });

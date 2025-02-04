@@ -72,7 +72,7 @@ class PatientController extends Controller
         }
 
         $user->role = "Patient";
-        $user->username = $req->email;
+        $user->username = $req->email ?? substr($req->fname, 0, 1) . $req->lname . now()->format('m-d');
         $user->password = "12345678";
         $user->prefix = $req->prefix;
         $user->fname = $req->fname;
