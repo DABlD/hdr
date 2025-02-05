@@ -156,23 +156,13 @@
                                     <table class="table table-hover qtd ${hide}" style="width: 100%; margin-top: 5px; text-align: left;">
                                         <thead>
                                             <tr>
-                                                <th style="width: 40%;">Medication</th>
-                                                <th style="width: 30%;">Dosage</th>
-                                                <th style="width: 30%;">
-                                                    Frequency
-                                                </th>
+                                                <th style="width: 100%;">Medication/Dosage/Frequency</th>
                                             </tr>
                                         </thead>
                                         <tbody id="medications">
                                             <tr>
                                                 <td>
-                                                    <textarea class="medication-name form-control"></textarea>
-                                                </td>
-                                                <td>
-                                                    <textarea class="medication-dosage form-control"></textarea>
-                                                </td>
-                                                <td>
-                                                    <textarea class="medication-frequency form-control"></textarea>
+                                                    <textarea class="medication-all form-control"></textarea>
                                                 </td>
                                             </tr>
                                 `;
@@ -258,9 +248,7 @@
                                 if(qwa.id == 130){
                                     let medication = qwa.answer;
 
-                                    $(`.medication-name`).val(medication.name);
-                                    $(`.medication-dosage`).val(medication.dosage);
-                                    $(`.medication-frequency`).val(medication.frequency);
+                                    $(`.medication-all`).val(medication.all);
                                 }
                                 else{
                                     let type = $(`.answer[data-id="${qwa.id}"]`).data('type');
@@ -272,7 +260,6 @@
                                     else if(type == "Text"){
                                         $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
                                     }
-
                                 }
                             });
                         }
@@ -321,32 +308,10 @@
                     });
                 }
 
-                let names = $('.medication-name');
-                let dosages = $('.medication-dosage');
-                let frequencys = $('.medication-frequency');
-
-                let medhistory = [];
-
-                for(let i = 0; i < names.length; i++){
-                    let name = names[i].value;
-                    let dosage = dosages[i].value;
-                    let frequency = frequencys[i].value;
-
-                    if(name != "" || dosage != "" || frequency != ""){
-                        medhistory.push({
-                            name: name,
-                            dosage: dosage,
-                            frequency: frequency
-                        });
-                    }
-                }
-
                 array.push({
                     id: '130',
                     answer: {
-                        name: $('.medication-name').val(),
-                        dosage: $('.medication-dosage').val(),
-                        frequency: $('.medication-frequency').val()
+                        all: $('.medication-all').val()
                     },
                     remark: ''
                 });
