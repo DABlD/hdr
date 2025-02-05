@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-2 iInput">
         <select class="form-control" id="fCompany">
-            <option value="">All Company</option>
+            <option value="%%">All Company</option>
             @foreach($companies as $company)
                 @if($company != null)
                     <option value="{{ $company }}">{{ $company }}</option>
