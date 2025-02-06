@@ -1043,6 +1043,10 @@
             let string = "";
             let historyString = [];
             historyString['main'] = "";
+            historyString['main'] = "";
+            historyString['vitals'] = "";
+            historyString['physical'] = "";
+            historyString['medical'] = "";
 
             for (let [k, v] of Object.entries(questions[""])) {
             	let hide = "";
@@ -1076,11 +1080,11 @@
             		let iname = "Name";
             		let label = "Answer";
 
-            		if(v.name == "Systemic Examination" || v.name == "Diagnostic Examination"){
+            		if(["Medical Evaluation", "Systematic Examination", "Systemic Examination", "Diagnostic Examination"].includes('v.name')){
             			label = "Normal";
             		}
 
-            		if(v.name == "Diagnostic Examination"){
+            		if(["Medical Evaluation", "Diagnostic Examination"].includes('v.name')){
             			iname = "Diagnostic Test";
             		}
 
@@ -1153,11 +1157,11 @@
 				if(["Vital Signs", "Anthropometrics", "Visual Acuity"].includes(v.name)){
 					historyString['vitals'] += string;
 				}
-				else if(["Systemic Examination"].includes(v.name)){
-					historyString['physical'] += string;
+				else if(["Systemic Examination", "Systematic Examination"].includes(v.name)){
+					historyString[`physical`] += string;
 				}
-				else if(["Diagnostic Examination"].includes(v.name)){
-					historyString['medical'] += string;
+				else if(["Diagnostic Examination", "Medical Evaluation"].includes(v.name)){
+					historyString[`medical`] += string;
 				}
 				else{
 					historyString['main'] += string;
