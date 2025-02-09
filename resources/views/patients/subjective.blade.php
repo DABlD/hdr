@@ -141,7 +141,7 @@
 
                         for (let [k, v] of Object.entries(questions[""])) {
                             let hide = "";
-                            if(["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systemic Examination", "Diagnostic Examination", 'Menstrual History', 'Smoking History'].includes(v.name)){
+                            if(["Obstetrical History", "Vital Signs", "Anthropometrics", "Visual Acuity", "Systemic Examination", "Diagnostic Examination", 'Menstrual History'].includes(v.name)){
                                 hide = "d-none";
                             }
 
@@ -191,6 +191,12 @@
                                 if(temp){
                                     for(let i = 0; i < temp.length; i++){
                                         let answer = "";
+                                        let hide2 = null;
+
+                                        // HIDE PACK YEARS COMPUTATION
+                                        if(temp[i].id == 301){
+                                            hide2 = "d-none";
+                                        }
 
                                         let remark = `
                                             <td>
@@ -213,7 +219,7 @@
                                         }
 
                                         string += `
-                                            <tr>
+                                            <tr class="${hide2}">
                                                 <td>${temp[i].name}</td>
                                                 <td class="answer" data-type="${temp[i].type}" data-id="${temp[i].id}">${answer}</td>
                                                 ${remark}
