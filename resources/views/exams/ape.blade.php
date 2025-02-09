@@ -985,7 +985,14 @@
 									        	$(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
 									        }
 									        else if(type == "Text"){
-									            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+
+									        	{{-- FOR TEXTAREA LIKE BLOOD CHEMIMSTRY --}}
+									        	if(qwa.id == 276){
+									            	$(`.answer [data-id="${qwa.id}"]`).val(qwa.answer);
+									        	}
+									        	else{
+									            	$(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+									        	}
 									        }
 
 		                                }
@@ -1138,7 +1145,14 @@
 	                        	</td>
 	                        `;
 
-	                        if(temp[i].type == "Text"){
+	                        // TEXTAREA FOR BLOOD CHEMISTRY=276, 
+	                        if(temp[i].id == 276){
+	                        	answer = `
+	                        	    <textarea class="form-control" data-id="${temp[i].id}" ${disabled}></textarea>
+	                        	`;
+	                        	remark = "";
+	                        }
+	                        else if(temp[i].type == "Text"){
 	                            answer = `
 	                                <input type="text" class="form-control" data-id="${temp[i].id}" ${disabled}>
 	                            `;
