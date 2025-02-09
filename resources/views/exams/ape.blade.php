@@ -901,6 +901,13 @@
 								    });
 								}
 
+								// MANUAL PUSH FOR TEXTAREA. 276 = BLOOD CHEMISTRY, 130 = MEDICATION HISTORY
+				                array.push({
+				                    id: '276',
+				                    answer: $(`.answer [data-id="276`).val(),
+				                    remark: ''
+				                });
+
 				                array.push({
 				                    id: '130',
 				                    answer: {
@@ -985,7 +992,6 @@
 									        	$(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
 									        }
 									        else if(type == "Text"){
-
 									        	{{-- FOR TEXTAREA LIKE BLOOD CHEMIMSTRY --}}
 									        	if(qwa.id == 276){
 									            	$(`.answer [data-id="${qwa.id}"]`).val(qwa.answer);

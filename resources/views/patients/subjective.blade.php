@@ -204,7 +204,14 @@
                                             </td>
                                         `;
 
-                                        if(temp[i].type == "Text"){
+                                        // TEXTAREA FOR BLOOD CHEMISTRY=276, 
+                                        if(temp[i].id == 276){
+                                            answer = `
+                                                <textarea class="form-control" data-id="${temp[i].id}"></textarea>
+                                            `;
+                                            remark = "";
+                                        }
+                                        else if(temp[i].type == "Text"){
                                             answer = `
                                                 <input type="text" class="form-control" data-id="${temp[i].id}">
                                             `;
@@ -264,7 +271,13 @@
                                         $(`.remark[data-id="${qwa.id}"]`).val(qwa.remark);
                                     }
                                     else if(type == "Text"){
-                                        $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+                                        {{-- FOR TEXTAREA LIKE BLOOD CHEMIMSTRY --}}
+                                        if(qwa.id == 276){
+                                            $(`.answer [data-id="${qwa.id}"]`).val(qwa.answer);
+                                        }
+                                        else{
+                                            $(`.answer input[data-id="${qwa.id}"]`).val(qwa.answer);
+                                        }
                                     }
                                 }
                             });
@@ -313,6 +326,13 @@
                         remark: remark
                     });
                 }
+
+                // MANUAL PUSH FOR TEXTAREA. 276 = BLOOD CHEMISTRY, 130 = MEDICATION HISTORY
+                array.push({
+                    id: '276',
+                    answer: $(`.answer [data-id="276`).val(),
+                    remark: ''
+                });
 
                 array.push({
                     id: '130',
