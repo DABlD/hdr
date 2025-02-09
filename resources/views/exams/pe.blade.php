@@ -967,7 +967,7 @@
 								    updateFile(ppid);
 								});
 
-								$('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
+								// $('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
 								let qwa = mhr.question_with_answers;
 
 								if(qwa){

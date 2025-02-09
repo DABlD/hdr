@@ -969,7 +969,7 @@
 								    updateFile(ppid);
 								});
 
-								$('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
+								// $('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
 
 								let qwa = mhr.question_with_answers;
 
@@ -1011,6 +1011,35 @@
 										$('.swal2-container .note-editable').css('pointer-events', 'none');
 									}
 								}, 500);
+
+
+								// ADD UTILITY FOR SYSTEMIC AND DIAGNOSTICS
+								$('.Systemic-Examination .answer:first').append(`
+									  |  
+									<input type="radio" name="setoggle" value="1">Yes
+	                                	&nbsp;
+	                                <input type="radio" name="setoggle" value="0">No
+								`);
+
+								$('.Medical-Evaluation .answer:first').append(`
+									  |  
+									<input type="radio" name="setoggle2" value="1">Yes
+	                                	&nbsp;
+	                                <input type="radio" name="setoggle2" value="0">No
+								`);
+
+								$('[name="setoggle"]').change(e => {
+									$(`.Systemic-Examination input[value="${e.target.value}"]`).click();
+								});
+
+								$('[name="setoggle2"]').change(e => {
+									$(`.Medical-Evaluation input[value="${e.target.value}"]`).click();
+								});
+
+								// MAKE RADIO BUTTON UNSELECTABLE
+								// $('.Systemic-Examination [type="radio"], .Medical-Evaluation [type="radio"]').on('click', e => {
+								// 	console.log(e.target, e.target.checked, e.target.id);
+								// });
 			        		}
 			        	}).then(result => {
 			        		if(result.value){
