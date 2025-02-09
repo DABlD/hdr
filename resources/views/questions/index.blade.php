@@ -424,6 +424,7 @@
 		function createPackage(type){
 			Swal.fire({
 				title: 'Input Package Details',
+				width: "40%",
 				html: `
 					<div class="row iRow">
 					    <div class="col-md-3 iLabel">
@@ -436,7 +437,7 @@
 					    </div>
 					</div>
 
-					${input('name', 'Name', null, 3, 9)}
+					${input('name', 'Package Name', null, 3, 9)}
 					${input('amount', 'Amount', null, 3, 9, 'number', 'min=0')}
 				`,
 				showCancelButton: true,
