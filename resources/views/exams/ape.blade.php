@@ -521,7 +521,7 @@
 	        							${pPackage.status}
 	        						</td>
 	        						<td>
-	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}')">
+	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}', ${id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
 	        							<a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
@@ -643,7 +643,7 @@
         	});
         }
 
-        function addResult(ppid, status){
+        function addResult(ppid, status, examlistID){
         	let string = "";
 
         	$.ajax({
@@ -1015,12 +1015,22 @@
 			        				},
 			        				message: "Successfully saved"
 			        			});
+
+						        setTimeout(() => {
+						        	requestList(examlistID);
+						        }, 1000);
+			        		}
+			        		else{
+			        			setTimeout(() => {
+			        				requestList(examlistID);
+			        			}, 300);
 			        		}
 			        	});
 			        }
 			        else{
 			        	se("Package has no inclusions yet.");
 			        }
+
         		}
         	})
         }

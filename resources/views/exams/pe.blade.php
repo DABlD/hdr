@@ -1012,6 +1012,15 @@
 			        				},
 			        				message: "Successfully saved"
 			        			});
+
+						        setTimeout(() => {
+						        	requestList(examlistID);
+						        }, 1000);
+			        		}
+			        		else{
+			        			setTimeout(() => {
+			        				requestList(examlistID);
+			        			}, 300);
 			        		}
 			        	});
 			        }
