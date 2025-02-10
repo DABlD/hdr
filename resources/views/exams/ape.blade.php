@@ -467,27 +467,25 @@
         				result.forEach(pPackage => {
         					let complete = ``;
 
-        					@if(auth()->user()->role == "Receptionist")
         					let diagnostics = `
-        						&nbsp;
-        						<a class="btn btn-success btn-xs check-d${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'diagnostics')">
-        							<i class="fas fa-check fa-2xs"></i>
-        						</a>
+        						<label class="switch">
+        							<input type="checkbox" class="el-toggle check-d${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="diagnostics" ${pPackage.diagnostics == 1 ? "checked" : ""}>
+        							<span class="slider round"></span>
+        						</label>
         					`;
-        					@else
-        					let diagnostics = `
-        						&nbsp;
-        						<a style="pointer-events: none; background-color: grey;" class="btn btn-success btn-xs check-d${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'diagnostics')">
-        							<i class="fas fa-check fa-2xs"></i>
-        						</a>
-        					`;
-        					@endif
 
         					let vitals = `
-        						&nbsp;
-        						<a class="btn btn-success btn-xs check-v${pPackage.id}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'vitals')">
-        							<i class="fas fa-check fa-2xs"></i>
-        						</a>
+        						<label class="switch">
+        							<input type="checkbox" class="el-toggle check-v${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="vitals" ${pPackage.vitals == 1 ? "checked" : ""}>
+        							<span class="slider round"></span>
+        						</label>
+        					`;
+
+        					let evaluation = `
+        						<label class="switch">
+        							<input type="checkbox" class="el-toggle check-e${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="evaluation" ${pPackage.evaluation == 1 ? "checked" : ""}>
+        							<span class="slider round"></span>
+        						</label>
         					`;
 
         					let disabled = pPackage.vitals == 1 ? "" : 'pointer-events: none; background-color: grey;';
@@ -496,26 +494,19 @@
         						disabled = 'pointer-events: none; background-color: grey;';
         					@endif
 
-        					let evaluation = `
-        						&nbsp;
-        						<a class="btn btn-success btn-xs check-e${pPackage.id}" style="${disabled}" data-toggle="tooltip" title="Check" onclick="checked(${pPackage.id}, ${id}, 'evaluation')">
-        							<i class="fas fa-check fa-2xs"></i>
-        						</a>
-        					`;
-
 	        				packageString += `
 	        					<tr>
 	        						<td>${pPackage.package.name}</td>
 	        						<td>${pPackage.type == "PEE" ? "PPE" : pPackage.type}</td>
 	        						<td>${toDateTime(pPackage.created_at)}</td>
 	        						<td style="text-align: center;">
-	        							${pPackage.diagnostics == null ? diagnostics : "Checked"}
+	        							${diagnostics}
 	        						</td>
 	        						<td style="text-align: center;">
-	        							${pPackage.vitals == null ? vitals : "Checked"}
+	        							${vitals}
 	        						</td>
 	        						<td style="text-align: center;">
-	        							${pPackage.evaluation == null ? evaluation : "Checked"}
+	        							${evaluation}
 	        						</td>
 	        						<td style="color: #${pPackage.status == "Pending" ? 'FFA500' : "008000"};">
 	        							${pPackage.status}
@@ -567,6 +558,43 @@
                 				</tbody>
                 			</table>
 		        		`,
+		        		didOpen: () => {
+	        			    $('.el-toggle').change(e => {
+	        			    	let pid = e.target.dataset.pid;
+	        			    	let id = e.target.dataset.id;
+	        			    	let type = e.target.dataset.type;
+
+	        			    	let data = [];
+	        			    	data.id = pid;
+
+	        			    	if(type == "vitals"){
+	        			    		data.vitals = 1;
+	        			    	}
+	        			    	else if(type == "diagnostics"){
+	        			    		data.diagnostics = 1;
+	        			    	}
+	        			    	else{
+	        			    		data.evaluation = 1;
+	        			    	}
+
+	        			    	if($('.check-d52[checked], .check-v52[checked], .check-e52[checked]').length == 2){
+	        			    		data.status = "Completed";
+	        			    	}
+
+	        			    	swal.showLoading();
+	        			    	update({
+	        			    		url: "{{ route('patientPackage.update') }}",
+	        			    		data: data,
+	        			    		message: "Success",
+	        			    	}, () => {
+	        			    		setTimeout(() => {
+	        			    			requestList(id);
+	        			    		}, 1000);
+	        			    	});
+	        			    });
+
+	        			    $('.el-toggle[checked]').prop('disabled', 'disabled');
+		        		},
 						width: '1150px',
 						confirmButtonText: 'OK',
 		        	})
@@ -596,36 +624,6 @@
 
         		reload();
         	});
-        }
-
-        function checked(pid, id, type){
-    		let data = [];
-    		data.id = pid;
-
-    		if(type == "vitals"){
-    			data.vitals = 1;
-    		}
-    		else if(type == "diagnostics"){
-    			data.diagnostics = 1;
-    		}
-    		else{
-    			data.evaluation = 1;
-    		}
-
-    		if($(`.check-d${pid}, .check-v${pid}, .check-e${pid}`).length == 1){
-    			data.status = "Completed";
-    		}
-
-    		swal.showLoading();
-    		update({
-    			url: "{{ route('patientPackage.update') }}",
-    			data: data,
-    			message: "Success",
-    		}, () => {
-    			setTimeout(() => {
-    				requestList(id);
-    			}, 1000);
-    		});
         }
 
         function deletepPackage(id){
