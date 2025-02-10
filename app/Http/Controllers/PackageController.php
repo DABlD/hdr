@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Package, User};
+use App\Models\{Package, User, Question};
 
 use App\Helpers\Helper;
 use DB;
@@ -79,7 +79,33 @@ class PackageController extends Controller
 
         Helper::log(auth()->user()->id, "created package", $temp->id);
 
+        // if(in_array(strtolower($temp->name), ["basic 5", "basic5"])){
+        if(str_contains(strtolower($temp->name), "basic 5") || str_contains(strtolower($temp->name), "basic5")){
+            $this->generateBasicFive($temp->id);
+        }
+
         echo "success";
+    }
+
+    private function generateBasicFive($id){
+        $category = new Question();
+        $category->package_id = $id;
+        $category->name = "Diagnostic Test";
+        $category->type = "Category";
+        $category->save();
+
+        $inclusions = ["Complete Blood Count (CBC)", "Urinalysis", "Fecalysis", "Chest Xray", "Physical Examination"];
+        foreach($inclusions as $inclusion){
+            $temp = new Question();
+            $temp->package_id = $category->package_id;
+            $temp->category_id = $category->id;
+            $temp->name = $inclusion;
+            $temp->type = "Inclusion";
+            $temp->code = "";
+            $temp->save();
+        }
+
+        Helper::log(auth()->user()->id, "Generated Basic 5", $category->package_id);
     }
 
     public function update(Request $req){
