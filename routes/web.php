@@ -189,22 +189,22 @@ Route::group([
             }
         );
 
-        // PACKAGE
-        $cname = "package";
-        Route::group([
-                'as' => "$cname.",
-                'prefix' => "$cname/"
-            ], function () use($cname){
-                Route::get("/", "QuestionController@index2")
-                    ->defaults("sidebar", 1)
-                    ->defaults("icon", "fas fa-box-circle-check")
-                    ->defaults("name", "Packages")
-                    ->defaults("roles", array("Super Admin", "Admin"))
-                    // ->defaults("group", "Settings")
-                    ->name($cname)
-                    ->defaults("href", "/$cname");
-            }
-        );
+        // // PACKAGE
+        // $cname = "package";
+        // Route::group([
+        //         'as' => "$cname.",
+        //         'prefix' => "$cname/"
+        //     ], function () use($cname){
+        //         Route::get("/", "QuestionController@index2")
+        //             ->defaults("sidebar", 1)
+        //             ->defaults("icon", "fas fa-box-circle-check")
+        //             ->defaults("name", "Packages")
+        //             ->defaults("roles", array("Super Admin", "Admin"))
+        //             // ->defaults("group", "Settings")
+        //             ->name($cname)
+        //             ->defaults("href", "/$cname");
+        //     }
+        // );
 
 
         // TEMPLATE ROUTES

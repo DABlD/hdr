@@ -107,11 +107,11 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function index2(){
-        return $this->_view('index2', [
-            'title' => "Packages"
-        ]);
-    }
+    // public function index2(){
+    //     return $this->_view('index2', [
+    //         'title' => "Packages"
+    //     ]);
+    // }
 
     private function _view($view, $data = array()){
         return view("$this->table.$view", $data);
