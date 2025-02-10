@@ -1008,6 +1008,41 @@
 										$('.swal2-container .note-editable').css('pointer-events', 'none');
 									}
 								}, 500);
+
+								// ADD UTILITY FOR SYSTEMIC AND DIAGNOSTICS
+								$('.Systemic-Examination .answer:first').append(`
+									  |  
+									<input type="radio" name="setoggle" value="1">Yes
+	                                	&nbsp;
+	                                <input type="radio" name="setoggle" value="0">No
+								`);
+
+								$('.Medical-Evaluation .answer:first').append(`
+									  |  
+									<input type="radio" name="setoggle2" value="1">Yes
+	                                	&nbsp;
+	                                <input type="radio" name="setoggle2" value="0">No
+								`);
+
+								$('[name="setoggle"]').change(e => {
+									$(`.Systemic-Examination input[value="${e.target.value}"]`).removeAttr('checked').prop('checked',false);
+									$(`.Systemic-Examination input[value="${e.target.value}"]`).attr('checked', true).prop('checked',true);
+								});
+
+								$('[name="setoggle2"]').change(e => {
+									$(`.Medical-Evaluation input[value="${e.target.value}"]`).removeAttr('checked').prop('checked',false);
+									$(`.Medical-Evaluation input[value="${e.target.value}"]`).attr('checked', true).prop('checked',true);
+								});
+
+								// MAKE RADIO BUTTON UNSELECTABLE
+								$('.Systemic-Examination tbody [type="radio"], .Medical-Evaluation tbody [type="radio"]').on('click', e => {
+									 if ($(e.target).attr('checked')){
+								    	$(e.target).removeAttr('checked').prop('checked',false);
+								    }
+								    else{
+								    	$(e.target).attr('checked', true).prop('checked',true);
+								    }
+								});
 			        		}
 			        	}).then(result => {
 			        		if(result.value){
