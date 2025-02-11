@@ -243,6 +243,7 @@
 					    </div>
 					    <div class="col-md-9 iInput">
 					        <select name="role" class="form-control">
+					        	<option value="Admin" ${user.role == "Admin" ? "Selected" : ""}>Admin</option>
 					        	<option value="Doctor" ${user.role == "Doctor" ? "Selected" : ""}>Doctor</option>
 					        	<option value="Nurse" ${user.role == "Nurse" ? "Selected" : ""}>Nurse</option>
 					        	<option value="Receptionist" ${user.role == "Receptionist" ? "Selected" : ""}>Receptionist</option>
