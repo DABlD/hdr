@@ -577,7 +577,7 @@
 	        			    		data.evaluation = 1;
 	        			    	}
 
-	        			    	if($('.check-d52[checked], .check-v52[checked], .check-e52[checked]').length == 2){
+	        			    	if($(`.check-d${data.id}[checked], .check-v${data.id}[checked], .check-e${data.id}[checked]`).length == 2){
 	        			    		data.status = "Completed";
 	        			    	}
 
