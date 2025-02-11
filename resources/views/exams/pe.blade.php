@@ -134,7 +134,7 @@
 						{data: 'medical', width: "85px"}
 					@endif
 				],
-				order: [[0, 'desc']],
+				order: [[0, 'asc']],
         		pageLength: 25,
 	            columnDefs: [
 	                {
