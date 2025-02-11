@@ -127,6 +127,7 @@
 					    <div class="col-md-9 iInput">
 					        <select name="role" class="form-control">
 					        	<option value="">Select Role</option>
+					        	<option value="Admin">Admin</option>
 					        	<option value="Doctor">Doctor</option>
 					        	<option value="Nurse">Nurse</option>
 					        	<option value="Receptionist">Receptionist</option>
