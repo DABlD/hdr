@@ -205,7 +205,7 @@ class UserController extends Controller
             $receptionist->philhealth = $req->philhealth;
             $receptionist->pagibig = $req->pagibig;
             $receptionist->save();
-            echo Helper::log(auth()->user()->id, 'updated receptionist', $nurse->id);
+            echo Helper::log(auth()->user()->id, 'updated receptionist', $receptionist->id);
         }
         elseif($user->role == "Doctor"){
             $doctor = Doctor::where('user_id', $req->id)->first();
