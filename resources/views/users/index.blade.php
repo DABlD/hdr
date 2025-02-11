@@ -251,10 +251,10 @@
 					</div>
 	                <br>
 
-	                ${input("tin", "TIN", user.details.tin, 3, 9)}
-	                ${input("sss", "SSS", user.details.sss, 3, 9)}
-	                ${input("philhealth", "Philhealth", user.details.philhealth, 3, 9)}
-	                ${input("pagibig", "Pagibig", user.details.pagibig, 3, 9)}
+	                ${input("tin", "TIN", user.details ? user.details.tin : "", 3, 9)}
+	                ${input("sss", "SSS", user.details ? user.details.sss : "", 3, 9)}
+	                ${input("philhealth", "Philhealth", user.details ? user.details.philhealth : "", 3, 9)}
+	                ${input("pagibig", "Pagibig", user.details ? user.details.pagibig : "", 3, 9)}
 
 	                <br>
 	                ${input("username", "Username", user.username, 3, 9)}
