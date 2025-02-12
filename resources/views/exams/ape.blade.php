@@ -1010,19 +1010,21 @@
 									}
 								}, 500);
 
+								let disabled = "{{ auth()->user()->role == "Doctor" ? "" : "disabled" }}";
+
 								// ADD UTILITY FOR SYSTEMIC AND DIAGNOSTICS
 								$('.Systemic-Examination .answer:first').append(`
 									  |  
-									<input type="radio" name="setoggle" value="1">Yes
+									<input type="radio" name="setoggle" value="1" ${disabled}>Yes
 	                                	&nbsp;
-	                                <input type="radio" name="setoggle" value="0">No
+	                                <input type="radio" name="setoggle" value="0" ${disabled}>No
 								`);
 
 								$('.Medical-Evaluation .answer:first').append(`
 									  |  
-									<input type="radio" name="setoggle2" value="1">Yes
+									<input type="radio" name="setoggle2" value="1" ${disabled}>Yes
 	                                	&nbsp;
-	                                <input type="radio" name="setoggle2" value="0">No
+	                                <input type="radio" name="setoggle2" value="0" ${disabled}>No
 								`);
 
 								$('[name="setoggle"]').change(e => {
@@ -1057,7 +1059,7 @@
 			        					recommendation: $('#summernote3').summernote('code'),
 			        					classification: $('[name="classification"]:checked').val(),
 			        					c_remarks: $('#c_remarks').val(),
-			        					doctor_id: {{ auth()->user()->id }}
+			        					// doctor_id: {{ auth()->user()->id }}
 			        				},
 			        				message: "Successfully saved"
 			        			});

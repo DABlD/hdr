@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{PatientPackage, Patient, Package, Question};
+use App\Models\{PatientPackage, Patient, Package, Question, ExamList};
 
 use App\Helpers\Helper;
 use Image;
@@ -153,6 +153,8 @@ class PatientPackageController extends Controller
 
     public function exportInvoice(Request $req){
         $data = PatientPackage::find($req->id);
+
+        $data->doctor_id = ExamList::where('user_id', $data->user_id)->orderBy('updated_at', 'desc')->first()->doctor_id;
 
         $data->load('user.patient');
         $data->load('package');
