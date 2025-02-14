@@ -595,7 +595,7 @@
 
 	        			    $('.el-toggle[checked]').prop('disabled', 'disabled');
 		        		},
-						width: '1150px',
+						width: '1300px',
 						confirmButtonText: 'OK',
 		        	})
         		}
