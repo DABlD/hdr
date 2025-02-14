@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{PatientPackage, Patient, Package, Question, ExamList};
+use App\Models\{PatientPackage, Patient, Package, Question, ExamList, Setting};
 
 use App\Helpers\Helper;
 use Image;
+
+// EXCEL
+use Maatwebsite\Excel\Facades\Excel;
 
 // PDF CLASSES
 use App\Exports\PDFExport;
@@ -166,6 +169,7 @@ class PatientPackageController extends Controller
     }
 
     public function exportDocument(Request $req){
+        $settings = Setting::pluck('value', 'name');
         $data = PatientPackage::find($req->id);
 
         $data->load('user.patient');
@@ -174,9 +178,18 @@ class PatientPackageController extends Controller
         $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first();
         $answers = [];
 
+        $idCheck = null;
+        // $idCheck = 130;
+
         foreach(json_decode($pmr->question_with_answers) as $answer){
-            $answers[$answer->id]["answer"] = $answer->answer;
-            $answers[$answer->id]["remark"] = $answer->remark;
+            if($idCheck && $answer->id == $idCheck){
+                dd($answer);
+            }
+
+            if(isset($answer->answer)){
+                $answers[$answer->id]["answer"] = $answer->answer;
+                $answers[$answer->id]["remark"] = $answer->remark;
+            }
         }
 
         $questions = Question::where('package_id', $pmr->package_id)->get()->groupBy('category_id');
@@ -186,9 +199,13 @@ class PatientPackageController extends Controller
 
         $fn = "RI" . now()->format('Ymd') . '-' . $data->user->lname . '_' . $data->user->fname;
 
-        $pdf = new PDFExport($data, $fn, "impressions");
+        // $pdf = new PDFExport($data, $fn, "impressions");
         // $pdf->getData();
-        return $pdf->report();
+        // return $pdf->report();
+
+        $class = "App\\Exports\\Impression";
+
+        return Excel::download(new $class($data, $settings), "$fn.xlsx");
     }
 
     public function delete(Request $req){

@@ -1,199 +1,281 @@
 @php
 	$answers = $data->questions_with_answers;
-	// dd($ids, $data->questions);
+	$details = json_decode($data->details);
+
 	// dd($data);
 @endphp
 
-<style type="text/css">
-	footer {
-	    position: fixed; 
-	    bottom: 25px; 
-	    left: 0px; 
-	    right: 0px;
-	    height: 40px; 
-	}
-
-	.texts{
-		text-align: center;
-	}
-</style>
-
-<table style="width: 100%;">
-	<tr style="height: 10px;">
-		<td colspan="2">
-			<img src="{{ $settings['logo'] }}" alt="No Logo Uploaded" width="150px">
-		</td>
-		<td colspan="6" class="texts">
-			<span style="font-weight: bold; font-size: 20px;">{{ $settings['clinic_name'] }}</span>
-			<br>
-			{{ $settings['address'] }}
-			<br>
-			{{ $settings['contact_no'] }}
-			<br>
-			Accredited by the Department of Health (DOH)
-			<br>
-			Philippines Overseas Employement Administration (POEA)
-			<br>
-			ISO Certified
-		</td>
-	</tr>
-
-	<tr><td colspan="8" style="height: 50px;"></td></tr>
-
+<table>	
 	<tr>
-		<td colspan="6"></td>
-		<td colspan="2">
-			Date: {{ now()->format('F j, Y') }}	
-		</td>
+		<td colspan="7"></td>
 	</tr>
 
 	<tr>
-		<td colspan="6"></td>
-		<td colspan="2">
-			{{-- X-ray No.: --}}
-		</td>
-	</tr>
-
-	<tr><td colspan="8"s style="height: 50px;"></td></tr>
-
-	<tr>
-		<td colspan="5">
-			Name: {{ $data->user->fname }} {{ $data->user->mname }} {{ $data->user->lname }}
-		</td>
-		<td colspan="3">
-			Examination Done: {{ $data->created_at->format('F j, Y') }}
-		</td>
+		<td colspan="7">{{ $settings['address'] }}</td>
 	</tr>
 
 	<tr>
-		<td colspan="2">
-			Age: {{ now()->parse($data->user->birthday)->age }}
-		</td>
-		<td colspan="3">
-			Gender: {{ $data->user->gender }}
-		</td>
-		<td colspan="3">
-			Company: {{ $data->user->patient->company_name }}
+		<td colspan="7">Phone #: {{ $settings['contact_no'] }}</td>
+	</tr>
+
+	<tr>
+		<td colspan="7">Email: medhealthdiagnostics3@gmail.com</td>
+	</tr>
+
+	<tr>
+		<td colspan="7">MEDICAL EXAMINATION REPORT</td>
+	</tr>
+
+	<tr>
+		<td rowspan="2">NAME:</td>
+		<td rowspan="2">{{ $data->user->lname }}, {{ $data->user->fname }} {{ substr($data->user->mname ?? "", 0, 1) }}{{ $data->user->mname ? "." : "" }}</td>
+		<td>EXAM TYPE:</td>
+		<td>{{ $data->type }}</td>
+		<td>CONTROL#:</td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td>COMPANY</td>
+		<td colspan="4">{{ $data->package->company }}</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">CURRENT PHYSICAL COMPLAINT/MEDICINE TAKEN:</td>
+		<td rowspan="2">CIVIL STATUS</td>
+		<td rowspan="2">{{ $data->user->civil_status }}</td>
+		<td rowspan="2">BIRTHDATE:</td>
+		<td rowspan="2">{{ $data->user->birthday ? $data->user->birthday->format('d m Y') : "-" }}</td>
+		<td rowspan="3">SMOKER: -</td>
+	</tr>
+
+	<tr>
+		<td rowspan="2" colspan="2"></td>
+	</tr>
+
+	<tr>
+		<td>GENDER:</td>
+		<td>{{ $data->user->gender }}</td>
+		<td>AGE:</td>
+		<td>{{ $data->user->birthday ? $data->user->birthday->age : "-" }}</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">SURGICAL OPERATIONS:</td>
+		<td colspan="4">ALLERGIES:</td>
+		<td rowspan="2"></td>
+	</tr>
+
+	<tr>
+		<td colspan="2">-</td>
+		<td colspan="4">-</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">FAMILY MEDICAL HISTORY:</td>
+		<td colspan="4">PERSONAL MEDICAL HISTORY:</td>
+		<td>ALCOHOL:</td>
+	</tr>
+
+	<tr>
+		<td rowspan="3" colspan="2">-</td>
+		<td rowspan="3" colspan="4">-</td>
+		<td>-</td>
+	</tr>
+
+	<tr>
+		<td>SMOKE:</td>
+	</tr>
+
+	<tr>
+		<td>-</td>
+	</tr>
+
+	<tr>
+		<td colspan="7">VITAL SIGNS:</td>
+	</tr>
+
+	<tr>
+		<td>WEIGHT:</td>
+		<td>-</td>
+		<td colspan="3">BLOOD PRESSURE:</td>
+		<td colspan="2">LAST MENSTRUAL DATE:</td>
+	</tr>
+
+	<tr>
+		<td>HEIGHT:</td>
+		<td>-</td>
+		<td colspan="3">-</td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td>PULSE RATE:</td>
+		<td>-</td>
+		<td colspan="3">RESPIRATORY RATE:</td>
+		<td colspan="2"></td>
+	</tr>
+
+	<tr>
+		<td>BMI:</td>
+		<td>-</td>
+		<td colspan="3">UNDERWEIGHT:</td>
+		<td colspan="2"></td>
+	</tr>
+
+	<tr>
+		<td>TEMP:</td>
+		<td>-</td>
+		<td colspan="3"></td>
+		<td colspan="2"></td>
+	</tr>
+
+	<tr>
+		<td colspan="2">PHYSICAL EXAMINATION:</td>
+		<td>DETAILS</td>
+		<td colspan="2">CONDITION</td>
+		<td colspan="2">REMARKS</td>
+	</tr>
+
+	<tr>
+		<td colspan="7">ASSESSMENT</td>
+	</tr>
+
+	<tr>
+		<td colspan="2"></td>
+		<td>RIGHT EYE:</td>
+		<td>-</td>
+		<td></td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td colspan="2"></td>
+		<td>LEFT EYE:</td>
+		<td>-</td>
+		<td></td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td colspan="2"></td>
+		<td>-</td>
+		<td>-</td>
+		<td></td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td colspan="2"></td>
+		<td>-</td>
+		<td>-</td>
+		<td></td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">DRUG TEST</td>
+		<td colspan="3">RESULT</td>
+		<td colspan="2">REMARKS</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">-</td>
+		<td colspan="3">-</td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">-</td>
+		<td colspan="3">-</td>
+		<td colspan="2">-</td>
+	</tr>
+
+	<tr>
+		<td colspan="7">DIAGNOSTIC RESULTS</td>
+	</tr>
+
+	<tr>
+		<td>CBC:</td>
+		<td>-</td>
+		<td colspan="5">XRAY: -</td>
+	</tr>
+
+	<tr>
+		<td rowspan="5">URINALYSIS:</td>
+		<td>PUS CELL: -</td>
+		<td colspan="5">-</td>
+	</tr>
+
+	<tr>
+		<td>EPITHELIAL CELLS: -</td>
+		<td>FECALYSIS: -</td>
+		<td colspan="4">-</td>
+	</tr>
+
+	<tr>
+		<td>BACTERIA: -</td>
+		<td></td>
+		<td colspan="4"></td>
+	</tr>
+
+	<tr>
+		<td>MUCUS THREADS: -</td>
+		<td></td>
+		<td colspan="4"></td>
+	</tr>
+
+	<tr>
+		<td>AMORPHOUS URATES: -</td>
+		<td></td>
+		<td colspan="4"></td>
+	</tr>
+
+	<tr>
+		<td colspan="2">ASSESSMENT:</td>
+		<td colspan="5">RECOMMENDATION:</td>
+	</tr>
+
+	<tr>
+		<td colspan="2" rowspan="5"></td>
+		<td colspan="5" rowspan="5"></td>
+	</tr>
+
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+
+	<tr>
+		<td colspan="2">EXAMINING PHYSICIAN:</td>
+		<td colspan="5">DATE RE-EXAMINED:</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">-</td>
+		<td rowspan="2" colspan="5">
+			ㅤ-
 		</td>
 	</tr>
 
-	<tr><td colspan="8" style="height: 50px;"></td></tr>
+	<tr>
+		<td colspan="2">LIC. NO. -</td>
+	</tr>
 
-	{{-- <tr>
-		<td colspan="8">
-			{!! $data->remarks !!}
+	<tr>
+		<td colspan="2">ASSESSING PHYSICIAN:</td>
+		<td colspan="5">CLASSIFICATION:</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">-</td>
+		<td rowspan="2">-</td>
+		<td rowspan="2" colspan="4">
+			ㅤ-
 		</td>
-	</tr> --}}
+	</tr>
+
+	<tr>
+		<td colspan="2">LIC. NO. -</td>
+	</tr>
 </table>
-
-@foreach($data->questions[""] as $category)
-	<h3>{{ $category["name"] }}</h3>
-	<table style="width: 100%;">
-
-	@php
-		$array = $data->questions[$category['id']];
-		$newArray = array_chunk($array, ceil(sizeof($array) / 2));
-	@endphp
-
-	@foreach($newArray[0] as $key => $question)
-		<tr>
-			{{-- if medication history --}}
-			@if(in_array($question['id'], [131,132,133]))
-				@if($question['id'] == 131)
-					<td style="font-size: 10px; width: 30%;">
-						{{ $key+1 }}.) {{ $data->answers[130]['answer']->name }} / {{ $data->answers[130]['answer']->dosage }} / {{ $data->answers[130]['answer']->frequency }}
-					</td>
-					{{ $key++ }}
-				@endif
-			@else
-				<td style="font-size: 10px; width: 30%;">
-					{{ $key+1 }}.) {{ $question['name'] }}
-				</td>
-				<td style="font-size: 10px; text-align: left; width: 20%;">
-					@if($question['type'] == "Dichotomous")
-						@if($data->answers[$question['id']]['answer'])
-							Yes
-						@else
-							No
-						@endif
-					@else
-						{{ $data->answers[$question['id']]['answer'] != "" ? $data->answers[$question['id']]['answer'] : "-" }}
-					@endif
-				</td>
-
-				@if(isset($newArray[1][$key]))
-					<td style="font-size: 10px; width: 30%;">
-						{{ sizeof($newArray[0]) + ($key + 1) }}.) {{ $newArray[1][$key]['name'] }}
-					</td>
-					<td style="font-size: 10px; text-align: left; width: 20%;">
-						@if($newArray[1][$key]['type'] == "Dichotomous")
-							@if($data->answers[$newArray[1][$key]['id']]['answer'])
-								Yes
-							@else
-								No
-							@endif
-						@else
-							{{ $data->answers[$newArray[1][$key]['id']]['answer'] != "" ? $data->answers[$newArray[1][$key]['id']]['answer'] : "-" }}
-						@endif
-					</td>
-				@endif
-			@endif
-		</tr>
-	@endforeach
-	</table>
-@endforeach
-
-@php
-	$defaultText = "Currently, there are no available results. Please check back later or contact your healthcare provider for further assistance.";
-@endphp
-
-<h3>Remarks</h3>
-{!! !in_array($data->remarks, ["", "<p><br></p>"]) ? $data->remarks : $defaultText !!}
-
-<h3>Clinical Assessment</h3>
-{!! !in_array($data->clinical_assessment, ["", "<p><br></p>"]) ? $data->clinical_assessment : $defaultText !!}
-
-<h3>Recommendation</h3>
-{!! !in_array($data->recommendation, ["", "<p><br></p>"]) ? $data->recommendation : $defaultText !!}
-
-<br>
-<h3>Classification</h3>
-{{ $data->classification ?? $defaultText }}
-@if($data->c_remarks != "")
-<br>
-<br>
-<b>Remarks:</b> {!! $data->c_remarks !!}
-<br>
-<br>
-@endif
-
-<br>
-<table style="width: 100%">
-	<tr>
-		<td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td colspan="3" style="text-decoration: underline; text-align: center; font-weight: bold;">
-			@if(in_array(auth()->user()->role, ["Admin", "Doctor"]))
-				{{ auth()->user()->fname }} {{ auth()->user()->mname }} {{ auth()->user()->lname }}, MD, {{ auth()->user()->doctor->title }}
-			@endif
-		</td>
-	</tr>
-	<tr>
-		<td colspan="5"></td>
-		<td colspan="3" style="text-align: center; font-weight: bold;">
-			@if(in_array(auth()->user()->role, ["Admin", "Doctor"]))
-				{{ auth()->user()->doctor->specialization ?? "Doctor" }}
-			@endif
-		</td>
-	</tr>
-	<tr>
-		<td colspan="5"></td>
-		<td colspan="3" style="text-align: center;">
-			@if(in_array(auth()->user()->role, ["Admin", "Doctor"]))
-				Lic. No. <span style="text-decoration: underline; font-family: DejaVu Sans, sans-serif;">&#8205;&#8205; </span><span style="text-decoration: underline;">{{ auth()->user()->doctor->license_number }}<span style="text-decoration: underline; font-family: DejaVu Sans, sans-serif;">&#8205;&#8205; </span></span>
-			@endif
-		</td>
-	</tr>
-</table>
-
-{{-- PAGE BREAK --}}
-<div style="page-break-after: always;"></div>
