@@ -542,7 +542,7 @@
                 			<table class="table table-hover table-bordered">
                 				<thead>
                 					<tr>
-                						<th>Package Name</th>
+                						<th style="width: 300px;">Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
                 						<th>Diagnostics</th>
@@ -684,15 +684,16 @@
 	    					attachment = "";
 
 							for (var x = 0; x < files.length; x++) {
-								let temp = 
+								let name = files[x].split('/').slice(-1)[0];
+
 				    			attachment += `
-									<span style="color: blue; font-size: 14px;" data-fid="${files[x].split('/').slice(-1)[0]}">
-										<a href="../${files[x]}" target="_blank">${files[x].split('/').slice(-1)[0]}</a>
+									<span style="color: blue; font-size: 14px;" data-fid="${name}">
+										<a href="../${files[x]}" target="_blank">${name}</a>
 									</span>
-									<span style="color: red;" onclick="deleteFile(this, ${ppid})" data-fid="${files[x].split('/').slice(-1)[0]}">
+									<span style="color: red;" onclick="deleteFile(this, ${ppid}, '${name}', '${status}', '${examlistID}')" data-fid="${name}">
 										<i class="fas fa-times"></i>
 									</span>
-									<br data-fid="${files[x].split('/').slice(-1)[0]}">
+									<br data-fid="${name}">
 				    			`;
 							}
 	    				}
@@ -962,7 +963,7 @@
 								$(`[name="classification"][value="${result.classification}"]`).click();
 
 								$('#files').on('change', e => {
-								    updateFile(ppid);
+								    updateFile(ppid, status, examlistID);
 								});
 
 								// $('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
@@ -1233,7 +1234,7 @@
             return historyString;
         }
 
-        async function updateFile(ppid){
+        async function updateFile(ppid, status, examlistID){
             let formData = new FormData();
 
             formData.append('id', ppid);
@@ -1248,15 +1249,17 @@
 			for (var x = 0; x < files.length; x++) {
 			    formData.append("files[]", files[x]);
 
-			    if($(`[data-fid="${files[x].name}"]`).length == 0){
+			    if($(`[data-fid="${name}"]`).length == 0){
+			    	let name = files[x].name;
+
 	    			string += `
-						<span style="color: blue;" data-fid="${files[x].name}">
-							<a href="../uploads/PP${ppid}/${files[x].name}" target="_blank">${files[x].name}</a>
+						<span style="color: blue;" data-fid="${name}">
+							<a href="../uploads/PP${ppid}/${name}" target="_blank">${name}</a>
 						</span>
-						<span style="color: red;" onclick="deleteFile(this, ${ppid})" data-fid="${files[x].name}">
+						<span style="color: red;" onclick="deleteFile(this, ${ppid}, '${name}', '${status}', '${examlistID}')" data-fid="${name}">
 							<i class="fas fa-times"></i>
 						</span>
-						<br data-fid="${files[x].name}">
+						<br data-fid="${name}">
 	    			`;
 			    }
 			}
@@ -1273,20 +1276,34 @@
         	$('#attachments').append(string);
         }
 
-        function deleteFile(e, ppid){
-            $.ajax({
-            	url: "{{ route('patientPackage.deleteFile') }}",
-            	data: {
-            		filename: `uploads/PP${ppid}/` + $(e).data('fid'),
-            		id: ppid
-            	},
-            	success: result => {
-            		console.log(result);
-		    		$('#uploadsuccess').addClass('d-none');
-		    		$('#deletesuccess').removeClass('d-none');
-		        	$(`[data-fid="${$(e).data('fid')}"]`).remove();
-            	}
-            })
+        function deleteFile(e, ppid, name, status, examlistID){
+        	Swal.fire({
+				icon: 'question',
+				title: 'Are you sure you want to delete?',
+				text: name,
+				showCancelButton: true,
+				cancelButtonColor: errorColor,
+			}).then(result => {
+				if(result.value){
+		            $.ajax({
+		            	url: "{{ route('patientPackage.deleteFile') }}",
+		            	data: {
+		            		filename: `uploads/PP${ppid}/` + $(e).data('fid'),
+		            		id: ppid
+		            	},
+		            	success: result => {
+		            		console.log(result);
+				    		$('#uploadsuccess').addClass('d-none');
+				    		$('#deletesuccess').removeClass('d-none');
+				        	$(`[data-fid="${$(e).data('fid')}"]`).remove();
+				        	addResult(ppid, status, examlistID);
+		            	}
+		            })
+				}
+				else{
+					addResult(ppid, status, examlistID);
+				}
+			});
         }
 
         function invoice(id){
