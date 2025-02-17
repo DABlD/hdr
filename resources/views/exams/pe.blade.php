@@ -542,7 +542,7 @@
                 			<table class="table table-hover table-bordered">
                 				<thead>
                 					<tr>
-                						<th>Package Name</th>
+                						<th style="width: 300px;">Package Name</th>
                 						<th>Type</th>
                 						<th>Date</th>
                 						<th>Diagnostics</th>
