@@ -64,4 +64,23 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
+
+    // SELECTING ENV
+    public function bootstrap()
+    {   
+        if (!empty($_SERVER['HTTP_HOST'])) {
+            $env = '';
+            if (str_contains($_SERVER['HTTP_HOST'], '127.0.0.1')) {
+                $env = '';
+            } elseif ($_SERVER['HTTP_HOST'] == 'hdr') {
+                $env = '.hdr';
+            } elseif (str_contains($_SERVER['HTTP_HOST'], 'medhealth')) {
+                $env = '.medhealth';
+            } else {
+                trigger_error('Undefined environment.');
+            }
+            app()->loadEnvironmentFrom('.env' . $env);
+        }
+        parent::bootstrap();
+    }
 }
