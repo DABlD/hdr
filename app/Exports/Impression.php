@@ -10,11 +10,16 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 // use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSize
+use App\Model\ExamList;
+
+class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
 {
     public function __construct($data, $settings){
+        $data->doctor_id = 11;
+
         $this->data     = $data;
         $this->settings     = $settings;
+
     }
 
     public function view(): View
@@ -253,10 +258,10 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $event->sheet->getDelegate()->getPageSetup()->setPaperSize($size);
                 $event->sheet->getDelegate()->setTitle('RESULT', false);
                 $event->sheet->getDelegate()->getPageSetup()->setFitToHeight(0);
-                $event->sheet->getDelegate()->getPageMargins()->setTop(0.5);
-                $event->sheet->getDelegate()->getPageMargins()->setLeft(0.5);
-                $event->sheet->getDelegate()->getPageMargins()->setBottom(0.5);
-                $event->sheet->getDelegate()->getPageMargins()->setRight(0.5);
+                $event->sheet->getDelegate()->getPageMargins()->setTop(0.3);
+                $event->sheet->getDelegate()->getPageMargins()->setLeft(0.2);
+                $event->sheet->getDelegate()->getPageMargins()->setBottom(0.3);
+                $event->sheet->getDelegate()->getPageMargins()->setRight(0.2);
                 $event->sheet->getDelegate()->getPageMargins()->setHeader(0.5);
                 $event->sheet->getDelegate()->getPageMargins()->setFooter(0.5);
                 $event->sheet->getDelegate()->getPageSetup()->setHorizontalCentered(true);
@@ -312,11 +317,12 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // HC
                 $h[3] = [
+                    'B6', 'D6:D10', 'F6:F10'
                 ];
 
                 // HC VC
                 $h[4] = [
-                    'A2:A5', 
+                    'A2:A5', 'C49:G49'
                 ];
 
                 // HL
@@ -325,8 +331,9 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // B
                 $h[6] = [
-                    'A5', 'A6', 'C6:C7', 'E6', 'A8', 'C8', 'E8', 'G8', 'C10', 'E10', 'A11', 'C11', 'A13', 'C13', 'G13', 'G15', 'A17:A22', 'C18', 'C20:C21', 'F18',
-                    'A23:G24', 'C49:G50', 'C25:C26', 'A29:G29', 'A32:A39', 'C39', 'A45:G45', 'A48'
+                    'A2:A5', 'A6', 'C6:C7', 'E6', 'A8', 'C8', 'E8', 'G8', 'C10', 'E10', 'A11', 'C11', 'A13', 'C13', 'G13', 'G15', 'A17:A22', 'C18', 'C20:C21', 'F18',
+                    'A23:G24', 'C49:G50', 'C25:C26', 'A29:G29', 'A32:A39', 'C39', 'A45:G45', 'A48',
+                    'C49:G50'
                 ];
 
                 // VC
@@ -344,6 +351,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 ];
 
                 $h['wrap'] = [
+                    'A40', 'C40', 'D49'
                 ];
 
                 // SHRINK TO FIT
@@ -401,7 +409,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // OUTSIDE BORDER THIN
                 $cells[3] = array_merge([
                     'A6:B7', 'A8:B10', 'A11:B12', 'C11:F12', 'G11:G12', 'A13:B16', 'C13:F16', 'G13:G16',
-                    'A18:G22', 'A24:G28', 'A30:G31', 'A33:G38', 'A46:G47', 'A49:B50'
+                    'A18:G22', 'A24:G28', 'A30:G31', 'A33:G38', 'A46:G47', 'A49:B50', 'A46:B47'
                 ]);
 
                 // OUTSIDE BORDER MEDIUM
@@ -459,21 +467,28 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // $event->sheet->getDelegate()->getStyle('L46')->getFont()->setName('Marlett');
 
                 // COLUMN RESIZE
-                // $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(2);
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(14);
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(47);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(15);
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(8);
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(14);
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(11);
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(16);
 
                 // ROW RESIZE
                 $rows = [
-                    // [
-                    //     12, //ROW HEIGHT
-                    //     1,4 //START ROW, END ROW
-                    // ],
+                    [
+                        15, //ROW HEIGHT
+                        2,50 //START ROW, END ROW
+                    ],
                 ];
 
                 $rows2 = [
-                    // [
-                    //     40,
-                    //     [11,14,17,20]
-                    // ]
+                    [
+                        60,
+                        [1]
+                    ],
+                    [30,[5]]
                 ];
 
                 foreach($rows as $row){
@@ -500,34 +515,47 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // CUSTOM FONT AND STYLE TO DEFINED CELL
                 // $event->sheet->getDelegate()->getStyle('A1:L150')->getFont()->setSize(14);
                 // $event->sheet->getDelegate()->getStyle('A1:L150')->getFont()->setName('Arial');
+                $event->sheet->getDelegate()->getStyle('A5')->getFont()->setSize(14);
             },
         ];
     }
 
     public function drawings()
     {
+        $array = [];
+
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-        $drawing->setName('Letter Head');
-        $drawing->setDescription('Letter Head');
-        $drawing->setPath(public_path("images/letter_head.jpg"));
+        $drawing->setPath(public_path($this->settings['logo']));
         $drawing->setResizeProportional(false);
-        $drawing->setHeight(115);
-        $drawing->setWidth(2200);
-        $drawing->setOffsetX(4);
-        $drawing->setOffsetY(4);
-        $drawing->setCoordinates('C1');
+        $drawing->setHeight(65);
+        $drawing->setWidth(400);
+        $drawing->setOffsetX(70);
+        $drawing->setOffsetY(10);
+        $drawing->setCoordinates('B1');
+        array_push($array, $drawing);
 
-        $drawing2 = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-        $drawing2->setName('Avatar');
-        $drawing2->setDescription('Avatar');
-        $drawing2->setPath(public_path($this->data->user->avatar));
-        $drawing2->setResizeProportional(false);
-        $drawing2->setHeight(230);
-        $drawing2->setWidth(230);
-        $drawing2->setOffsetX(5);
-        $drawing2->setOffsetY(2);
-        $drawing2->setCoordinates('C3');
+        if($this->data->doctor->doctor->signature){
+            $temp = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $temp->setPath(public_path($this->data->doctor->doctor->signature));
+            $temp->setResizeProportional(false);
+            $temp->setHeight(35);
+            $temp->setWidth(70);
+            $temp->setOffsetX(20);
+            $temp->setOffsetY(1);
+            $temp->setCoordinates('A46');
+            array_push($array, $temp);
 
-        return [$drawing, $drawing2];
+            $temp2 = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $temp2->setPath(public_path($this->data->doctor->doctor->signature));
+            $temp2->setResizeProportional(false);
+            $temp2->setHeight(35);
+            $temp2->setWidth(70);
+            $temp2->setOffsetX(20);
+            $temp2->setOffsetY(1);
+            $temp2->setCoordinates('A49');
+            array_push($array, $temp2);
+        }
+
+        return $array;
     }
 }

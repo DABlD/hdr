@@ -2,7 +2,7 @@
 	$answers = $data->questions_with_answers;
 	$details = json_decode($data->details);
 
-	// dd($data);
+	// dd($data->doctor);
 @endphp
 
 <table>	
@@ -31,7 +31,7 @@
 		<td rowspan="2">{{ $data->user->lname }}, {{ $data->user->fname }} {{ substr($data->user->mname ?? "", 0, 1) }}{{ $data->user->mname ? "." : "" }}</td>
 		<td>EXAM TYPE:</td>
 		<td>{{ $data->type }}</td>
-		<td>CONTROL#:</td>
+		<td>CONTROL #:</td>
 		<td colspan="2">-</td>
 	</tr>
 
@@ -42,10 +42,10 @@
 
 	<tr>
 		<td colspan="2">CURRENT PHYSICAL COMPLAINT/MEDICINE TAKEN:</td>
-		<td rowspan="2">CIVIL STATUS</td>
+		<td rowspan="2">CIVIL STATUS:</td>
 		<td rowspan="2">{{ $data->user->civil_status }}</td>
 		<td rowspan="2">BIRTHDATE:</td>
-		<td rowspan="2">{{ $data->user->birthday ? $data->user->birthday->format('d m Y') : "-" }}</td>
+		<td rowspan="2">{{ $data->user->birthday ? $data->user->birthday->format('d/m/Y') : "-" }}</td>
 		<td rowspan="3">SMOKER: -</td>
 	</tr>
 
@@ -80,16 +80,11 @@
 	<tr>
 		<td rowspan="3" colspan="2">-</td>
 		<td rowspan="3" colspan="4">-</td>
-		<td>-</td>
+		<td rowspan="3">-</td>
 	</tr>
 
-	<tr>
-		<td>SMOKE:</td>
-	</tr>
-
-	<tr>
-		<td>-</td>
-	</tr>
+	<tr></tr>
+	<tr></tr>
 
 	<tr>
 		<td colspan="7">VITAL SIGNS:</td>
@@ -237,8 +232,12 @@
 	</tr>
 
 	<tr>
-		<td colspan="2" rowspan="5"></td>
-		<td colspan="5" rowspan="5"></td>
+		<td colspan="2" rowspan="5">
+			{!! $data->clinical_assessment !!}
+		</td>
+		<td colspan="5" rowspan="5">
+			{!! $data->recommendation !!}
+		</td>
 	</tr>
 
 	<tr></tr>
@@ -252,14 +251,16 @@
 	</tr>
 
 	<tr>
-		<td colspan="2">-</td>
+		<td colspan="2">
+			Dr. 
+			{{ $data->doctor ? $data->doctor->fname . " " . $data->doctor->lname : "-" }}</td>
 		<td rowspan="2" colspan="5">
-			ㅤ-
+			ㅤ{{ now()->format('d/m/Y') }}
 		</td>
 	</tr>
 
 	<tr>
-		<td colspan="2">LIC. NO. -</td>
+		<td colspan="2">LIC. NO. {{ $data->doctor ? $data->doctor->doctor->license_number : "-" }}</td>
 	</tr>
 
 	<tr>
@@ -268,14 +269,29 @@
 	</tr>
 
 	<tr>
-		<td colspan="2">-</td>
-		<td rowspan="2">-</td>
+		<td colspan="2">
+			Dr. 
+			{{ $data->doctor ? $data->doctor->fname . ' ' . $data->doctor->lname : "-" }}
+		</td>
+		<td rowspan="2">
+			@if($data->classification == "Fit to work")
+				A
+			@elseif($data->classification == "Physically fit with minor illness")
+				B
+			@elseif($data->classification == "Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)")
+				C
+			@elseif($data->classification == "Unfit to work")
+				D
+			@elseif($data->classification == "Pending")
+				Pending
+			@endif
+		</td>
 		<td rowspan="2" colspan="4">
-			ㅤ-
+			ㅤ{{ $data->classification }}
 		</td>
 	</tr>
 
 	<tr>
-		<td colspan="2">LIC. NO. -</td>
+		<td colspan="2">LIC. NO. {{ $data->doctor ? $data->doctor->doctor->license_number : "-" }}</td>
 	</tr>
 </table>
