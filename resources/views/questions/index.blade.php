@@ -336,7 +336,7 @@
 						packages.forEach(a => {
 							pString += `
 								<tr>
-									<td>${a.name}</td>
+									<td style="max-width: 200px;">${a.name}</td>
 									<td>₱${numeral(a.amount).format("0,0")}</td>
 									<td>
 										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id}, '${a.type}', '${a.name}')">
