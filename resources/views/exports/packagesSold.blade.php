@@ -19,6 +19,7 @@
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Amount</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Type</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Date</th>
+			<th style="text-align: center; {{ $b }} background-color: yellow;">Status</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -36,6 +37,7 @@
 				<td style="text-align: center;">₱{{ $row->package->amount }}</td>
 				<td style="text-align: center;">{{ $row->type == "PEE" ? "PPE" : $row->type }}</td>
 				<td style="text-align: center;">{{ $row->created_at->format('F j, Y') }}</td>
+				<td style="text-align: center;">{{ $row->status }}</td>
 			</tr>
 		@endforeach
 	</tbody>
