@@ -131,6 +131,8 @@
 					        	<option value="Doctor">Doctor</option>
 					        	<option value="Nurse">Nurse</option>
 					        	<option value="Receptionist">Receptionist</option>
+					        	<option value="Laboratory">Laboratory</option>
+					        	<option value="Imaging">Imaging</option>
 					        </select>
 					    </div>
 					</div>
@@ -248,6 +250,8 @@
 					        	<option value="Doctor" ${user.role == "Doctor" ? "Selected" : ""}>Doctor</option>
 					        	<option value="Nurse" ${user.role == "Nurse" ? "Selected" : ""}>Nurse</option>
 					        	<option value="Receptionist" ${user.role == "Receptionist" ? "Selected" : ""}>Receptionist</option>
+					        	<option value="Laboratory" ${user.role == "Laboratory" ? "Selected" : ""}>Laboratory</option>
+					        	<option value="Imaging" ${user.role == "Imaging" ? "Selected" : ""}>Imaging</option>
 					        </select>
 					    </div>
 					</div>

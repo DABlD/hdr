@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{User, Doctor, Nurse, Setting, Receptionist};
+use App\Models\{User, Doctor, Nurse, Setting, Receptionist, Imaging, Laboratory};
 use DB;
 use Auth;
 use Image;
@@ -100,6 +100,12 @@ class UserController extends Controller
         elseif($array->role == "Receptionist"){
             $array->details = $array->receptionist;
         }
+        elseif($array->role == "Imaging"){
+            $array->details = $array->imaging;
+        }
+        elseif($array->role == "Laboratory"){
+            $array->details = $array->laboratory;
+        }
 
         // IF HAS GROUP
         if($req->group){
@@ -158,6 +164,28 @@ class UserController extends Controller
             ]);
 
             Helper::log(auth()->user()->id, 'created receptionist', $data->id);
+        }
+        elseif($data->role == "Imaging"){
+            Imaging::create([
+                "user_id" => $data->id,
+                "sss" => $req->sss,
+                "tin" => $req->tin,
+                "philhealth" => $req->philhealth,
+                "pagibig" => $req->pagibig,
+            ]);
+
+            Helper::log(auth()->user()->id, 'created imaging', $data->id);
+        }
+        elseif($data->role == "Laboratory"){
+            Laboratory::create([
+                "user_id" => $data->id,
+                "sss" => $req->sss,
+                "tin" => $req->tin,
+                "philhealth" => $req->philhealth,
+                "pagibig" => $req->pagibig,
+            ]);
+
+            Helper::log(auth()->user()->id, 'created laboratory', $data->id);
         }
 
         echo $temp;
