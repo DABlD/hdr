@@ -22,26 +22,26 @@
 
     </div>
 
-    <div class="row iRow" style="margin-top: 5px;">
-        <div class="col-md-2 iInput">
-            <input type="text" id="fFrom" placeholder="From" class="form-control">
-        </div>
-        <div class="col-md-2 iInput">
-            <input type="text" id="fTo" placeholder="To" class="form-control">
-        </div>
+    @if(auth()->user()->role != "Doctor")
+        <div class="row iRow" style="margin-top: 5px;">
+            <div class="col-md-2 iInput">
+                <input type="text" id="fFrom" placeholder="From" class="form-control">
+            </div>
+            <div class="col-md-2 iInput">
+                <input type="text" id="fTo" placeholder="To" class="form-control">
+            </div>
 
-        <div class="col-md-8" style="text-align: right;">
-            {{-- <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Search" onclick="reload()">
-                <i class="fas fa-search"></i> Search
-            </a> --}}
-            @if(auth()->user()->role != "Doctor")
-                <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="addPatient()">
-                    <i class="fas fa-plus"></i> Add Patient
-                </a>
-                <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel()">
-                    <i class="fas fa-file-excel"></i> Export
-                </a>
-            @endif
+            <div class="col-md-8" style="text-align: right;">
+                {{-- <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Search" onclick="reload()">
+                    <i class="fas fa-search"></i> Search
+                </a> --}}
+                    <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="addPatient()">
+                        <i class="fas fa-plus"></i> Add Patient
+                    </a>
+                    <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel()">
+                        <i class="fas fa-file-excel"></i> Export
+                    </a>
+            </div>
         </div>
-    </div>
+    @endif
 </h3>
