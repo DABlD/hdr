@@ -479,6 +479,9 @@
         				result.forEach(pPackage => {
         					let complete = ``;
 
+        					let disabledV = '{{ in_array(auth()->user()->role, ['Receptionist', 'Nurse', 'Doctor']) ? "" : "disabled" }}';
+        					let disabledpe = '{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}';
+
         					let diagnostics = `
         						<label class="switch">
         							<input type="checkbox" class="el-toggle check-d${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="diagnostics" ${pPackage.diagnostics == 1 ? "checked" : ""}>
@@ -488,23 +491,26 @@
 
         					let vitals = `
         						<label class="switch">
-        							<input type="checkbox" class="el-toggle check-v${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="vitals" ${pPackage.vitals == 1 ? "checked" : ""}>
+        							<input type="checkbox" class="el-toggle check-v${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="vitals" ${pPackage.vitals == 1 ? "checked" : ""} ${disabledV}>
+        							<span class="slider round"></span>
+        						</label>
+        					`;
+
+        					let physical_exam = `
+        						<label class="switch">
+        							<input type="checkbox" class="el-toggle check-p${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="physical_exam" ${pPackage.physical_exam == 1 ? "checked" : ""} ${disabledpe}>
         							<span class="slider round"></span>
         						</label>
         					`;
 
         					let evaluation = `
         						<label class="switch">
-        							<input type="checkbox" class="el-toggle check-e${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="evaluation" ${pPackage.evaluation == 1 ? "checked" : ""}>
+        							<input type="checkbox" class="el-toggle check-e${pPackage.id}" data-pid="${pPackage.id}" data-id="${id}" data-type="evaluation" ${pPackage.evaluation == 1 ? "checked" : ""} ${disabledpe}>
         							<span class="slider round"></span>
         						</label>
         					`;
 
-        					let disabled = pPackage.vitals == 1 ? "" : 'pointer-events: none; background-color: grey;';
-
-        					@if(!in_array(auth()->user()->role, ['Doctor', 'Receptionist']))
-        						disabled = 'pointer-events: none; background-color: grey;';
-        					@endif
+        					let disabled = "";
 
 	        				packageString += `
 	        					<tr>
@@ -516,6 +522,9 @@
 	        						</td>
 	        						<td style="text-align: center;">
 	        							${vitals}
+	        						</td>
+	        						<td style="text-align: center;">
+	        							${physical_exam}
 	        						</td>
 	        						<td style="text-align: center;">
 	        							${evaluation}
@@ -564,9 +573,10 @@
                 						<th>Date</th>
                 						<th>Diagnostics</th>
                 						<th>Vitals</th>
+                						<th>Physical Exam</th>
                 						<th>Doctor Evaluation</th>
                 						<th>Status</th>
-                						<th style="width: 200px;">Result</th>
+                						<th style="width: 160px;">Result</th>
                 					</tr>
                 				</thead>
                 				<tbody>
@@ -589,11 +599,14 @@
 	        			    	else if(type == "diagnostics"){
 	        			    		data.diagnostics = 1;
 	        			    	}
+	        			    	else if(type == "physical_exam"){
+	        			    		data.physical_exam = 1;
+	        			    	}
 	        			    	else{
 	        			    		data.evaluation = 1;
 	        			    	}
 
-	        			    	if($(`.check-d${data.id}[checked], .check-v${data.id}[checked], .check-e${data.id}[checked]`).length == 2){
+	        			    	if($(`.check-d${data.id}[checked], .check-v${data.id}[checked], .check-p${data.id}[checked], .check-e${data.id}[checked]`).length == 3){
 	        			    		data.status = "Completed";
 	        			    	}
 
@@ -611,7 +624,7 @@
 
 	        			    $('.el-toggle[checked]').prop('disabled', 'disabled');
 		        		},
-						width: '1300px',
+						width: '1400px',
 						confirmButtonText: 'OK',
 		        	})
         		}
