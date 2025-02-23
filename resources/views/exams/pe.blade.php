@@ -728,7 +728,7 @@
 	    				let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}";
 
 	    				if(status == "Completed"){
-	    					status = "disabled";
+	    					disabled = "disabled";
 	    				}
 
 			        	Swal.fire({
@@ -1040,7 +1040,7 @@
 								let disabled = "{{ auth()->user()->role == "Doctor" ? "" : "disabled" }}";
 
 								if(status == "Completed"){
-									('.swal2-container textarea').prop('disabled', 'disabled');
+									$('.swal2-container textarea').prop('disabled', 'disabled');
 								}
 
 								// ADD UTILITY FOR SYSTEMIC AND DIAGNOSTICS
