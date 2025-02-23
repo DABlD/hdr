@@ -98,7 +98,8 @@
 		var fLname = "";
 		var fCompany = "%%";
 		var fType = "PEE";
-		var fDate = moment().format("YYYY-MM-DD");
+		var fFrom = moment().format("YYYY-MM-DD");
+		var fTo = moment().format("YYYY-MM-DD");
 
 		$(document).ready(()=> {
 			var table = $('#table').DataTable({
@@ -135,7 +136,7 @@
 					@endif
 				],
 				order: [[0, 'asc']],
-        		pageLength: 25,
+        		pageLength: 10,
 	            columnDefs: [
 	                {
 	                    targets: 6,
@@ -190,7 +191,7 @@
 	            ],
 			});
 
-			$('#fDate').flatpickr({
+			$('#fFrom, #fTo').flatpickr({
 			    altInput: true,
 			    altFormat: 'F j, Y',
 			    dateFormat: 'Y-m-d',
@@ -202,21 +203,31 @@
 			$('#fFname').on('change', e => {
 	            e = $(e.target);
 	            fFname = e.val();
+	            reload();
 	        });
 
 			$('#fLname').on('change', e => {
 	            e = $(e.target);
 	            fLname = e.val();
+	            reload();
 	        });
 
 			$('#fCompany').on('change', e => {
 	            e = $(e.target);
 	            fCompany = e.val();
+	            reload();
 	        });
 
-			$('#fDate').on('change', e => {
+			$('#fFrom').on('change', e => {
 	            e = $(e.target);
-	            fDate = e.val();
+	            fFrom = e.val();
+	            reload();
+	        });
+
+			$('#fTo').on('change', e => {
+	            e = $(e.target);
+	            fTo = e.val();
+	            reload();
 	        });
 		});
 
@@ -226,7 +237,8 @@
                 fLname: fLname,
                 fCompany: fCompany,
                 fType: fType,
-                fDate: fDate,
+                fFrom: fFrom,
+                fTo: fTo,
             }
         }
 
@@ -1461,8 +1473,8 @@
         	Swal.fire({
         		title: "Choose Date Range",
         		html: `
-        			${input('from', 'From', data.filters.fDate, 3, 9)}
-        			${input('to', 'To', data.filters.fDate, 3, 9)}
+        			${input('from', 'From', data.filters.fFrom, 3, 9)}
+        			${input('to', 'To', data.filters.fTo, 3, 9)}
         		`,
         		didOpen: () => {
         			$('[name="from"], [name="to"]').flatpickr({

@@ -10,35 +10,38 @@
         </div>
 
         <div class="col-md-2 iInput">
-            <input type="text" id="fDate" placeholder="Date" class="form-control">
-        </div>
-
-        <div class="col-md-2 iInput">
             <select class="form-control" id="fCompany">
-                <option value="">Filter Company</option>
+                <option value="">All Company</option>
                 @foreach($companies as $company)
                     <option value="{{ $company }}">{{ $company }}</option>
                 @endforeach
             </select>
         </div>
 
-        <div class="col-md-1">
-            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Search" onclick="reload()">
-                <i class="fas fa-search"></i>
-            </a>
+        <div class="col-md-2"></div>
+
+    </div>
+
+    <div class="row iRow" style="margin-top: 5px;">
+        <div class="col-md-2 iInput">
+            <input type="text" id="fFrom" placeholder="From" class="form-control">
+        </div>
+        <div class="col-md-2 iInput">
+            <input type="text" id="fTo" placeholder="To" class="form-control">
         </div>
 
-        <div class="col-md-1"></div>
-
-        @if(auth()->user()->role != "Doctor")
-            <div class="col-md-2" style="text-align: right;">
+        <div class="col-md-8" style="text-align: right;">
+            {{-- <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Search" onclick="reload()">
+                <i class="fas fa-search"></i> Search
+            </a> --}}
+            @if(auth()->user()->role != "Doctor")
                 <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Patient" onclick="addPatient()">
                     <i class="fas fa-plus"></i> Add Patient
                 </a>
                 <a class="btn btn-info btn-sm" data-toggle="tooltip" title="Export" onclick="exportExcel()">
                     <i class="fas fa-file-excel"></i> Export
                 </a>
-            </div>
-        @endif
+            @endif
+        </div>
     </div>
 </h3>
