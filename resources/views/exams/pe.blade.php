@@ -527,9 +527,6 @@
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
 	        							@if(!in_array(auth()->user()->role, ["Laboratory", "Imaging"]))
-		        							<a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
-		        								<i class="fas fa-file-pdf"></i>
-		        							</a>
 		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
 		        								<i class="fas fa-file-pdf"></i>
 		        							</a>
@@ -539,7 +536,11 @@
 		        						@endif
 	        						</td>
 	        					</tr>
-	        				`;
+	        				`;	
+	        								// REMOVED INVOICE
+		        							// <a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
+		        							// 	<i class="fas fa-file-pdf"></i>
+		        							// </a>
         				});
         			}
         			else{
