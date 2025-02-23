@@ -356,9 +356,9 @@
 
         function exportExcel2(){
             let data = {
-                from: from,
-                to: to,
-                company: company
+                from: from2,
+                to: to2,
+                company: company2
             };
 
             window.location.href = "{{ route('report.sales') }}?" + $.param(data);
