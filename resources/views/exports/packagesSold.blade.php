@@ -2,6 +2,8 @@
 	$b = "font-weight: bold;";
 	$c = "text-align: center;";
 	$bc = "$b $c";
+
+	$amount = 0;
 @endphp
 
 <table>
@@ -24,6 +26,9 @@
 	</thead>
 	<tbody>
 		@foreach($data as $row)
+			@php
+				$amount += $row->package->amount;
+			@endphp
 			<tr>
 				<td style="text-align: center;">{{ $loop->index+1 }}</td>
 				<td style="text-align: center;">{{ $row->user->patient->patient_id }}</td>
@@ -40,5 +45,11 @@
 				<td style="text-align: center;">{{ $row->status }}</td>
 			</tr>
 		@endforeach
+
+		<tr>
+			<td colspan="9"></td>
+			<td colspan="1" style="{{ $bc }}">₱{{ number_format($amount, 2) }}</td>
+			<td colspan="3"></td>
+		</tr>
 	</tbody>
 </table>
