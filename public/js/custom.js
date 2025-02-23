@@ -115,6 +115,20 @@ function radio(name, value, checked = ""){
     `;
 }
 
+function fLog(action, id, user_id = null){
+	$.ajax({
+		url: window.location.origin + "/log/create",
+		data: {
+			action: action,
+			id: id,
+			user_id: user_id
+		},
+		success: () => {
+			console.log("Logged");
+		}
+	})
+}
+
 // REMOVE CLASS OF DATATABLE SEARCH BARS
 setTimeout(() => {
 	$('[name="table_length"]').removeClass();

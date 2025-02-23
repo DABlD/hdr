@@ -1458,6 +1458,7 @@
         				data: {id: id, deleted_at: dateTimeNow()},
         				message: "Success"
         			}, () => {
+        				fLog(`Deleted Exam List`, id);
         				reload();
         			})
         		}
@@ -1610,14 +1611,17 @@
 						}
 					}).then(result2 => {
 						if(result2.value){
+							let doctor_id = $('#assigned_doctor').val();
+
 							update({
 							    url: "{{ route("examList.update") }}",
 							    data: {
 							        id: id,
-							        doctor_id: $('#assigned_doctor').val()
+							        doctor_id: doctor_id
 							    },
 							    message: "Successfully updated assigned doctor"
 							}, () => {
+								fLog(`Assigned Doctor #${doctor_id}`, id);
 								setTimeout(() => {
 									assignedDoctor(id);
 								}, 1500);

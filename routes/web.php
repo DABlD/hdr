@@ -310,6 +310,17 @@ Route::group([
                 Route::get("patientPackage", ucfirst($cname) . "Controller@patientPackage")->name('patientPackage');
             }
         );
+
+        // LOGS
+        $cname = "log";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+
+                Route::get("create", ucfirst($cname) . "Controller@create")->name('create');
+            }
+        );
     }
 );
 
