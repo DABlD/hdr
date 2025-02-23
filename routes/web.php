@@ -241,7 +241,7 @@ Route::group([
                     ->defaults("sidebar", 1)
                     ->defaults("icon", "fas fa-files-medical")
                     ->defaults("name", "APE")
-                    ->defaults("roles", array("Admin", "Doctor", "Nurse", "Receptionist"))
+                    ->defaults("roles", array("Admin", "Doctor", "Nurse", "Receptionist", "Imaging", "Laboratory"))
                     ->defaults("group", "Exams")
                     ->name($cname . "ape")
                     ->defaults("href", "/$cname/ape");
@@ -250,7 +250,7 @@ Route::group([
                     ->defaults("sidebar", 1)
                     ->defaults("icon", "fas fa-files-medical")
                     ->defaults("name", "PPE")
-                    ->defaults("roles", array("Admin", "Doctor", "Nurse", "Receptionist"))
+                    ->defaults("roles", array("Admin", "Doctor", "Nurse", "Receptionist", "Imaging", "Laboratory"))
                     ->defaults("group", "Exams")
                     ->name($cname . 'pee')
                     ->defaults("href", "/$cname/pee");

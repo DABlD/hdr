@@ -514,15 +514,17 @@
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}', ${id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
-	        							<a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
-	        								<i class="fas fa-file-pdf"></i>
-	        							</a>
-	        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
-	        								<i class="fas fa-file-pdf"></i>
-	        							</a>
-	        							<a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deletepPackage(${pPackage.id})">
-	        								<i class="fas fa-times"></i>
-	        							</a>
+	        							@if(!in_array(auth()->user()->role, ["Laboratory", "Imaging"]))
+		        							<a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
+		        								<i class="fas fa-file-pdf"></i>
+		        							</a>
+		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
+		        								<i class="fas fa-file-pdf"></i>
+		        							</a>
+		        							<a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deletepPackage(${pPackage.id})">
+		        								<i class="fas fa-times"></i>
+		        							</a>
+		        						@endif
 	        						</td>
 	        					</tr>
 	        				`;
@@ -701,6 +703,10 @@
 	    				let subjective = generateSubjective(mhrQuestions);
 
 	    				let disabled = "{{ in_array(auth()->user()->role, ['Doctor']) ? "" : "disabled" }}";
+
+	    				if(status == "Completed"){
+	    					status = "disabled";
+	    				}
 
 			        	Swal.fire({
 			        		// title: "Result/Impressions",
@@ -1008,19 +1014,25 @@
 									}
 								}, 500);
 
+								let disabled = "{{ auth()->user()->role == "Doctor" ? "" : "disabled" }}";
+
+								if(status == "Completed"){
+									('.swal2-container textarea').prop('disabled', 'disabled');
+								}
+
 								// ADD UTILITY FOR SYSTEMIC AND DIAGNOSTICS
 								$('.Systemic-Examination .answer:first').append(`
 									  |  
-									<input type="radio" name="setoggle" value="1">Yes
+									<input type="radio" name="setoggle" value="1" ${disabled}>Yes
 	                                	&nbsp;
-	                                <input type="radio" name="setoggle" value="0">No
+	                                <input type="radio" name="setoggle" value="0" ${disabled}>No
 								`);
 
 								$('.Medical-Evaluation .answer:first').append(`
 									  |  
-									<input type="radio" name="setoggle2" value="1">Yes
+									<input type="radio" name="setoggle2" value="1" ${disabled}>Yes
 	                                	&nbsp;
-	                                <input type="radio" name="setoggle2" value="0">No
+	                                <input type="radio" name="setoggle2" value="0" ${disabled}>No
 								`);
 
 								$('[name="setoggle"]').change(e => {
