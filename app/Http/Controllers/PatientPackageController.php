@@ -205,7 +205,7 @@ class PatientPackageController extends Controller
 
         $class = "App\\Exports\\Impression";
 
-        return Excel::download(new $class($data, $settings), "$fn.xlsx");
+        return Excel::download(new $class($data, $settings), "$fn.pdf");
     }
 
     public function delete(Request $req){

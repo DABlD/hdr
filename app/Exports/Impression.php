@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 
 use App\Model\ExamList;
 
-class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
+class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSize
 {
     public function __construct($data, $settings){
         $data->doctor_id = 11;
@@ -38,6 +38,7 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
                     ],
                 ]
             ],
@@ -59,15 +60,19 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
                 'borders' => [
                     'top' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
                     ],
                     'bottom' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
                     ],
                     'left' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
                     ],
                     'right' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
                     ],
                 ]
             ],
@@ -137,36 +142,29 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
             ],
             [//10
                 'borders' => [
-                    'right' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => 'FFFFFF'],
                     ],
                 ]
             ],
             [//11
                 'borders' => [
                     'top' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => 'FFFFFF'],
                     ],
-                ]
-            ],
-            [//12
-                'borders' => [
                     'bottom' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => 'FFFFFF'],
                     ],
-                ]
-            ],
-            [//13
-                'borders' => [
                     'left' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => 'FFFFFF'],
                     ],
-                ]
-            ],
-            [//14
-                'borders' => [
                     'right' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => 'FFFFFF'],
                     ],
                 ]
             ],
@@ -317,12 +315,12 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
 
                 // HC
                 $h[3] = [
-                    'B6', 'D6:D10', 'F6:F10'
+                    'A1', 'B6', 'D6:D10', 'F6:F10'
                 ];
 
                 // HC VC
                 $h[4] = [
-                    'A2:A5', 'C49:G49'
+                    'A2:A5', 'C46:G46'
                 ];
 
                 // HL
@@ -332,13 +330,13 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
                 // B
                 $h[6] = [
                     'A2:A5', 'A6', 'C6:C7', 'E6', 'A8', 'C8', 'E8', 'G8', 'C10', 'E10', 'A11', 'C11', 'A13', 'C13', 'G13', 'G15', 'A17:A22', 'C18', 'C20:C21', 'F18',
-                    'A23:G24', 'C49:G50', 'C25:C26', 'A29:G29', 'A32:A39', 'C39', 'A45:G45', 'A48',
-                    'C49:G50'
+                    'A23:G24', 'C46:G47', 'C25:C26', 'A26:G26', 'A29:A36', 'C36', 'A42:G42', 'A45',
+                    'C46:G47'
                 ];
 
                 // VC
                 $h[7] = [
-                    'A2:G50'
+                    'A2:G47'
                 ];
 
                 // UNDERLINE
@@ -351,7 +349,7 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
                 ];
 
                 $h['wrap'] = [
-                    'A40', 'C40', 'D49'
+                    'A37', 'C37', 'D46'
                 ];
 
                 // SHRINK TO FIT
@@ -395,7 +393,7 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
 
                 // ALL BORDER THIN
                 $cells[0] = array_merge([
-                    'C6:G10', 'A39:G44', 'A48:G48', 'C49:G50'
+                    'C6:G10', 'A36:G41', 'A45:G45', 'C46:G47'
                 ]);
 
                 // ALL BORDER MEDIUM
@@ -409,7 +407,7 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
                 // OUTSIDE BORDER THIN
                 $cells[3] = array_merge([
                     'A6:B7', 'A8:B10', 'A11:B12', 'C11:F12', 'G11:G12', 'A13:B16', 'C13:F16', 'G13:G16',
-                    'A18:G22', 'A24:G28', 'A30:G31', 'A33:G38', 'A46:G47', 'A49:B50', 'A46:B47'
+                    'A18:G22', 'A24:G28', 'A27:G28', 'A30:G35', 'A43:G44', 'A46:B47', 'A43:B44'
                 ]);
 
                 // OUTSIDE BORDER MEDIUM
@@ -426,39 +424,50 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
 
                 // BRB
                 $cells[7] = array_merge([
+                    'A8:B8', 'A11:F11', 'A13:G13',
+                    'A18:G18', 'A19:G19', 'A20:G20', 'A21:G21', 
+                    'A24:G24', 'A25:G25', 'A26:G26', 'A27:G27',
+                    'A30:G30', 'A31:G31', 'A32:G32', 'A33:G33', 'A34:G34', 
+                    'A43:B43', 'A46:B46'
                 ]);
 
                 // LRB
                 $cells[8] = array_merge([
-
+                    'A5', 'A17', 'A23', 'A29', 'A29', 'A42'
                 ]);
 
                 // RRB
                 $cells[9] = array_merge([
+                    'A5', 'A6', 'G17', 'G23', 'G29', 'G29', 'B42', 'G42',
+                    'A18:A22', 'B18:B22','E18:E22',
+                    'B23:E23',
+                    'B25:B28', 'C25:C28', 'D25:D28', 'E25:E28',
+                    'A30:A35', 'B30:B35', 'C32:C35',
                 ]);
 
-                // TRB
+                // REMOVE ALL BORDER
                 $cells[10] = array_merge([
+                    'A1:G4'
                 ]);
 
-                // TBT - TOP BORDER THIN
+                // REMOVE OUTSIDE BORDER
                 $cells[11] = array_merge([
-                ]);
 
-                // BBT
-                $cells[12] = array_merge([
-                ]);
-
-                // LBT
-                $cells[13] = array_merge([
-                ]);
-
-                // RBT
-                $cells[14] = array_merge([
                 ]);
                 
                 foreach($cells as $key => $value){
                     foreach($value as $cell){
+                        // dd([
+                        //         'borders' => [
+                        //             'allBorders' => [
+                        //                 'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        //                 'color' => ['argb' => 'FFFFFF'],
+                        //             ],
+                        //         ],
+                        //     ],
+                        //     $borderStyle[$key]
+                        // );
+
                         $event->sheet->getDelegate()->getStyle($cell)->applyFromArray($borderStyle[$key]);
                     }
                 }
@@ -479,7 +488,7 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
                 $rows = [
                     [
                         15, //ROW HEIGHT
-                        2,50 //START ROW, END ROW
+                        2,47 //START ROW, END ROW
                     ],
                 ];
 
@@ -542,7 +551,7 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
             $temp->setWidth(70);
             $temp->setOffsetX(20);
             $temp->setOffsetY(1);
-            $temp->setCoordinates('A46');
+            $temp->setCoordinates('A43');
             array_push($array, $temp);
 
             $temp2 = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
@@ -552,7 +561,7 @@ class Impression implements FromView, WithEvents, WithDrawings//, ShouldAutoSize
             $temp2->setWidth(70);
             $temp2->setOffsetX(20);
             $temp2->setOffsetY(1);
-            $temp2->setCoordinates('A49');
+            $temp2->setCoordinates('A46');
             array_push($array, $temp2);
         }
 

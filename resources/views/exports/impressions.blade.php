@@ -7,7 +7,9 @@
 
 <table>	
 	<tr>
-		<td colspan="7"></td>
+		<td colspan="5" style="text-align: center;">
+			<img id="logo" src="{{ $settings['logo'] }}" alt="No Logo Uploaded" width="400" height="65">
+		</td>
 	</tr>
 
 	<tr>
@@ -169,24 +171,6 @@
 	</tr>
 
 	<tr>
-		<td colspan="2">DRUG TEST</td>
-		<td colspan="3">RESULT</td>
-		<td colspan="2">REMARKS</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">-</td>
-		<td colspan="3">-</td>
-		<td colspan="2">-</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">-</td>
-		<td colspan="3">-</td>
-		<td colspan="2">-</td>
-	</tr>
-
-	<tr>
 		<td colspan="7">DIAGNOSTIC RESULTS</td>
 	</tr>
 
@@ -254,8 +238,8 @@
 		<td colspan="2">
 			Dr. 
 			{{ $data->doctor ? $data->doctor->fname . " " . $data->doctor->lname : "-" }}</td>
-		<td rowspan="2" colspan="5">
-			ㅤ{{ now()->format('d/m/Y') }}
+		<td rowspan="2" colspan="5" style="font-family: DejaVu Sans, sans-serif; font-size: 8px;">
+			&#8205;{{ now()->format('d/m/Y') }}
 		</td>
 	</tr>
 
@@ -286,8 +270,8 @@
 				Pending
 			@endif
 		</td>
-		<td rowspan="2" colspan="4">
-			ㅤ{{ $data->classification }}
+		<td rowspan="2" colspan="4" style="font-family: DejaVu Sans, sans-serif; font-size: 8px;">
+			&#8205;{{ $data->classification }}
 		</td>
 	</tr>
 
