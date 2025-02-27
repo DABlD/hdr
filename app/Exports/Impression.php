@@ -540,7 +540,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
         $drawing->setWidth(400);
         $drawing->setOffsetX(70);
         $drawing->setOffsetY(10);
-        $drawing->setCoordinates('B1');
+        $drawing->setCoordinates('C1');
         array_push($array, $drawing);
 
         if($this->data->doctor->doctor->signature){

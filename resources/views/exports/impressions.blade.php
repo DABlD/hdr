@@ -7,6 +7,7 @@
 
 <table>	
 	<tr>
+		<td></td>
 		<td colspan="5" style="text-align: center;">
 			<img id="logo" src="{{ $settings['logo'] }}" alt="No Logo Uploaded" width="400" height="65">
 		</td>
