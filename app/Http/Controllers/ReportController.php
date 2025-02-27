@@ -88,18 +88,21 @@ class ReportController extends Controller
         $total = 0;
         $array = [];
 
+        // INIT
+        foreach($dates as $date){
+            $array[$date] = [];
+        }
+
+        // FILL DATA
         foreach($data as $request){
             $details = json_decode($request->details);
-            $amount = $details->amount;
+            $temp = [
+                "company" => $details->company,
+                "name" => $details->name,
+                "amount" => $details->amount
+            ];
 
-            if(isset($array[now()->parse($request->created_at)->toDateString()])){
-                $array[now()->parse($request->created_at)->toDateString()] += $amount;
-            }
-            else{
-                $array[now()->parse($request->created_at)->toDateString()] = $amount;
-            }
-
-            $total += $amount;
+            array_push($array[now()->parse($request->created_at)->toDateString()], $temp);
         }
 
         $company = $req->company == "%%" ? "All Company" : preg_replace('/[^A-Za-z0-9\-]/', '', $req->company);
@@ -109,11 +112,11 @@ class ReportController extends Controller
         $class = "App\\Exports\\Sales";
 
         $data = [];
-        $data['sales'] = $array;
-        $data['dates'] = $dates;
-        $data['total'] = $total;
+        $sales = $array;
+        // $data['dates'] = $dates;
+        // $data['total'] = $total;
 
-        return Excel::download(new $class($data), "$filename.xlsx");
+        return Excel::download(new $class($sales), "$filename.xlsx");
     }
 
     private function getDates($from, $to){

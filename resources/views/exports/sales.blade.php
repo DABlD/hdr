@@ -9,21 +9,46 @@
 		<tr>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">#</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Date</th>
+			<th style="text-align: center; {{ $b }} background-color: yellow;">Company</th>
+			<th style="text-align: center; {{ $b }} background-color: yellow;">Package Name</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Amount</th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach($data['dates'] as $key => $date)
+		@foreach($sales as $date => $data)
 			<tr>
-				<td style="text-align: center;">{{ $loop->index+1 }}</td>
-				<td style="text-align: center;">{{ $date }}</td>
-				<td style="text-align: right;">₱{{ isset($data['sales'][$date]) ? number_format($data['sales'][$date], 2) : "0.00" }}</td>
+				<td style="text-align: center;">{{ $loop->index + 1 }}</td>
+				<td style="text-align: center">{{ now()->parse($date)->format("F j, Y") }}</td>
+			</tr>
+
+			@foreach($data as $sale)
+				<tr>
+					<td></td>
+					<td></td>
+					<td style="text-align: center;">{{ $sale['company'] }}</td>
+					<td style="text-align: center;">{{ $sale['name'] }}</td>
+					<td style="text-align: center;">{{ $sale['amount'] }}</td>
+				</tr>
+			@endforeach
+
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td style="text-align: right; font-weight: bold;">Total:</td>
+				<td style="text-align: center;">=SUM(INDIRECT(ADDRESS(ROW()-{{ sizeof($data) > 0 ? sizeof($data) : 1 }},COLUMN())&#38;":"&#38;ADDRESS(ROW()-1,COLUMN())))</td>
 			</tr>
 		@endforeach
+
+		<tr></tr>
+		<tr></tr>
+
 		<tr>
 			<td></td>
-			<td style="{{ $c }}">Total</td>
-			<td style="{{ $bc }}">₱{{ number_format($data['total'], 2); }}</td>
+			<td></td>
+			<td></td>
+			<td style="text-align: right;">Grandtotal:</td>
+			<td style="text-align: center; color: red; font-weight: bold;">=SUM(INDIRECT(ADDRESS(1,COLUMN())&#38;":"&#38;ADDRESS(ROW()-1,COLUMN())))</td>
 		</tr>
 	</tbody>
 </table>

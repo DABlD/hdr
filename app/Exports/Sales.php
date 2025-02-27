@@ -10,16 +10,19 @@ use Maatwebsite\Excel\Events\AfterSheet;
 // use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class Sales implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
+class Sales implements FromView, WithEvents, WithColumnFormatting, ShouldAutoSize//, WithDrawings//
 {
-    public function __construct($data){
-        $this->data     = $data;
+    public function __construct($sales){
+        $this->sales     = $sales;
     }
 
     public function view(): View
     {
         return view('exports.sales', [
-            'data' => $this->data,
+            'sales' => $this->sales,
         ]);
     }
 
@@ -492,6 +495,13 @@ class Sales implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
                 // $event->sheet->getDelegate()->getStyle('A1:L150')->getFont()->setSize(14);
                 // $event->sheet->getDelegate()->getStyle('A1:L150')->getFont()->setName('Arial');
             },
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'E' => "₱#,##0.00"
         ];
     }
 
