@@ -440,7 +440,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $cells[9] = array_merge([
                     'A5', 'A6', 'G17', 'G23', 'G29', 'G29', 'B42', 'G42',
                     'A18:A22', 'B18:B22','E18:E22',
-                    'B23:E23',
+                    'B23', 'C23', 'E23',
                     'B25:B28', 'C25:C28', 'D25:D28', 'E25:E28',
                     'A30:A35', 'B30:B35', 'C32:C35',
                 ]);

@@ -268,10 +268,12 @@
 				D
 			@elseif($data->classification == "Pending")
 				Pending
+			@else
+				-
 			@endif
 		</td>
 		<td rowspan="2" colspan="4" style="font-family: DejaVu Sans, sans-serif; font-size: 8px;">
-			&#8205;{{ $data->classification }}
+			&#8205;{{ $data->classification ?? "-" }}
 		</td>
 	</tr>
 
