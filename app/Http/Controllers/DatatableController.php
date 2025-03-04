@@ -148,7 +148,7 @@ class DatatableController extends Controller
             });
 
             $array = $array->where('exam_lists.type', $filters['fType']);
-            $array = $array->whereBetween('exam_lists.created_at', [$filters['fFrom'] . " 00:00:00", $filters['fTo'] . " 11:59:59"]);
+            $array = $array->whereBetween('exam_lists.created_at', [$filters['fFrom'] . " 00:00:00", $filters['fTo'] . " 23:59:59"]);
         }
 
         $array = $array->get();
