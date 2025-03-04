@@ -445,6 +445,7 @@
 			                    			ss("Success");
 					                    	setTimeout(() => {
 					                    		requestList(id);
+					                    		reload();
 					                    	}, 1000);
 				                    	}, 2000);
 		                    		}
