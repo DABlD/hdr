@@ -1422,45 +1422,66 @@
         		},
         		success: users => {
         			users = JSON.parse(users);
-        			let userString = "";
 
-        			users.forEach(user => {
-        				userString += `
-        					<option value="${user.id}">${user.fname} ${user.lname} - ${user.patient.company_name} (${user.gender ?? "-"})</option>
-        				`;
-        			});
-
-        			Swal.fire({
-        				title: "Select Patient",
-        				html: `
-        					<select id="ptadd" class="form-control">
-        						<option value="">N/A</option>
-        						${userString}
-        					</select>
-        				`,
-        				didOpen: () => {
-        					$('#ptadd').select2()
+        			$.ajax({
+        				url: "{{ route('examList.get') }}",
+        				data: {
+        					select: "user_id",
+        					where: ['created_at', "like", `%${moment().format("YYYY-MM-DD")}%`],
+        					where2: ["type", "PEE"]
         				},
-        				preConfirm: () => {
-        					let id = $('#ptadd').val();
+        				success: queues => {
+        					queues = Object.values(JSON.parse(queues));
+        					let ids = [];
 
-        					if(id == ""){
-        						Swal.showValidationMessage("Select One");
-        					}
-        					else{
-        						update({
-        							url: "{{ route('examList.store') }}",
-        							data: {
-        								user_id: id,
-        								type: "PEE"
-        							}
-        						})
-        					}
-        				}
-        			}).then(result => {
-        				if(result.value){
-        					ss("Success");
-        					reload();
+        					queues.forEach(queue => {
+        						ids.push(queue.user_id);
+        					});
+        			
+		        			let userString = "";
+
+		        			users.forEach(user => {
+
+        						if(!ids.includes(user.id)){
+			        				userString += `
+			        					<option value="${user.id}">${user.fname} ${user.lname} - ${user.patient.company_name} (${user.gender ?? "-"})</option>
+			        				`;
+			        			}
+		        			});
+
+		        			Swal.fire({
+		        				title: "Select Patient",
+		        				html: `
+		        					<select id="ptadd" class="form-control">
+		        						<option value="">N/A</option>
+		        						${userString}
+		        					</select>
+		        				`,
+		        				didOpen: () => {
+		        					$('#ptadd').select2()
+		        				},
+		        				preConfirm: () => {
+		        					let id = $('#ptadd').val();
+
+		        					if(id == ""){
+		        						Swal.showValidationMessage("Select One");
+		        					}
+		        					else{
+		        						update({
+		        							url: "{{ route('examList.store') }}",
+		        							data: {
+		        								user_id: id,
+		        								type: "PEE"
+		        							}
+		        						})
+		        					}
+		        				}
+		        			}).then(result => {
+		        				if(result.value){
+		        					ss("Success");
+		        					reload();
+		        				}
+		        			})
         				}
         			})
         		}
