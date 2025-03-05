@@ -20,7 +20,7 @@
                     	<table id="table" class="table table-hover" style="width: 100%;">
                     		<thead>
                     			<tr>
-                    				<th>HIDDEN</th>
+                    				<th>Date</th>
                     				<th>Company Name</th>
                     				<th>Patient ID</th>
                     				<th>Surname</th>
@@ -120,7 +120,7 @@
 	                }
 				},
 				columns: [
-					{data: 'created_at', visible: false},
+					{data: 'created_at'},
 					{data: 'user.patient.company_name'},
 					{data: 'user.patient.patient_id'},
 					{data: 'user.lname'},
@@ -139,6 +139,12 @@
 				order: [[0, 'asc']],
         		pageLength: 10,
 	            columnDefs: [
+	                {
+	                    targets: 0,
+	                    render: date => {
+	                        return moment(date).format("MMM DD, YYYY");
+	                    },
+	                },
 	                {
 	                    targets: 6,
 	                    render: birthday => {
