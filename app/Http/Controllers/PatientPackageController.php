@@ -178,6 +178,7 @@ class PatientPackageController extends Controller
         $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first();
         $answers = [];
 
+        // FOR DEBUGGING
         $idCheck = null;
         // $idCheck = 130;
 

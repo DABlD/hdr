@@ -349,7 +349,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 ];
 
                 $h['wrap'] = [
-                    'A37', 'C37', 'D46'
+                    'G9','A37', 'C37', 'D46'
                 ];
 
                 // SHRINK TO FIT
@@ -407,7 +407,9 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // OUTSIDE BORDER THIN
                 $cells[3] = array_merge([
                     'A6:B7', 'A8:B10', 'A11:B12', 'C11:F12', 'G11:G12', 'A13:B16', 'C13:F16', 'G13:G16',
-                    'A18:G22', 'A24:G28', 'A27:G28', 'A30:G35', 'A43:G44', 'A46:B47', 'A43:B44'
+                    'A18:G22', 'A24:G28', 'A30:G35', 'A43:G44', 'A46:B47', 'A43:B44',
+
+                    'A35:B35', 'A28:G28'
                 ]);
 
                 // OUTSIDE BORDER MEDIUM
@@ -420,15 +422,16 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // TOP REMOVE BORDER
                 $cells[6] = array_merge([
+                    'G9'
                 ]);
 
                 // BRB
                 $cells[7] = array_merge([
-                    'A8:B8', 'A11:F11', 'A13:G13',
+                    'A8:B8', 'G8', 'A11:F11', 'A13:G13',
                     'A18:G18', 'A19:G19', 'A20:G20', 'A21:G21', 
-                    'A24:G24', 'A25:G25', 'A26:G26', 'A27:G27',
+                    'A24:G24', 'A25:G25', 'A26:B26', 'C26:G26', 'A27:G27',
                     'A30:G30', 'A31:G31', 'A32:G32', 'A33:G33', 'A34:G34', 
-                    'A43:B43', 'A46:B46'
+                    'A43:B43', 'A46:B46',
                 ]);
 
                 // LRB
@@ -441,7 +444,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                     'A5', 'A6', 'G17', 'G23', 'G29', 'G29', 'B42', 'G42',
                     'A18:A22', 'B18:B22','E18:E22',
                     'B23', 'C23', 'E23',
-                    'B25:B28', 'C25:C28', 'D25:D28', 'E25:E28',
+                    'B25:B28', 'C25:C28', 'D25:D28', 'E25:E28', 'F25:F28',
                     'A30:A35', 'B30:B35', 'C32:C35',
                 ]);
 
@@ -487,8 +490,12 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // ROW RESIZE
                 $rows = [
                     [
+                        20, //ROW HEIGHT
+                        6,47 //START ROW, END ROW
+                    ],
+                    [
                         15, //ROW HEIGHT
-                        2,47 //START ROW, END ROW
+                        2,5 //START ROW, END ROW
                     ],
                 ];
 
@@ -525,6 +532,12 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // $event->sheet->getDelegate()->getStyle('A1:L150')->getFont()->setSize(14);
                 // $event->sheet->getDelegate()->getStyle('A1:L150')->getFont()->setName('Arial');
                 $event->sheet->getDelegate()->getStyle('A5')->getFont()->setSize(14);
+
+                // FONT SIZE TO 8
+                $rows = ["A9", 'A14', 'C12', 'G9', 'G14', 'A18', 'C18', 'F18', 'A25', 'C25', 'F25', 'A30', 'C30', 'A37', 'C37'];
+                foreach($rows as $row){
+                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setSize(9);
+                }
             },
         ];
     }
