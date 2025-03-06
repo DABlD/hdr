@@ -893,7 +893,7 @@
                         }
 
                         if(flag){
-                            Swal.showValidationMessage('Fields with * is required');
+                            Swal.showValidationMessage('Highlighted fields are required');
                         }
 
                         bool ? setTimeout(() => {resolve()}, 500) : "";
@@ -1174,7 +1174,7 @@
                         }
 
                         if(flag){
-                            Swal.showValidationMessage('Fields with * is required');
+                            Swal.showValidationMessage('Highlighted fields are required');
                         }
 
                         bool ? setTimeout(() => {resolve()}, 500) : "";
