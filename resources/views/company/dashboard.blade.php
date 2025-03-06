@@ -865,28 +865,35 @@
                     swal.showLoading();
                     return new Promise(resolve => {
                         let bool = true;
-
+                        
                         let fname = $('[name="fname"]').val();
                         let lname = $('[name="lname"]').val();
-                        
+                        let birthday = $('[name="birthday"]').val();
                         let gender = $('[name="gender"]').val();
                         let civil_status = $('[name="civil_status"]').val();
+                        let contact = $('[name="contact"]').val();
+                        let email = $('[name="email"]').val();
 
-                        let birthday = $('[namme="birthday"]').val();
-                        let birth_place = $('[namme="birth_place"]').val();
-                        let nationality = $('[namme="nationality"]').val();
-                        let religion = $('[namme="religion"]').val();
-                        let address = $('[namme="address"]').val();
-                        let contact = $('[namme="contact"]').val();
-                        let email = $('[namme="email"]').val();
-                        let employment_status = $('[namme="employment_status"]').val();
-                        let company_position = $('[namme="company_position"]').val();
-                        let company_contact = $('[namme="company_contact"]').val();
-                        let sss = $('[namme="sss"]').val();
-                        let tin_number = $('[namme="tin_number"]').val();
+                        let check = ["fname","lname","gender","civil_status","contact","email"];
+                        let flag = false;
 
-                        if(fname == "" || lname == "" || contact == "" || gender == "" || civil_status == "" || birthday == "" || birth_place == "" || nationality == "" || religion == "" || address == "" || contact == "" || email == "" || employment_status == "" || company_position == "" || company_contact == "" || sss == "" || tin_number == "" ){
-                            Swal.showValidationMessage('All fiels is required except HMO details.');
+                        check.forEach(field => {
+                            $(`[name="${field}"]`).removeClass('border-danger');
+                            if($(`[name="${field}"]`).val() == ""){
+                                $(`[name="${field}"]`).addClass('border-danger');
+                                flag = true;
+                            }
+                        });
+
+                        field = "birthday";
+                        $(`[name="${field}"]`).next().removeClass('border-danger');
+                        if($(`[name="${field}"]`).val() == ""){
+                            $(`[name="${field}"]`).next().addClass('border-danger');
+                            flag = true;
+                        }
+
+                        if(flag){
+                            Swal.showValidationMessage('Fields with * is required');
                         }
 
                         bool ? setTimeout(() => {resolve()}, 500) : "";
@@ -1142,25 +1149,32 @@
 
                         let fname = $('[name="fname"]').val();
                         let lname = $('[name="lname"]').val();
-                        
+                        let birthday = $('[name="birthday"]').val();
                         let gender = $('[name="gender"]').val();
                         let civil_status = $('[name="civil_status"]').val();
+                        let contact = $('[name="contact"]').val();
+                        let email = $('[name="email"]').val();
 
-                        let birthday = $('[namme="birthday"]').val();
-                        let birth_place = $('[namme="birth_place"]').val();
-                        let nationality = $('[namme="nationality"]').val();
-                        let religion = $('[namme="religion"]').val();
-                        let address = $('[namme="address"]').val();
-                        let contact = $('[namme="contact"]').val();
-                        let email = $('[namme="email"]').val();
-                        let employment_status = $('[namme="employment_status"]').val();
-                        let company_position = $('[namme="company_position"]').val();
-                        let company_contact = $('[namme="company_contact"]').val();
-                        let sss = $('[namme="sss"]').val();
-                        let tin_number = $('[namme="tin_number"]').val();
+                        let check = ["fname","lname","gender","civil_status","contact","email"];
+                        let flag = false;
 
-                        if(fname == "" || lname == "" || contact == "" || gender == "" || civil_status == "" || birthday == "" || birth_place == "" || nationality == "" || religion == "" || address == "" || contact == "" || email == "" || employment_status == "" || company_position == "" || company_contact == "" || sss == "" || tin_number == "" ){
-                            Swal.showValidationMessage('All fiedls is required except HMO details.');
+                        check.forEach(field => {
+                            $(`[name="${field}"]`).removeClass('border-danger');
+                            if($(`[name="${field}"]`).val() == ""){
+                                $(`[name="${field}"]`).addClass('border-danger');
+                                flag = true;
+                            }
+                        });
+
+                        field = "birthday";
+                        $(`[name="${field}"]`).next().removeClass('border-danger');
+                        if($(`[name="${field}"]`).val() == ""){
+                            $(`[name="${field}"]`).next().addClass('border-danger');
+                            flag = true;
+                        }
+
+                        if(flag){
+                            Swal.showValidationMessage('Fields with * is required');
                         }
 
                         bool ? setTimeout(() => {resolve()}, 500) : "";

@@ -307,9 +307,32 @@
 				    	let bool = true;
 				    	let fname = $('[name="fname"]').val();
 				    	let lname = $('[name="lname"]').val();
+				    	let birthday = $('[name="birthday"]').val();
+				    	let gender = $('[name="gender"]').val();
+				    	let civil_status = $('[name="civil_status"]').val();
+				    	let contact = $('[name="contact"]').val();
+				    	let email = $('[name="email"]').val();
 
-			            if(fname == "" || lname == ""){
-			                Swal.showValidationMessage('Name is required');
+				    	let check = ["fname","lname","gender","civil_status","contact","email"];
+				    	let flag = false;
+
+				    	check.forEach(field => {
+				    		$(`[name="${field}"]`).removeClass('border-danger');
+				    		if($(`[name="${field}"]`).val() == ""){
+				    			$(`[name="${field}"]`).addClass('border-danger');
+				    			flag = true;
+				    		}
+				    	});
+
+				    	field = "birthday";
+			    		$(`[name="${field}"]`).next().removeClass('border-danger');
+			    		if($(`[name="${field}"]`).val() == ""){
+			    			$(`[name="${field}"]`).next().addClass('border-danger');
+			    			flag = true;
+			    		}
+
+			            if(flag){
+			                Swal.showValidationMessage('Fields with * is required');
 			            }
 			            
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
@@ -554,9 +577,32 @@
 				    	let bool = true;
 				    	let fname = $('[name="fname"]').val();
 				    	let lname = $('[name="lname"]').val();
+				    	let birthday = $('[name="birthday"]').val();
+				    	let gender = $('[name="gender"]').val();
+				    	let civil_status = $('[name="civil_status"]').val();
 				    	let contact = $('[name="contact"]').val();
-			            if(fname == "" || lname == ""){
-			                Swal.showValidationMessage('Name is required');
+				    	let email = $('[name="email"]').val();
+
+				    	let check = ["fname","lname","gender","civil_status","contact","email"];
+				    	let flag = false;
+
+				    	check.forEach(field => {
+				    		$(`[name="${field}"]`).removeClass('border-danger');
+				    		if($(`[name="${field}"]`).val() == ""){
+				    			$(`[name="${field}"]`).addClass('border-danger');
+				    			flag = true;
+				    		}
+				    	});
+
+				    	field = "birthday";
+			    		$(`[name="${field}"]`).next().removeClass('border-danger');
+			    		if($(`[name="${field}"]`).val() == ""){
+			    			$(`[name="${field}"]`).next().addClass('border-danger');
+			    			flag = true;
+			    		}
+
+			            if(flag){
+			                Swal.showValidationMessage('Fields with * is required');
 			            }
 			            bool ? setTimeout(() => {resolve()}, 500) : "";
 				    });
