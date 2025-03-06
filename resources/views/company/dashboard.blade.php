@@ -88,6 +88,7 @@
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/datatables.bundle.min.js') }}"></script>
     <script src="{{ asset('js/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('js/qrcode.min.js') }}"></script>
 
     <script>
         $(document).ready(()=> {
@@ -511,6 +512,28 @@
                             }
                         })
                     }
+                }
+            })
+        }
+
+        function qr(id){
+            Swal.fire({
+                title: "Scan QR",
+                html: `
+                    <div id="qrcode" style="text-align: -webkit-center;"></div>
+                    <br>
+                    {{ route('patient.subjective') }}?id=${id}
+                `,
+                didOpen: () => {
+                    new QRCode(document.getElementById("qrcode"), "{{ route('patient.subjective') }}?id=" + id);
+                },
+                showCancelButton: true,
+                cancelButtonText: "Ok",
+                cancelButtonColor: successColor,
+                confirmButtonText: "View"
+            }).then(result => {
+                if(result.value){
+                    window.open(`{{ route('patient.subjective') }}?id=${id}`, '_blank').focus();
                 }
             })
         }
