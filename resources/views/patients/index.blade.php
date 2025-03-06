@@ -270,7 +270,6 @@
 	        				    </div>
 	        				</div>
 			                ${input("company_position", "Position", null, 3, 9)}
-			                ${input("company_contact", "Contact", null, 3, 9)}
 			                ${input("sss", "SSS", null, 3, 9)}
 			                ${input("tin_number", "TIN", null, 3, 9)}
 			                ${input("hmo_provider", "HMO Provider", null, 3, 9)}
@@ -362,7 +361,6 @@
 						employment_status: $("[name='employment_status']").val(),
 						company_name: $("[name='company_name']").val(),
 						company_position: $("[name='company_position']").val(),
-						company_contact: $("[name='company_contact']").val(),
 						sss: $("[name='sss']").val(),
 						tin_number: $("[name='tin_number']").val(),
 						_token: $('meta[name="csrf-token"]').attr('content')
@@ -392,7 +390,6 @@
 		    formData.append('employment_status', data.employment_status);
 		    formData.append('company_name', data.company_name);
 		    formData.append('company_position', data.company_position);
-		    formData.append('company_contact', data.company_contact);
 		    formData.append('sss', data.sss);
 		    formData.append('tin_number', data.tin_number);
 		    formData.append('_token', data._token);
@@ -535,7 +532,6 @@
 	        				    </div>
 	        				</div>
 			                ${input("company_position", "Position", user.patient.company_position, 3, 9)}
-			                ${input("company_contact", "Contact", user.patient.company_contact, 3, 9)}
 			                ${input("sss", "SSS", user.patient.sss, 3, 9)}
 			                ${input("tin_number", "TIN", user.patient.tin_number, 3, 9)}
 			                ${input("hmo_provider", "HMO Provider", user.patient.hmo_provider, 3, 9)}
@@ -634,7 +630,6 @@
 						employment_status: $("[name='employment_status']").val(),
 						company_name: $("[name='company_name']").val(),
 						company_position: $("[name='company_position']").val(),
-						company_contact: $("[name='company_contact']").val(),
 						sss: $("[name='sss']").val(),
 						tin_number: $("[name='tin_number']").val()
 					}
@@ -888,11 +883,6 @@
                         			<br>
 
                         			<div class="row">
-                        				<div class="col-md-4">
-                        					<span class="label">Contact</span>
-                        					<br>
-                        					<span class="pInfo">${user.patient.company_contact ?? "-"}</span>
-                        				</div>
                         				<div class="col-md-4">
                         					<span class="label">SSS</span>
                         					<br>
