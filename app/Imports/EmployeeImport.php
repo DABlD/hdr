@@ -32,11 +32,11 @@ class EmployeeImport implements ToCollection
             if($data[$i][0] != "" && $data[$i][2] != ""){
                 $user = new User();
                 $user->role = "Patient";
-                $user->fname = $data[$i][0];
-                $user->mname = $data[$i][1];
-                $user->lname = $data[$i][2];
-                $user->prefix = $data[$i][3];
-                $user->suffix = $data[$i][4];
+                $user->fname = strtoupper($data[$i][0]);
+                $user->mname = strtoupper($data[$i][1]);
+                $user->lname = strtoupper($data[$i][2]);
+                $user->prefix = strtoupper($data[$i][3]);
+                $user->suffix = strtoupper($data[$i][4]);
                 $user->gender = $data[$i][5];
                 $user->birthday = $data[$i][6] != "" ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data[$i][6]) : "";
                 $user->civil_status = $data[$i][7];
