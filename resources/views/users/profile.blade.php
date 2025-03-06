@@ -69,45 +69,8 @@
                     </div>
                 </div>
 
+                @if(auth()->user()->role == "Doctor")
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-users mr-1"></i>
-                            Assistants
-                        </h3>
-
-                        {{-- @include('users.includes.toolbar') --}}
-                    </div>
-
-                    <div class="card-body table-responsive">
-                        <div>
-                            <table class="table table-hover">
-                                <tbody id="assistantList">
-                                    @foreach($nurses as $nurse)
-                                        <tr>
-                                            <td class="nurse" data-id="{{ $nurse->user->id }}" onclick="selectRow(this)">
-                                                {{ $nurse->user->lname }}, {{ $nurse->user->fname }} {{ $nurse->user->mname }} ({{ substr($nurse->user->gender, 0, 1) }}{{ now()->parse($data->user->birthday)->age }})
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <a class="btn btn-primary" data-toggle="tooltip" title="View" onclick="viewAssistant()">
-                            View
-                        </a>
-                        <a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deleteAssistant()">
-                            Delete
-                        </a>
-
-                        <div class="float-right">
-                            <a class="btn btn-success" data-toggle="tooltip" title="Add" onclick="addAssistant()">Add</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card hidden group2">
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-table mr-1"></i>
@@ -125,6 +88,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </section>
 
             <section class="col-md-8 connectedSortable informations">
@@ -134,7 +98,7 @@
                             <ul class="nav nav-pills ml-auto" style="padding-left: revert;">
                                 @if(auth()->user()->role != "Admin")
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#tab1" data-toggle="tab">
+                                    <a class="nav-link {{ auth()->user()->role != "Admin" ? "active" : "" }}" href="#tab1" data-toggle="tab">
                                         Personal Information
                                     </a>
                                 </li>
@@ -166,7 +130,7 @@
 
                     <div class="card-body table-responsive">
                         <div class="tab-content p-0">
-                            <div class="chart tab-pane active" id="tab1" style="position: relative;">
+                            <div class="chart tab-pane {{ auth()->user()->role != "Admin" ? "active" : "" }}" id="tab1" style="position: relative;">
 
                                 <div class="row">
                                     {{ $col("First Name", "fname", $data->user->fname) }}
@@ -186,12 +150,14 @@
                                     {{ $col("Address", "address", $data->user->address, "text", 12) }}
                                 </div>
 
+                                @if(auth()->user()->role != "Admin")
                                 <div class="row">
                                     {{ $col("TIN", "tin", $data->tin) }}
                                     {{ $col("Philhealth", "philhealth", $data->philhealth) }}
                                     {{ $col("SSS", "sss", $data->sss) }}
                                     {{ $col("Pagibig", "pagibig", $data->pagibig) }}
                                 </div>
+                                @endif
 
                                 <div class="float-right">
                                     <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save1()">
@@ -220,7 +186,7 @@
                                 </div>
                             </div>
 
-                            <div class="chart tab-pane" id="tab3" style="position: relative;">
+                            <div class="chart tab-pane {{ auth()->user()->role == "Admin" ? "active" : "" }}" id="tab3" style="position: relative;">
                                 <div class="row">
                                     {{ $col("Username", "username", $data->user->username) }}
                                 </div>
@@ -257,64 +223,21 @@
                                     </div>
                                 </div>
 
+                                @if(auth()->user()->role == "Admin")
+                                <div class="row">
+                                    {{ $col("TIN", "tin", $data->tin) }}
+                                    {{ $col("Philhealth", "philhealth", $data->philhealth) }}
+                                    {{ $col("SSS", "sss", $data->sss) }}
+                                    {{ $col("Pagibig", "pagibig", $data->pagibig) }}
+                                </div>
+                                @endif
+
                                 <div class="float-right">
                                     <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save5()">
                                         Save
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card hidden group2">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-handshake-simple mr-1"></i>
-                            Medical Association
-                        </h3>
-                    </div>
-
-                    <div class="card-body table-responsive">
-                        <div>
-                            <table class="table table-hover">
-                                <tbody id="medicalAssociation">
-                                </tbody>
-                            </table>
-                        </div>
-
-
-                        <div class="float-right">
-                            <a class="btn btn-success" data-toggle="tooltip" title="Add" onclick="addAssociation()">
-                                Add
-                            </a>
-                            <a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deleteAssociation()">
-                                Delete
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card hidden group2">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-graduation-cap mr-1"></i>
-                            Diplomate
-                        </h3>
-                    </div>
-
-                    <div class="card-body table-responsive">
-                        <div>
-                            {{ $col("Diplomate 1", "dp1", null, "text", 12) }}
-                            {{ $col("Diplomate 2", "dp2", null, "text", 12) }}
-                            {{ $col("Diplomate 3", "dp3", null, "text", 12) }}
-                        </div>
-
-
-                        <div class="float-right">
-                            <a class="btn btn-success" data-toggle="tooltip" title="Save" onclick="save6()">
-                                Save
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -957,9 +880,21 @@
                     contact_no: $('#contact_no').val(),
                     // pf: $('#pf').val(),
                     address: $('#sAddress').val()
-                },
-                message: "Success"
+                }
             })
+
+            update({
+                url: "{{ route('doctor.update') }}",
+                data: {
+                    id: {{ $data->id }},
+                    tin: $('#tin').val(),
+                    sss: $('#sss').val(),
+                    philhealth: $('#philhealth').val(),
+                    pagibig: $('#pagibig').val(),
+                }
+            }, () => {
+                ss("Success");
+            });
         }
 
         function getMedicalAssociation(){
