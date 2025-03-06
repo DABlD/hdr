@@ -142,7 +142,7 @@
 	                {
 	                    targets: 0,
 	                    render: date => {
-	                        return moment(date).format("MMM DD, YYYY");
+	                        return moment(date).format("MMM DD");
 	                    },
 	                },
 	                {
