@@ -83,8 +83,8 @@
 				//145 = PREVIOUS SMOKER / 146 = CURRENT SMOKER / 301 = COMPUTATION
 				$questions = array_combine(array_column($data->questions[144], 'id'), $data->questions[144]);
 
-				echo "Prev: " . ($answers[145]['answer'] ? ($answers[145]['remark'] != "" ? $answers[145]['remark'] : "Yes")  : "No") . '<br>';
-				echo "Cur: " . ($answers[146]['answer'] ? ($answers[146]['remark'] != "" ? $answers[146]['remark'] : "Yes")  : "No") . '<br>';
+				echo "Prev: " . ((isset($answers[145]) && $answers[145]['answer']) ? ($answers[145]['remark'] != "" ? $answers[145]['remark'] : "Yes")  : "No") . '<br>';
+				echo "Cur: " . ((isset($answers[146]) && $answers[146]['answer']) ? ($answers[146]['remark'] != "" ? $answers[146]['remark'] : "Yes")  : "No") . '<br>';
 				echo $answers[271]['answer'] . ' / ' . $answers[272]['answer'] . '<br>';
 				echo $answers[301]['answer'];
 			@endphp
@@ -109,7 +109,7 @@
 				$ids = array_column($questions, 'id');
 				
 				foreach($ids as $id){
-					if($answers[$id]['answer']){
+					if(isset($answers[$id]) && $answers[$id]['answer']){
 						echo $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
 					}
 				}
@@ -207,11 +207,7 @@
 	</tr>
 
 	<tr>
-		<td colspan="7">ASSESSMENT</td>
-	</tr>
-
-	<tr>
-		<td colspan="2" rowspan="4">
+		<td colspan="2" rowspan="5">
 		@php
 			$questions = array_combine(array_column($data->questions[179], 'id'), $data->questions[179]);
 			$ids = array_column($questions, 'id');
@@ -243,6 +239,7 @@
 		</td>
 	</tr>
 
+	<tr></tr>
 	<tr></tr>
 	<tr></tr>
 	<tr></tr>
