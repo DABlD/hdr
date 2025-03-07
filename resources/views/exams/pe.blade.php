@@ -578,6 +578,7 @@
                 						<th>Date</th>
                 						<th>Diagnostics</th>
                 						<th>Vitals</th>
+                						<th>Physical Exam</th>
                 						<th>Doctor Evaluation</th>
                 						<th>Status</th>
                 						<th style="width: 160px;">Result</th>
