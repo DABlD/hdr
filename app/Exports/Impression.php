@@ -256,12 +256,12 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $event->sheet->getDelegate()->getPageSetup()->setPaperSize($size);
                 $event->sheet->getDelegate()->setTitle('RESULT', false);
                 $event->sheet->getDelegate()->getPageSetup()->setFitToHeight(0);
-                $event->sheet->getDelegate()->getPageMargins()->setTop(0.3);
+                $event->sheet->getDelegate()->getPageMargins()->setTop(0.2);
                 $event->sheet->getDelegate()->getPageMargins()->setLeft(0.2);
-                $event->sheet->getDelegate()->getPageMargins()->setBottom(0.3);
+                $event->sheet->getDelegate()->getPageMargins()->setBottom(0.2);
                 $event->sheet->getDelegate()->getPageMargins()->setRight(0.2);
-                $event->sheet->getDelegate()->getPageMargins()->setHeader(0.5);
-                $event->sheet->getDelegate()->getPageMargins()->setFooter(0.5);
+                $event->sheet->getDelegate()->getPageMargins()->setHeader(0.1);
+                $event->sheet->getDelegate()->getPageMargins()->setFooter(0.1);
                 $event->sheet->getDelegate()->getPageSetup()->setHorizontalCentered(true);
                 // $event->sheet->getDelegate()->getPageSetup()->setVerticalCentered(true);
 
@@ -422,14 +422,14 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // TOP REMOVE BORDER
                 $cells[6] = array_merge([
-                    'G9'
+                    'G9', 'C28:G28'
                 ]);
 
                 // BRB
                 $cells[7] = array_merge([
                     'A8:B8', 'G8', 'A11:F11', 'A13:G13',
                     'A18:G18', 'A19:G19', 'A20:G20', 'A21:G21', 
-                    'A24:G24', 'A25:G25', 'A26:B26', 'C26:G26', 'A27:G27',
+                    'A24:G24', 'A25:G25', 'A26:B26', 'C26:G26', 'A27:B27', 'C27:G27',
                     'A30:G30', 'A31:G31', 'A32:G32', 'A33:G33', 'A34:G34', 
                     'A43:B43', 'A46:B46',
                 ]);
@@ -490,21 +490,17 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // ROW RESIZE
                 $rows = [
                     [
-                        20, //ROW HEIGHT
-                        6,47 //START ROW, END ROW
-                    ],
-                    [
-                        15, //ROW HEIGHT
+                        11, //ROW HEIGHT
                         2,5 //START ROW, END ROW
                     ],
                 ];
 
                 $rows2 = [
                     [
-                        60,
+                        10,
                         [1]
                     ],
-                    [30,[5]]
+                    [35,[5]]
                 ];
 
                 foreach($rows as $row){
