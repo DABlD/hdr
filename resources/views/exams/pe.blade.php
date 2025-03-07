@@ -1233,7 +1233,7 @@
 	                        // TEXTAREA FOR BLOOD CHEMISTRY=276, 283 = OTHERS
 	                        if(temp[i].id == 276 || temp[i].id == 283){
 	                        	answer = `
-	                        	    <textarea class="form-control" data-id="${temp[i].id}" ${disabled}></textarea>
+	                        	    <textarea rows="10" class="form-control" data-id="${temp[i].id}" ${disabled}></textarea>
 	                        	`;
 	                        	remark = "";
 	                        }
