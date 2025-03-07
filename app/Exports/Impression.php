@@ -17,9 +17,13 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
     public function __construct($data, $settings){
         $data->doctor_id = 11;
 
+        $questions = array_combine(array_column($data->questions[179], 'id'), $data->questions[179]);
+        $ids = array_column($questions, 'id');
+        $ids = array_chunk($ids, ceil(count($ids) / 2));
+
         $this->data     = $data;
         $this->settings     = $settings;
-
+        $this->SEsize   = sizeof($ids[0]);
     }
 
     public function view(): View
@@ -112,7 +116,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 'borders' => [
                     'top' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF']
+                        'color' => ['argb' => 'D9FFFFFF']
                     ],
                 ]
             ],
@@ -120,7 +124,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 'borders' => [
                     'bottom' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF']
+                        'color' => ['argb' => 'D9FFFFFF']
                     ],
                 ]
             ],
@@ -128,7 +132,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 'borders' => [
                     'left' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF']
+                        'color' => ['argb' => 'D9FFFFFF']
                     ],
                 ]
             ],
@@ -136,7 +140,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 'borders' => [
                     'right' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF']
+                        'color' => ['argb' => 'D9FFFFFF']
                     ],
                 ]
             ],
@@ -144,7 +148,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF'],
+                        'color' => ['argb' => 'D9FFFFFF'],
                     ],
                 ]
             ],
@@ -152,19 +156,19 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 'borders' => [
                     'top' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF'],
+                        'color' => ['argb' => 'D9FFFFFF'],
                     ],
                     'bottom' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF'],
+                        'color' => ['argb' => 'D9FFFFFF'],
                     ],
                     'left' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF'],
+                        'color' => ['argb' => 'D9FFFFFF'],
                     ],
                     'right' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FFFFFF'],
+                        'color' => ['argb' => 'D9FFFFFF'],
                     ],
                 ]
             ],
@@ -305,7 +309,8 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // VT
                 $h[1] = [
-                    
+                    "A10:H11",
+                    "A13:H13",
                 ];
 
                 // HL B
@@ -315,12 +320,12 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // HC
                 $h[3] = [
-                    'A1', 'B6', 'D6:D10', 'F6:F10'
+                    'A1'
                 ];
 
                 // HC VC
                 $h[4] = [
-                    'A2:A5', 'C46:G46'
+                    'A2:A5'
                 ];
 
                 // HL
@@ -329,19 +334,19 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // B
                 $h[6] = [
-                    'A2:A5', 'A6', 'C6:C7', 'E6', 'A8', 'C8', 'E8', 'G8', 'C10', 'E10', 'A11', 'C11', 'A13', 'C13', 'G13', 'G15', 'A17:A22', 'C18', 'C20:C21', 'F18',
-                    'A23:G24', 'C46:G47', 'C25:C26', 'A26:G26', 'A29:A36', 'C36', 'A42:G42', 'A45',
-                    'C46:G47'
+                    'A2:A5'
                 ];
 
                 // VC
                 $h[7] = [
-                    'A2:G47'
+                    'A2:G5',
+                    'A6:H8',
+                    'A14:H' . (14 + $this->SEsize),
+                    'A20:H' . (23 + $this->SEsize),
                 ];
 
                 // UNDERLINE
                 $h[8] = [
-                    'A24'
                 ];
 
                 // JUSTIFY
@@ -349,7 +354,6 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 ];
 
                 $h['wrap'] = [
-                    'G9','A37', 'C37', 'D46'
                 ];
 
                 // SHRINK TO FIT
@@ -393,7 +397,8 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // ALL BORDER THIN
                 $cells[0] = array_merge([
-                    'C6:G10', 'A36:G41', 'A45:G45', 'C46:G47'
+                    'A6:H11', 'A13:H' . (14 + $this->SEsize),
+                    'A' . (15+$this->SEsize) . ':H' . (15+$this->SEsize),
                 ]);
 
                 // ALL BORDER MEDIUM
@@ -406,10 +411,11 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // OUTSIDE BORDER THIN
                 $cells[3] = array_merge([
-                    'A6:B7', 'A8:B10', 'A11:B12', 'C11:F12', 'G11:G12', 'A13:B16', 'C13:F16', 'G13:G16',
-                    'A18:G22', 'A24:G28', 'A30:G35', 'A43:G44', 'A46:B47', 'A43:B44',
-
-                    'A35:B35', 'A28:G28'
+                    'A' . (17+$this->SEsize) . ':C' . (18+$this->SEsize),
+                    'D' . (17+$this->SEsize) . ':H' . (18+$this->SEsize),
+                    'A' . (20+$this->SEsize) . ':C' . (21+$this->SEsize),
+                    'D' . (20+$this->SEsize) . ':H' . (21+$this->SEsize),
+                    'A' . (22+$this->SEsize) . ':H' . (23+$this->SEsize),
                 ]);
 
                 // OUTSIDE BORDER MEDIUM
@@ -422,35 +428,35 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
                 // TOP REMOVE BORDER
                 $cells[6] = array_merge([
-                    'G9', 'C28:G28'
+                    'A5:H5',
                 ]);
 
                 // BRB
                 $cells[7] = array_merge([
-                    'A8:B8', 'G8', 'A11:F11', 'A13:G13',
-                    'A18:G18', 'A19:G19', 'A20:G20', 'A21:G21', 
-                    'A24:G24', 'A25:G25', 'A26:B26', 'C26:G26', 'A27:B27', 'C27:G27',
-                    'A30:G30', 'A31:G31', 'A32:G32', 'A33:G33', 'A34:G34', 
-                    'A43:B43', 'A46:B46',
+                    'A' . (17+$this->SEsize) . ':C' . (17+$this->SEsize), 'D' . (17+$this->SEsize) . ':H' . (17+$this->SEsize),
+                    'A' . (20+$this->SEsize) . ':C' . (20+$this->SEsize), 'D' . (20+$this->SEsize) . ':H' . (20+$this->SEsize),
+                    'A' . (22+$this->SEsize) . ':C' . (22+$this->SEsize), 'D' . (22+$this->SEsize) . ':H' . (22+$this->SEsize),
                 ]);
 
                 // LRB
                 $cells[8] = array_merge([
-                    'A5', 'A17', 'A23', 'A29', 'A29', 'A42'
+                    'H5', 'H9', 'H12', 'H' . (14+$this->SEsize),
+                    'H' . (16+$this->SEsize),
+                    'H' . (19+$this->SEsize),
+                    'H' . (22+$this->SEsize),
+                    'H' . (23+$this->SEsize),
                 ]);
 
                 // RRB
                 $cells[9] = array_merge([
-                    'A5', 'A6', 'G17', 'G23', 'G29', 'G29', 'B42', 'G42',
-                    'A18:A22', 'B18:B22','E18:E22',
-                    'B23', 'C23', 'E23',
-                    'B25:B28', 'C25:C28', 'D25:D28', 'E25:E28', 'F25:F28',
-                    'A30:A35', 'B30:B35', 'C32:C35',
+                    'H5', 'H9', 'H12', 'H' . (14+$this->SEsize),
+                    'H' . (16+$this->SEsize),
+                    'H' . (19+$this->SEsize),
                 ]);
 
                 // REMOVE ALL BORDER
                 $cells[10] = array_merge([
-                    'A1:G4'
+                    'A1:H4'
                 ]);
 
                 // REMOVE OUTSIDE BORDER
@@ -479,13 +485,14 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // $event->sheet->getDelegate()->getStyle('L46')->getFont()->setName('Marlett');
 
                 // COLUMN RESIZE
-                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(14);
-                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(47);
-                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(15);
-                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(8);
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(21);
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(19);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(13);
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(13);
                 $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(14);
-                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(11);
-                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(16);
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(10);
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(13);
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(24);
 
                 // ROW RESIZE
                 $rows = [
@@ -493,6 +500,9 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                         11, //ROW HEIGHT
                         2,5 //START ROW, END ROW
                     ],
+                    [15,6,9],
+                    [15,14,14 + $this->SEsize],
+                    [15,20+$this->SEsize,23 + $this->SEsize],
                 ];
 
                 $rows2 = [
@@ -500,7 +510,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                         10,
                         [1]
                     ],
-                    [35,[5]]
+                    [35,[5]],[15,[12,17+$this->SEsize]]
                 ];
 
                 foreach($rows as $row){
@@ -530,9 +540,10 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $event->sheet->getDelegate()->getStyle('A5')->getFont()->setSize(14);
 
                 // FONT SIZE TO 8
-                $rows = ["A9", 'A14', 'C12', 'G9', 'G14', 'A18', 'C18', 'F18', 'A25', 'C25', 'F25', 'A30', 'C30', 'A37', 'C37'];
+                $rows = ["A6:H" . (23 + $this->SEsize)];
                 foreach($rows as $row){
-                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setSize(9);
+                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setName('Times New Roman');
+                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setSize(8);
                 }
             },
         ];

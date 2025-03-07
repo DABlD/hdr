@@ -19,6 +19,14 @@
 		return explode("\n", $string);
 	}
 
+	function toArray2($string){
+		return explode("<br>", $string);
+	}
+
+	$ct = function($text){
+		return str_replace('&', '&#38;', $text);
+	};
+
 	// dd($data->questions['134'], $data->answers['135'], $data->answers['136'], $data->answers['137'], $data->answers['138'], $data->answers['139'], $data->answers['140']);
 @endphp
 
@@ -30,111 +38,151 @@
 	</tr>
 
 	<tr>
-		<td colspan="7">{{ $settings['address'] }}</td>
+		<td colspan="8">{{ $settings['address'] }}</td>
 	</tr>
 
 	<tr>
-		<td colspan="7">Phone #: {{ $settings['contact_no'] }}</td>
+		<td colspan="8">Phone #: {{ $settings['contact_no'] }}</td>
 	</tr>
 
 	<tr>
-		<td colspan="7">Email: medhealthdiagnostics3@gmail.com</td>
+		<td colspan="8">Email: medhealthdiagnostics3@gmail.com</td>
 	</tr>
 
 	<tr>
-		<td colspan="7">MEDICAL EXAMINATION REPORT</td>
+		<td colspan="8">MEDICAL EXAMINATION REPORT</td>
 	</tr>
 
 	<tr>
-		<td rowspan="2">NAME:</td>
-		<td rowspan="2">{{ $data->user->lname }}, {{ $data->user->fname }} {{ substr($data->user->mname ?? "", 0, 1) }}{{ $data->user->mname ? "." : "" }}</td>
-		<td>EXAM TYPE:</td>
-		<td>{{ $data->type }}</td>
-		<td>CONTROL #:</td>
-		<td colspan="2">-</td>
+		<td colspan="2">
+			Name: {{ $data->user->lname }}, {{ $data->user->fname }} {{ substr($data->user->mname ?? "", 0, 1) }}{{ $data->user->mname ? "." : "" }}
+		</td>
+		<td colspan="2">Exam Type: {{ $data->type }}</td>
+		<td colspan="3">Control #: </td>
+		<td>Exam Date: {{ $data->created_at->format('M d, Y') }}</td>
 	</tr>
 
 	<tr>
-		<td>COMPANY</td>
-		<td colspan="4">{{ $data->package->company }}</td>
+		<td>Age: {{ $data->user->birthday ? $data->user->birthday->age : "-" }}</td>
+		<td>Gender: {{ $data->user->gender }}</td>
+		<td colspan="2">Birthdate: {{ $data->user->birthday ? $data->user->birthday->format('d/m/Y') : "-" }}</td>
+		<td colspan="3">Civil Status: {{ $data->user->civil_status }}</td>
+		<td>Contact #: {{ $data->user->contact ?? "-" }}</td>
 	</tr>
 
 	<tr>
-		<td colspan="2">MEDICATION HISTORY:</td>
-		<td rowspan="2">CIVIL STATUS:</td>
-		<td rowspan="2">{{ $data->user->civil_status }}</td>
-		<td rowspan="2">BIRTHDATE:</td>
-		<td rowspan="2">{{ $data->user->birthday ? $data->user->birthday->format('d/m/Y') : "-" }}</td>
-		<td>SMOKER:</td>
+		<td colspan="2">Address: {{ $ct($data->user->address) }}</td>
+		<td colspan="3">Company: {{ $ct($data->package->company) }}</td>
+		<td colspan="3">Position/Department: {{ $ct($data->user->patient->company_position) }}</td>
 	</tr>
 
 	<tr>
-		<td rowspan="4" colspan="2">
+		<td colspan="8">Medical History</td>
+	</tr>
+
+	@php
+		$dh = 65;
+
+		$questions = array_combine(array_column($data->questions[113], 'id'), $data->questions[113]);
+		$ids = array_column($questions, 'id');
+		$pmhString = "";
+		$ctr = 0;
+		
+		foreach($ids as $id){
+			if(isset($answers[$id]) && $answers[$id]['answer']){
+				$pmhString .= $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
+
+				$ctr++;
+				if($ctr >= 4){
+					$dh += 15;
+				}
+			}
+		}
+
+		$questions = array_combine(array_column($data->questions[134], 'id'), $data->questions[134]);
+		$ids = array_column($questions, 'id');
+		$fhString = "";
+		$ctr2 = 0;
+		
+		foreach($ids as $id){
+			if($answers[$id]['answer']){
+				$fhString .= $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
+
+				$ctr2++;
+				if($ctr2 > $ctr){
+					$dh += 15;
+				}
+			}
+		}
+	@endphp
+
+	<tr>
+		<td colspan="2" style="height: {{ $dh }};">
+			Personal Medical History:<br>
+			{!! $ct($pmhString) !!}
+		</td>
+		<td colspan="4" style="height: {{ $dh }};">
+			Family History:<br>
+			{!! $ct($fhString) !!}
+		</td>
+		<td rowspan="2" colspan="2" style="height: {{ $dh }};">
+			Obsterical &#38; Menstrual History:<br>
 			@php
-				$temp = toArray($answers[130]['answer']->all);
-				foreach($temp as $line){
-					echo $line . '<br>';
+				if($data->user->gender == "Female"){
+					$questions = array_combine(array_column($data->questions[159], 'id'), $data->questions[159]);
+					$ids = array_column($questions, 'id');
+					
+					foreach($ids as $id){
+						$answers[$id]['answer'] = isset($answers[$id]) ? $answers[$id]['answer'] : "";
+						echo $ct($questions[$id]['name'] . ': ' . ($answers[$id]['answer'] != "" ? $answers[$id]['answer'] : "") . '<br>');
+					}
+
+					$questions = array_combine(array_column($data->questions[154], 'id'), $data->questions[154]);
+					$ids = array_column($questions, 'id');
+					
+					foreach($ids as $id){
+						$answers[$id]['answer'] = isset($answers[$id]) ? $answers[$id]['answer'] : "";
+						echo $ct($questions[$id]['name'] . ': ' . ($answers[$id]['answer'] != "" ? $answers[$id]['answer'] : "") . '<br>');
+					}
 				}
 			@endphp
 		</td>
-		<td rowspan="4">
+	</tr>
+
+	@php
+		$dh = 65;
+
+		$mhString = "";
+		$ctr = 0;
+		
+		$temp = toArray($answers[130]['answer']->all);
+		foreach($temp as $line){
+			$mhString .= $line . '<br>';
+			$ctr++;
+			if($ctr >= 4){
+				$dh += 15;
+			}
+		}
+	@endphp
+
+	<tr>
+		<td colspan="2" style="height: {{ $dh }};">
+			Medication History:<br>
+		</td>
+		<td colspan="2" style="height: {{ $dh }};">
+			Smoking History:<br>
 			@php
 				//145 = PREVIOUS SMOKER / 146 = CURRENT SMOKER / 301 = COMPUTATION
 				$questions = array_combine(array_column($data->questions[144], 'id'), $data->questions[144]);
 
-				echo "Prev: " . ((isset($answers[145]) && $answers[145]['answer']) ? ($answers[145]['remark'] != "" ? $answers[145]['remark'] : "Yes")  : "No") . '<br>';
-				echo "Cur: " . ((isset($answers[146]) && $answers[146]['answer']) ? ($answers[146]['remark'] != "" ? $answers[146]['remark'] : "Yes")  : "No") . '<br>';
+				echo "Previous: " . ((isset($answers[145]) && $answers[145]['answer']) ? ($answers[145]['remark'] != "" ? $answers[145]['remark'] : "Yes")  : "No") . '<br>';
+				echo "Current: " . ((isset($answers[146]) && $answers[146]['answer']) ? ($answers[146]['remark'] != "" ? $answers[146]['remark'] : "Yes")  : "No") . '<br>';
 				echo $answers[271]['answer'] . ' / ' . $answers[272]['answer'] . '<br>';
-				echo $answers[301]['answer'];
+				echo isset($answers[301]) ? $answers[301]['answer'] : "";
 			@endphp
 		</td>
-	</tr>
-
-	<tr>
-		<td>GENDER:</td>
-		<td>{{ $data->user->gender }}</td>
-		<td>AGE:</td>
-		<td>{{ $data->user->birthday ? $data->user->birthday->age : "-" }}</td>
-	</tr>
-
-	<tr>
-		<td colspan="4">PERSONAL MEDICAL HISTORY:</td>
-	</tr>
-
-	<tr>
-		<td rowspan="5" colspan="4">
-			@php
-				$questions = array_combine(array_column($data->questions[113], 'id'), $data->questions[113]);
-				$ids = array_column($questions, 'id');
-				
-				foreach($ids as $id){
-					if(isset($answers[$id]) && $answers[$id]['answer']){
-						echo $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
-					}
-				}
-			@endphp
-		</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">FAMILY MEDICAL HISTORY:</td>
-		<td>ALCOHOL:</td>
-	</tr>
-
-	<tr>
-		<td rowspan="3" colspan="2">
-			@php
-				$questions = array_combine(array_column($data->questions[134], 'id'), $data->questions[134]);
-				$ids = array_column($questions, 'id');
-				
-				foreach($ids as $id){
-					if($answers[$id]['answer']){
-						echo $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
-					}
-				}
-			@endphp
-		</td>
-		<td rowspan="3">
+		<td colspan="2" style="height: {{ $dh }};">
+			Drinking History:<br>
 			@php
 				//148 = DRINKING CLASSIFICATION / 278 = USUAL SHOTS / 279 = USUAL NUMBER OF BOTTLE ALCOHOL
 				$questions = array_combine(array_column($data->questions[147], 'id'), $data->questions[147]);
@@ -146,15 +194,16 @@
 		</td>
 	</tr>
 
-	<tr></tr>
-	<tr></tr>
-
 	<tr>
-		<td colspan="7">VITAL SIGNS:</td>
+		<td colspan="8">Physical Examination</td>
 	</tr>
 
+	@php
+		$height = 95;
+	@endphp
 	<tr>
-		<td colspan="2" rowspan="5">
+		<td colspan="2" style="height: {{ $height }}px;">
+			Vital Signs:<br>
 			@php
 				//164-166 = 1st-3rd BP / 167 = Pulse Rate / 168 = Respiratory Rate / 169 - Temperature / 274 - 02 saturation
 				$questions = array_combine(array_column($data->questions[163], 'id'), $data->questions[163]);
@@ -171,7 +220,8 @@
 				echo $answers[274]['answer'];
 			@endphp
 		</td>
-		<td rowspan="5" colspan="3">
+		<td colspan="3" style="{{ $height }}px;">
+			Anthropometrics:<br>
 			@php
 				//171 = Height / 172 = Weight / 173 - BMI / 174 - Weight Class / 275 = IBW
 				$questions = array_combine(array_column($data->questions[170], 'id'), $data->questions[170]);
@@ -188,163 +238,176 @@
 				echo $answers[275]['answer'];
 			@endphp
 		</td>
-		<td rowspan="5" colspan="2">
-
+		<td colspan="3" style="{{ $height }}px;">
+			Visual Acuity:<br>
+			@php
+				// 176-178
+				$questions = array_combine(array_column($data->questions[175], 'id'), $data->questions[175]);
+				
+				echo $questions[176]['name'] . ': ' . $answers[176]['answer'] . '<br>';
+				echo $questions[177]['name'] . ': ' . $answers[177]['answer'] . '<br>';
+				echo $questions[178]['name'] . ': ' . ($answers[178]['answer'] ? "Yes" : "No") . $answers[178]['remark'] . '<br>';
+			@endphp
 		</td>
 	</tr>
 
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
+	@php
+		$questions = array_combine(array_column($data->questions[179], 'id'), $data->questions[179]);
+		$ids = array_column($questions, 'id');
+		$ids = array_chunk($ids, ceil(count($ids) / 2));
+	@endphp
+
+	@for($i = 0; $i < sizeof($ids[0]); $i++)
+		<tr>
+			<td>{{ $questions[$ids[0][$i]]['name'] }}</td>
+			<td colspan="3">
+				@if(isset($answers[$ids[0][$i]]))
+					{{ $answers[$ids[0][$i]]['answer'] ? "Essentially Normal" : $answers[$ids[0][$i]]['remark'] }}
+				@else
+					Waived
+				@endif
+			</td>
+			<td colspan="2">{{ $questions[$ids[1][$i]]['name'] }}</td>
+			<td colspan="2">
+				@if(isset($answers[$ids[1][$i]]))
+					{{ $answers[$ids[1][$i]]['answer'] ? "Essentially Normal" : $answers[$ids[1][$i]]['remark'] }}
+				@else
+					Waived
+				@endif
+			</td>
+		</tr>
+	@endfor
 
 	<tr>
-		<td colspan="7">PHYSICAL EXAMINATION:</td>
-		{{-- <td>DETAILS</td>
-		<td colspan="2">CONDITION</td>
-		<td colspan="2">REMARKS</td> --}}
+		<td colspan="8">Diagnostic Examination</td>
 	</tr>
 
-	<tr>
-		<td colspan="2" rowspan="5">
-		@php
-			$questions = array_combine(array_column($data->questions[179], 'id'), $data->questions[179]);
-			$ids = array_column($questions, 'id');
+	@php
+		$dh = 80;
+		
+		// 201 - ECG			206 - ECG
+		// 202 - URINALYSIS		276 - BLOOD CHEM
+		// 203 - FECALYSIS		283 - OTHERS
+		// 205 - CHEST X-RAY
+		// 208 - PAPSMEAR
+		$questions = array_combine(array_column($data->questions[198], 'id'), $data->questions[198]);
+		$ids = [
+			[201,202,203,205,208],
+			[206,276,283]
+		];
 
-			$ctr = 0;
-			
-			foreach($ids as $id){
-				// IF NOT SET, WAIVED
-				if(!isset($answers[$id])){
-					echo $questions[$id]['name'] . ': Waived' . '<br>';
-				}
-				elseif(!$answers[$id]['answer']){
-					echo $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
+		$leftString = "";
+		$ctr = 0;
+
+		// dd($questions[276],$answers[276]);
+		
+		foreach($ids[0] as $id){
+			if(isset($answers[$id]) && $answers[$id]['answer'] == 0){
+				$leftString .= $questions[$id]['name'] . ': ' . ($answers[$id]['remark'] != "" ? $answers[$id]['remark'] : $answers[$id]['answer']);
+			}
+		}
+
+		$rightString = "";
+		
+		foreach($ids[1] as $id){
+			if(isset($answers[$id]) && ($answers[$id]['answer'] == 0 || strlen($answers[$id]['answer']) > 1)){
+				$temp = toArray($answers[$id]['remark'] != "" ? $answers[$id]['remark'] : $answers[$id]['answer']);
+
+				$rightString .= $questions[$id]['name'] . ':<br>';
+				$ctr++;
+				foreach($temp as $line){
+					$rightString .= $line . '<br>';
 					$ctr++;
+				}
 
-					if($ctr % 4 == 0){
-						if($ctr < 7){
-							echo "</td>";
-							echo "<td colspan='3' rowspan='4'>";
-						}
-						else{
-							echo "</td>";
-							echo "<td colspan='2' rowspan='4'>";
-						}
-					}
+				if($ctr > 4){
+					$dh += 15;
 				}
 			}
-		@endphp
+		}
+	@endphp
+
+	<tr>
+		<td colspan="3" style="height: {{ $dh }}px;">{!! $leftString !!}</td>
+		<td colspan="5" style="height: {{ $dh }}px;">{!! $rightString !!}</td>
+	</tr>
+
+	<tr>
+		<td colspan="8" style="height: 5px;"></td>
+	</tr>
+
+	@php
+		$dh = 60;
+
+		$assessment = "";
+		$ctr = 0;
+		
+		$temp = toArray($data->clinical_assessment);
+		foreach($temp as $line){
+			$assessment .= $line . '<br>';
+			$ctr++;
+			if($ctr >= 4){
+				$dh += 15;
+			}
+		}
+
+		$recommendation = "";
+		$ctr2 = 0;
+		
+		$temp = toArray2($data->recommendation);
+
+		foreach($temp as $line){
+			$recommendation .= $line . '<br>';
+			$ctr2++;
+			if($ctr2 > $ctr){
+				$dh += 15;
+			}
+		}
+	@endphp
+
+	<tr>
+		<td colspan="3">Assessment:</td>
+		<td colspan="5">Recommendation:</td>
+	</tr>
+
+	<tr>
+		<td colspan="3" style="height: {{ $dh }}px;">{!! $assessment !!}</td>
+		<td colspan="5" style="height: {{ $dh }}px;">{!! $recommendation !!}</td>
+	</tr>
+
+	<tr>
+		<td colspan="8" style="height: 5px;"></td>
+	</tr>
+
+	<tr>
+		<td colspan="3">
+			Examining Physician:
+			@if($data->doctor->doctor->signature)
+				<img src="{{ $data->doctor->doctor->signature }}" width="50px">
+			@endif
+		</td>
+		<td colspan="5">
+			Assessing Physician:
+			@if($data->doctor->doctor->signature)
+				<img src="{{ $data->doctor->doctor->signature }}" width="50px">
+			@endif
 		</td>
 	</tr>
 
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-
 	<tr>
-		<td colspan="7">DIAGNOSTIC RESULTS</td>
-	</tr>
-
-	<tr>
-		<td rowspan="6" colspan="2">
-			@php
-				// 201,202,203,205,206,208
-				$questions = array_combine(array_column($data->questions[198], 'id'), $data->questions[198]);
-				$ids = array_column($questions, 'id');
-
-				$array = [201,202,203,205,206,208];
-
-				$ctr = 0;
-				
-				foreach($ids as $id){
-					if(in_array($id, $array))
-					// IF NOT SET, WAIVED
-					if(!isset($answers[$id])){
-						echo $questions[$id]['name'] . ': Waived' . '<br>';
-					}
-					elseif(!$answers[$id]['answer']){
-						if($answers[$id]['answer'] != ""){
-							echo $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
-						}
-					}
-				}
-			@endphp
-		</td>
-		<td rowspan="6" colspan="5">
-			@php
-				// 276,283
-				$array = [276,283];
-
-				$ctr = 0;
-				
-				foreach($array as $id){
-					$temp = toArray($answers[$id]['answer']);
-
-					echo $questions[$id]['name'] . ': ';
-					foreach($temp as $line){
-						echo $line . '<br>';
-					}
-				}
-			@endphp
-		</td>
-	</tr>
-
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-
-	<tr>
-		<td colspan="2">ASSESSMENT:</td>
-		<td colspan="5">RECOMMENDATION:</td>
-	</tr>
-
-	<tr>
-		<td colspan="2" rowspan="5">
-			{!! $data->clinical_assessment !!}
-		</td>
-		<td colspan="5" rowspan="5">
-			{!! $data->recommendation !!}
-		</td>
-	</tr>
-
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-
-	<tr>
-		<td colspan="2">EXAMINING PHYSICIAN:</td>
-		<td colspan="5">DATE RE-EXAMINED:</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">
+		<td colspan="3">
 			Dr. 
-			{{ $data->doctor ? $data->doctor->fname . " " . $data->doctor->lname : "-" }}</td>
-		<td rowspan="2" colspan="5" style="font-family: DejaVu Sans, sans-serif; font-size: 8px;">
-			&#8205;{{ now()->format('d/m/Y') }}
+			{{ $data->doctor ? $data->doctor->fname . " " . $data->doctor->lname : "-" }}
 		</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">LIC. NO. {{ $data->doctor ? $data->doctor->doctor->license_number : "-" }}</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">ASSESSING PHYSICIAN:</td>
-		<td colspan="5">CLASSIFICATION:</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">
+		<td colspan="5">
 			Dr. 
-			{{ $data->doctor ? $data->doctor->fname . ' ' . $data->doctor->lname : "-" }}
+			{{ $data->doctor ? $data->doctor->fname . " " . $data->doctor->lname : "-" }}
 		</td>
-		<td rowspan="2">
+	</tr>
+
+	<tr>
+		<td>Classification:</td>
+		<td colspan="7">
 			@if($data->classification == "Fit to work")
 				A
 			@elseif($data->classification == "Physically fit with minor illness")
@@ -353,18 +416,13 @@
 				C
 			@elseif($data->classification == "Unfit to work")
 				D
-			@elseif($data->classification == "Pending")
-				Pending
-			@else
-				-
 			@endif
-		</td>
-		<td rowspan="2" colspan="4" style="font-family: DejaVu Sans, sans-serif; font-size: 8px;">
-			&#8205;{{ $data->classification ?? "-" }}
+			 - {{ $data->classification ?? "-" }}
 		</td>
 	</tr>
 
 	<tr>
-		<td colspan="2">LIC. NO. {{ $data->doctor ? $data->doctor->doctor->license_number : "-" }}</td>
+		<td></td>
+		<td colspan="7">{{ $data->c_remarks }}</td>
 	</tr>
 </table>
