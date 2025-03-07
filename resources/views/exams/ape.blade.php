@@ -1246,6 +1246,7 @@
 	                                <input type="text" class="form-control" data-id="${temp[i].id}" ${disabled}>
 	                            `;
 	                            remark = "";
+
 	                        }
 	                        else if(temp[i].type == "Dichotomous"){
 	                            answer = `
@@ -1253,6 +1254,16 @@
 	                                &nbsp;
 	                                <input type="radio" name="rb${temp[i].id}" value="0" ${disabled}>No
 	                            `;
+	                            
+	                        	// REMARK AS TEXTAREA = ECG
+	                        	if(temp[i].id == 206){
+	                        		console.log('test');
+		                        	remark = `
+		                        		<td>
+			                        	    <textarea class="form-control" data-id="${temp[i].id}" ${disabled}></textarea>
+			                        	</td>
+		                        	`;
+		                        }
 	                        }
 
 	                        string += `
