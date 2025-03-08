@@ -488,9 +488,9 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(21);
                 $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(19);
                 $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(13);
-                ent->sheet->getDelegat->getColumnDimension('D')->setWidth(13);
-             $event->sheet->getDelegate()->getColuimension('E')->setWidth(14);
-                $even5->sheet->getDelegate()->getColumnDimensio5'F')->setWidth(10);
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(13);
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(14);
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(10);
                 $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(13);
                 $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(24);
 
