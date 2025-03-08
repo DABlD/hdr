@@ -485,14 +485,14 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // $event->sheet->getDelegate()->getStyle('L46')->getFont()->setName('Marlett');
 
                 // COLUMN RESIZE
-                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(19);
-                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(17);
-                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(11);
-                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(11);
-                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(12);
-                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(8);
-                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(11);
-                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(22);
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(21);
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(19);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(13);
+                ent->sheet->getDelegat->getColumnDimension('D')->setWidth(13);
+             $event->sheet->getDelegate()->getColuimension('E')->setWidth(14);
+                $even5->sheet->getDelegate()->getColumnDimensio5'F')->setWidth(10);
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(13);
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(24);
 
                 // ROW RESIZE
                 $rows = [
