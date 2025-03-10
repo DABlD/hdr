@@ -351,7 +351,7 @@
 		}
 
 		$leftString = substr($leftString, 0, -4);
-		$rightString = substr($leftString, 0, -4);
+		$rightString = substr($rightString, 0, -4);
 	@endphp
 
 	<tr>
