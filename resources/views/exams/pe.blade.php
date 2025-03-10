@@ -117,6 +117,7 @@
 	                    // f.where2 = ["type", "APE"];
 	                    f.load = ["user.patient.exams"];
 	                    // f.join = "patients"
+	                    swal.showLoading();
 	                }
 				},
 				columns: [
@@ -197,6 +198,9 @@
 	                    },
 	                }
 	            ],
+	            drawCallback: function(){
+	            	swal.close();
+	            },
 			});
 
 			$('#fFrom, #fTo').flatpickr({
