@@ -106,7 +106,7 @@
 		$ctr2 = 0;
 		
 		foreach($ids as $id){
-			if($answers[$id]['answer']){
+			if(isset($answers[$id]) && $answers[$id]['answer']){
 				$fhString .= $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
 
 				$ctr2++;
