@@ -275,7 +275,7 @@
 						{{ $answers[$ids[0][$i]]['remark'] }}
 					@endif
 				@else
-					{{ $answers[$ids[0][$i]]['remark'] }}
+					{{ isset($answers[$ids[0][$i]]) ? $answers[$ids[0][$i]]['remark'] : "" }}
 				@endif
 			</td>
 			<td colspan="2">{{ $questions[$ids[1][$i]]['name'] }}</td>
@@ -290,7 +290,7 @@
 						{{ $answers[$ids[1][$i]]['remark'] }}
 					@endif
 				@else
-					{{ $answers[$ids[1][$i]]['remark'] }}
+					{{ isset($answers[$ids[1][$i]]) ? $answers[$ids[1][$i]]['remark'] : "" }}
 				@endif
 			</td>
 		</tr>
