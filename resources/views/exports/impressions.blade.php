@@ -275,7 +275,7 @@
 						{{ $answers[$ids[0][$i]]['remark'] }}
 					@endif
 				@else
-					Waived
+					{{ $answers[$ids[0][$i]]['remark'] }}
 				@endif
 			</td>
 			<td colspan="2">{{ $questions[$ids[1][$i]]['name'] }}</td>
@@ -284,13 +284,13 @@
 					@if($answers[$ids[1][$i]]['answer'])
 						Essentially Normal
 						@if($answers[$ids[1][$i]]['remark'] != "")
-							 ({{ $answers[$ids[1][$i]]['remark'] }})
+							({{ $answers[$ids[1][$i]]['remark'] }})
 						@endif
 					@else
 						{{ $answers[$ids[1][$i]]['remark'] }}
 					@endif
 				@else
-					Waived
+					{{ $answers[$ids[1][$i]]['remark'] }}
 				@endif
 			</td>
 		</tr>
