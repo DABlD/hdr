@@ -415,13 +415,13 @@
 		<td colspan="3">
 			Examining Physician:
 			@if($data->doctor->doctor->signature)
-				<img src="{{ $data->doctor->doctor->signature }}" width="50px">
+				<img src="{{ $data->doctor->doctor->signature }}" width="100px">
 			@endif
 		</td>
 		<td colspan="5">
 			Assessing Physician:
 			@if($data->doctor->doctor->signature)
-				<img src="{{ $data->doctor->doctor->signature }}" width="50px">
+				<img src="{{ $data->doctor->doctor->signature }}" width="100px">
 			@endif
 		</td>
 	</tr>
