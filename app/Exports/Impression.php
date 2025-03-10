@@ -311,6 +311,8 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $h[1] = [
                     "A10:H11",
                     "A13:H13",
+                    'A' . (15 + $this->SEsize),
+                    'D' . (15 + $this->SEsize),
                     'A' . (18 + $this->SEsize),
                     'D' . (18 + $this->SEsize),
                 ];
@@ -344,7 +346,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                     'A2:G5',
                     'A6:H8',
                     'A14:H' . (14 + $this->SEsize),
-                    'A' . (15+$this->SEsize) . ':H' . (15+$this->SEsize),
+                    // 'A' . (15+$this->SEsize) . ':H' . (15+$this->SEsize),
                     'A' . (20+$this->SEsize) . ':H' . (23+$this->SEsize),
                 ];
 
@@ -546,7 +548,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $rows = ["A6:H" . (23 + $this->SEsize)];
                 foreach($rows as $row){
                     $event->sheet->getDelegate()->getStyle($row)->getFont()->setName('Times New Roman');
-                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setSize(9);
+                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setSize(9.5);
                 }
             },
         ];
