@@ -311,6 +311,8 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $h[1] = [
                     "A10:H11",
                     "A13:H13",
+                    'A' . (18 + $this->SEsize),
+                    'D' . (18 + $this->SEsize),
                 ];
 
                 // HL B
@@ -342,7 +344,8 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                     'A2:G5',
                     'A6:H8',
                     'A14:H' . (14 + $this->SEsize),
-                    'A20:H' . (23 + $this->SEsize),
+                    'A' . (15+$this->SEsize) . ':H' . (15+$this->SEsize),
+                    'A' . (20+$this->SEsize) . ':H' . (23+$this->SEsize),
                 ];
 
                 // UNDERLINE

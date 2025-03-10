@@ -24,6 +24,7 @@
 	}
 
 	$ct = function($text){
+		$text = str_replace('s (eg. PCOS, Endometriosis, etc)', '', $text);
 		return str_replace('&', '&#38;', $text);
 	};
 
@@ -188,8 +189,8 @@
 				$questions = array_combine(array_column($data->questions[147], 'id'), $data->questions[147]);
 
 				echo $answers[148]['answer'] . '<br>';
-				echo $answers[278]['answer'] . '<br>';
-				echo $answers[279]['answer'] . '<br>';
+				// echo $answers[278]['answer'] . '<br>';
+				// echo $answers[279]['answer'] . '<br>';
 			@endphp
 		</td>
 	</tr>
@@ -203,7 +204,7 @@
 	@endphp
 	<tr>
 		<td colspan="2" style="height: {{ $height }}px;">
-			Vital Signs:<br>
+			Vital Signs<br>
 			@php
 				//164-166 = 1st-3rd BP / 167 = Pulse Rate / 168 = Respiratory Rate / 169 - Temperature / 274 - 02 saturation
 				$questions = array_combine(array_column($data->questions[163], 'id'), $data->questions[163]);
@@ -221,7 +222,7 @@
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
-			Anthropometrics:<br>
+			Anthropometrics<br>
 			@php
 				//171 = Height / 172 = Weight / 173 - BMI / 174 - Weight Class / 275 = IBW
 				$questions = array_combine(array_column($data->questions[170], 'id'), $data->questions[170]);
@@ -239,7 +240,7 @@
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
-			Visual Acuity:<br>
+			Visual Acuity<br>
 			@php
 				// 176-178
 				$questions = array_combine(array_column($data->questions[175], 'id'), $data->questions[175]);
@@ -262,7 +263,14 @@
 			<td>{{ $questions[$ids[0][$i]]['name'] }}</td>
 			<td colspan="3">
 				@if(isset($answers[$ids[0][$i]]))
-					{{ $answers[$ids[0][$i]]['answer'] ? "Essentially Normal" : $answers[$ids[0][$i]]['remark'] }}
+					@if($answers[$ids[0][$i]]['answer'])
+						Essentially Normal
+						@if($answers[$ids[0][$i]]['remark'] != "")
+							- {{ $answers[$ids[0][$i]]['remark'] }}
+						@endif
+					@else
+						{{ $answers[$ids[0][$i]]['remark'] }}
+					@endif
 				@else
 					Waived
 				@endif
@@ -270,7 +278,14 @@
 			<td colspan="2">{{ $questions[$ids[1][$i]]['name'] }}</td>
 			<td colspan="2">
 				@if(isset($answers[$ids[1][$i]]))
-					{{ $answers[$ids[1][$i]]['answer'] ? "Essentially Normal" : $answers[$ids[1][$i]]['remark'] }}
+					@if($answers[$ids[1][$i]]['answer'])
+						Essentially Normal
+						@if($answers[$ids[1][$i]]['remark'] != "")
+							- {{ $answers[$ids[1][$i]]['remark'] }}
+						@endif
+					@else
+						{{ $answers[$ids[1][$i]]['remark'] }}
+					@endif
 				@else
 					Waived
 				@endif
@@ -302,8 +317,13 @@
 		// dd($questions[276],$answers[276]);
 		
 		foreach($ids[0] as $id){
-			if(isset($answers[$id]) && $answers[$id]['answer'] == 0){
-				$leftString .= $questions[$id]['name'] . ': ' . ($answers[$id]['remark'] != "" ? $answers[$id]['remark'] : $answers[$id]['answer']);
+			if(isset($answers[$id])){
+				if($answers[$id]['answer'] == 0){
+					$leftString .= $questions[$id]['name'] . ': ' . ($answers[$id]['remark'] != "" ? $answers[$id]['remark'] : $answers[$id]['answer']) . '<br>';
+				}
+				elseif($answers[$id]['answer'] == 1){
+					$leftString .= $questions[$id]['name'] . ': Normal' . '<br>';
+				}
 			}
 		}
 
@@ -325,6 +345,9 @@
 				}
 			}
 		}
+
+		$leftString = substr($leftString, 0, -4);
+		$rightString = substr($leftString, 0, -4);
 	@endphp
 
 	<tr>
