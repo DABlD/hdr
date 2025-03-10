@@ -260,10 +260,10 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $event->sheet->getDelegate()->getPageSetup()->setPaperSize($size);
                 $event->sheet->getDelegate()->setTitle('RESULT', false);
                 $event->sheet->getDelegate()->getPageSetup()->setFitToHeight(0);
-                $event->sheet->getDelegate()->getPageMargins()->setTop(0.2);
-                $event->sheet->getDelegate()->getPageMargins()->setLeft(0.2);
-                $event->sheet->getDelegate()->getPageMargins()->setBottom(0.2);
-                $event->sheet->getDelegate()->getPageMargins()->setRight(0.2);
+                $event->sheet->getDelegate()->getPageMargins()->setTop(0.1);
+                $event->sheet->getDelegate()->getPageMargins()->setLeft(0.1);
+                $event->sheet->getDelegate()->getPageMargins()->setBottom(0.1);
+                $event->sheet->getDelegate()->getPageMargins()->setRight(0.1);
                 $event->sheet->getDelegate()->getPageMargins()->setHeader(0.1);
                 $event->sheet->getDelegate()->getPageMargins()->setFooter(0.1);
                 $event->sheet->getDelegate()->getPageSetup()->setHorizontalCentered(true);
@@ -275,7 +275,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 
                 // SET DEFAULT FONT
                 $event->sheet->getParent()->getDefaultStyle()->getFont()->setName('Times New Roman');
-                $event->sheet->getParent()->getDefaultStyle()->getFont()->setSize(8);
+                $event->sheet->getParent()->getDefaultStyle()->getFont()->setSize(9);
 
                 // CELL COLOR
                 // $event->sheet->getDelegate()->getStyle('E3:E7')->getFont()->getColor()->setRGB('0000FF');
@@ -488,14 +488,14 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 // $event->sheet->getDelegate()->getStyle('L46')->getFont()->setName('Marlett');
 
                 // COLUMN RESIZE
-                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(21);
-                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(19);
-                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(13);
-                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(13);
-                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(14);
-                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(10);
-                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(13);
-                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(24);
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(19);
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(17);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(11);
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(11);
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(12);
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(8);
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(11);
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(23);
 
                 // ROW RESIZE
                 $rows = [
@@ -546,7 +546,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                 $rows = ["A6:H" . (23 + $this->SEsize)];
                 foreach($rows as $row){
                     $event->sheet->getDelegate()->getStyle($row)->getFont()->setName('Times New Roman');
-                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setSize(8);
+                    $event->sheet->getDelegate()->getStyle($row)->getFont()->setSize(9);
                 }
             },
         ];
