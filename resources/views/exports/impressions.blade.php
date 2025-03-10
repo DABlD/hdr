@@ -83,6 +83,7 @@
 
 	@php
 		$dh = 65;
+		$dh2 = 65;
 
 		$questions = array_combine(array_column($data->questions[113], 'id'), $data->questions[113]);
 		$ids = array_column($questions, 'id');
@@ -110,11 +111,13 @@
 				$fhString .= $questions[$id]['name'] . ($answers[$id]['remark'] != "" ? ": " . $answers[$id]['remark'] : "") . '<br>';
 
 				$ctr2++;
-				if($ctr2 > $ctr){
-					$dh += 15;
+				if($ctr2 >= 4){
+					$dh2 += 15;
 				}
 			}
 		}
+
+		$dh = $dh > $dh2 ? $dh : $dh2;
 	@endphp
 
 	<tr>
@@ -364,6 +367,7 @@
 
 	@php
 		$dh = 60;
+		$dh2 = 60;
 
 		$assessment = "";
 		$ctr = 0;
@@ -385,10 +389,12 @@
 		foreach($temp as $line){
 			$recommendation .= $line . '<br>';
 			$ctr2++;
-			if($ctr2 > $ctr){
-				$dh += 15;
+			if($ctr2 >= 4){
+				$dh2 += 15;
 			}
 		}
+
+		$dh = $dh > $dh2 ? $dh : $dh2;
 	@endphp
 
 	<tr>
