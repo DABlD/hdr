@@ -227,6 +227,9 @@
 							<tr>
 								<td>${company.fname}</td>
 								<td>
+									<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewCompany(${company.id})">
+										<i class="fas fa-search"></i>
+									</a>
 									<a class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="deleteCompany(${company.id})">
 										<i class="fas fa-trash"></i>
 									</a>
@@ -245,6 +248,106 @@
 					});
 
 					$('#companyTable tbody').html(companyTableString ?? "<tr><td colspan='2'>No Company Added</td></tr>")
+				}
+			});
+		}
+
+		function viewCompany(id){
+			$.ajax({
+				url: '{{ route('user.get') }}',
+				data: {
+					select: "*",
+					where: ["id", id]
+				},
+				success: result => {
+					result = JSON.parse(result)[0];
+
+					console.log(result);
+
+					Swal.fire({
+						title: "Enter Company Details",
+						html: `
+							${input('fname', 'Name', result.fname, 3, 9)}
+						`,
+							// ${input('username', 'Username', result.username, 3, 9)}
+						showDenyButton: true,
+						denyButtonColor: successColor,
+						denyButtonText: 'Change Password',
+						preConfirm: () => {
+							let name = $('[name="fname"]').val();
+							let username = $('[name="username"]').val();
+
+							if(name == "" || password == "" || username == ""){
+								Swal.showValidationMessage("Fill all details");
+							}
+						}
+					}).then(result => {
+						if(result.value){
+							$.ajax({
+								url: "{{ route('user.store') }}",
+								type: "POST",
+								data: {
+									fname: $('[name="fname"]').val(),
+									role: "Company",
+									username: $('[name="username"]').val(),
+									password: $('[name="password"]').val(),
+									_token: $('meta[name="csrf-token"]').attr('content')
+								},
+								success: result => {
+									ss("Successfully Added Company");
+									loadCompanies();
+									loadPackages();
+								}
+							})
+						}
+						else if(result.isDenied){
+							changePassword(id);
+						}
+					})
+				}
+			});
+		}
+
+		function changePassword(id){
+			Swal.fire({
+				title: 'Enter new Password',
+			    html: `
+			        ${input("password", "Password", null, 5, 7, 'password')}
+			        ${input("password_confirmation", "Confirm Password", null, 5, 7, 'password')}
+			    `,
+			    confirmButtonText: 'Update Password',
+			    showCancelButton: true,
+			    cancelButtonColor: errorColor,
+			    cancelButtonText: 'Exit',
+			    width: "500px",
+			    preConfirm: () => {
+			        swal.showLoading();
+			        return new Promise(resolve => {
+			            setTimeout(() => {
+			                if($('.swal2-container input:placeholder-shown').length){
+			                    Swal.showValidationMessage('Fill all fields');
+			                }
+			                else if($("[name='password']").val().length < 8){
+			                    Swal.showValidationMessage('Password must at least be 8 characters');
+			                }
+			                else if($("[name='password']").val() != $("[name='password_confirmation']").val()){
+			                    Swal.showValidationMessage('Password do not match');
+			                }
+			            resolve()}, 500);
+			        });
+			    },
+			}).then(result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('user.updatePassword') }}",
+						data: {
+							id: id,
+							password: $("[name='password']").val(),
+						}
+					}, () => {
+						ss("Success");
+					});
 				}
 			});
 		}
