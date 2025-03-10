@@ -178,10 +178,9 @@
 
 				echo "Previous: " . ((isset($answers[145]) && $answers[145]['answer']) ? ($answers[145]['remark'] != "" ? $answers[145]['remark'] : "Yes")  : "No") . '<br>';
 				echo "Current: " . ((isset($answers[146]) && $answers[146]['answer']) ? ($answers[146]['remark'] != "" ? $answers[146]['remark'] : "Yes")  : "No") . '<br>';
-				
-				if($answers[271]['answer'] != "" && $answers[271]['answer'] != ""){
-					echo $answers[271]['answer'] . ' / ' . $answers[272]['answer'] . '<br>';
-				}
+
+				echo "Sticks per day: " . $answers[271]['answer'] . '<br>';
+				echo "For how many years: " . $answers[272]['answer'] . '<br>';
 
 				echo isset($answers[301]) ? $answers[301]['answer'] : "";
 			@endphp
