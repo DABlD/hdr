@@ -127,9 +127,9 @@
 			{!! $ct($fhString) !!}
 		</td>
 		<td rowspan="2" colspan="2" style="height: {{ $dh }};">
-			Obsterical &#38; Menstrual History:<br>
 			@php
 				if($data->user->gender == "Female"){
+					echo "Obsterical &#38; Menstrual History:<br>";
 					$questions = array_combine(array_column($data->questions[159], 'id'), $data->questions[159]);
 					$ids = array_column($questions, 'id');
 					
