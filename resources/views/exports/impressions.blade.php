@@ -366,8 +366,8 @@
 	</tr>
 
 	@php
-		$dh = 60;
-		$dh2 = 60;
+		$dh = 70;
+		$dh2 = 70;
 
 		$assessment = "";
 		$ctr = 0;
@@ -395,6 +395,8 @@
 		}
 
 		$dh = $dh > $dh2 ? $dh : $dh2;
+		$assessment = substr($assessment, 0, -4);
+		$recommendation = substr($recommendation, 0, -4);
 	@endphp
 
 	<tr>

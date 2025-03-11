@@ -313,8 +313,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
                     "A13:H13",
                     'A' . (15 + $this->SEsize),
                     'D' . (15 + $this->SEsize),
-                    'A' . (18 + $this->SEsize),
-                    'D' . (18 + $this->SEsize),
+                    'A' . (18 + $this->SEsize) . ':H' . (18 + $this->SEsize)
                 ];
 
                 // HL B
