@@ -213,8 +213,8 @@ class PatientPackageController extends Controller
         $oMerger = PDFMerger::init();
         $oMerger->addPDF(public_path("/storage/$fn.pdf"));
 
-        if(is_array($data->file)){
-            $files = json_decode($this->data->file);
+        if($data->file){
+            $files = json_decode($data->file);
             foreach ($files as $file) {
                 $oMerger->addPDF(public_path($file));
             }
