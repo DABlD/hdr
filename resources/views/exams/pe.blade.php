@@ -1421,7 +1421,14 @@
 					        		data.type = "RI";
 
 					            	// window.location.href = `{{ route('patientPackage.exportDocument') }}?` + $.param(data);
-					        		window.open(`{{ route('patientPackage.exportDocument') }}?` + $.param(data), '_blank');
+					            	// window.open(`{{ route('patientPackage.exportDocument') }}?` + $.param(data), '_blank');
+					            	$.ajax({
+					            		url: "{{ route('patientPackage.exportDocument') }}",
+					            		data: data,
+					            		success: result => {
+					            			window.open(result, '_blank');
+					            		}
+					            	})
 					        	}
         					}
         				})
