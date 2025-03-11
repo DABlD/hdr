@@ -16,6 +16,8 @@ use App\Exports\PDFExport;
 use PDF;
 use File;
 
+use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
+
 class PatientPackageController extends Controller
 {
     public function __construct(){
@@ -207,7 +209,22 @@ class PatientPackageController extends Controller
         $class = "App\\Exports\\Impression";
 
         Excel::store(new $class($data, $settings), "/public/$fn.pdf");
-        return "/storage/$fn.pdf";
+
+        $oMerger = PDFMerger::init();
+        $oMerger->addPDF(public_path("/storage/$fn.pdf"));
+
+        if(is_array($data->file)){
+            $files = json_decode($this->data->file);
+            foreach ($files as $file) {
+                $oMerger->addPDF(public_path($file));
+            }
+        }
+
+        $oMerger->merge();
+        $oMerger->setFileName($fn . '.pdf');
+        $oMerger->stream();
+
+        // return "/storage/$fn.pdf";
     }
 
     public function delete(Request $req){
