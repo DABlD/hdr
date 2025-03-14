@@ -117,6 +117,9 @@
 			}
 		}
 
+		$pmhString = ($pmhString == "") ? "Unremarkable/None" : $pmhString;
+		$fhString = ($fhString == "") ? "Unremarkable/None" : $fhString;
+
 		$dh = $dh > $dh2 ? $dh : $dh2;
 	@endphp
 
@@ -167,12 +170,14 @@
 				$dh += 15;
 			}
 		}
+
+		$mhString = ($mhString == "") ? "Unremarkable/None" : $mhString;
 	@endphp
 
 	<tr>
 		<td colspan="2" style="height: {{ $dh }};">
 			Medication History:<br>
-			{!! $mhString !!}
+			{!! $ct($mhString) !!}
 		</td>
 		<td colspan="2" style="height: {{ $dh }};">
 			Smoking History:<br>
