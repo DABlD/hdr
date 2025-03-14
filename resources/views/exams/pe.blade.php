@@ -609,7 +609,7 @@
 	        			    		data.diagnostics = 1;
 	        			    	}
 	        			    	else if(type == "physical_exam"){
-	        			    		data.diagnostics = 1;
+	        			    		data.physical_exam = 1;
 	        			    	}
 	        			    	else{
 	        			    		data.evaluation = 1;
