@@ -189,9 +189,9 @@ class PatientPackageController extends Controller
                 dd($answer);
             }
 
-            if(isset($answer->answer)){
-                $answers[$answer->id]["answer"] = $answer->answer;
-                $answers[$answer->id]["remark"] = $answer->remark;
+            if(isset($answer->answer) || isset($answer->remark)){
+                $answers[$answer->id]["answer"] = $answer->answer ?? null;
+                $answers[$answer->id]["remark"] = $answer->remark ?? "";
             }
         }
 
@@ -213,12 +213,12 @@ class PatientPackageController extends Controller
         $oMerger = PDFMerger::init();
         $oMerger->addPDF(public_path("/storage/$fn.pdf"));
 
-        if($data->file){
-            $files = json_decode($data->file);
-            foreach ($files as $file) {
-                $oMerger->addPDF(public_path($file));
-            }
-        }
+        // if($data->file){
+        //     $files = json_decode($data->file);
+        //     foreach ($files as $file) {
+        //         $oMerger->addPDF(public_path($file));
+        //     }
+        // }
 
         $oMerger->merge();
         $oMerger->setFileName($fn . '.pdf');
