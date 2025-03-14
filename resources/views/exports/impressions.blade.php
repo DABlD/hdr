@@ -172,6 +172,7 @@
 	<tr>
 		<td colspan="2" style="height: {{ $dh }};">
 			Medication History:<br>
+			{!! $mhString !!}
 		</td>
 		<td colspan="2" style="height: {{ $dh }};">
 			Smoking History:<br>
