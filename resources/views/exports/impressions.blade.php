@@ -164,10 +164,12 @@
 		
 		$temp = toArray($answers[130]['answer']->all);
 		foreach($temp as $line){
-			$mhString .= $line . '<br>';
-			$ctr++;
-			if($ctr >= 4){
-				$dh += 15;
+			if($line != ""){
+				$mhString .= $line . '<br>';
+				$ctr++;
+				if($ctr >= 4){
+					$dh += 15;
+				}
 			}
 		}
 
