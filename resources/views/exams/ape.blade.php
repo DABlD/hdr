@@ -922,6 +922,17 @@
 					                                ferror = $(`.remark[data-id="${id}"]`);
 					                            }
 								        	}
+
+								        	// VALIDATE SYSTEMIC. IF STARTED CHECKING, WILL CHECK ALL AND NOTHING MUST BE EMPTY. EITHER ANSWER OR REMARK
+								        	if($('.Systemic-Examination input:checked').length){
+								        		if(answer == null && remark == ""){
+	        						        		$(`.remark[data-id="${id}"]`).addClass('i-error');
+
+	        			                            if(!ferror){
+	        			                                ferror = $(`.remark[data-id="${id}"]`);
+	        			                            }
+								        		}
+								        	}
 								        }
 								        else if($(answers[i]).parents('.Medical-Evaluation').length){ //CHECK FIRST IF UNDER Diagnostic
 								        	if(answer == 0 && remark == ""){
