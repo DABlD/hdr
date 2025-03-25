@@ -117,6 +117,9 @@
 			}
 		}
 
+		$pmhString = ($pmhString == "") ? "Unremarkable/None" : $pmhString;
+		$fhString = ($fhString == "") ? "Unremarkable/None" : $fhString;
+
 		$dh = $dh > $dh2 ? $dh : $dh2;
 	@endphp
 
@@ -161,17 +164,22 @@
 		
 		$temp = toArray($answers[130]['answer']->all);
 		foreach($temp as $line){
-			$mhString .= $line . '<br>';
-			$ctr++;
-			if($ctr >= 4){
-				$dh += 15;
+			if($line != ""){
+				$mhString .= $line . '<br>';
+				$ctr++;
+				if($ctr >= 4){
+					$dh += 15;
+				}
 			}
 		}
+
+		$mhString = ($mhString == "") ? "Unremarkable/None" : $mhString;
 	@endphp
 
 	<tr>
 		<td colspan="2" style="height: {{ $dh }};">
 			Medication History:<br>
+			{!! $ct($mhString) !!}
 		</td>
 		<td colspan="2" style="height: {{ $dh }};">
 			Smoking History:<br>
