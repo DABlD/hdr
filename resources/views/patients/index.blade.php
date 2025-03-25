@@ -200,7 +200,7 @@
 					        ${input("lname", "Last Name", null, 3, 9)}
 	        				<div class="row iRow">
 	        				    <div class="col-md-3 iLabel">
-	        				        Gender
+	        				        Suffix
 	        				    </div>
 	        				    <div class="col-md-9 iInput">
 	        				        <select name="suffix" class="form-control">
