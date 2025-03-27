@@ -314,7 +314,7 @@
 	@php
 		$dh = 80;
 		
-		// 201 - ECG			206 - ECG
+		// 201 - CBC			206 - ECG
 		// 202 - URINALYSIS		276 - BLOOD CHEM
 		// 203 - FECALYSIS		283 - OTHERS
 		// 205 - CHEST X-RAY
@@ -328,7 +328,7 @@
 		$leftString = "";
 		$ctr = 0;
 
-		// dd($questions[276],$answers[276]);
+		// dd($questions[206],$answers[206]);
 		
 		foreach($ids[0] as $id){
 			if(isset($answers[$id])){
@@ -344,7 +344,7 @@
 		$rightString = "";
 		
 		foreach($ids[1] as $id){
-			if(isset($answers[$id]) && ($answers[$id]['answer'] == 0 || strlen($answers[$id]['answer']) > 1)){
+			if(isset($answers[$id]) && ($answers[$id]['answer'] === 0 || strlen($answers[$id]['answer']) > 1)){
 				$temp = toArray($answers[$id]['remark'] != "" ? $answers[$id]['remark'] : $answers[$id]['answer']);
 
 				$rightString .= $questions[$id]['name'] . ':<br>';
