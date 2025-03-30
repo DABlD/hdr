@@ -19,6 +19,16 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+// TEST FUNCTIONS
+// TEST FUNCTIONS
+// TEST FUNCTIONS
+
+Route::get('moveUploads', "TestController@moveUploads");
+
+// TEST FUNCTIONS
+// TEST FUNCTIONS
+// TEST FUNCTIONS
+
 Route::get('patient/subjective', "SubjectiveController@index")->name('patient.subjective');
 Route::get('patient/search', "SubjectiveController@search")->name('patient.search');
 Route::get('patient/getQuestion', "SubjectiveController@getQuestion")->name('patient.getQuestion');
