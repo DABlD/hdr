@@ -74,7 +74,7 @@ class SettingController extends Controller
 
             $image->resize(250, 250);
             $image->save($destinationPath . $name);
-            $setting->value = 'uploads/' . $name;
+            $setting->value = 'uploads/' . env('UPLOAD_URL') . $name;
             $setting->save();
         }
         else{
