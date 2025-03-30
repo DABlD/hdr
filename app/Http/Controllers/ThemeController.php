@@ -63,7 +63,7 @@ class ThemeController extends Controller
             $image = Image::make($temp);
 
             $name = 'logo_img - ' . time() . "." . $temp->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/');
+            $destinationPath = public_path('uploads/' . env('UPLOAD_URL'));
             $image->save($destinationPath . $name);
 
             $theme->value = 'uploads/' . $name;
@@ -77,7 +77,7 @@ class ThemeController extends Controller
             $image = Image::make($temp);
 
             $name = 'login_banner_img - ' . time() . "." . $temp->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/');
+            $destinationPath = public_path('uploads/' . env('UPLOAD_URL'));
             $image->save($destinationPath . $name);
             
             $theme->value = 'uploads/' . $name;
@@ -91,7 +91,7 @@ class ThemeController extends Controller
             $image = Image::make($temp);
 
             $name = 'login_bg_img - ' . time() . "." . $temp->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/');
+            $destinationPath = public_path('uploads/' . env('UPLOAD_URL'));
             $image->save($destinationPath . $name);
             
             $theme->value = 'uploads/' . $name;

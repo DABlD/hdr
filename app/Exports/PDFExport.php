@@ -32,7 +32,7 @@ class PDFExport
         if(is_array($this->data->file)){
             $files = json_decode($this->data->file);
             foreach ($files as $file) {
-                $oMerger->addPDF(public_path($file));
+                $oMerger->addPDF(public_path(env('UPLOAD_URL') . $file));
             }
         }
         // else{

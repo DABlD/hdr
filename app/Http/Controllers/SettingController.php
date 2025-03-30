@@ -70,7 +70,7 @@ class SettingController extends Controller
             $image = Image::make($temp);
 
             $name = 'Logo-' . time() . "." . $temp->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/');
+            $destinationPath = public_path('uploads/' . env('UPLOAD_URL'));
 
             $image->resize(250, 250);
             $image->save($destinationPath . $name);

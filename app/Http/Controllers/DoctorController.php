@@ -64,11 +64,11 @@ class DoctorController extends Controller
             $image = Image::make($temp);
 
             $name = $req->lname . '_' . $req->fname . '-sig-' . time() . "." . $temp->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/');
+            $destinationPath = public_path('uploads/' . env('UPLOAD_URL'));
 
             $image->resize(250, 250);
             $image->save($destinationPath . $name);
-            $doctor->signature = 'uploads/' . $name;
+            $doctor->signature = 'uploads/' . env('UPLOAD_URL') . $name;
         }
 
         $doctor->user_id = $req->user_id;
@@ -101,7 +101,7 @@ class DoctorController extends Controller
             $image = Image::make($temp);
 
             $name = $doctor->user->lname . '_' . $doctor->user->fname . '-signature-' . time() . "." . $temp->getClientOriginalExtension();
-            $destinationPath = public_path('uploads/');
+            $destinationPath = public_path('uploads/' . env('UPLOAD_URL'));
 
             $image->resize(250, 250);
             $image->save($destinationPath . $name);

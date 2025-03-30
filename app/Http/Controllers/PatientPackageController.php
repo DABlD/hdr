@@ -216,7 +216,7 @@ class PatientPackageController extends Controller
         if($data->file){
             $files = json_decode($data->file);
             foreach ($files as $file) {
-                $oMerger->addPDF(public_path($file));
+                $oMerger->addPDF(public_path(env('UPLOAD_URL') . $file));
             }
         }
 

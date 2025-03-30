@@ -558,7 +558,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
         $array = [];
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-        $drawing->setPath(public_path($this->settings['logo']));
+        $drawing->setPath(public_path(env('UPLOAD_URL') . $this->settings['logo']));
         $drawing->setResizeProportional(false);
         $drawing->setHeight(65);
         $drawing->setWidth(400);
@@ -569,7 +569,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
 
         if($this->data->doctor->doctor->signature){
             $temp = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-            $temp->setPath(public_path($this->data->doctor->doctor->signature));
+            $temp->setPath(public_path(env('UPLOAD_URL') . $this->data->doctor->doctor->signature));
             $temp->setResizeProportional(false);
             $temp->setHeight(35);
             $temp->setWidth(70);
@@ -579,7 +579,7 @@ class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSi
             array_push($array, $temp);
 
             $temp2 = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-            $temp2->setPath(public_path($this->data->doctor->doctor->signature));
+            $temp2->setPath(public_path(env('UPLOAD_URL') . $this->data->doctor->doctor->signature));
             $temp2->setResizeProportional(false);
             $temp2->setHeight(35);
             $temp2->setWidth(70);
