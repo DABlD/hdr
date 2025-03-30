@@ -12,7 +12,7 @@ use App\Helpers\Helper;
 class SettingController extends Controller
 {
     public function get(Request $req){
-        $array = Setting::select($req->select);
+        $array = Setting::where('clinic', env('CLINIC'))->select($req->select);
 
         // IF HAS SORT PARAMETER $ORDER
         if($req->order){
@@ -47,7 +47,7 @@ class SettingController extends Controller
     }
 
     public function checkClinicSettings(){
-        $ctr = Setting::whereIn('name', ["logo","clinic_name","address","contact_no"])->count();
+        $ctr = Setting::where('clinic', env('CLINIC'))->whereIn('name', ["logo","clinic_name","address","contact_no"])->count();
         if($ctr >= 4){
             echo true;
         }
@@ -58,12 +58,13 @@ class SettingController extends Controller
 
     public function update(Request $req){
         if($req->hasFile('logo')){
-            $setting = Setting::where("name", "logo")->first();
+            $setting = Setting::where('clinic', env('CLINIC'))->where("name", "logo")->first();
 
             // IF NO SETTING YET
             if(!$setting){
                 $setting = new Setting();
                 $setting->name = "logo";
+                $setting->clinic = env('CLINIC');
             }
 
             $temp = $req->file('logo');
@@ -79,14 +80,15 @@ class SettingController extends Controller
         }
         else{
             $keys = array_keys($req->except("_token"));
-            $setting = Setting::pluck('value', 'name');
+            $setting = Setting::where('clinic', env('CLINIC'))->pluck('value', 'name');
 
             foreach($keys as $key){
                 if(isset($setting[$key])){
-                    Setting::where('name', $key)->update(['value' => $req->$key]);
+                    Setting::where('clinic', env('CLINIC'))->where('name', $key)->update(['value' => $req->$key]);
                 }
                 else{
                     $setting = new Setting();
+                    $setting->clinic = env('CLINIC');
                     $setting->name = $key;
                     $setting->value = $req->$key;
                     $setting->save();

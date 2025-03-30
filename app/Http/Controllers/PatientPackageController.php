@@ -171,7 +171,7 @@ class PatientPackageController extends Controller
     }
 
     public function exportDocument(Request $req){
-        $settings = Setting::pluck('value', 'name');
+        $settings = Setting::where('clinic', env('CLINIC'))->pluck('value', 'name');
         $data = PatientPackage::find($req->id);
 
         $data->load('user.patient');

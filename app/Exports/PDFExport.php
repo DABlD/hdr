@@ -15,7 +15,7 @@ class PDFExport
     }
 
     public function report(){
-        $settings = Setting::pluck('value', 'name');
+        $settings = Setting::where('clinic', env('CLINIC'))->pluck('value', 'name');
 
         // CREATE TEMP IF NOT EXISTS;
         $path = "uploads/temp";
@@ -45,7 +45,7 @@ class PDFExport
     }
 
     public function invoice(){
-        $settings = Setting::pluck('value', 'name');
+        $settings = Setting::where('clinic', env('CLINIC'))->pluck('value', 'name');
 
         // CREATE TEMP IF NOT EXISTS;
         // $path = "uploads/invoice ";
