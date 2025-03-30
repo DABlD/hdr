@@ -116,7 +116,7 @@ class PatientPackageController extends Controller
 
             foreach ($req->file('files') as $file) {
                 $name = $file->getClientOriginalName();
-                $path = "uploads/PP$req->id/";
+                $path = "uploads/" . env('UPLOAD_URL') . "PP$req->id/";
                 File::isDirectory($path) or File::makeDirectory($path, 0775, true, true);
                 $file->move($path, $name);
 
