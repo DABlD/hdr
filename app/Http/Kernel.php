@@ -73,7 +73,7 @@ class Kernel extends HttpKernel
             if (str_contains($_SERVER['HTTP_HOST'], '127.0.0.1')) {
                 $env = '';
             } elseif ($_SERVER['HTTP_HOST'] == 'hdr') {
-                $env = '.hdr';
+                $env = '.medhealth';
             } elseif (str_contains($_SERVER['HTTP_HOST'], 'medhealth')) {
                 $env = '.medhealth';
             } elseif (str_contains($_SERVER['HTTP_HOST'], 'clinica')) {
