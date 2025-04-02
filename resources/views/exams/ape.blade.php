@@ -83,6 +83,14 @@
             border-color: red;
             box-shadow: 0 0 10px red;
         }
+
+        .packageBtns{
+        	text-align: center !important;
+        }
+
+        .packageBtns .btn{
+        	margin-bottom: 3px;
+        }
 	</style>
 @endpush
 
@@ -457,7 +465,7 @@
 				                    	setTimeout(() => {
 			                    			ss("Success");
 					                    	setTimeout(() => {
-					                    		requestList(id);
+					                    		requestList(id, elid);
 					                    		reload();
 					                    	}, 1000);
 				                    	}, 2000);
@@ -473,7 +481,7 @@
         	})
         }
 
-        function requestList(id){
+        function requestList(id, elid){
         	$.ajax({
         		url: '{{ route('patientPackage.get') }}',
         		data: {
@@ -543,10 +551,16 @@
 	        						<td style="color: #${pPackage.status == "Pending" ? 'FFA500' : "008000"};">
 	        							${pPackage.status}
 	        						</td>
-	        						<td>
+	        						<td class="packageBtns">
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}', ${id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
+	        							@if(in_array(auth()->user()->role, ["Admin", "Receptionist"]))
+	        							<a class="btn btn-info" data-toggle="tooltip" title="Assigned Doctor" onclick="assignedDoctor(${pPackage.id}, ${elid})">
+	        								<i class="fas fa-user-doctor"></i>
+	        							</a>
+	        							<br>
+	        							@endif
 	        							@if(!in_array(auth()->user()->role, ["Laboratory", "Imaging"]))
 		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
 		        								<i class="fas fa-file-pdf"></i>
@@ -628,7 +642,7 @@
 	        			    		message: "Success",
 	        			    	}, () => {
 	        			    		setTimeout(() => {
-	        			    			requestList(id);
+	        			    			requestList(id, elid);
 	        			    			reload();
 	        			    		}, 1000);
 	        			    	});
@@ -653,13 +667,13 @@
         				message: "Success",
         			}, () => {
         				setTimeout(() => {
-        					requestList(id);
+        					requestList(id, elid);
         				}, 1000);
         			});
         		}
         		else{
     				setTimeout(() => {
-    					requestList(id);
+    					requestList(id, elid);
     				}, 1000);
         		}
 
@@ -1131,12 +1145,12 @@
 			        			});
 
 						        setTimeout(() => {
-						        	requestList(examlistID);
+						        	requestList(examlistID, elid);
 						        }, 1000);
 			        		}
 			        		else{
 			        			setTimeout(() => {
-			        				requestList(examlistID);
+			        				requestList(examlistID, elid);
 			        			}, 300);
 			        		}
 			        	});
@@ -1420,13 +1434,13 @@
 					        	if(!rLength){
 					        		se("Their are no available Result/Impressions");
 					        		setTimeout(() => {
-					        			requestList(uid);
+					        			requestList(uid, elid);
 					        		}, 800);
 					        	}
 					        	else if(result2 == undefined || result2['question_with_answers'] == null){
 					        		se("No Medical Examination Report Record");
 					        		setTimeout(() => {
-					        			requestList(uid);
+					        			requestList(uid, elid);
 					        		}, 800);
 					        	}
 					        	else{
@@ -1574,12 +1588,12 @@
         	});
         }
 
-        function assignedDoctor(id){
+        function assignedDoctor(id, elid){
         	$.ajax({
         		url: "{{ route("examList.get") }}",
         		data: {
         			select: "*",
-        			where: ['id', id],
+        			where: ['id', elid],
         			load: ['attending_doctor.doctor']
         		},
         		success: result => {
@@ -1646,14 +1660,14 @@
         				cancelButtonText: "OK"
         			}).then(result => {
         				if(result.value){
-        					assignDoctor(id);
+        					assignDoctor(id, elid);
         				}
         			})
         		}
         	})
         }
 
-        function assignDoctor(id){
+        function assignDoctor(id, elid){
 			$.ajax({
 				url: "{{ route('user.get') }}",
 				data: {
@@ -1694,16 +1708,24 @@
 							let doctor_id = $('#assigned_doctor').val();
 
 							update({
-							    url: "{{ route("examList.update") }}",
+							    url: "{{ route("patientPackage.update") }}",
 							    data: {
 							        id: id,
 							        doctor_id: doctor_id
 							    },
+							});
+
+							update({
+							    url: "{{ route("examList.update") }}",
+							    data: {
+							        id: elid,
+							        doctor_id: doctor_id
+							    },
 							    message: "Successfully updated assigned doctor"
 							}, () => {
-								fLog(`Assigned Doctor #${doctor_id}`, id);
+								fLog(`Assigned Doctor #${doctor_id}`, elid);
 								setTimeout(() => {
-									assignedDoctor(id);
+									assignedDoctor(id, elid);
 								}, 1500);
 							})
 						}

@@ -148,7 +148,13 @@ class DatatableController extends Controller
             });
 
             $array = $array->where('exam_lists.type', $filters['fType']);
-            $array = $array->whereBetween('exam_lists.created_at', [$filters['fFrom'] . " 00:00:00", $filters['fTo'] . " 23:59:59"]);
+
+            if(auth()->user()->role == "Doctor"){
+                $array = $array->where('exam_lists.updated_at', 'LIKE', now()->format('Y-m-d') . '%');
+            }
+            else{
+                $array = $array->whereBetween('exam_lists.created_at', [$filters['fFrom'] . " 00:00:00", $filters['fTo'] . " 23:59:59"]);
+            }
         }
 
         $array = $array->get();
@@ -161,12 +167,16 @@ class DatatableController extends Controller
                     $medical = $item->user->medical;
 
                     if(in_array(auth()->user()->role, ["Admin", "Receptionist"])){
-                        $medical .=   "<a class='btn btn-warning' data-toggle='tooltip' title='Assigned Doctor' onClick='assignedDoctor($item->id)'>" .
-                                        "<i class='fas fa-user-doctor'></i>" .
-                                    "</a>&nbsp;";
+                        // $medical .=   "<a class='btn btn-warning' data-toggle='tooltip' title='Assigned Doctor' onClick='assignedDoctor($item->id)'>" .
+                        //                 "<i class='fas fa-user-doctor'></i>" .
+                        //             "</a>&nbsp;";
+                        $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id, $item->id)'>" .
+                            "<i class='fas fa-list'></i>" .
+                        "</a>&nbsp;";
                         $medical .=   "<a class='btn btn-danger' data-toggle='tooltip' title='Delete' onClick='deleteType($item->id)'>" .
                                     "<i class='fas fa-trash'></i>" .
                                 "</a>&nbsp;";
+
                     }
 
                 }
@@ -174,7 +184,7 @@ class DatatableController extends Controller
                     $medical =  "<a class='btn btn-primary' data-toggle='tooltip' title='Diagnostic Examination' onClick='evaluation($item->user_id)'>" .
                                     "<i class='fas fa-clipboard-prescription'></i>" .
                                 "</a>&nbsp;";
-                    $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id)'>" .
+                    $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id, $item->id)'>" .
                                     "<i class='fas fa-list'></i>" .
                                 "</a>&nbsp;";
                 }

@@ -57,9 +57,9 @@ trait UserAttribute{
 					    "</a>&nbsp;";
 		}
 
-			$action .= 	"<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($id)'>" .
-					        "<i class='fas fa-list'></i>" .
-					    "</a>&nbsp;";
+			// $action .= 	"<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($id)'>" .
+			// 		        "<i class='fas fa-list'></i>" .
+			// 		    "</a>&nbsp;";
 
 		return $action;
 	}
