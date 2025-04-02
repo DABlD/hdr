@@ -1145,12 +1145,12 @@
 			        			});
 
 						        setTimeout(() => {
-						        	requestList(examlistID, elid);
+						        	requestList(examlistID, examlistID);
 						        }, 1000);
 			        		}
 			        		else{
 			        			setTimeout(() => {
-			        				requestList(examlistID, elid);
+			        				requestList(examlistID, examlistID);
 			        			}, 300);
 			        		}
 			        	});
