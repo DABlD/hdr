@@ -84,6 +84,24 @@ class PatientPackageController extends Controller
     public function store(Request $req){
         $patient = Patient::where('user_id', $req->uid)->first();
 
+        $qwas = PatientPackage::where('patient_id', $patient->id)->where('package_id', 2)->first()->question_with_answers;
+        $subj = [];
+
+        if($qwas){
+            $qwas = json_decode($qwas);
+            
+            foreach($qwas as $qwa){
+                
+                $c1 = ($qwa->id >= 114 && $qwa->id <= 128);
+                $c2 = ($qwa->id >= 135 && $qwa->id <= 143);
+                $c3 = in_array($qwa->id, [145, 146, 148, 284, 271, 272, 278, 279]);
+
+                if($c1 || $c2 || $c3){
+                    array_push($subj, $qwa);
+                }
+            }
+        }
+
         foreach($req->packages as $pid){
             $package = Package::find($pid);
 
@@ -96,12 +114,11 @@ class PatientPackageController extends Controller
             $temp->c_remarks = $req->c_remarks;
 
             $temp->details = json_encode($package->toArray());
-            // $temp->question_with_answers = $req->question_with_answers;
+            $temp->question_with_answers = json_encode($subj);
             $temp->save();
 
             Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
         }
-
 
         echo "success";
     }

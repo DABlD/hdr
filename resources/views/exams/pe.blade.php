@@ -986,7 +986,7 @@
 									update({
 									    url: "{{ route("patientPackage.update") }}",
 									    data: {
-									        id: mhr.id,
+									        id: result.id,
 									        question_with_answers: JSON.stringify(array)
 									    }
 									});
@@ -1017,7 +1017,7 @@
 								});
 
 								// $('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
-								let qwa = mhr.question_with_answers;
+								let qwa = result.question_with_answers ?? mhr.question_with_answers;
 
 								if(qwa){
 								    qwa = JSON.parse(qwa);
