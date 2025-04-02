@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 // TEST FUNCTIONS
 
 Route::get('moveUploads', "TestController@moveUploads");
+Route::get('copyMHRtoCompletePackage', "TestController@copyMHRtoCompletePackage");
 
 // TEST FUNCTIONS
 // TEST FUNCTIONS

@@ -27,4 +27,14 @@ class TestController extends Controller
             }
         }
     }
+
+    public function copyMHRtoCompletePackage(Request $req){
+        $pps = PatientPackage::where('package_id', 2)->get();
+
+        foreach($pps as $pp){
+            PatientPackage::where('user_id', $pp->user_id)->where('package_id', '!=', 2)->update(["question_with_answers" => $pp->question_with_answers]);
+        }
+
+        echo "done";
+    }
 }
