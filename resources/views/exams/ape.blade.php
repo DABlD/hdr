@@ -1331,7 +1331,7 @@
 			    if($(`[data-fid="${name}"]`).length == 0){
 	    			string += `
 						<span style="color: blue; font-size: 14px;" data-fid="${name}">
-							<a href="../uploads/PP${ppid}/${name}" target="_blank">${name}</a>
+							<a href="../uploads/{{ env("UPLOAD_URL") }}PP${ppid}/${name}" target="_blank">${name}</a>
 						</span>
 						<span style="color: red;" onclick="deleteFile(this, ${ppid}, '${name}')" data-fid="${name}">
 							<i class="fas fa-times"></i>
@@ -1365,7 +1365,7 @@
 		            $.ajax({
 		            	url: "{{ route('patientPackage.deleteFile') }}",
 		            	data: {
-		            		filename: `uploads/PP${ppid}/` + $(e).data('fid'),
+		            		filename: `uploads/{{ env("UPLOAD_URL") }}PP${ppid}/` + $(e).data('fid'),
 		            		id: ppid
 		            	},
 		            	success: result => {
