@@ -125,7 +125,51 @@ class SubjectiveController extends Controller
 
     public function updateSubjective(Request $req){
         $result = PatientPackage::where('id', $req->id)->first();
-        PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
+        // PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
+
+        $pid = $result->patient_id;
+        $pendings = PatientPackage::where('patient_id', $pid)->where('package_id', '>', 2)->where('status', 'Pending')->get();
+
+        foreach($pendings as $pending){
+            $qwas1 = $pending->question_with_answers;
+
+            if($qwas1 == null){
+                $pending->question_with_answers = $req->question_with_answers;
+                $pending->save();
+            }
+            else{
+                $qwas1 = json_decode($qwas1);
+                $qwas2 = json_decode($req->question_with_answers);
+                $temp = [];
+
+                foreach($qwas2 as $qwa2){
+                    $c1 = ($qwa2->id >= 114 && $qwa2->id <= 128);
+                    $c2 = ($qwa2->id >= 135 && $qwa2->id <= 143);
+                    $c3 = in_array($qwa2->id, [145, 146, 148, 284, 271, 272, 278, 279]);
+
+                    if($c1 || $c2 || $c3){
+                        foreach($qwas1 as $qwa1){
+                            // $c4 = ($qwa1->id >= 114 && $qwa1->id <= 128);
+                            // $c5 = ($qwa1->id >= 135 && $qwa1->id <= 143);
+                            // $c6 = in_array($qwa1->id, [145, 146, 148, 284, 271, 272, 278, 279]);
+
+                            if($qwa1->id == $qwa2->id){
+                                $qwa1->answer = $qwa2->answer;
+                                $qwa1->remark = $qwa2->remark;
+                            }
+
+                        }
+                    }
+                }
+
+                $pending->question_with_answers = json_encode($qwas1);
+                $pending->save();
+            }
+        }
+
+        $result->question_with_answers = $req->question_with_answers;
+        $result->updated_at = now();
+        $result->save();
 
         echo Helper::log($result->user_id, 'subjective was answered', null);
     }
