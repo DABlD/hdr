@@ -42,6 +42,11 @@ class PatientPackageController extends Controller
             $array = $array->where($req->where2[0], isset($req->where2[2]) ? $req->where2[1] : "=", $req->where2[2] ?? $req->where2[1]);
         }
 
+        // IF HAS WHERE3
+        if($req->where3){
+            $array = $array->where($req->where3[0], isset($req->where3[2]) ? $req->where3[1] : "=", $req->where3[2] ?? $req->where3[1]);
+        }
+
         // IF HAS JOIN
         if($req->join){
             $alias = substr($req->join, 1);

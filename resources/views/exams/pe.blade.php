@@ -129,7 +129,7 @@
 	                }
 				},
 				columns: [
-					{data: 'created_at', visible: false},
+					{data: 'updated_at', visible: false},
 					{data: 'created_at'},
 					{data: 'user.patient.company_name'},
 					{data: 'user.patient.patient_id'},
@@ -487,6 +487,9 @@
     				select: "*",
     				where: ["user_id", id],
     				where2: ["package_id", ">", 2],
+    				@if(auth()->user()->role == "Doctor")
+    				where2: ["doctor_id", {{ auth()->user()->id }}],
+    				@endif
     				order: ['created_at', 'desc'],
     				load: ["package"]
         		},
