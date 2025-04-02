@@ -199,14 +199,15 @@ class PatientPackageController extends Controller
         $data->load('user.patient');
         $data->load('package');
 
-        $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first();
+        // $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first();
+        $pmr = $data->question_with_answers ?? PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
         $answers = [];
 
         // FOR DEBUGGING
         $idCheck = null;
         // $idCheck = 130;
 
-        foreach(json_decode($pmr->question_with_answers) as $answer){
+        foreach(json_decode($pmr) as $answer){
             if($idCheck && $answer->id == $idCheck){
                 dd($answer);
             }
@@ -217,7 +218,8 @@ class PatientPackageController extends Controller
             }
         }
 
-        $questions = Question::where('package_id', $pmr->package_id)->get()->groupBy('category_id');
+        // $questions = Question::where('package_id', $pmr->package_id)->get()->groupBy('category_id');
+        $questions = Question::where('package_id', 2)->get()->groupBy('category_id');
 
         $data->questions = $questions->toArray();
         $data->answers = $answers;
