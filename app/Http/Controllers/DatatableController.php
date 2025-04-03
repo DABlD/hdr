@@ -176,14 +176,12 @@ class DatatableController extends Controller
                         $medical .=   "<a class='btn btn-danger' data-toggle='tooltip' title='Delete' onClick='deleteType($item->id)'>" .
                                     "<i class='fas fa-trash'></i>" .
                                 "</a>&nbsp;";
-
                     }
-
-                }
-                elseif(auth()->user()->role == "Nurse"){
-                    $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id, $item->id)'>" .
-                        "<i class='fas fa-list'></i>" .
-                    "</a>&nbsp;";
+                    elseif(auth()->user()->role == "Nurse"){
+                        $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id, $item->id)'>" .
+                            "<i class='fas fa-list'></i>" .
+                        "</a>&nbsp;";
+                    }
                 }
                 else{
                     $medical =  "<a class='btn btn-primary' data-toggle='tooltip' title='Diagnostic Examination' onClick='evaluation($item->user_id)'>" .
