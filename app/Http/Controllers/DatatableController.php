@@ -180,6 +180,11 @@ class DatatableController extends Controller
                     }
 
                 }
+                elseif(auth()->user()->role == "Nurse"){
+                    $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id, $item->id)'>" .
+                        "<i class='fas fa-list'></i>" .
+                    "</a>&nbsp;";
+                }
                 else{
                     $medical =  "<a class='btn btn-primary' data-toggle='tooltip' title='Diagnostic Examination' onClick='evaluation($item->user_id)'>" .
                                     "<i class='fas fa-clipboard-prescription'></i>" .
