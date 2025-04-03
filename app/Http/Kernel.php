@@ -78,6 +78,8 @@ class Kernel extends HttpKernel
                 $env = '.medhealth';
             } elseif (str_contains($_SERVER['HTTP_HOST'], 'clinica')) {
                 $env = '.clinica';
+            } elseif (str_contains($_SERVER['HTTP_HOST'], 'wellcare')) {
+                $env = '.wellcare';
             } else {
                 trigger_error('Undefined environment.');
             }
