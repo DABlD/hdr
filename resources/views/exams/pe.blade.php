@@ -83,14 +83,6 @@
             border-color: red;
             box-shadow: 0 0 10px red;
         }
-
-        .packageBtns{
-        	text-align: center !important;
-        }
-
-        .packageBtns .btn{
-        	margin-bottom: 3px;
-        }
 	</style>
 @endpush
 
@@ -129,7 +121,7 @@
 	                }
 				},
 				columns: [
-					{data: 'updated_at', visible: false},
+					{data: 'created_at', visible: false},
 					{data: 'created_at'},
 					{data: 'user.patient.company_name'},
 					{data: 'user.patient.patient_id'},
@@ -464,7 +456,7 @@
 				                    	setTimeout(() => {
 			                    			ss("Success");
 					                    	setTimeout(() => {
-					                    		requestList(id, elid);
+					                    		requestList(id);
 					                    		reload();
 					                    	}, 1000);
 				                    	}, 2000);
@@ -480,16 +472,13 @@
         	})
         }
 
-        function requestList(id, elid){
+        function requestList(id){
         	$.ajax({
         		url: '{{ route('patientPackage.get') }}',
         		data: {
     				select: "*",
     				where: ["user_id", id],
     				where2: ["package_id", ">", 2],
-    				@if(auth()->user()->role == "Doctor")
-    				where2: ["doctor_id", {{ auth()->user()->id }}],
-    				@endif
     				order: ['created_at', 'desc'],
     				load: ["package"]
         		},
@@ -553,15 +542,10 @@
 	        						<td style="color: #${pPackage.status == "Pending" ? 'FFA500' : "008000"};">
 	        							${pPackage.status}
 	        						</td>
-	        						<td class="packageBtns">
+	        						<td>
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}', ${id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
-	        							@if(in_array(auth()->user()->role, ["Admin", "Receptionist"]))
-	        							<a class="btn btn-info" data-toggle="tooltip" title="Assigned Doctor" onclick="assignedDoctor(${pPackage.id}, ${elid})">
-	        								<i class="fas fa-user-doctor"></i>
-	        							</a>
-	        							<br>
 	        							@if(!in_array(auth()->user()->role, ["Laboratory", "Imaging"]))
 		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
 		        								<i class="fas fa-file-pdf"></i>
@@ -642,7 +626,7 @@
 	        			    		message: "Success",
 	        			    	}, () => {
 	        			    		setTimeout(() => {
-	        			    			requestList(id, elid);
+	        			    			requestList(id);
 	        			    			reload();
 	        			    		}, 1000);
 	        			    	});
@@ -667,13 +651,13 @@
         				message: "Success",
         			}, () => {
         				setTimeout(() => {
-        					requestList(id, elid);
+        					requestList(id);
         				}, 1000);
         			});
         		}
         		else{
     				setTimeout(() => {
-    					requestList(id, elid);
+    					requestList(id);
     				}, 1000);
         		}
 
@@ -1002,7 +986,7 @@
 									update({
 									    url: "{{ route("patientPackage.update") }}",
 									    data: {
-									        id: result.id,
+									        id: mhr.id,
 									        question_with_answers: JSON.stringify(array)
 									    }
 									});
@@ -1033,7 +1017,7 @@
 								});
 
 								// $('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
-								let qwa = result.question_with_answers ?? mhr.question_with_answers;
+								let qwa = mhr.question_with_answers;
 
 								if(qwa){
 								    qwa = JSON.parse(qwa);
@@ -1133,12 +1117,12 @@
 			        			});
 
 						        setTimeout(() => {
-						        	requestList(examlistID, elid);
+						        	requestList(examlistID);
 						        }, 1000);
 			        		}
 			        		else{
 			        			setTimeout(() => {
-			        				requestList(examlistID, elid);
+			        				requestList(examlistID);
 			        			}, 300);
 			        		}
 			        	});
@@ -1334,7 +1318,7 @@
 
 	    			string += `
 						<span style="color: blue;" data-fid="${name}">
-							<a href="../uploads/{{ env("UPLOAD_URL") }}PP${ppid}/${name}" target="_blank">${name}</a>
+							<a href="../uploads/PP${ppid}/${name}" target="_blank">${name}</a>
 						</span>
 						<span style="color: red;" onclick="deleteFile(this, ${ppid}, '${name}', '${status}', '${examlistID}')" data-fid="${name}">
 							<i class="fas fa-times"></i>
@@ -1368,7 +1352,7 @@
 		            $.ajax({
 		            	url: "{{ route('patientPackage.deleteFile') }}",
 		            	data: {
-		            		filename: `uploads/{{ env("UPLOAD_URL") }}PP${ppid}/` + $(e).data('fid'),
+		            		filename: `uploads/PP${ppid}/` + $(e).data('fid'),
 		            		id: ppid
 		            	},
 		            	success: result => {
@@ -1578,12 +1562,12 @@
         	});
         }
 
-        function assignedDoctor(id, elid){
+        function assignedDoctor(id){
         	$.ajax({
         		url: "{{ route("examList.get") }}",
         		data: {
         			select: "*",
-        			where: ['id', elid],
+        			where: ['id', id],
         			load: ['attending_doctor.doctor']
         		},
         		success: result => {
@@ -1650,14 +1634,14 @@
         				cancelButtonText: "OK"
         			}).then(result => {
         				if(result.value){
-        					assignDoctor(id, elid);
+        					assignDoctor(id);
         				}
         			})
         		}
         	})
         }
 
-        function assignDoctor(id, elid){
+        function assignDoctor(id){
 			$.ajax({
 				url: "{{ route('user.get') }}",
 				data: {
