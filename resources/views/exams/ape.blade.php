@@ -212,6 +212,17 @@
 	            },
 			});
 
+			function continuesReload(){
+				setTimeout(() => {
+					if(!Swal.getPopup() && $('.flatpickr-calendar:visible').length == 0){
+						reload();
+						swal.close();
+					}
+					continuesReload();
+				}, 5000);
+			}
+			continuesReload();
+
 			$('#fFrom, #fTo').flatpickr({
 			    altInput: true,
 			    altFormat: 'F j, Y',
