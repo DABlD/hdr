@@ -130,7 +130,11 @@
 	                }
 				},
 				columns: [
-					{data: 'updated_at', visible: false},
+					@if(auth()->user()->role == "Doctor")
+						{data: 'updated_at', visible: false},
+					@else
+						{data: 'created_at', visible: false},
+					@endif
 					{data: 'created_at'},
 					{data: 'user.patient.company_name'},
 					{data: 'user.patient.patient_id'},
