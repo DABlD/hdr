@@ -126,7 +126,7 @@
 	                    // f.where2 = ["type", "APE"];
 	                    f.load = ["user.patient.exams"];
 	                    // f.join = "patients"
-	                    swal.showLoading();
+	                    // swal.showLoading();
 	                }
 				},
 				columns: [
@@ -212,16 +212,16 @@
 	                }
 	            ],
 	            drawCallback: function(){
-	            	swal.close();
+	            	// swal.close();
 	            },
 			});
 
 			function continuesReload(){
 				setTimeout(() => {
-					if(!Swal.getPopup() && $('.flatpickr-calendar:visible').length == 0){
-						reload();
-						swal.close();
-					}
+					// if(!Swal.getPopup() && $('.flatpickr-calendar:visible').length == 0){
+						reload(null, false);
+					// 	swal.close();
+					// }
 					continuesReload();
 				}, 5000);
 			}

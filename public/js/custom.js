@@ -59,8 +59,8 @@ function input(name, placeholder, value, c1, c2, type = "text", autocomplete="")
     `;
 };
 
-function reload(){
-	$('#table').DataTable().ajax.reload();
+function reload(p1 = null, p2 = true){
+	$('#table').DataTable().ajax.reload(p1, p2);
 };
 
 function update(data, callback = null){
