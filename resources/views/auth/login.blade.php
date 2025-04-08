@@ -68,7 +68,7 @@
 
                 <br><br><br>
                 <div class="mt-4 text-center">
-                    <p class="text-sm text-gray-700">New User? Click Here to <a class="font-bold text-red-600" href="#">REGISTER</a></p>
+                    {{-- <p class="text-sm text-gray-700">New User? Click Here to <a class="font-bold text-red-600" href="#">REGISTER</a></p> --}}
                 </div>
             </div>
         </div>
