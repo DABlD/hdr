@@ -61,7 +61,7 @@
 
                     <br>
                     <div class="mb-4 text-right">
-                        <a class="text-sm text-gray-500" href="#">Forgot Your Password?</a>
+                        <a class="text-sm text-gray-500" href="#" onclick="forgotpassword()">Forgot Your Password?</a>
                     </div>
                     <button class="w-full bg-red-600 text-white py-2 rounded-lg" type="submit">Login</button>
                 </form>
@@ -93,6 +93,12 @@
                 `,
 			});
 		@endif
+
+        function forgotpassword(){
+            Swal.fire({
+                text: "Contact admin to reset your password."
+            })
+        }
 	</script>
 </body>
 </html>
