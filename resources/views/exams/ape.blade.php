@@ -131,7 +131,7 @@
 				},
 				columns: [
 					@if(auth()->user()->role == "Doctor")
-						{data: 'updated_at', visible: false},
+						{data: 'queued_at', visible: false},
 					@else
 						{data: 'created_at', visible: false},
 					@endif

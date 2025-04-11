@@ -188,6 +188,24 @@ Route::group([
             }
         );
 
+        // QUEUED PATIENTS ROUTES
+        $cname = "examList";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+
+                Route::get("/queued_patients", ucfirst($cname) . "Controller@index")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fa-duotone fas fa-tasks")
+                    ->defaults("name", "Queued Patients")
+                    ->defaults("roles", array("Receptionist"))
+                    // ->defaults("group", "Settings")
+                    ->name($cname)
+                    ->defaults("href", "/$cname/queued_patients");
+            }
+        );
+
         // PATIENT PACKAGE ROUTES
         $cname = "examList";
         Route::group([
@@ -319,6 +337,7 @@ Route::group([
                 Route::get("patient", ucfirst($cname) . "Controller@patient")->name('patient');
                 Route::get("examinees", ucfirst($cname) . "Controller@examinees")->name('examinees');
                 Route::get("patientPackage", ucfirst($cname) . "Controller@patientPackage")->name('patientPackage');
+                Route::get("queued_patients", ucfirst($cname) . "Controller@queued_patients")->name('queued_patients');
             }
         );
 

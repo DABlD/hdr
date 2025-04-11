@@ -66,7 +66,37 @@ class ExamListController extends Controller
     }
 
     public function update(Request $req){
-        ExamList::where('id', $req->id)->update($req->except(['id', '_token']));
+        // ExamList::where('id', $req->id)->update($req->except(['id', '_token']));
+
+        $el = ExamList::find($req->id);
+
+        if(isset($req->deleted_at)){
+            $el->delete();
+        }
+        else{
+            $el->doctor_id = $req->doctor_id;
+            $temp = json_decode($el->queued_doctors);
+            array_push($temp, $req->doctor_id);
+            $el->queued_doctors = json_encode($temp);
+            
+            $el->queued_at = now();
+            $temp = json_decode($el->queued_dates);
+            array_push($temp, now()->format('Y-m-d'));
+            $el->queued_dates = json_encode($temp);
+        }
+
+        $el->save();
+
         echo Helper::log(auth()->user()->id, 'updated Exam List', $req->id);
+    }
+
+    public function index(){
+        return $this->_view('index', [
+            'title' => "Queued Patients",
+        ]);
+    }
+
+    private function _view($view, $data = array()){
+        return view("exams.$view", $data);
     }
 }
