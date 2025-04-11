@@ -153,6 +153,7 @@
 				],
 				order: [[0, 'desc']],
         		pageLength: 10,
+        		searching: false,
 	            columnDefs: [
 	                {
 	                    targets: 1,
