@@ -261,7 +261,7 @@
 				
 				//right left corrected are default values if empty;
 
-				if(isset($questions[176]) && isset($questions[177]))
+				if(isset($answers[176]) && isset($answers[177]))
 				{
 					echo $questions[176]['name'] . ': ' . $answers[176]['answer'] ?? "" . '<br>';
 					echo $questions[177]['name'] . ': ' . $answers[177]['answer'] ?? "" . '<br>';
