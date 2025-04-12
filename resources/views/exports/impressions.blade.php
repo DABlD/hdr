@@ -258,9 +258,9 @@
 			@php
 				// 176-178
 				$questions = array_combine(array_column($data->questions[175], 'id'), $data->questions[175]);
-					
-				echo $questions[176]['name'] . ': ' . $answers[176]['answer'] . '<br>';
-				echo $questions[177]['name'] . ': ' . $answers[177]['answer'] . '<br>';
+				
+				echo $questions[176]['name'] . ': ' . $answers[176]['answer'] ?? "" . '<br>';
+				echo $questions[177]['name'] . ': ' . $answers[177]['answer'] ?? "" . '<br>';
 				echo $questions[178]['name'] . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
 			@endphp
 		</td>
