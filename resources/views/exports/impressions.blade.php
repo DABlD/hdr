@@ -224,7 +224,7 @@
 				$questions = array_combine(array_column($data->questions[163], 'id'), $data->questions[163]);
 
 				echo "Blood Pressure: \t";
-				echo $answers[164]['answer'] ?? "" . ($answers[165]['answer'] != "" ? " - " . $answers[165]['answer'] : "") . ($answers[166]['answer'] != "" ? " - " . $answers[166]['answer'] : "") . '<br>';
+				echo $answers[164]['answer'] ?? "" . ((isset($answers[165]) && $answers[165]['answer']) != "" ? " - " . $answers[165]['answer'] : "") . ($answers[166]['answer'] != "" ? " - " . $answers[166]['answer'] : "") . '<br>';
 				echo "Pulse Rate: ";
 				echo $answers[167]['answer'] ?? "" . '<br>';
 				echo "Respiratory Rate: ";
@@ -242,15 +242,15 @@
 				$questions = array_combine(array_column($data->questions[170], 'id'), $data->questions[170]);
 
 				echo "Height: ";
-				echo $answers[171]['answer'] . '<br>';
+				echo $answers[171]['answer'] ?? "" . '<br>';
 				echo "Weight: ";
-				echo $answers[172]['answer'] . '<br>';
+				echo $answers[172]['answer'] ?? "" . '<br>';
 				echo "BMI: ";
-				echo $answers[173]['answer'] . '<br>';
+				echo $answers[173]['answer'] ?? "" . '<br>';
 				echo "Weight Class: ";
-				echo $answers[174]['answer'] . '<br>';
+				echo $answers[174]['answer'] ?? "" . '<br>';
 				echo "IBW: ";
-				echo $answers[275]['answer'];
+				echo $answers[275]['answer'] ?? "";
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
