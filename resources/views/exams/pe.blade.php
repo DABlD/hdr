@@ -144,7 +144,7 @@
 				],
 				order: [[0, 'desc']],
         		pageLength: 10,
-        		searching: false,
+        		{{-- searching: false, --}}
 	            columnDefs: [
 	                {
 	                    targets: 1,
