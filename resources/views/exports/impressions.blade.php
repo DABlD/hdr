@@ -162,7 +162,7 @@
 		$mhString = "";
 		$ctr = 0;
 		
-		$temp = toArray($answers[130]['answer']->all);
+		$temp = isset($answers[130]) ? toArray($answers[130]['answer']->all) : [];
 		foreach($temp as $line){
 			if($line != ""){
 				$mhString .= $line . '<br>';
