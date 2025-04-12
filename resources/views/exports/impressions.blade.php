@@ -261,9 +261,9 @@
 
 				//right left corrected are default values if empty;
 				
-				echo $questions[176]['name'] ?? "Right" . ': ' . $answers[176]['answer'] ?? "" . '<br>';
-				echo $questions[177]['name'] ?? "Left" . ': ' . $answers[177]['answer'] ?? "" . '<br>';
-				echo $questions[178]['name'] ?? "Corrected" . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
+				echo $questions[176]['name'] ?? "Right:<br>" . ': ' . $answers[176]['answer'] ?? "" . '<br>';
+				echo $questions[177]['name'] ?? "Left:<br>" . ': ' . $answers[177]['answer'] ?? "" . '<br>';
+				echo $questions[178]['name'] ?? "Corrected:<br>" . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
 			@endphp
 		</td>
 	</tr>
