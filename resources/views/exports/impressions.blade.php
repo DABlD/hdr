@@ -224,7 +224,7 @@
 				$questions = array_combine(array_column($data->questions[163], 'id'), $data->questions[163]);
 
 				echo "Blood Pressure: \t";
-				echo $answers[164]['answer'] ?? "" . ((isset($answers[165]) && $answers[165]['answer']) != "" ? " - " . $answers[165]['answer'] : "") . ($answers[166]['answer'] != "" ? " - " . $answers[166]['answer'] : "") . '<br>';
+				echo $answers[164]['answer'] ?? "" . ((isset($answers[165]) && $answers[165]['answer'] != "") ? " - " . $answers[165]['answer'] : "") . ((isset($answers[166]) && $answers[166]['answer'] != "") ? " - " . $answers[166]['answer'] : "") . '<br>';
 				echo "Pulse Rate: ";
 				echo $answers[167]['answer'] ?? "" . '<br>';
 				echo "Respiratory Rate: ";
