@@ -258,12 +258,20 @@
 			@php
 				// 176-178
 				$questions = array_combine(array_column($data->questions[175], 'id'), $data->questions[175]);
-
-				//right left corrected are default values if empty;
 				
-				echo $questions[176]['name'] ?? "Right:<br>" . ': ' . $answers[176]['answer'] ?? "" . '<br>';
-				echo $questions[177]['name'] ?? "Left:<br>" . ': ' . $answers[177]['answer'] ?? "" . '<br>';
-				echo $questions[178]['name'] ?? "Corrected:<br>" . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
+				//right left corrected are default values if empty;
+
+				if(isset($questions[176]) && isset($questions[177]))
+				{
+					echo $questions[176]['name'] . ': ' . $answers[176]['answer'] ?? "" . '<br>';
+					echo $questions[177]['name'] . ': ' . $answers[177]['answer'] ?? "" . '<br>';
+					echo $questions[178]['name'] . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
+				}
+				else{
+					echo "Right: <br>";
+					echo "Left: <br>";
+					echo "Corrected: <br>";
+				}
 			@endphp
 		</td>
 	</tr>
