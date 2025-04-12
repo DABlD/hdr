@@ -224,15 +224,15 @@
 				$questions = array_combine(array_column($data->questions[163], 'id'), $data->questions[163]);
 
 				echo "Blood Pressure: \t";
-				echo $answers[164]['answer'] . ($answers[165]['answer'] != "" ? " - " . $answers[165]['answer'] : "") . ($answers[166]['answer'] != "" ? " - " . $answers[166]['answer'] : "") . '<br>';
+				echo $answers[164]['answer'] ?? "" . ($answers[165]['answer'] != "" ? " - " . $answers[165]['answer'] : "") . ($answers[166]['answer'] != "" ? " - " . $answers[166]['answer'] : "") . '<br>';
 				echo "Pulse Rate: ";
-				echo $answers[167]['answer'] . '<br>';
+				echo $answers[167]['answer'] ?? "" . '<br>';
 				echo "Respiratory Rate: ";
-				echo $answers[168]['answer'] . '<br>';
+				echo $answers[168]['answer'] ?? "" . '<br>';
 				echo "Temperature: ";
-				echo $answers[169]['answer'] . '<br>';
+				echo $answers[169]['answer'] ?? "" . '<br>';
 				echo "O2 Saturation: ";
-				echo $answers[274]['answer'];
+				echo $answers[274]['answer'] ?? "";
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
