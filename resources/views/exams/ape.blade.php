@@ -902,7 +902,9 @@
 		                                        <br>
 		                                        <br>
 		                                        <label htmlFor="c_remarks">Remarks</label>
-		                                        <input type="text" id="c_remarks" class="form-control" value="${result.c_remarks ?? ""}" ${disabled}>
+		                                        {{-- <input type="text" id="c_remarks" class="form-control" value="${result.c_remarks ?? ""}" ${disabled}> --}}
+
+		                                        <textarea id="c_remarks" class="form-control" ${disabled}></textarea>
 			        					    </div>
 			        					</div>
 			        				</div>
@@ -1060,6 +1062,8 @@
 								$('#files').on('change', e => {
 								    updateFile(ppid, status, examlistID);
 								});
+
+								$('#c_remarks').val(result.c_remarks);
 
 								// $('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
 
