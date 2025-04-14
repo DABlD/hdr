@@ -898,7 +898,7 @@
 		                                        <label htmlFor="c_remarks">Remarks</label>
 		                                        {{-- <input type="text" id="c_remarks" class="form-control" value="${result.c_remarks ?? ""}" ${disabled}> --}}
 
-		                                        <textarea id="c_remarks" class="form-control" ${disabled}></textarea>
+		                                        <textarea id="c_remarks" rows="10" class="form-control" ${disabled}></textarea>
 			        					    </div>
 			        					</div>
 			        				</div>
