@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PatientPackage;
+use App\Models\{PatientPackage, ExamList};
 
 class TestController extends Controller
 {
@@ -36,5 +36,20 @@ class TestController extends Controller
         }
 
         echo "done";
+    }
+
+    public function defaultjsonvalues(){
+        $els = ExamList::all();
+
+        foreach($els as $el){
+            if($el->queued_doctors == null){
+                $el->queued_doctors = "[]";
+            }
+            if($el->queued_dates == null){
+                $el->queued_dates = "[]";
+            }
+
+            $el->save();
+        }
     }
 }

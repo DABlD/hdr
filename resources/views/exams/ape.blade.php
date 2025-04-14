@@ -153,6 +153,7 @@
 				],
 				order: [[0, 'desc']],
         		pageLength: 10,
+        		{{-- searching: false, --}}
 	            columnDefs: [
 	                {
 	                    targets: 1,
@@ -573,14 +574,22 @@
 	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}', ${id})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
-	        							@if(in_array(auth()->user()->role, ["Admin", "Receptionist"]))
-	        							<a class="btn btn-info" data-toggle="tooltip" title="Assigned Doctor" onclick="assignedDoctor(${pPackage.id}, ${elid})">
-	        								<i class="fas fa-user-doctor"></i>
-	        							</a>
-	        							<br>
+	        				`;
+
+	        				if(pPackage.status != "Completed"){
+		        				packageString += `
+		        						@if(in_array(auth()->user()->role, ["Admin", "Receptionist"]))
+		        							<a class="btn btn-info" data-toggle="tooltip" title="Assigned Doctor" onclick="assignedDoctor(${pPackage.id}, ${elid})">
+		        								<i class="fas fa-user-doctor"></i>
+		        							</a>
+		        							<br>
 	        							@endif
+		        				`;
+	        				}
+
+	        				packageString += `
 	        							@if(!in_array(auth()->user()->role, ["Laboratory", "Imaging"]))
-		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id})">
+		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id}), ${elid}">
 		        								<i class="fas fa-file-pdf"></i>
 		        							</a>
 		        							<a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deletepPackage(${pPackage.id})">
@@ -1438,7 +1447,7 @@
         	})
         }
 
-        function pdfExport(id, rLength, uid){
+        function pdfExport(id, rLength, uid, elid){
         	$.ajax({
         		url: "{{ route('setting.checkClinicSettings') }}",
         		success: result => {

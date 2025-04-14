@@ -162,7 +162,7 @@
 		$mhString = "";
 		$ctr = 0;
 		
-		$temp = toArray($answers[130]['answer']->all);
+		$temp = isset($answers[130]) ? toArray($answers[130]['answer']->all) : [];
 		foreach($temp as $line){
 			if($line != ""){
 				$mhString .= $line . '<br>';
@@ -224,15 +224,15 @@
 				$questions = array_combine(array_column($data->questions[163], 'id'), $data->questions[163]);
 
 				echo "Blood Pressure: \t";
-				echo $answers[164]['answer'] . ($answers[165]['answer'] != "" ? " - " . $answers[165]['answer'] : "") . ($answers[166]['answer'] != "" ? " - " . $answers[166]['answer'] : "") . '<br>';
+				echo $answers[164]['answer'] ?? "" . ((isset($answers[165]) && $answers[165]['answer'] != "") ? " - " . $answers[165]['answer'] : "") . ((isset($answers[166]) && $answers[166]['answer'] != "") ? " - " . $answers[166]['answer'] : "") . '<br>';
 				echo "Pulse Rate: ";
-				echo $answers[167]['answer'] . '<br>';
+				echo $answers[167]['answer'] ?? "" . '<br>';
 				echo "Respiratory Rate: ";
-				echo $answers[168]['answer'] . '<br>';
+				echo $answers[168]['answer'] ?? "" . '<br>';
 				echo "Temperature: ";
-				echo $answers[169]['answer'] . '<br>';
+				echo $answers[169]['answer'] ?? "" . '<br>';
 				echo "O2 Saturation: ";
-				echo $answers[274]['answer'];
+				echo $answers[274]['answer'] ?? "";
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
@@ -242,15 +242,15 @@
 				$questions = array_combine(array_column($data->questions[170], 'id'), $data->questions[170]);
 
 				echo "Height: ";
-				echo $answers[171]['answer'] . '<br>';
+				echo $answers[171]['answer'] ?? "" . '<br>';
 				echo "Weight: ";
-				echo $answers[172]['answer'] . '<br>';
+				echo $answers[172]['answer'] ?? "" . '<br>';
 				echo "BMI: ";
-				echo $answers[173]['answer'] . '<br>';
+				echo $answers[173]['answer'] ?? "" . '<br>';
 				echo "Weight Class: ";
-				echo $answers[174]['answer'] . '<br>';
+				echo $answers[174]['answer'] ?? "" . '<br>';
 				echo "IBW: ";
-				echo $answers[275]['answer'];
+				echo $answers[275]['answer'] ?? "";
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
@@ -258,10 +258,20 @@
 			@php
 				// 176-178
 				$questions = array_combine(array_column($data->questions[175], 'id'), $data->questions[175]);
-					
-				echo $questions[176]['name'] . ': ' . $answers[176]['answer'] . '<br>';
-				echo $questions[177]['name'] . ': ' . $answers[177]['answer'] . '<br>';
-				echo $questions[178]['name'] . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
+				
+				//right left corrected are default values if empty;
+
+				if(isset($answers[176]) && isset($answers[177]))
+				{
+					echo $questions[176]['name'] . ': ' . $answers[176]['answer'] ?? "" . '<br>';
+					echo $questions[177]['name'] . ': ' . $answers[177]['answer'] ?? "" . '<br>';
+					echo $questions[178]['name'] . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
+				}
+				else{
+					echo "Right: <br>";
+					echo "Left: <br>";
+					echo "Corrected: <br>";
+				}
 			@endphp
 		</td>
 	</tr>
