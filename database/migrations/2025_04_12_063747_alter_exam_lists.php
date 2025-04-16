@@ -15,8 +15,8 @@ class AlterExamLists extends Migration
     {
         Schema::table('exam_lists', function (Blueprint $table) {
             $table->date('queued_at')->after('doctor_id')->nullable();
-            $table->text('queued_dates')->after('queued_at');//->default('[]');
-            $table->text('queued_doctors')->after('doctor_id');//->default('[]');
+            $table->text('queued_dates')->after('queued_at')->nullable();//->default('[]');
+            $table->text('queued_doctors')->after('doctor_id')->nullable();//->default('[]');
         });
     }
 
