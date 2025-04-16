@@ -1603,7 +1603,7 @@
         		data: {
         			select: "*",
         			where: ['id', elid],
-        			load: ['attending_doctor.doctor']
+        			load: ['attending_doctor.doctor', 'user']
         		},
         		success: result => {
         			result = JSON.parse(result)[0];
@@ -1660,7 +1660,9 @@
         			}
 
         			Swal.fire({
+        				title: result.user.fname + " " + result.user.lname,
         				html: `
+        					<hr>
         					${string}
         				`,
         				confirmButtonText: "Assign New",
