@@ -81,7 +81,7 @@ class Kernel extends HttpKernel
             } elseif (str_contains($_SERVER['HTTP_HOST'], 'wellcare')) {
                 $env = '.wellcare';
             } else {
-                trigger_error('Undefined environment.');
+                $env = '';
             }
             app()->loadEnvironmentFrom('.env' . $env);
         }
