@@ -58,6 +58,8 @@ class ExamListController extends Controller
         $data = new ExamList();
         $data->type = $req->type;
         $data->user_id = $req->user_id;
+        $data->queued_doctors = "[]";
+        $data->queued_dates = "[]";
         $data->save();
 
         Helper::log(auth()->user()->id, "added user for $req->type", $req->user_id);
