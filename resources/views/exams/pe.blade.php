@@ -872,25 +872,25 @@
 			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab2" style="position: relative;">
-			        					    	<div id="summernote1">${result.remarks ?? ""}</div>
+			        					    	<div id="summernote1" ${disabled}>${result.remarks ?? ""}</div>
 			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab3" style="position: relative;">
-			        					    	<div id="summernote2">${result.clinical_assessment ?? ""}</div>
+			        					    	<div id="summernote2" ${disabled}>${result.clinical_assessment ?? ""}</div>
 			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab4" style="position: relative;">
-			        					    	<div id="summernote3">${result.recommendation ?? ""}</div>
+			        					    	<div id="summernote3" ${disabled}>${result.recommendation ?? ""}</div>
 			        					    </div>
 
 			        					    <div class="chart tab-pane" id="tab5" style="position: relative; text-align: left; border-left: 1px solid rgb(1 1 1 / 30%); padding-left: 10px;">
-		                                        <input type="radio" ${disabled} name="classification" value="Fit to work"> Fit to work
+		                                        <input type="radio" ${disabled} name="classification" value="Fit to work"> A - Fit to work
 		                                        <br>
-		                                        <input type="radio" ${disabled} name="classification" value="Physically fit with minor illness"> hysically fit with minor illness
+		                                        <input type="radio" ${disabled} name="classification" value="Physically fit with minor illness"> B - Physically fit with minor illness
 		                                        <br>
-		                                        <input type="radio" ${disabled} name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
+		                                        <input type="radio" ${disabled} name="classification" value="Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)"> C - Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)
 		                                        <br>
-		                                        <input type="radio" ${disabled} name="classification" value="Unfit to work"> Unfit to work
+		                                        <input type="radio" ${disabled} name="classification" value="Unfit to work"> D - Unfit to work
 		                                        <br>
 		                                        <input type="radio" ${disabled} name="classification" value="Pending"> Pending
 		                                        <br>
