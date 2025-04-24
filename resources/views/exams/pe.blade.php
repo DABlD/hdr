@@ -270,7 +270,7 @@
             }
         }
 
-        function takeExam(id){
+        function takeExam(id, elid){
         	$.ajax({
         		url: '{{ route('patient.get') }}',
         		data: {
@@ -472,7 +472,7 @@
 				                    	setTimeout(() => {
 			                    			ss("Success");
 					                    	setTimeout(() => {
-					                    		requestList(id);
+					                    		requestList(id, elid);
 					                    		reload();
 					                    	}, 1000);
 				                    	}, 2000);
@@ -559,7 +559,7 @@
 	        							${pPackage.status}
 	        						</td>
 	        						<td class="packageBtns">
-	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}', ${id})">
+	        							<a class="btn btn-success" data-toggle="tooltip" title="Add Results" onclick="addResult(${pPackage.id}, '${pPackage.status}', ${elid})">
 	        								<i class="fas fa-file-prescription"></i>
 	        							</a>
 	        				`;
@@ -1134,8 +1134,8 @@
 								    }
 								});
 			        		}
-			        	}).then(result => {
-			        		if(result.value){
+			        	}).then(result2 => {
+			        		if(result2.value){
 			        			swal.showLoading();
 			        			update({
 			        				url: "{{ route('patientPackage.update') }}",
@@ -1152,12 +1152,12 @@
 			        			});
 
 						        setTimeout(() => {
-						        	requestList(examlistID, examlistID);
+						        	requestList(result.user_id, examlistID);
 						        }, 1000);
 			        		}
 			        		else{
 			        			setTimeout(() => {
-			        				requestList(examlistID, examlistID);
+			        				requestList(result.user_id, examlistID);
 			        			}, 300);
 			        		}
 			        	});

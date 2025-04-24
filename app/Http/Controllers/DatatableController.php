@@ -164,7 +164,13 @@ class DatatableController extends Controller
             foreach($array as $item){
                 if(auth()->user()->role != "Doctor")
                 {
-                    $medical = $item->user->medical;
+                    $medical = "";
+
+                    if(!in_array(auth()->user()->role, ["Imaging", "Laboratory"])){
+                        $medical .=  "<a class='btn btn-primary' data-toggle='tooltip' title='Add Record' onClick='takeExam($item->user_id, $item->id)'>" .
+                                        "<i class='fas fa-notes-medical'></i>" .
+                                    "</a>&nbsp;";
+                    }
 
                     if(in_array(auth()->user()->role, ["Admin", "Receptionist"])){
                         // $medical .=   "<a class='btn btn-warning' data-toggle='tooltip' title='Assigned Doctor' onClick='assignedDoctor($item->id)'>" .
