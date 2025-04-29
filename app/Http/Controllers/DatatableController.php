@@ -183,6 +183,11 @@ class DatatableController extends Controller
                                     "<i class='fas fa-trash'></i>" .
                                 "</a>&nbsp;";
                     }
+                    elseif(in_array(auth()->user()->role, ["Imaging", "Laboratory"])){
+                        $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id, $item->id)'>" .
+                            "<i class='fas fa-list'></i>" .
+                        "</a>&nbsp;";
+                    }
                     elseif(auth()->user()->role == "Nurse"){
                         $medical .=  "<a class='btn btn-info' data-toggle='tooltip' title='Request List' onClick='requestList($item->user_id, $item->id)'>" .
                             "<i class='fas fa-list'></i>" .
