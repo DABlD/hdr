@@ -158,7 +158,7 @@
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('.swal2-container input:placeholder-shown').length || $('[name="gender"]').val() == "" || $('[name="role"]').val() == ""){
+			            if($('[name="fname"]').val() == "" || $('[name="lname"]').val() == "" || $('[name="contact"]').val() == "" || $('[name="email"]').val() == "" || $('[name="gender"]').val() == "" || $('[name="role"]').val() == "" || $('[name="username"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
 			            else if($("[name='password']").val().length < 8){
@@ -278,7 +278,7 @@
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('.swal2-container input:placeholder-shown').length){
+			            if($('[name="fname"]').val() == "" || $('[name="lname"]').val() == "" || $('[name="contact"]').val() == "" || $('[name="email"]').val() == "" || $('[name="gender"]').val() == "" || $('[name="role"]').val() == "" || $('[name="username"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
 			            else{
