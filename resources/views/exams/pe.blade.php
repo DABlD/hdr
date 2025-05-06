@@ -1125,7 +1125,8 @@
 								});
 
 								// MAKE RADIO BUTTON UNSELECTABLE
-								$('.Systemic-Examination tbody [type="radio"], .Medical-Evaluation tbody [type="radio"]').on('click', e => {
+								{{-- $('.Systemic-Examination tbody [type="radio"], .Medical-Evaluation tbody [type="radio"]').on('click', e => { --}}
+								$('.swal2-html-container [type="radio"]').on('click', e => {
 									 if ($(e.target).attr('checked')){
 								    	$(e.target).removeAttr('checked').prop('checked',false);
 								    }
