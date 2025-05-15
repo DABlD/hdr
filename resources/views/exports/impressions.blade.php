@@ -202,7 +202,7 @@
 				//148 = DRINKING CLASSIFICATION / 278 = USUAL SHOTS / 279 = USUAL NUMBER OF BOTTLE ALCOHOL
 				$questions = array_combine(array_column($data->questions[147], 'id'), $data->questions[147]);
 
-				echo $answers[148]['answer'] . '<br>';
+				echo (isset($answers[148]) ? $answers[148]['answer'] : "") . '<br>';
 				// echo $answers[278]['answer'] . '<br>';
 				// echo $answers[279]['answer'] . '<br>';
 			@endphp
