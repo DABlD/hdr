@@ -105,7 +105,7 @@ class DoctorController extends Controller
 
             $image->resize(250, 250);
             $image->save($destinationPath . $name);
-            $doctor->signature = 'uploads/' . $name;
+            $doctor->signature = 'uploads/' . env('UPLOAD_URL') . $name;
             $doctor->save();
         }
         else{
