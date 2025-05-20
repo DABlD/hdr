@@ -28,7 +28,7 @@
                     				<th>First Name</th>
                     				<th>Gender</th>
                     				<th>Age</th>
-                    				<th>Package</th>
+                    				<th>Package Name</th>
                     				<th>Amount</th>
                     				<th>Status</th>
                     				<th>Actions</th>
@@ -83,6 +83,14 @@
             border-color: red;
             box-shadow: 0 0 10px red;
         }
+
+        .packageBtns{
+        	text-align: center !important;
+        }
+
+        .packageBtns .btn{
+        	margin-bottom: 3px;
+        }
 	</style>
 @endpush
 
@@ -114,6 +122,7 @@
 	                    @if(auth()->user()->role == "Doctor")
 	                    	f.where = ["doctor_id", {{ auth()->user()->id }}];
 	                    @endif
+	                    // f.where = ["role", "Patient"];
 	                    // f.where2 = ["type", "APE"];
 	                    f.load = ["user.patient.exams"];
 	                    // f.join = "patients"
@@ -495,6 +504,9 @@
     				select: "*",
     				where: ["user_id", id],
     				where2: ["package_id", ">", 2],
+    				@if(auth()->user()->role == "Doctor")
+    				where2: ["doctor_id", {{ auth()->user()->id }}],
+    				@endif
     				order: ['created_at', 'desc'],
     				load: ["package"]
         		},
@@ -726,6 +738,7 @@
         			mhrQuestions = JSON.parse(result)["questions"];
         			result = JSON.parse(result)["package"];
 
+        			// LIST OF INCLUSIONS
     				let list = "";
     				let questions = Object.groupBy(result.package.questions, ({ category_id }) => category_id);
 
@@ -861,6 +874,7 @@
 			        					    <div class="chart tab-pane active" id="tab1" style="position: relative;">
 			        					    	${subjective.main}
 			        					    </div>
+
 			        					    <div class="chart tab-pane Vital-Signs" id="tab1-3" style="position: relative;">
 			        					    	${subjective.vitals}
 			        					    </div>
@@ -950,6 +964,17 @@
 					                                ferror = $(`.remark[data-id="${id}"]`);
 					                            }
 								        	}
+
+								        	// VALIDATE SYSTEMIC. IF STARTED CHECKING, WILL CHECK ALL AND NOTHING MUST BE EMPTY. EITHER ANSWER OR REMARK
+								        	if($('.Systemic-Examination input:checked').length){
+								        		if(answer == null && remark == ""){
+	        						        		$(`.remark[data-id="${id}"]`).addClass('i-error');
+
+	        			                            if(!ferror){
+	        			                                ferror = $(`.remark[data-id="${id}"]`);
+	        			                            }
+								        		}
+								        	}
 								        }
 								        else if($(answers[i]).parents('.Medical-Evaluation').length){ //CHECK FIRST IF UNDER Diagnostic
 								        	if(answer == 0 && remark == ""){
@@ -979,7 +1004,6 @@
 				                    answer: $(`.answer [data-id="276`).val(),
 				                    remark: ''
 				                });
-
 				                array.push({
 				                    id: '283',
 				                    answer: $(`.answer [data-id="283`).val(),
@@ -1023,7 +1047,6 @@
 									    }
 									});
 				                }
-
 							},
 			        		didOpen: () => {
 								$('#summernote1, #summernote2, #summernote3').summernote({
@@ -1211,7 +1234,6 @@
             let string = "";
             let historyString = [];
             historyString['main'] = "";
-            historyString['main'] = "";
             historyString['vitals'] = "";
             historyString['physical'] = "";
             historyString['medical'] = "";
@@ -1368,10 +1390,9 @@
 
 			for (var x = 0; x < files.length; x++) {
 			    formData.append("files[]", files[x]);
+			    let name = files[x].name;
 
 			    if($(`[data-fid="${name}"]`).length == 0){
-			    	let name = files[x].name;
-
 	    			string += `
 						<span style="color: blue;" data-fid="${name}">
 							<a href="../uploads/PP${ppid}/${name}" target="_blank">${name}</a>
@@ -1412,7 +1433,6 @@
 		            		id: ppid
 		            	},
 		            	success: result => {
-		            		console.log(result);
 				    		$('#uploadsuccess').addClass('d-none');
 				    		$('#deletesuccess').removeClass('d-none');
 				        	$(`[data-fid="${$(e).data('fid')}"]`).remove();
@@ -1502,7 +1522,6 @@
         		data: {
         			select: "*",
         			where: ["role", "Patient"],
-        			where2: ["type", "!=", "PEE"],
         			load: ['patient']
         		},
         		success: users => {
@@ -1526,7 +1545,6 @@
 		        			let userString = "";
 
 		        			users.forEach(user => {
-
         						if(!ids.includes(user.id)){
 			        				userString += `
 			        					<option value="${user.id}">${user.fname} ${user.lname} - ${user.patient.company_name} (${user.gender ?? "-"})</option>

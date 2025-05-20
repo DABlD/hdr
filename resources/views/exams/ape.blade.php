@@ -599,7 +599,6 @@
 	        						</td>
 	        					</tr>
 	        				`;
-
 	        								//REMOVED INVOICE
 		        							// <a class="btn btn-info" data-toggle="tooltip" title="Export Invoice" onclick="invoice(${pPackage.id})">
 		        							// 	<i class="fas fa-file-pdf"></i>
@@ -1167,7 +1166,6 @@
 								});
 			        		}
 			        	}).then(result2 => {
-			        		console.log(result);
 			        		if(result2.value){
 			        			swal.showLoading();
 			        			update({
@@ -1198,7 +1196,6 @@
 			        else{
 			        	se("Package has no inclusions yet.");
 			        }
-
         		}
         	})
         }
@@ -1447,8 +1444,6 @@
         			addResult(ppid, status, examlistID);
         		}
         	});
-
-
         }
 
         function invoice(id){
