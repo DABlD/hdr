@@ -1123,6 +1123,13 @@
 									$('.swal2-container textarea').prop('disabled', 'disabled');
 								}
 
+								{{-- GET BMI --}}
+								$('input[data-id="173"]').val(calculateBMI());
+
+								$('input[data-id="171"], input[data-id="172"]').on('change', () => {
+									$('input[data-id="173"]').val(calculateBMI());
+								});
+
 								// ADD UTILITY FOR SYSTEMIC AND DIAGNOSTICS
 								$('.Systemic-Examination .answer:first').append(`
 									  |  
@@ -1194,6 +1201,19 @@
 
         		}
         	})
+        }
+
+        function calculateBMI(){
+			let h = $('input[data-id="171"]').val();
+			let w = $('input[data-id="172"]').val();
+
+			if(h > 0 && w > 0){
+				h = h / 100;
+				return Math.round(w / (h * h));
+			}
+			else{
+				return null;
+			}
         }
 
         function addMedication(id=null){
