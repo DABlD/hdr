@@ -224,15 +224,15 @@
 				$questions = array_combine(array_column($data->questions[163], 'id'), $data->questions[163]);
 
 				echo "Blood Pressure: \t";
-				echo $answers[164]['answer'] ?? "" . ((isset($answers[165]) && $answers[165]['answer'] != "") ? " - " . $answers[165]['answer'] : "") . ((isset($answers[166]) && $answers[166]['answer'] != "") ? " - " . $answers[166]['answer'] : "") . '<br>';
+				echo isset($answers[164]['answer']) ? ($answers[164]['answer'] . '<br>') : "" . ((isset($answers[165]) && $answers[165]['answer'] != "") ? " - " . $answers[165]['answer'] : "") . ((isset($answers[166]) && $answers[166]['answer'] != "") ? " - " . $answers[166]['answer'] : "") . '<br>';
 				echo "Pulse Rate: ";
-				echo $answers[167]['answer'] ?? "" . '<br>';
+				echo isset($answers[167]['answer']) ? $answers[167]['answer'] . '<br>' : "" . '<br>';
 				echo "Respiratory Rate: ";
-				echo $answers[168]['answer'] ?? "" . '<br>';
+				echo isset($answers[168]['answer']) ? $answers[168]['answer'] . '<br>' : "" . '<br>';
 				echo "Temperature: ";
-				echo $answers[169]['answer'] ?? "" . '<br>';
+				echo isset($answers[169]['answer']) ? $answers[169]['answer'] . '<br>' : "" . '<br>';
 				echo "O2 Saturation: ";
-				echo $answers[274]['answer'] ?? "";
+				echo isset($answers[274]['answer']) ? $answers[274]['answer'] . '<br>' : "";
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
@@ -242,15 +242,15 @@
 				$questions = array_combine(array_column($data->questions[170], 'id'), $data->questions[170]);
 
 				echo "Height: ";
-				echo $answers[171]['answer'] ?? "" . '<br>';
+				echo isset($answers[171]['answer']) ? $answers[171]['answer'] . '<br>' : "" . '<br>';
 				echo "Weight: ";
-				echo $answers[172]['answer'] ?? "" . '<br>';
+				echo isset($answers[172]['answer']) ? $answers[172]['answer'] . '<br>' : "" . '<br>';
 				echo "BMI: ";
-				echo $answers[173]['answer'] ?? "" . '<br>';
+				echo isset($answers[173]['answer']) ? $answers[173]['answer'] . '<br>' : "" . '<br>';
 				echo "Weight Class: ";
-				echo $answers[174]['answer'] ?? "" . '<br>';
+				echo isset($answers[174]['answer']) ? $answers[174]['answer'] . '<br>' : "" . '<br>';
 				echo "IBW: ";
-				echo $answers[275]['answer'] ?? "";
+				echo isset($answers[275]['answer']) ? $answers[275]['answer'] . '<br>' : "";
 			@endphp
 		</td>
 		<td colspan="3" style="{{ $height }}px;">
@@ -263,8 +263,8 @@
 
 				if(isset($answers[176]) && isset($answers[177]))
 				{
-					echo $questions[176]['name'] . ': ' . $answers[176]['answer'] ?? "" . '<br>';
-					echo $questions[177]['name'] . ': ' . $answers[177]['answer'] ?? "" . '<br>';
+					echo $questions[176]['name'] . ': ' . isset($answers[176]['answer']) ? $answers[176]['answer'] : "" . '<br>';
+					echo $questions[177]['name'] . ': ' . isset($answers[177]['answer']) ? $answers[177]['answer'] : "" . '<br>';
 					echo $questions[178]['name'] . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
 				}
 				else{
