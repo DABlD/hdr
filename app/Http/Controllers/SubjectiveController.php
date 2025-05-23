@@ -128,7 +128,7 @@ class SubjectiveController extends Controller
         // PatientPackage::where('id', $req->id)->update($req->except(['id', '_token']));
 
         $pid = $result->patient_id;
-        $pendings = PatientPackage::where('patient_id', $pid)->where('package_id', '>', 2)->where('status', 'Pending')->get();
+        $pendings = PatientPackage::where('patient_id', $pid)->where('status', 'Pending')->get();
 
         foreach($pendings as $pending){
             $qwas1 = $pending->question_with_answers;
