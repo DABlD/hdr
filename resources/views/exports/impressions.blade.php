@@ -263,8 +263,8 @@
 
 				if(isset($answers[176]) && isset($answers[177]))
 				{
-					echo $questions[176]['name'] . ': ' . isset($answers[176]['answer']) ? $answers[176]['answer'] : "" . '<br>';
-					echo $questions[177]['name'] . ': ' . isset($answers[177]['answer']) ? $answers[177]['answer'] : "" . '<br>';
+					echo $questions[176]['name'] . ': ' . (isset($answers[176]['answer']) ? $answers[176]['answer'] : "") . '<br>';
+					echo $questions[177]['name'] . ': ' . (isset($answers[177]['answer']) ? $answers[177]['answer'] : "") . '<br>';
 					echo $questions[178]['name'] . ': ' . ((isset($answers[178]) && $answers[178]['answer']) ? "Yes" : "No") . (isset($answers[178]) ? $answers[178]['remark'] : "") . '<br>';
 				}
 				else{
