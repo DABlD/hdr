@@ -199,8 +199,8 @@ class PatientPackageController extends Controller
         $data->load('user.patient');
         $data->load('package');
 
-        // $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first();
-        $pmr = $data->question_with_answers ?? PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
+        $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
+        // $pmr = $data->question_with_answers ?? PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
         $answers = [];
 
         // FOR DEBUGGING
