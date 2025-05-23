@@ -199,13 +199,14 @@ class PatientPackageController extends Controller
         $data->load('user.patient');
         $data->load('package');
 
-        //MAULION, JANESENTH
-        if(in_array($data->patient_id, [168])){
+        //PPE
+        if($data->type == "PEE"){
             $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
         }
         else{
             $pmr = $data->question_with_answers ?? PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
         }
+
         $answers = [];
 
         // FOR DEBUGGING
