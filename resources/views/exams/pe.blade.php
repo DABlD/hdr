@@ -1145,13 +1145,11 @@
 								`);
 
 								$('[name="setoggle"]').change(e => {
-									console.log(1);
 									$(`.Systemic-Examination input[value="${e.target.value}"]`).removeAttr('checked').prop('checked',false);
 									$(`.Systemic-Examination input[value="${e.target.value}"]`).attr('checked', true).prop('checked',true);
 								});
 
 								$('[name="setoggle2"]').change(e => {
-									console.log(2);
 									$(`.Medical-Evaluation input[value="${e.target.value}"]`).removeAttr('checked').prop('checked',false);
 									$(`.Medical-Evaluation input[value="${e.target.value}"]`).attr('checked', true).prop('checked',true);
 								});
