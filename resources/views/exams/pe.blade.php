@@ -881,7 +881,7 @@
 			        					    <div class="chart tab-pane Systemic-Examination" id="tab1-6" style="position: relative;">
 			        					    	${subjective.physical}
 			        					    </div>
-			        					    <div class="chart tab-pane Systemic-Examination" id="tab1-7" style="position: relative;">
+			        					    <div class="chart tab-pane Medical-Evaluation" id="tab1-7" style="position: relative;">
 			        					    	${subjective.medical}
 			        					    </div>
 
@@ -1145,11 +1145,13 @@
 								`);
 
 								$('[name="setoggle"]').change(e => {
+									console.log(1);
 									$(`.Systemic-Examination input[value="${e.target.value}"]`).removeAttr('checked').prop('checked',false);
 									$(`.Systemic-Examination input[value="${e.target.value}"]`).attr('checked', true).prop('checked',true);
 								});
 
 								$('[name="setoggle2"]').change(e => {
+									console.log(2);
 									$(`.Medical-Evaluation input[value="${e.target.value}"]`).removeAttr('checked').prop('checked',false);
 									$(`.Medical-Evaluation input[value="${e.target.value}"]`).attr('checked', true).prop('checked',true);
 								});
