@@ -4,7 +4,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $users }}</h3>
@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>{{ $companies->count() }}</h3>
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $ppcount }}</h3>
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-6">
+            {{-- <div class="col-lg-3 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>₱{{ number_format($total, 2) }}</h3>
@@ -52,7 +52,7 @@
                         <i class="nav-icon fas fa-sack-dollar"></i>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="row">
@@ -102,7 +102,7 @@
                                             <th>#</th>
                                             <th>Company</th>
                                             <th>Package</th>
-                                            <th>Amount</th>
+                                            {{-- <th>Amount</th> --}}
                                             <th>Type</th>
                                         </tr>
                                         <tbody id="table1"></tbody>
@@ -283,7 +283,7 @@
                                 <td>${index+1}</td>
                                 <td>${row.package.company}</td>
                                 <td>${row.package.name}</td>
-                                <td>₱${numeral(row.package.amount).format("0,0")}</td>
+                                {{-- <td>₱${numeral(row.package.amount).format("0,0")}</td> --}}
                                 <td>${row.type == "PEE" ? "PPE" : row.type}</td>
                             </tr>
                         ` + tableString;
@@ -335,7 +335,8 @@
                             <tr>
                                 <td>${index+1}</td>
                                 <td>${label}</td>
-                                <td>₱${numeral(chart.dataset[0].data[[index]]).format("0,0.00")}</td>
+                                {{-- <td>₱${numeral(chart.dataset[0].data[[index]]).format("0,0.00")}</td> --}}
+                                <td>${chart.dataset[0].data[[index]]}</td>
                             </tr>
                         ` + tableString;
                     });
@@ -344,7 +345,8 @@
                         <tr>
                             <td></td>
                             <td>Total</td>
-                            <td>₱${numeral(total).format("0,0.00")}</td>
+                            {{-- <td>₱${numeral(total).format("0,0.00")}</td> --}}
+                            <td>${total}</td>
                         </tr>
                         ${tableString}
                     `;

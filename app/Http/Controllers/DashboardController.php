@@ -132,13 +132,16 @@ class DashboardController extends Controller
             $details = json_decode($request->details);
             $amount = $details->amount;
 
-            $temp[now()->parse($request->created_at)->toDateString()] += $amount;
+            // $temp[now()->parse($request->created_at)->toDateString()] += $amount;
+            $temp[now()->parse($request->created_at)->toDateString()] += 1;
 
             if($request->type == "APE"){
-                $temp2[now()->parse($request->created_at)->toDateString()] += $amount;
+                // $temp2[now()->parse($request->created_at)->toDateString()] += $amount;
+                $temp2[now()->parse($request->created_at)->toDateString()] += 1;
             }
             else{
-                $temp3[now()->parse($request->created_at)->toDateString()] += $amount;
+                // $temp3[now()->parse($request->created_at)->toDateString()] += $amount;
+                $temp3[now()->parse($request->created_at)->toDateString()] += 1;
             }
         }
 
