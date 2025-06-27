@@ -143,7 +143,7 @@
 					{data: 'user.gender'},
 					{data: 'user.birthday'},
 					{data: 'user.id'},
-					{data: 'user.id'},
+					{data: 'user.id', visible: false},
 					{data: 'status'},
 					@if(auth()->user()->role != "Doctor")
 						{data: 'medical', width: "165px"}
@@ -190,7 +190,7 @@
 	                },
 	                {
 	                    targets: 9,
-	                    render: (a,b,row) => {
+	                    {{-- render: (a,b,row) => {
 	                    	if(row.user.patient.exams.length){
 	                    		let amount = 0;
 
@@ -209,7 +209,7 @@
 	                    	else{
 	                        	return "-";
 	                    	}
-	                    },
+	                    }, --}}
 	                }
 	            ],
 	            drawCallback: function(){
