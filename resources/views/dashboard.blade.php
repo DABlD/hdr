@@ -56,6 +56,7 @@
         </div>
 
         <div class="row">
+            <section class="col-lg-3 connectedSortable"></section>
             <section class="col-lg-6 connectedSortable">
                 <div class="card">
                     <div class="card-header">
@@ -112,9 +113,10 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>  
+            <section class="col-lg-3 connectedSortable"></section>
 
-            <section class="col-lg-6 connectedSortable">
+            {{-- <section class="col-lg-6 connectedSortable">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -168,7 +170,8 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> --}}
+
         </div>
     </div>
 </section>
@@ -304,7 +307,9 @@
             window.location.href = "{{ route('report.packagesSold') }}?" + $.param(data);
         }
 
-        function createChart2(){
+        function createChart2(){};
+
+        function deltedcreateChart2(){
             $.ajax({
                 url: "{{ route("getReport2") }}",
                 data:{
