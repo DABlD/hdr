@@ -64,7 +64,7 @@ class ExamListController extends Controller
 
         Helper::log(auth()->user()->id, "added user for $req->type", $req->user_id);
 
-        echo "success";
+        echo $data->id;
     }
 
     public function update(Request $req){
