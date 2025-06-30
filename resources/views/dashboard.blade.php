@@ -56,8 +56,7 @@
         </div>
 
         <div class="row">
-            <section class="col-lg-3 connectedSortable"></section>
-            <section class="col-lg-6 connectedSortable">
+            <section class="col-lg-12 connectedSortable">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -114,7 +113,6 @@
                     </div>
                 </div>
             </section>  
-            <section class="col-lg-3 connectedSortable"></section>
 
             {{-- <section class="col-lg-6 connectedSortable">
                 <div class="card">
