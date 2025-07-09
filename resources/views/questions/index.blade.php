@@ -61,7 +61,7 @@
                     		<thead>
                     			<tr>
                     				<th>Name</th>
-                    				<th>Amount</th>
+                    				{{-- <th>Amount</th> --}}
                     				<th style="width: 130px;">Actions</th>
                     			</tr>
                     		</thead>
@@ -440,7 +440,7 @@
 							pString += `
 								<tr>
 									<td style="max-width: 200px;">${a.name}</td>
-									<td>₱${numeral(a.amount).format("0,0")}</td>
+									{{-- <td>₱${numeral(a.amount).format("0,0")}</td> --}}
 									<td>
 										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="View" onclick="viewPackage(${a.id}, '${a.type}', '${a.name}')">
 											<i class="fas fa-search"></i>
@@ -541,7 +541,7 @@
 					</div>
 
 					${input('name', 'Package Name', null, 3, 9)}
-					${input('amount', 'Amount', null, 3, 9, 'number', 'min=0')}
+					{{-- ${input('amount', 'Amount', null, 3, 9, 'number', 'min=0')} --}}
 				`,
 				showCancelButton: true,
 				cancelButtonColor: errorColor,
@@ -579,7 +579,8 @@
 				},
 			}).then(result => {
 				if(result.value){
-					storePackage($('[name="name"]').val(), $('[name="amount"]').val(), type, $('[name="company"]').val());
+					{{-- storePackage($('[name="name"]').val(), $('[name="amount"]').val(), type, $('[name="company"]').val()); --}}
+					storePackage($('[name="name"]').val(), 0, type, $('[name="company"]').val());
 				}
 			})
 		}
@@ -624,7 +625,7 @@
 						html: `
 							${input('name', 'Name', package.name, 3, 9)}
 							${input('company', 'Company', package.company, 3, 9)}
-							${input('amount', 'Amount', package.amount, 3, 9, 'number', 'min=0')}
+							{{-- ${input('amount', 'Amount', package.amount, 3, 9, 'number', 'min=0')} --}}
 						`,
 						showCancelButton: true,
 						cancelButtonColor: errorColor,
@@ -648,7 +649,8 @@
 									id: id,
 									name: $('[name="name"]').val(),
 									company: $('[name="company"]').val(),
-									amount: $('[name="amount"]').val()
+									{{-- amount: $('[name="amount"]').val() --}}
+									amount: 0
 								},
 								message: "Success"
 							}, () => {

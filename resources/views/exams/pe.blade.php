@@ -141,7 +141,7 @@
 					{data: 'user.lname'},
 					{data: 'user.fname'},
 					{data: 'user.gender'},
-					{data: 'user.birthday'},
+					{data: 'user.birthday', width: "100px"},
 					{data: 'user.id'},
 					{data: 'user.id', visible: false},
 					{data: 'status'},
@@ -300,8 +300,8 @@
 	        							<input type="checkbox" name="sPackage" value="${package.id}">
 	        							&nbsp;&nbsp;
 	        							<span style="color: blue; font-weight: bold;">${package.name}</span> - 
-	        							<span style="color: green;">PHP ${package.amount}</span>
-	        							(${patient.company_name})
+	        							{{-- <span style="color: green;">PHP ${package.amount}</span> --}}
+	        							<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${patient.company_name}
 	        						</td>
 	        				`;
 
@@ -1570,13 +1570,21 @@
 		        						Swal.showValidationMessage("Select One");
 		        					}
 		        					else{
-		        						update({
-		        							url: "{{ route('examList.store') }}",
-		        							data: {
-		        								user_id: id,
-		        								type: "PEE"
-		        							}
-		        						})
+		        						
+        								$.ajax({
+        									url: "{{ route('examList.store') }}",
+        									type: "POST",
+        									data: {
+        										user_id: id,
+        										type: "PEE",
+        										_token: $('meta[name="csrf-token"]').attr('content')
+        									},
+        									success: elid => {
+        										setTimeout(() => {
+		        									takeExam(id, elid);
+		        								}, 500);
+        									}
+        								});
 		        					}
 		        				}
 		        			}).then(result => {
