@@ -589,7 +589,7 @@
 
 	        				packageString += `
 	        							@if(!in_array(auth()->user()->role, ["Laboratory", "Imaging"]))
-		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id}), ${elid}">
+		        							<a class="btn btn-warning" data-toggle="tooltip" title="Export Result" onclick="pdfExport(${pPackage.id}, ${pPackage.remarks != null ? true : false}, ${id}, ${elid})">
 		        								<i class="fas fa-file-pdf"></i>
 		        							</a>
 		        							<a class="btn btn-danger" data-toggle="tooltip" title="Delete" onclick="deletepPackage(${pPackage.id})">
