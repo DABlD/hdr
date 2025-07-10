@@ -430,7 +430,7 @@
 	<tr>
 		<td colspan="8" style="height: 5px;"></td>
 	</tr>
-
+	
 	<tr>
 		<td colspan="3">
 			Examining Physician:

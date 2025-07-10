@@ -15,7 +15,7 @@ use App\Model\ExamList;
 class Impression implements FromView, WithEvents//, WithDrawings//, ShouldAutoSize
 {
     public function __construct($data, $settings){
-        $data->doctor_id = 11;
+        // $data->doctor_id = 11;
 
         $questions = array_combine(array_column($data->questions[179], 'id'), $data->questions[179]);
         $ids = array_column($questions, 'id');
