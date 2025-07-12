@@ -1429,7 +1429,7 @@
 		            $.ajax({
 		            	url: "{{ route('patientPackage.deleteFile') }}",
 		            	data: {
-		            		filename: `uploads/PP${ppid}/` + $(e).data('fid'),
+		            		filename: `uploads/{{ env('UPLOAD_URL') }}PP${ppid}/` + $(e).data('fid'),
 		            		id: ppid
 		            	},
 		            	success: result => {
