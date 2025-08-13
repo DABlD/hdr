@@ -16,7 +16,7 @@ class CreateExamListsTable extends Migration
         Schema::create('exam_lists', function (Blueprint $table) {
             $table->id();
 
-            $table->string('type'); //APE OR PEE
+            $table->string('type'); //APE OR PEE OR ECU
             $table->unsignedInteger("user_id");
 
             $table->timestamps();

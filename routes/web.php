@@ -285,6 +285,15 @@ Route::group([
                     ->name($cname . 'pee')
                     ->defaults("href", "/$cname/pee");
 
+                Route::get("/ecu", ucfirst($cname) . "Controller@ecu")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fas fa-files-medical")
+                    ->defaults("name", "ECU")
+                    ->defaults("roles", array("Admin", "Doctor", "Nurse", "Receptionist", "Imaging", "Laboratory"))
+                    ->defaults("group", "Exams")
+                    ->name($cname . 'ecu')
+                    ->defaults("href", "/$cname/ecu");
+
                 Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
                 Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
                 Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');

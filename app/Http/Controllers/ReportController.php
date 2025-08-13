@@ -55,7 +55,7 @@ class ReportController extends Controller
     }
 
     function packagesSold(Request $req){
-        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, $req->to])
+        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, now()->parse($req->to)->endOfDay()])
                 ->where('package_id', '!=', 1)
                 ->where('package_id', '!=', 2)
                 ->where('p.company', 'like', $req->company)
@@ -76,7 +76,7 @@ class ReportController extends Controller
     }
 
     function sales(Request $req){
-        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, $req->to])
+        $data = PatientPackage::whereBetween('patient_packages.created_at', [$req->from, now()->parse($req->to)->endOfDay()])
                                 ->where('package_id', '!=', 1)
                                 ->where('package_id', '!=', 2)
                                 ->where('p.company', 'like', $req->company)

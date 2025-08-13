@@ -10,7 +10,7 @@ class ExamController extends Controller
     public function ape(){
         $companies = User::where('role', 'Company')->distinct()->pluck('fname');
 
-        return $this->_view('ape', [
+        return $this->_view('exam', [
             'title' => "APE",
             'companies' => $companies
         ]);
@@ -19,8 +19,17 @@ class ExamController extends Controller
     public function pee(){
         $companies = User::where('role', 'Company')->distinct()->pluck('fname');
 
-        return $this->_view('pe', [
+        return $this->_view('exam', [
             'title' => "PE",
+            'companies' => $companies
+        ]);
+    }
+
+    public function ecu(){
+        $companies = User::where('role', 'Company')->distinct()->pluck('fname');
+
+        return $this->_view('exam', [
+            'title' => "ECU",
             'companies' => $companies
         ]);
     }

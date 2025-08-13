@@ -16,7 +16,7 @@ class CreatePatientPackagesTable extends Migration
         Schema::create('patient_packages', function (Blueprint $table) {
             $table->id();
 
-            $table->string('type'); //APE OR PEE
+            $table->string('type'); //APE OR PEE OR ECU
 
             $table->unsignedInteger("user_id");
             $table->unsignedBigInteger("patient_id");

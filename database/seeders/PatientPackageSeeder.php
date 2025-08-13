@@ -16,7 +16,7 @@ class PatientPackageSeeder extends Seeder
     {
         $patients = Patient::all();
 
-        $types = ["APE", "PEE"];
+        $types = ["APE", "PEE", "ECU"];
 
         foreach($patients as $patient){
             $packages = Package::where('company', $patient->company_name)->get()->toArray();
