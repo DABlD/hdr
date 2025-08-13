@@ -18,12 +18,12 @@
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Age</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Company</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Package Name</th>
-			<th style="text-align: center; {{ $b }} background-color: yellow;">Amount</th>
+			{{-- <th style="text-align: center; {{ $b }} background-color: yellow;">Amount</th> --}}
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Type</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Date</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Status</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Classification</th>
-			<th style="text-align: center; {{ $b }} background-color: yellow;">Remarks</th>
+			<th style="text-align: center; {{ $b }} background-color: yellow;">Assessment</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -41,7 +41,7 @@
 				<td style="text-align: center;">{{ isset($row->user->birthday) ? now()->diffInYears($row->user->birthday) : "-" }}</td>
 				<td style="text-align: center;">{{ $row->package->company }}</td>
 				<td style="text-align: center;">{{ $row->package->name }}</td>
-				<td style="text-align: center;">₱{{ $row->package->amount }}</td>
+				{{-- <td style="text-align: center;">₱{{ $row->package->amount }}</td> --}}
 				<td style="text-align: center;">{{ $row->type == "PEE" ? "PPE" : $row->type }}</td>
 				<td style="text-align: center;">{{ $row->created_at->format('M j, Y') }}</td>
 				<td style="text-align: center;">{{ $row->status }}</td>
