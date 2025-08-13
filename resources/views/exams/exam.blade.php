@@ -1126,7 +1126,31 @@
 								$('input[data-id="173"]').val(calculateBMI());
 
 								$('input[data-id="171"], input[data-id="172"]').on('change', () => {
-									$('input[data-id="173"]').val(calculateBMI());
+									let bmi = calculateBMI();
+									let wc = null; //weight classification
+
+									if(bmi){
+										if(bmi <= 18.5){
+											wc = "Underweight";
+										}
+										else if(bmi <= 24.9){
+											wc = "Normal";
+										}
+										else if(bmi <= 29.9){
+											wc = "Overweight";
+										}
+										else if(bmi <= 34.9){
+											wc = "Obese I";
+										}
+										else if(bmi <= 39.9){
+											wc = "Obese II";
+										}
+										else if(bmi > 39.9){
+											wc = "Obese III";
+										}
+									}
+									$('input[data-id="173"]').val(bmi);
+									$('input[data-id="174"]').val(wc);
 								});
 
 								// ADD UTILITY FOR SYSTEMIC AND DIAGNOSTICS
@@ -1206,7 +1230,7 @@
 
 			if(h > 0 && w > 0){
 				h = h / 100;
-				return Math.round(w / (h * h));
+				return (w / (h * h)).toFixed(1);
 			}
 			else{
 				return null;
