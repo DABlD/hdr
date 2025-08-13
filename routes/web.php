@@ -261,6 +261,24 @@ Route::group([
             }
         );
 
+        // ANALYTICS
+        $cname = "analytics";
+        Route::group([
+                'as' => "$cname",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+
+                Route::get("/", "ReportController@analytics")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fa-duotone fas fa-pie-chart")
+                    ->defaults("name", "Analytics")
+                    ->defaults("roles", array("Admin", 'Company'))
+                    // ->defaults("group", "Settings")
+                    ->name("")
+                    ->defaults("href", "/analytics");
+            }
+        );
+
         // TEMPLATE ROUTES
         $cname = "exam";
         Route::group([

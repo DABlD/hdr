@@ -83,6 +83,7 @@ class Kernel extends HttpKernel
             } else {
                 $env = '';
             }
+
             app()->loadEnvironmentFrom('.env' . $env);
         }
         parent::bootstrap();

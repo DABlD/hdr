@@ -119,6 +119,12 @@ class ReportController extends Controller
         return Excel::download(new $class($sales), "$filename.xlsx");
     }
 
+    function analytics(Request $req){
+        return view("analytics.index", [
+            "title" => "Analytics"
+        ]);
+    }
+
     private function getDates($from, $to){
         $dates = [];
 
