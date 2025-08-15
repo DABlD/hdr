@@ -58,7 +58,7 @@
 		<td colspan="2">
 			Name: {{ $data->user->lname }}, {{ $data->user->fname }} {{ substr($data->user->mname ?? "", 0, 1) }}{{ $data->user->mname ? "." : "" }}
 		</td>
-		<td colspan="2">Exam Type: {{ $data->type }}</td>
+		<td colspan="2">Exam Type: {{ $data->type == "PEE" ? "PPE" : $data->type }}</td>
 		<td colspan="3">Control #: </td>
 		<td>Exam Date: {{ $data->created_at->format('M d, Y') }}</td>
 	</tr>
