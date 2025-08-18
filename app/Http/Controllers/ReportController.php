@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
+use DB;
 
 use App\Models\{ExamList, PatientPackage};
 
@@ -123,6 +124,55 @@ class ReportController extends Controller
         return view("analytics.index", [
             "title" => "Analytics"
         ]);
+    }
+
+    function getReport1(Request $req){
+        DB::enableQueryLog();
+        $f = $req->filters;
+        $from = $f['from'] . ' 00:00:00';
+        $to = $f['to'] . ' 23:59:59';
+
+        $pps = PatientPackage::whereBetween('patient_packages.updated_at', [$from, $to])
+                ->join('users as u', 'u.id', '=', 'patient_packages.user_id')
+                ->select('patient_packages.*', 'u.fname', 'u.lname', 'u.gender', 'u.birthday');
+
+        if(str_contains($f['name'], ",")){
+            $temp = explode(",", $f['name']);
+
+            $lname = $temp[0];
+
+            $fname = explode(" ", trim($temp[1]));
+            
+            if(sizeof($fname) > 1){
+                $fname = array_slice($fname, 0, -1);
+            }
+
+            $fname = implode(" ", $fname);
+
+            $pps = $pps->where(function($q) use($fname, $lname){
+                $q->where('u.fname', 'like', "%" . $fname . "%");
+                $q->where('u.lname', 'like', "%" . $lname . "%");
+            });
+        }
+        else{
+            $pps = $pps->where(function($q) use($f){
+                $q->where('u.fname', 'like', "%" . $f['name'] . "%");
+                $q->orWhere('u.lname', 'like', "%" . $f['name'] . "%");
+            });
+        }
+
+        $pps = $pps->get();
+        $array = [];
+
+        foreach($pps as $pp){
+            $user = $pp->user;
+
+            if(str_contains(strtolower($user->fullname), strtolower($f['name'])) || str_contains(strtolower($user->namefull), strtolower($f['name']))){
+                array_push($array, $pp);
+            }
+        }
+
+        echo json_encode($array);
     }
 
     private function getDates($from, $to){

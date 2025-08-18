@@ -276,6 +276,10 @@ Route::group([
                     // ->defaults("group", "Settings")
                     ->name("")
                     ->defaults("href", "/analytics");
+
+                Route::get("getReport1/", "ReportController@getReport1")->name('.getReport1');
+                Route::get("getReport2/", "ReportController@getReport2")->name('.getReport2');
+                Route::get("getReport3/", "ReportController@getReport3")->name('.getReport3');
             }
         );
 

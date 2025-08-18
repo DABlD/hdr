@@ -63,4 +63,12 @@ trait UserAttribute{
 
 		return $action;
 	}
+
+	public function getFullNameAttribute(){
+		return ucfirst($this->fname) . ' ' . ucfirst($this->lname);
+	}
+
+	public function getNameFullAttribute(){
+		return ucfirst($this->lname) . ', ' . ucfirst($this->fname);
+	}
 }
