@@ -199,8 +199,6 @@
         }
 
         function getChart1(){
-
-
             $.ajax({
                 url: "{{ route("analytics.getReport1") }}",
                 data: {filters: getFilters()},
@@ -214,18 +212,24 @@
                     let bmis = [];
 
                     result.forEach(patient => {
+                        console.log(patient.classifications);
                         classifications.push(patient.classifications ?? "Pending");
                         genders.push(patient.genders);
                         ages.push(moment().diff(moment(patient.birthday), 'years'));
 
                         let qwa = JSON.parse(patient.question_with_answers);
-                        qwa.forEach(answer => {
-                            if(answer.id == 173){
-                                if(answer.answer){
-                                    bmis.push(answer.answer);
+                        if(qwa){
+                            qwa.forEach(answer => {
+                                if(answer.id == 173){
+                                    if(answer.answer){
+                                        bmis.push(answer.answer);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+                        else{
+                            bmis.push("No Data");
+                        }
                     });
 
                     classifications = classifications.reduce((classification, item) => {
@@ -241,7 +245,29 @@
                         type: 'pie',
                         data: {
                             labels: Object.keys(classifications),
-                            datasets: Object.values(classifications)
+                            datasets: [{
+                                label: "Classifications",
+                                data: Object.values(classifications),
+                                backgroundColor: [
+                                    generateRandomColors(Object.values(classifications).length, 0.7)
+                                ],
+                                borderColor: [
+                                    generateRandomColors(Object.values(classifications).length, 1)
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                                plugins: {
+                                    legend: {
+                                    position: "top",
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Classification Pie Chart"
+                                }
+                            }
                         }
                     });
 
@@ -250,6 +276,17 @@
                     console.log(bmi);
                 }
             });
+        }
+
+        function generateRandomColors(n, alpha = 0.7) {
+            let colors = [];
+            for (let i = 0; i < n; i++) {
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                colors.push(`rgba(${r}, ${g}, ${b}, ${alpha})`);
+            }
+            return colors;
         }
     </script>
 @endpush
