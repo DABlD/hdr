@@ -86,6 +86,16 @@
                                                         <canvas id="bmi" width="100%"></canvas>
                                                     </div>
                                                 </div>
+
+                                                <br>
+                                                <hr>
+                                                <br>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <canvas id="diseases" width="100%"></canvas>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="chart tab-pane" id="results" style="position: relative;">2</div>
                                             <div class="chart tab-pane" id="classification" style="position: relative;">3</div>
@@ -176,6 +186,42 @@
         var ctx2, chart2; //GENDER
         var ctx3, chart3; //AGE
         var ctx4, chart4; //BMI
+        var ctx5, chart5; //DISEASES
+
+        const diseaseMap = {
+            "Hypertension": ["HTN", "HPN"],
+            "Diabetes Mellitus": ["DM", "T2DM", "NIDDM"],
+            "Type 1 Diabetes": ["T1DM", "IDDM"],
+            "Dyslipidemia": ["HLD"],
+            "Obesity / Overweight": ["OB", "Obese"],
+            "Fatty Liver": ["NAFLD", "FLD"],
+            "Hyperuricemia": ["Gout"],
+            "Heart Disease": ["HD", "CAD", "IHD", "CHD"],
+            "Myocardial Infarction": ["MI", "AMI", "Heart Attack"],
+            "Congestive Heart Failure": ["CHF", "HF"],
+            "Asthma": [],
+            "Tuberculosis": ["TB", "PTB"],
+            "Chronic Kidney Disease": ["CKD", "CRF", "ESRD"],
+            "Hypothyroidism": ["HypoT"],
+            "Hyperthyroidism": ["HyperT"],
+            "Thyromegaly": ["Goiter"],
+            "PCOS": ["Polycystic"],
+            "Myopia": ["Nearsighted"],
+            "Hyperopia": ["Farsighted"],
+            "Astigmatism": [],
+            "Anemia": [],
+            "Blood Dyscrasia": [],
+            "Lupus": ["SLE"],
+            "Rheumatoid Arthritis": ["RA"],
+            "Scoliosis": ["Dextroscoliosis", "Levoscoliosis"],
+            "Allergic Rhinitis": ["AR"],
+            "GERD": ["Acid Reflux"],
+            "COPD": ["Emphysema", "Chronic Bronchitis"],
+            "Stroke": ["CVA", "Infarct"],
+            "Hearing Loss": ["HOH"],
+            "Psoriasis": ["PsO"],
+            "Dermatitis": ["Eczema"],
+        };
 
         $(document).ready(() => {
             $('#from').flatpickr({
@@ -199,7 +245,7 @@
                 chart1.destroy();
                 chart2.destroy();
                 chart3.destroy();
-                {{-- chart4.destroy(); --}}
+                chart4.destroy();
                 getChart1();
             });
         });
@@ -225,12 +271,13 @@
                     let genders = [];
                     let ages = [];
                     let bmis = [];
+                    let diseases = [];
 
                     result.forEach(patient => {
-                        console.log(patient);
                         classifications.push(patient.classification ?? "Pending");
                         genders.push(patient.gender ?? "No Data");
                         ages.push(moment().diff(moment(patient.birthday), 'years'));
+                        diseases.push(patient.clinical_assessment);
 
                         let qwa = JSON.parse(patient.question_with_answers);
                         if(qwa){
@@ -301,9 +348,61 @@
                         return acc;
                     }, {});
 
+                    bmis = bmis.reduce((groups, bmi) => {
+                        let range;
+
+                        if (bmi == "No Data") range = "No Data";
+                        else if (bmi < 18.5) range = "Underweight";
+                        else if (bmi < 24.9) range = "Normal";
+                        else if (bmi <= 29.9) range = "Overweight";
+                        else if (bmi <= 34.9) range = "Obese I";
+                        else if (bmi <= 39.9) range = "Obese II";
+                        else range = "Obese III";
+
+                        groups[range] = (groups[range] || 0) + 1;
+                        return groups;
+                    }, {});
+
+                    const order = ["Underweight", "Normal", "Overweight", "Obese I", "Obese II", "Obese III", "No Data"];
+                    bmis = Object.keys(bmis)
+                        .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+                        .reduce((acc, key) => {
+                        acc[key] = bmis[key];
+                        return acc;
+                    }, {});
+
+                    diseases = diseases.reduce((counts, paragraph) => {
+                        if (!paragraph || typeof paragraph !== "string") return counts;
+
+                        const text = paragraph.toLowerCase();
+
+                        for (const [disease, aliasesRaw] of Object.entries(diseaseMap)) {
+                            const aliases = Array.isArray(aliasesRaw) ? aliasesRaw : [aliasesRaw];
+
+                            // Create a combined list of terms (disease + aliases)
+                            const terms = [disease, ...aliases];
+
+                            for (const term of terms) {
+                                const regex = new RegExp(`\\b${term.toLowerCase()}\\b`, "i");
+                                if (regex.test(text)) {
+                                    counts[disease] = (counts[disease] || 0) + 1;
+                                    break; // stop after first match for this disease
+                                }
+                            }
+                        }
+
+                        return counts;
+                    }, {});
+
+                    diseases = Object.keys(diseases)
+                        .sort((a, b) => a.localeCompare(b)) // alphabetic by disease name
+                        .reduce((obj, key) => {
+                        obj[key] = diseases[key];
+                        return obj;
+                    }, {});
+
                     {{-- CLASSIFICATION CHART --}}
                     ctx1 = document.getElementById('classification').getContext('2d');
-
                     chart1 = new Chart(ctx1, {
                         type: 'pie',
                         data: {
@@ -379,6 +478,80 @@
                                 title: {
                                     display: true,
                                     text: "Age Range Pie Chart"
+                                }
+                            }
+                        }
+                    });
+
+                    {{-- BMI CHART --}}
+                    ctx4 = document.getElementById('bmi').getContext('2d');
+                    chart4 = new Chart(ctx4, {
+                        type: 'pie',
+                        data: {
+                            labels: Object.keys(bmis),
+                            datasets: [{
+                                label: "BMI",
+                                data: Object.values(bmis),
+                                backgroundColor: generateRandomColors(Object.values(bmis).length, 0.7),
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                                plugins: {
+                                    legend: {
+                                    position: "top",
+                                },
+                                title: {
+                                    display: true,
+                                    text: "BMI Pie Chart"
+                                }
+                            }
+                        }
+                    });
+
+                    {{-- DISEASES CHART --}}
+                    ctx5 = document.getElementById('diseases').getContext('2d');
+
+                    let datasets = Object.entries(diseases).map(([disease, count], i) => {
+                        let dataArr = Object.keys(diseases).map(l => (l === disease ? count : null));
+                        let color = generateRandomColors(1, 0.6)[0];
+
+                        return {
+                            label: disease,
+                            data: dataArr,
+                            backgroundColor: color,
+                            borderColor: color.replace(/0\.6/, "1"),
+                        };
+                    });
+
+                    console.log(datasets);
+
+                    myChart5 = new Chart(ctx5, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(diseases),
+                            datasets: datasets
+                        },
+                        options: {
+                            barThickness: 50,
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Diseases"
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    stacked: true,
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    stacked: true,
                                 }
                             }
                         }
