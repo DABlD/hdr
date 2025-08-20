@@ -51,9 +51,6 @@
                                                 <a class="nav-link active" href="#data_analysis" data-toggle="tab" data-href="data_analysis">Data Analysis</a>
                                             </li>&nbsp;
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#results" data-toggle="tab" data-href="results">Results</a>
-                                            </li>&nbsp;
-                                            <li class="nav-item">
                                                 <a class="nav-link" href="#classification" data-toggle="tab" data-href="classification">Classification</a>
                                             </li>&nbsp;
                                             <li class="nav-item">
@@ -74,16 +71,16 @@
 
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <canvas id="classification" width="100%"></canvas>
+                                                        <canvas id="classification-chart" width="100%"></canvas>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <canvas id="gender" width="100%"></canvas>
+                                                        <canvas id="gender-chart" width="100%"></canvas>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <canvas id="age" width="100%"></canvas>
+                                                        <canvas id="age-chart" width="100%"></canvas>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <canvas id="bmi" width="100%"></canvas>
+                                                        <canvas id="bmi-chart" width="100%"></canvas>
                                                     </div>
                                                 </div>
 
@@ -93,7 +90,7 @@
 
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <canvas id="diseases" width="100%"></canvas>
+                                                        <canvas id="diseases-chart" width="100%"></canvas>
                                                     </div>
                                                 </div>
                                             </div>
@@ -402,7 +399,7 @@
                     }, {});
 
                     {{-- CLASSIFICATION CHART --}}
-                    ctx1 = document.getElementById('classification').getContext('2d');
+                    ctx1 = document.getElementById('classification-chart').getContext('2d');
                     chart1 = new Chart(ctx1, {
                         type: 'pie',
                         data: {
@@ -430,7 +427,7 @@
                     });
 
                     {{-- GENDER CHART --}}
-                    ctx2 = document.getElementById('gender').getContext('2d');
+                    ctx2 = document.getElementById('gender-chart').getContext('2d');
                     chart2 = new Chart(ctx2, {
                         type: 'pie',
                         data: {
@@ -457,7 +454,7 @@
                     });
 
                     {{-- AGE CHART --}}
-                    ctx3 = document.getElementById('age').getContext('2d');
+                    ctx3 = document.getElementById('age-chart').getContext('2d');
                     chart3 = new Chart(ctx3, {
                         type: 'pie',
                         data: {
@@ -484,7 +481,7 @@
                     });
 
                     {{-- BMI CHART --}}
-                    ctx4 = document.getElementById('bmi').getContext('2d');
+                    ctx4 = document.getElementById('bmi-chart').getContext('2d');
                     chart4 = new Chart(ctx4, {
                         type: 'pie',
                         data: {
@@ -511,7 +508,7 @@
                     });
 
                     {{-- DISEASES CHART --}}
-                    ctx5 = document.getElementById('diseases').getContext('2d');
+                    ctx5 = document.getElementById('diseases-chart').getContext('2d');
 
                     let datasets = Object.entries(diseases).map(([disease, count], i) => {
                         let dataArr = Object.keys(diseases).map(l => (l === disease ? count : null));
