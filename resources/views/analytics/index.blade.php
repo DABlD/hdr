@@ -71,7 +71,7 @@
 
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <canvas id="classification-chart" width="100%"></canvas>
+                                                        <canvas id="type-chart" width="100%"></canvas>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <canvas id="gender-chart" width="100%"></canvas>
@@ -94,7 +94,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="chart tab-pane" id="results" style="position: relative;">2</div>
                                             <div class="chart tab-pane" id="classification" style="position: relative;">3</div>
                                         </div>
                                     </div>
@@ -172,12 +171,15 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/charts.min.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
         var from = moment().subtract(6,'months').format("YYYY-MM-DD");
         var to = moment().format("YYYY-MM-DD");
         var type = "%%";
         var name = "";
+
+        Chart.register(ChartDataLabels);
 
         var ctx1, chart1; //CLASSIFICATION
         var ctx2, chart2; //GENDER
@@ -264,14 +266,14 @@
                     result = JSON.parse(result);
                     $('#data_analysis .count').html(result.length);
 
-                    let classifications = [];
+                    let types = [];
                     let genders = [];
                     let ages = [];
                     let bmis = [];
                     let diseases = [];
 
                     result.forEach(patient => {
-                        classifications.push(patient.classification ?? "Pending");
+                        types.push(patient.type);
                         genders.push(patient.gender ?? "No Data");
                         ages.push(moment().diff(moment(patient.birthday), 'years'));
                         diseases.push(patient.clinical_assessment);
@@ -298,20 +300,15 @@
                         }
                     });
 
-                    classifications = classifications.map(s => {
-                        if (s.includes("impairments")) return "Employable but with certain impairments";
-                        return s;
-                    });
-
-                    classifications = classifications.reduce((classification, item) => {
-                      classification[item] = (classification[item] || 0) + 1;
-                      return classification;
+                    types = types.reduce((type, item) => {
+                      type[item] = (type[item] || 0) + 1;
+                      return type;
                     }, {});
 
-                    classifications = Object.keys(classifications)
+                    types = Object.keys(types)
                         .sort((a, b) => a.localeCompare(b)) // A → Z
                         .reduce((acc, key) => {
-                        acc[key] = classifications[key];
+                        acc[key] = types[key];
                         return acc;
                     }, {});
 
@@ -398,18 +395,18 @@
                         return obj;
                     }, {});
 
-                    {{-- CLASSIFICATION CHART --}}
-                    ctx1 = document.getElementById('classification-chart').getContext('2d');
+                    {{-- TYPE CHART --}}
+                    ctx1 = document.getElementById('type-chart').getContext('2d');
                     chart1 = new Chart(ctx1, {
                         type: 'pie',
                         data: {
-                            labels: Object.keys(classifications),
+                            labels: Object.keys(types),
                             datasets: [{
-                                label: "Classifications",
-                                data: Object.values(classifications),
-                                backgroundColor: generateRandomColors(Object.values(classifications).length, 0.7),
-                                {{-- borderColor: generateRandomColors(Object.values(classifications).length, 1), --}}
-                                borderWidth: 1
+                                label: "types",
+                                data: Object.values(types),
+                                backgroundColor: generateRandomColors(Object.values(types).length, 0.7),
+                                {{-- borderColor: generateRandomColors(Object.values(types).length, 1), --}}
+                                borderWidth: 1,
                             }]
                         },
                         options: {
@@ -420,7 +417,23 @@
                                 },
                                 title: {
                                     display: true,
-                                    text: "Classification Pie Chart"
+                                    text: "Type Pie Chart"
+                                }
+                            },
+                            plugins: {
+                                datalabels: {
+                                    formatter: (value, ctx) => {
+                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        let percentage = (value / sum * 100).toFixed(1) + "%";
+                                        return percentage;
+                                    },
+                                    color: '#000',
+                                    font: { 
+                                        size: 10,
+                                        family: 'Arial'
+                                    },
+                                    align: 'center',
+                                    anchor: 'center',
                                 }
                             }
                         }
@@ -449,6 +462,22 @@
                                     display: true,
                                     text: "Gender Pie Chart"
                                 }
+                            },
+                            plugins: {
+                                datalabels: {
+                                    formatter: (value, ctx) => {
+                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        let percentage = (value / sum * 100).toFixed(1) + "%";
+                                        return percentage;
+                                    },
+                                    color: '#000',
+                                    font: { 
+                                        size: 10,
+                                        family: 'Arial'
+                                    },
+                                    align: 'center',
+                                    anchor: 'center',
+                                }
                             }
                         }
                     });
@@ -475,6 +504,22 @@
                                 title: {
                                     display: true,
                                     text: "Age Range Pie Chart"
+                                }
+                            },
+                            plugins: {
+                                datalabels: {
+                                    formatter: (value, ctx) => {
+                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        let percentage = (value / sum * 100).toFixed(1) + "%";
+                                        return percentage;
+                                    },
+                                    color: '#000',
+                                    font: { 
+                                        size: 10,
+                                        family: 'Arial'
+                                    },
+                                    align: 'center',
+                                    anchor: 'center',
                                 }
                             }
                         }
@@ -503,6 +548,22 @@
                                     display: true,
                                     text: "BMI Pie Chart"
                                 }
+                            },
+                            plugins: {
+                                datalabels: {
+                                    formatter: (value, ctx) => {
+                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        let percentage = (value / sum * 100).toFixed(1) + "%";
+                                        return percentage;
+                                    },
+                                    color: '#000',
+                                    font: { 
+                                        size: 10,
+                                        family: 'Arial'
+                                    },
+                                    align: 'center',
+                                    anchor: 'center',
+                                }
                             }
                         }
                     });
@@ -521,8 +582,6 @@
                             borderColor: color.replace(/0\.6/, "1"),
                         };
                     });
-
-                    console.log(datasets);
 
                     myChart5 = new Chart(ctx5, {
                         type: 'bar',
