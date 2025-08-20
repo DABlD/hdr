@@ -162,6 +162,20 @@ class ReportController extends Controller
             });
         }
 
+        if(isset($f['classification'])){
+            $pps = $pps->where('classification', $f['classification'])
+                        ->select(
+                            'patient_packages.id', 
+                            'patient_packages.user_id',
+                            'patient_packages.classification',
+                            'patient_packages.clinical_assessment',
+                            'patient_packages.recommendation');
+
+            if($f['classification'] == "Pending"){
+                $pps = $pps->orWhere('classification', null);
+            }
+        }
+
         $pps = $pps->get();
         $array = [];
 

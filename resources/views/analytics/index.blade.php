@@ -60,6 +60,7 @@
 
                                         <div class="tab-content p-0">
                                             <div class="chart tab-pane active" id="data_analysis" style="position: relative;">
+                                                <div class="preloader"></div>
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <span style="font-weight: bold;">
@@ -94,7 +95,31 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="chart tab-pane" id="classification" style="position: relative;">3</div>
+
+                                            <div class="chart tab-pane" id="classification" style="position: relative;">
+                                                <div class="preloader"></div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div style="width: 100%;">
+                                                            <canvas id="classification-chart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" id="patient-list">
+                                                        <span></span>
+                                                        <table class="table table-hover table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Assessment</th>
+                                                                    <th>Recommendation</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -161,6 +186,11 @@
             padding: 1rem;
             box-shadow: 0 1px 2px rgba(0,0,0,.03);
         }
+
+        #patient-list{
+            overflow-y: scroll;
+            height: 100vh;
+        }
     </style>
 @endpush
 
@@ -181,11 +211,12 @@
 
         Chart.register(ChartDataLabels);
 
-        var ctx1, chart1; //CLASSIFICATION
+        var ctx1, chart1; //TYPE
         var ctx2, chart2; //GENDER
         var ctx3, chart3; //AGE
         var ctx4, chart4; //BMI
         var ctx5, chart5; //DISEASES
+        var ctx6, chart6; //CLASSIFICATION
 
         const diseaseMap = {
             "Hypertension": ["HTN", "HPN"],
@@ -245,7 +276,16 @@
                 chart2.destroy();
                 chart3.destroy();
                 chart4.destroy();
+                chart5.destroy();
+                chart6.destroy();
                 getChart1();
+            });
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                $('.tab-content .preloader').css('height', '100%');
+                setTimeout(() => {
+                    $('.tab-content .preloader').css('height', '0px');
+                }, 1000);
             });
         });
 
@@ -271,12 +311,14 @@
                     let ages = [];
                     let bmis = [];
                     let diseases = [];
+                    let classifications = [];
 
                     result.forEach(patient => {
                         types.push(patient.type);
                         genders.push(patient.gender ?? "No Data");
                         ages.push(moment().diff(moment(patient.birthday), 'years'));
                         diseases.push(patient.clinical_assessment);
+                        classifications.push(patient.classification ?? "Pending");
 
                         let qwa = JSON.parse(patient.question_with_answers);
                         if(qwa){
@@ -395,6 +437,26 @@
                         return obj;
                     }, {});
 
+                    classifications = classifications.map(s => {
+                        if (s.includes("Fit to work")) return "A";
+                        if (s.includes("minor")) return "B";
+                        if (s.includes("impairments")) return "C";
+                        if (s.includes("Unfit")) return "D";
+                        return s;
+                    });
+
+                    classifications = classifications.reduce((type, item) => {
+                      type[item] = (type[item] || 0) + 1;
+                      return type;
+                    }, {});
+
+                    classifications = Object.keys(classifications)
+                        .sort((a, b) => a.localeCompare(b)) // A → Z
+                        .reduce((acc, key) => {
+                        acc[key] = classifications[key];
+                        return acc;
+                    }, {});
+
                     {{-- TYPE CHART --}}
                     ctx1 = document.getElementById('type-chart').getContext('2d');
                     chart1 = new Chart(ctx1, {
@@ -402,7 +464,7 @@
                         data: {
                             labels: Object.keys(types),
                             datasets: [{
-                                label: "types",
+                                label: "Types",
                                 data: Object.values(types),
                                 backgroundColor: generateRandomColors(Object.values(types).length, 0.7),
                                 {{-- borderColor: generateRandomColors(Object.values(types).length, 1), --}}
@@ -583,7 +645,7 @@
                         };
                     });
 
-                    myChart5 = new Chart(ctx5, {
+                    chart5 = new Chart(ctx5, {
                         type: 'bar',
                         data: {
                             labels: Object.keys(diseases),
@@ -612,8 +674,97 @@
                             }
                         }
                     });
+
+                    {{-- CLASSIFICATION CHART --}}
+                    ctx6 = document.getElementById('classification-chart').getContext('2d');
+                    chart6 = new Chart(ctx6, {
+                        type: 'pie',
+                        data: {
+                            labels: Object.keys(classifications),
+                            datasets: [{
+                                data: Object.values(classifications),
+                                backgroundColor: generateRandomColors(Object.values(classifications).length, 0.7),
+                                borderWidth: 1,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                                plugins: {
+                                    legend: {
+                                    position: "top",
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Classification Pie Chart"
+                                }
+                            },
+                            plugins: {
+                                datalabels: {
+                                    formatter: (value, ctx) => {
+                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        let percentage = (value / sum * 100).toFixed(1) + "%";
+                                        return percentage;
+                                    },
+                                    color: '#000',
+                                    font: { 
+                                        size: 10,
+                                        family: 'Arial'
+                                    },
+                                    align: 'center',
+                                    anchor: 'center',
+                                }
+                            },
+                            onClick: (evt, elements) => {
+                                let key = Object.keys(classifications)[elements[0].index];
+                                let list = {
+                                    A: "Fit to work",
+                                    B: "Physically fit with minor illness",
+                                    C: "Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)",
+                                    D: "Unfit to work",
+                                    Pending: "Pending"
+                                };
+
+                                $('#patient-list span').html(list[key] + ' list');
+                                getPatientList(list[key]);
+                            }
+                        }
+                    });
                 }
             });
+        }
+
+        function getPatientList(classification){
+            let  filters = getFilters();
+            filters["classification"] = classification;
+
+            $.ajax({
+                url: "{{ route("analytics.getReport1") }}",
+                data: {filters: filters},
+                success: result => {
+                    result = JSON.parse(result);
+                    
+                    let patientString = "";
+                    result.forEach(patient => {
+                        patientString += `
+                            <tr>
+                                <td>${patient.user.fname} ${patient.user.lname}</td>
+                                <td>${cleanString(patient.clinical_assessment)}</td>
+                                <td>${cleanString(patient.recommendation)}</td>
+                            </tr>
+                        `;
+                    });
+
+                    $('#patient-list tbody').html(patientString);
+                }
+            });
+        }
+
+        function cleanString(str){
+            if (!str) return ""; // handles null, undefined, empty
+            return str
+                .replace(/<p>/gi, '')          // remove <p>
+                .replace(/<\/p>/gi, '<br>')    // </p> → <br>
+                .replace(/<br>$/, ''); 
         }
 
         function generateRandomColors(n, alpha = 0.7) {
