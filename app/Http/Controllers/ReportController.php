@@ -134,6 +134,7 @@ class ReportController extends Controller
 
         $pps = PatientPackage::whereBetween('patient_packages.updated_at', [$from, $to])
                 ->join('users as u', 'u.id', '=', 'patient_packages.user_id')
+                ->where('patient_packages.type', 'like', $f['type'])
                 ->select('patient_packages.*', 'u.fname', 'u.lname', 'u.gender', 'u.birthday');
 
         if(str_contains($f['name'], ",")){

@@ -23,13 +23,22 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="from">From</label>
                                 <input type="text" id="from" class="form-control">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="to">To</label>
                                 <input type="text" id="to" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="type">Type</label>
+                                <select  class="form-control" id="type">
+                                    <option value="%%">All</option>
+                                    <option value="APE">APE</option>
+                                    <option value="PEE">PE</option>
+                                    <option value="ECU">ECU</option>
+                                </select>
                             </div>
                         </div>
 
@@ -64,19 +73,16 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <canvas id="classification" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <canvas id="gender" width="100%"></canvas>
                                                     </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <canvas id="age" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <canvas id="bmi" width="100%"></canvas>
                                                     </div>
                                                 </div>
@@ -161,11 +167,15 @@
     <script src="{{ asset('js/numeral.min.js') }}"></script>
 
     <script>
-        var from = moment().subtract(3,'months').format("YYYY-MM-DD");
+        var from = moment().subtract(6,'months').format("YYYY-MM-DD");
         var to = moment().format("YYYY-MM-DD");
+        var type = "%%";
         var name = "";
 
-        var ctx1, chart1;
+        var ctx1, chart1; //CLASSIFICATION
+        var ctx2, chart2; //GENDER
+        var ctx3, chart3; //AGE
+        var ctx4, chart4; //BMI
 
         $(document).ready(() => {
             $('#from').flatpickr({
@@ -184,8 +194,12 @@
 
             getChart1();
 
-            $('#from, #to, #name').on('change', e => {
+            $('#from, #to, #name, #type').on('change', e => {
                 window[e.target.id] = e.target.value;
+                chart1.destroy();
+                chart2.destroy();
+                chart3.destroy();
+                {{-- chart4.destroy(); --}}
                 getChart1();
             });
         });
@@ -194,7 +208,8 @@
             return {
                 from: from,
                 to: to,
-                name: name
+                name: name,
+                type: type
             }
         }
 
@@ -212,24 +227,36 @@
                     let bmis = [];
 
                     result.forEach(patient => {
-                        console.log(patient.classifications);
-                        classifications.push(patient.classifications ?? "Pending");
-                        genders.push(patient.genders);
+                        console.log(patient);
+                        classifications.push(patient.classification ?? "Pending");
+                        genders.push(patient.gender ?? "No Data");
                         ages.push(moment().diff(moment(patient.birthday), 'years'));
 
                         let qwa = JSON.parse(patient.question_with_answers);
                         if(qwa){
-                            qwa.forEach(answer => {
+                            let flag = true;
+                            for(let answer of qwa){
                                 if(answer.id == 173){
                                     if(answer.answer){
-                                        bmis.push(answer.answer);
+                                        bmis.push(answer.answer ?? "No Data");
+                                        flag = false;
+                                        break;
                                     }
                                 }
-                            });
+                            }
+
+                            if(flag){
+                                bmis.push("No Data");
+                            }
                         }
                         else{
                             bmis.push("No Data");
                         }
+                    });
+
+                    classifications = classifications.map(s => {
+                        if (s.includes("impairments")) return "Employable but with certain impairments";
+                        return s;
                     });
 
                     classifications = classifications.reduce((classification, item) => {
@@ -237,10 +264,46 @@
                       return classification;
                     }, {});
 
-                    console.log(Object.keys(classifications));
-                    console.log(Object.values(classifications));
+                    classifications = Object.keys(classifications)
+                        .sort((a, b) => a.localeCompare(b)) // A → Z
+                        .reduce((acc, key) => {
+                        acc[key] = classifications[key];
+                        return acc;
+                    }, {});
 
+                    genders = genders.reduce((gender, item) => {
+                      gender[item] = (gender[item] || 0) + 1;
+                      return gender;
+                    }, {});
+
+                    ages = ages.reduce((groups, age) => {
+                        let range;
+
+                        if (age < 18) range = "Below 18";
+                        else if (age < 29) range = "18-29";
+                        else if (age <= 40) range = "30-40";
+                        else if (age <= 50) range = "41-50";
+                        else if (age <= 60) range = "51-60";
+                        else if (age <= 70) range = "61-70";
+                        else range = "70+";
+
+                        groups[range] = (groups[range] || 0) + 1;
+                        return groups;
+                    }, {});
+
+                    ages = Object.keys(ages)
+                        .sort((a, b) => {
+                        let getStart = str => parseInt(str.match(/\d+/)?.[0] ?? -1, 10);
+                        return getStart(a) - getStart(b);
+                    })
+                        .reduce((acc, key) => {
+                        acc[key] = ages[key];
+                        return acc;
+                    }, {});
+
+                    {{-- CLASSIFICATION CHART --}}
                     ctx1 = document.getElementById('classification').getContext('2d');
+
                     chart1 = new Chart(ctx1, {
                         type: 'pie',
                         data: {
@@ -248,12 +311,8 @@
                             datasets: [{
                                 label: "Classifications",
                                 data: Object.values(classifications),
-                                backgroundColor: [
-                                    generateRandomColors(Object.values(classifications).length, 0.7)
-                                ],
-                                borderColor: [
-                                    generateRandomColors(Object.values(classifications).length, 1)
-                                ],
+                                backgroundColor: generateRandomColors(Object.values(classifications).length, 0.7),
+                                {{-- borderColor: generateRandomColors(Object.values(classifications).length, 1), --}}
                                 borderWidth: 1
                             }]
                         },
@@ -271,9 +330,59 @@
                         }
                     });
 
-                    console.log(gender);
-                    console.log(age);
-                    console.log(bmi);
+                    {{-- GENDER CHART --}}
+                    ctx2 = document.getElementById('gender').getContext('2d');
+                    chart2 = new Chart(ctx2, {
+                        type: 'pie',
+                        data: {
+                            labels: Object.keys(genders),
+                            datasets: [{
+                                label: "Gender",
+                                data: Object.values(genders),
+                                backgroundColor: generateRandomColors(Object.values(genders).length, 0.7),
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                                plugins: {
+                                    legend: {
+                                    position: "top",
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Gender Pie Chart"
+                                }
+                            }
+                        }
+                    });
+
+                    {{-- AGE CHART --}}
+                    ctx3 = document.getElementById('age').getContext('2d');
+                    chart3 = new Chart(ctx3, {
+                        type: 'pie',
+                        data: {
+                            labels: Object.keys(ages),
+                            datasets: [{
+                                label: "Age",
+                                data: Object.values(ages),
+                                backgroundColor: generateRandomColors(Object.values(ages).length, 0.7),
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                                plugins: {
+                                    legend: {
+                                    position: "top",
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Age Range Pie Chart"
+                                }
+                            }
+                        }
+                    });
                 }
             });
         }
