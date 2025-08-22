@@ -99,19 +99,19 @@
                                             <div class="chart tab-pane" id="classification" style="position: relative;">
                                                 <div class="preloader"></div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-8">
                                                         <div style="width: 100%;">
                                                             <canvas id="classification-chart"></canvas>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6" id="patient-list">
+                                                    <div class="col-md-4" id="patient-list">
                                                         <span></span>
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
                                                                 <tr>
+                                                                    <th>#</th>
                                                                     <th>Name</th>
-                                                                    <th>Assessment</th>
-                                                                    <th>Recommendation</th>
+                                                                    <th>Action</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -733,9 +733,12 @@
             });
         }
 
+
+        var details = [];
         function getPatientList(classification){
             let  filters = getFilters();
             filters["classification"] = classification;
+            details = [];
 
             $.ajax({
                 url: "{{ route("analytics.getReport1") }}",
@@ -744,12 +747,22 @@
                     result = JSON.parse(result);
                     
                     let patientString = "";
+                    let ctr = 1;
+
                     result.forEach(patient => {
+                        details[patient.id] = [];
+                        details[patient.id].clinical_assessment = cleanString(patient.clinical_assessment);
+                        details[patient.id].recommendation = cleanString(patient.recommendation);
+
                         patientString += `
                             <tr>
+                                <td>${ctr++}.)</td>
                                 <td>${patient.user.fname} ${patient.user.lname}</td>
-                                <td>${cleanString(patient.clinical_assessment)}</td>
-                                <td>${cleanString(patient.recommendation)}</td>
+                                <td style="text-align: center;">
+                                    <a class='btn btn-success btn-sm' data-toggle='tooltip' title='View' onClick='showDetails(${patient.id})'>
+                                        <i class='fas fa-search fa-xs'></i>
+                                    </a>
+                                </td>
                             </tr>
                         `;
                     });
@@ -757,6 +770,34 @@
                     $('#patient-list tbody').html(patientString);
                 }
             });
+        }
+
+        function showDetails(id){
+            Swal.fire({
+                title: "Exam Details",
+                html: `
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-3">
+                            <div class="container">
+                                <div class="row mb-2">
+                                    <div class="col-3 text-primary mb-1">Assessment:</div>
+                                    <div class="col-9 mb-0 text-muted" style="text-align: left;">${details[id].clinical_assessment}</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3 text-primary mb-1">Recommendation:</div>
+                                    <div class="col-9 mb-0 text-muted" style="text-align: left;">${details[id].recommendation}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                showCloseButton: true,
+                confirmButtonText: 'Send Email Reminder',
+                showCancelButton: true,
+                cancelButtonText: "Close",
+                cancelButtonColor: errorColor,
+                width: "800px"
+            })
         }
 
         function cleanString(str){
