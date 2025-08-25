@@ -8,12 +8,41 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 // use Maatwebsite\Excel\Concerns\WithDrawings;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+// use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
+class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawings//
 {
     public function __construct($data){
-        $this->data     = $data;
+        $totalPackage = array();
+        $totalGender = array();
+        $totalStatus = array();
+        $totalType = array();
+        $totalClassification = array();
+
+        foreach($data as $row){
+            isset($totalPackage[strtoupper($row->package->name)]) ? $totalPackage[strtoupper($row->package->name)]++ : $totalPackage[strtoupper($row->package->name)] = 1;
+            isset($totalGender[strtoupper($row->user->gender)]) ? $totalGender[strtoupper($row->user->gender)]++ : $totalGender[strtoupper($row->user->gender)] = 1;
+            isset($totalStatus[strtoupper($row->status)]) ? $totalStatus[strtoupper($row->status)]++ : $totalStatus[strtoupper($row->status)] = 1;
+            isset($totalType[strtoupper($row->type)]) ? $totalType[strtoupper($row->type)]++ : $totalType[strtoupper($row->type)] = 1;
+            isset($totalClassification[strtoupper($row->classification)]) ? $totalClassification[strtoupper($row->classification)]++ : $totalClassification[strtoupper($row->classification)] = 1;
+        }
+
+        arsort($totalPackage);
+        arsort($totalGender);
+        arsort($totalStatus);
+        arsort($totalType);
+        arsort($totalClassification);
+
+        $data->totalPackage = $totalPackage;
+        $data->totalGender = $totalGender;
+        $data->totalStatus = $totalStatus;
+        $data->totalType = $totalType;
+        $data->totalClassification = $totalClassification;
+
+        $data->maxLength = max(array_map('count', [$totalPackage, $totalGender, $totalStatus, $totalType, $totalClassification]));
+
+        $this->data          = $data;
+        $this->maxLength     = $data->maxLength;
     }
 
     public function view(): View
@@ -170,7 +199,7 @@ class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => 'bdb9b9'
+                        'rgb' => 'FFFF00'
                     ]
                 ],
             ],
@@ -315,6 +344,8 @@ class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
 
                 // HC VC
                 $h[4] = [
+                    // 'A1:Y' . (sizeof($this->data) + 1)
+                    'A1:Y' . (sizeof($this->data) + $this->maxLength + 3)
                 ];
 
                 // HL
@@ -338,10 +369,13 @@ class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
                 ];
 
                 $h['wrap'] = [
+                    'B' . (sizeof($this->data) + 3) . ':T' . (sizeof($this->data) + $this->maxLength + 3)
                 ];
 
                 // SHRINK TO FIT
                 $h['stf'] = [
+                    'D2:G' . (sizeof($this->data) + 1),
+                    'K2:K' . (sizeof($this->data) + 1)
                 ];
 
                 foreach($h as $key => $value) {
@@ -365,6 +399,11 @@ class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
 
                 // FILLS
                 $fills[0] = [
+                    'B' . (sizeof($this->data) + 3) . ':E' . (sizeof($this->data) + 3),
+                    'G' . (sizeof($this->data) + 3) . ':K' . (sizeof($this->data) + 3),
+                    'M' . (sizeof($this->data) + 3) . ':N' . (sizeof($this->data) + 3),
+                    'P' . (sizeof($this->data) + 3) . ':Q' . (sizeof($this->data) + 3),
+                    'S' . (sizeof($this->data) + 3) . ':T' . (sizeof($this->data) + 3),
                 ];
 
                 $fills[1] = [
@@ -381,6 +420,12 @@ class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
 
                 // ALL BORDER THIN
                 $cells[0] = array_merge([
+                    'A1:Y' . (sizeof($this->data) + 1),
+                    'B' . (sizeof($this->data) + 3) . ':E' . (sizeof($this->data) + sizeof($this->data->totalPackage) + 3),
+                    'G' . (sizeof($this->data) + 3) . ':K' . (sizeof($this->data) + sizeof($this->data->totalClassification) + 3),
+                    'M' . (sizeof($this->data) + 3) . ':N' . (sizeof($this->data) + sizeof($this->data->totalType) + 3),
+                    'P' . (sizeof($this->data) + 3) . ':Q' . (sizeof($this->data) + sizeof($this->data->totalStatus) + 3),
+                    'S' . (sizeof($this->data) + 3) . ':T' . (sizeof($this->data) + sizeof($this->data->totalGender) + 3),
                 ]);
 
                 // ALL BORDER MEDIUM
@@ -450,13 +495,40 @@ class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
                 // $event->sheet->getDelegate()->getStyle('L46')->getFont()->setName('Marlett');
 
                 // COLUMN RESIZE
-                // $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(2);
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(17);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(16);
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(15);
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(15);
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(11);
+                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(16);
+                $event->sheet->getDelegate()->getColumnDimension('J')->setWidth(7);
+
+                $event->sheet->getDelegate()->getColumnDimension('K')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('L')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('M')->setWidth(15);
+                $event->sheet->getDelegate()->getColumnDimension('N')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('O')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('P')->setWidth(15);
+
+                $event->sheet->getDelegate()->getColumnDimension('Q')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('R')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('S')->setWidth(10);
+                $event->sheet->getDelegate()->getColumnDimension('T')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('U')->setWidth(35);
+
+                $event->sheet->getDelegate()->getColumnDimension('V')->setWidth(8);
+                $event->sheet->getDelegate()->getColumnDimension('W')->setWidth(50);
+                $event->sheet->getDelegate()->getColumnDimension('X')->setWidth(15);
+                $event->sheet->getDelegate()->getColumnDimension('Y')->setWidth(14);
 
                 // ROW RESIZE
                 $rows = [
                     // [
-                    //     12, //ROW HEIGHT
-                    //     1,4 //START ROW, END ROW
+                    //     -1, //ROW HEIGHT
+                    //     2,3 //START ROW, END ROW
                     // ],
                 ];
 
@@ -476,6 +548,12 @@ class PackageSold implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
                 foreach($rows2 as $row){
                     foreach($row[1] as $cell){
                         $event->sheet->getDelegate()->getRowDimension($cell)->setRowHeight($row[0]);
+                    }
+                }
+
+                for($i = (sizeof($this->data) + 4); $i < (sizeof($this->data) + $this->maxLength + 3); $i++){
+                    if(strlen($event->sheet->getCell("B$i")->getValue()) >= 35 || strlen($event->sheet->getCell("G$i")->getValue()) >= 35){
+                        $event->sheet->getDelegate()->getRowDimension($i)->setRowHeight(27);
                     }
                 }
 
