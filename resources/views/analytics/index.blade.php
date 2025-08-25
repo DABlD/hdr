@@ -791,7 +791,7 @@
                                     Pending: "Pending"
                                 };
 
-                                $('#patient-list span').html(list[key] + ' list');
+                                $('#patient-list span').html(key + " - " + list[key] + ' list');
                                 getPatientList(list[key]);
                             }
                         }
