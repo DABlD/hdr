@@ -115,7 +115,6 @@
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>#</th>
                                                                     <th>Name</th>
                                                                     <th>Action</th>
                                                                 </tr>
@@ -815,7 +814,6 @@
                     result = JSON.parse(result);
                     
                     let patientString = "";
-                    let ctr = 1;
 
                     result.forEach(patient => {
                         details[patient.id] = [];
@@ -824,7 +822,6 @@
 
                         patientString += `
                             <tr>
-                                <td>${ctr++}.)</td>
                                 <td>${patient.user.fname} ${patient.user.lname}</td>
                                 <td style="text-align: center;">
                                     <a class='btn btn-success btn-sm' data-toggle='tooltip' title='View' onClick='showDetails(${patient.id})'>
