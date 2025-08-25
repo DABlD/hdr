@@ -481,16 +481,14 @@
                         },
                         options: {
                             responsive: true,
-                                plugins: {
-                                    legend: {
+                            plugins: {
+                                legend: {
                                     position: "top",
                                 },
                                 title: {
                                     display: true,
-                                    text: "Type Pie Chart"
-                                }
-                            },
-                            plugins: {
+                                    text: "Exam Type"
+                                },
                                 datalabels: {
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
@@ -524,16 +522,14 @@
                         },
                         options: {
                             responsive: true,
-                                plugins: {
-                                    legend: {
+                            plugins: {
+                                legend: {
                                     position: "top",
                                 },
                                 title: {
                                     display: true,
-                                    text: "Gender Pie Chart"
-                                }
-                            },
-                            plugins: {
+                                    text: "Genders"
+                                },
                                 datalabels: {
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
@@ -567,16 +563,14 @@
                         },
                         options: {
                             responsive: true,
-                                plugins: {
-                                    legend: {
+                            plugins: {
+                                legend: {
                                     position: "top",
                                 },
                                 title: {
                                     display: true,
-                                    text: "Age Range Pie Chart"
-                                }
-                            },
-                            plugins: {
+                                    text: "Age Group"
+                                },
                                 datalabels: {
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
@@ -610,16 +604,14 @@
                         },
                         options: {
                             responsive: true,
-                                plugins: {
-                                    legend: {
+                            plugins: {
+                                legend: {
                                     position: "top",
                                 },
                                 title: {
                                     display: true,
-                                    text: "BMI Pie Chart"
-                                }
-                            },
-                            plugins: {
+                                    text: "Weight Classifications"
+                                },
                                 datalabels: {
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
