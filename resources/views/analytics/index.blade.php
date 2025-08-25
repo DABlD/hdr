@@ -342,21 +342,29 @@
                         }
                     });
 
+                    types = types.map(item => item === "PEE" ? "PPE" : item);
+                    genders = genders.filter(item => item.toLowerCase() !== "no data");
+                    bmis = bmis.filter(item => item.toLowerCase() !== "no data");
+
                     types = types.reduce((type, item) => {
                       type[item] = (type[item] || 0) + 1;
                       return type;
                     }, {});
 
+                    let order = ["APE", 'PPE', 'ECU'];
                     types = Object.keys(types)
-                        .sort((a, b) => a.localeCompare(b)) // A → Z
+                        .sort((a, b) => order.indexOf(a) - order.indexOf(b))
                         .reduce((acc, key) => {
                         acc[key] = types[key];
                         return acc;
                     }, {});
 
-                    genders = genders.reduce((gender, item) => {
-                      gender[item] = (gender[item] || 0) + 1;
-                      return gender;
+                    order = ["Male", 'Female'];
+                    genders = genders
+                        .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+                        .reduce((gender, item) => {
+                        gender[item] = (gender[item] || 0) + 1;
+                        return gender;
                     }, {});
 
                     ages = ages.reduce((groups, age) => {
@@ -376,9 +384,9 @@
 
                     ages = Object.keys(ages)
                         .sort((a, b) => {
-                        let getStart = str => parseInt(str.match(/\d+/)?.[0] ?? -1, 10);
-                        return getStart(a) - getStart(b);
-                    })
+                            let getStart = str => parseInt(str.match(/\d+/)?.[0] ?? -1, 10);
+                            return getStart(a) - getStart(b);
+                        })
                         .reduce((acc, key) => {
                         acc[key] = ages[key];
                         return acc;
@@ -399,7 +407,7 @@
                         return groups;
                     }, {});
 
-                    const order = ["Underweight", "Normal", "Overweight", "Obese I", "Obese II", "Obese III", "No Data"];
+                    order = ["Underweight", "Normal", "Overweight", "Obese I", "Obese II", "Obese III", "No Data"];
                     bmis = Object.keys(bmis)
                         .sort((a, b) => order.indexOf(a) - order.indexOf(b))
                         .reduce((acc, key) => {
