@@ -474,8 +474,8 @@
                             datasets: [{
                                 label: "Types",
                                 data: Object.values(types),
-                                backgroundColor: generateRandomColors(Object.values(types).length, 0.7),
-                                {{-- borderColor: generateRandomColors(Object.values(types).length, 1), --}}
+                                backgroundColor: getColors(Object.values(types).length, 0.7),
+                                borderColor: getColors(Object.values(types).length, 1),
                                 borderWidth: 1,
                             }]
                         },
@@ -493,15 +493,17 @@
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                         let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage;
+                                        return percentage + "\n  " + value;
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 10,
-                                        family: 'Arial'
+                                        size: 12,
+                                        family: 'Quicksand',
+                                        weight: 'bold',
+                                        lineHeight: 1.2
                                     },
                                     align: 'center',
-                                    anchor: 'center',
+                                    anchor: 'center'
                                 }
                             }
                         }
@@ -516,7 +518,8 @@
                             datasets: [{
                                 label: "Gender",
                                 data: Object.values(genders),
-                                backgroundColor: generateRandomColors(Object.values(genders).length, 0.7),
+                                backgroundColor: getColors(Object.values(genders).length, 0.7),
+                                borderColor: getColors(Object.values(genders).length, 1),
                                 borderWidth: 1
                             }]
                         },
@@ -534,15 +537,17 @@
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                         let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage;
+                                        return percentage + "\n  " + value;
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 10,
-                                        family: 'Arial'
+                                        size: 12,
+                                        family: 'Quicksand',
+                                        weight: 'bold',
+                                        lineHeight: 1.2
                                     },
                                     align: 'center',
-                                    anchor: 'center',
+                                    anchor: 'center'
                                 }
                             }
                         }
@@ -557,7 +562,8 @@
                             datasets: [{
                                 label: "Age",
                                 data: Object.values(ages),
-                                backgroundColor: generateRandomColors(Object.values(ages).length, 0.7),
+                                backgroundColor: getColors(Object.values(ages).length, 0.7),
+                                borderColor: getColors(Object.values(ages).length, 1),
                                 borderWidth: 1
                             }]
                         },
@@ -575,15 +581,17 @@
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                         let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage;
+                                        return percentage + "\n  " + value;
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 10,
-                                        family: 'Arial'
+                                        size: 12,
+                                        family: 'Quicksand',
+                                        weight: 'bold',
+                                        lineHeight: 1.2
                                     },
                                     align: 'center',
-                                    anchor: 'center',
+                                    anchor: 'center'
                                 }
                             }
                         }
@@ -598,7 +606,8 @@
                             datasets: [{
                                 label: "BMI",
                                 data: Object.values(bmis),
-                                backgroundColor: generateRandomColors(Object.values(bmis).length, 0.7),
+                                backgroundColor: getColors(Object.values(bmis).length, 0.7),
+                                borderColor: getColors(Object.values(bmis).length, 1),
                                 borderWidth: 1
                             }]
                         },
@@ -616,15 +625,17 @@
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                         let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage;
+                                        return percentage + "\n  " + value;
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 10,
-                                        family: 'Arial'
+                                        size: 12,
+                                        family: 'Quicksand',
+                                        weight: 'bold',
+                                        lineHeight: 1.2
                                     },
                                     align: 'center',
-                                    anchor: 'center',
+                                    anchor: 'center'
                                 }
                             }
                         }
@@ -635,13 +646,12 @@
 
                     let datasets = Object.entries(diseases).map(([disease, count], i) => {
                         let dataArr = Object.keys(diseases).map(l => (l === disease ? count : null));
-                        let color = generateRandomColors(1, 0.6)[0];
 
                         return {
                             label: disease,
                             data: dataArr,
-                            backgroundColor: color,
-                            borderColor: color.replace(/0\.6/, "1"),
+                            backgroundColor: getColors(null, 0.7, i),
+                            borderColor: getColors(null, 1, i),
                         };
                     });
 
@@ -683,35 +693,36 @@
                             labels: Object.keys(classifications),
                             datasets: [{
                                 data: Object.values(classifications),
-                                backgroundColor: generateRandomColors(Object.values(classifications).length, 0.7),
+                                backgroundColor: getColors(Object.values(classifications).length, 0.7),
+                                borderColor: getColors(Object.values(classifications).length, 1),
                                 borderWidth: 1,
                             }]
                         },
                         options: {
                             responsive: true,
-                                plugins: {
-                                    legend: {
+                            plugins: {
+                                legend: {
                                     position: "top",
                                 },
                                 title: {
                                     display: true,
-                                    text: "Classification Pie Chart"
-                                }
-                            },
-                            plugins: {
+                                    text: "Type Pie Chart"
+                                },
                                 datalabels: {
                                     formatter: (value, ctx) => {
                                         let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                         let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage;
+                                        return percentage + "\n  " + value;
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 10,
-                                        family: 'Arial'
+                                        size: 16,
+                                        family: 'Quicksand',
+                                        weight: 'bold',
+                                        lineHeight: 1.2
                                     },
                                     align: 'center',
-                                    anchor: 'center',
+                                    anchor: 'center'
                                 }
                             },
                             onClick: (evt, elements) => {
@@ -808,15 +819,41 @@
                 .replace(/<br>$/, ''); 
         }
 
-        function generateRandomColors(n, alpha = 0.7) {
-            let colors = [];
-            for (let i = 0; i < n; i++) {
-                const r = Math.floor(Math.random() * 256);
-                const g = Math.floor(Math.random() * 256);
-                const b = Math.floor(Math.random() * 256);
-                colors.push(`rgba(${r}, ${g}, ${b}, ${alpha})`);
+        function getColors(n, alpha, exact = null) {
+            let colors = [
+                `rgba(255, 209, 169, ${alpha})`, // pastel orange
+                `rgba(167, 199, 231, ${alpha})`, // pastel blue
+                `rgba(255, 249, 177, ${alpha})`, // pastel yellow
+                `rgba(197, 232, 206, ${alpha})`, // pastel mint
+                `rgba(255, 182, 193, ${alpha})`, // pastel pink
+                `rgba(221, 160, 221, ${alpha})`, // pastel purple
+                `rgba(255, 204, 229, ${alpha})`, // pastel rose
+                `rgba(186, 225, 255, ${alpha})`, // pastel sky blue
+                `rgba(255, 223, 186, ${alpha})`, // pastel peach
+                `rgba(202, 255, 191, ${alpha})`, // pastel green
+                `rgba(255, 218, 185, ${alpha})`, // pastel coral
+                `rgba(204, 255, 229, ${alpha})`, // pastel teal
+                `rgba(250, 218, 221, ${alpha})`, // pastel blush
+                `rgba(240, 230, 140, ${alpha})`, // pastel khaki
+                `rgba(255, 228, 196, ${alpha})`, // pastel bisque
+                `rgba(221, 220, 235, ${alpha})`, // pastel lavender gray
+                `rgba(255, 240, 245, ${alpha})`, // pastel lavender blush
+                `rgba(230, 230, 250, ${alpha})`, // pastel lavender
+                `rgba(224, 255, 255, ${alpha})`, // pastel cyan
+                `rgba(245, 245, 220, ${alpha})`  // pastel beige
+            ];
+
+
+            if(exact != null){
+                return colors[exact];
             }
-            return colors;
+
+            let temp = [];
+
+            for (let i = 0; i < n; i++) {
+                temp.push(colors[i]);
+            }
+            return temp;
         }
     </script>
 @endpush
