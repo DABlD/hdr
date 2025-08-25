@@ -169,6 +169,7 @@ class ReportController extends Controller
                             'patient_packages.user_id',
                             'patient_packages.classification',
                             'patient_packages.clinical_assessment',
+                            'patient_packages.c_remarks',
                             'patient_packages.recommendation');
 
             if($f['classification'] == "Pending"){

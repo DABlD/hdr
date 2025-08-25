@@ -819,6 +819,7 @@
                         details[patient.id] = [];
                         details[patient.id].clinical_assessment = cleanString(patient.clinical_assessment);
                         details[patient.id].recommendation = cleanString(patient.recommendation);
+                        details[patient.id].c_remarks = cleanString(patient.c_remarks);
 
                         patientString += `
                             <tr>
@@ -852,6 +853,10 @@
                                     <div class="col-3 text-primary mb-1">Recommendation:</div>
                                     <div class="col-9 mb-0 text-muted" style="text-align: left;">${details[id].recommendation}</div>
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col-3 text-primary mb-1">Remarks:</div>
+                                    <div class="col-9 mb-0 text-muted" style="text-align: left;">${details[id].c_remarks}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -866,7 +871,7 @@
         }
 
         function cleanString(str){
-            if (!str) return ""; // handles null, undefined, empty
+            if (!str) return "-"; // handles null, undefined, empty
             return str
                 .replace(/<p>/gi, '')          // remove <p>
                 .replace(/<\/p>/gi, '<br>')    // </p> → <br>
