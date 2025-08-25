@@ -67,6 +67,12 @@
                                                             Total Clients/Examinees Seen:
                                                         </span>
                                                         <span class="count">0</span>
+
+                                                        <div class="float-right">
+                                                            <a class="btn btn-primary btn-sm" data-toggle="tooltip" title="Download" onclick="downloadCharts()">
+                                                                <i class="fas fa-download"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -201,6 +207,7 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/charts.min.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
@@ -499,7 +506,6 @@
                                     font: { 
                                         size: 14,
                                         family: 'Quicksand',
-                                        weight: 'bold',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -550,7 +556,6 @@
                                     font: { 
                                         size: 14,
                                         family: 'Quicksand',
-                                        weight: 'bold',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -601,7 +606,6 @@
                                     font: { 
                                         size: 14,
                                         family: 'Quicksand',
-                                        weight: 'bold',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -662,7 +666,6 @@
                                     font: { 
                                         size: 14,
                                         family: 'Quicksand',
-                                        weight: 'bold',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -773,7 +776,6 @@
                                     font: { 
                                         size: 16,
                                         family: 'Quicksand',
-                                        weight: 'bold',
                                         lineHeight: 1.2
                                     },
                                     align: 'center',
@@ -932,6 +934,42 @@
                     </body>
                 </html>
             `;
+        }
+
+        function downloadCharts(){
+            let tabContent = document.querySelector('.tab-content');
+
+            html2canvas(tabContent, {
+                scale: 2,  // higher = sharper image
+                useCORS: true
+            }).then(canvas => {
+                let imgData = canvas.toDataURL("image/png");
+                let w = window.open();
+                w.document.write(`
+                    <html>
+                        <head>
+                            <title>Tab Content Image</title>
+                            <style>
+                                body {
+                                    margin: 0;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    height: 100vh;
+                                    background: #fff;
+                                }
+                                img {
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <img src="${imgData}">
+                        </body>
+                    </html>
+                `);
+            });
         }
     </script>
 @endpush
