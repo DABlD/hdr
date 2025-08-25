@@ -505,6 +505,13 @@
                                     align: 'start',
                                     anchor: 'center'
                                 }
+                            },
+                            onClick: (e, elements, chart) => {
+                                // convert chart to image
+                                let img = chart.toBase64Image();
+                                // open in new tab
+                                let w = window.open();
+                                w.document.write(canvasImage(img));
                             }
                         }
                     });
@@ -549,6 +556,13 @@
                                     align: 'start',
                                     anchor: 'center'
                                 }
+                            },
+                            onClick: (e, elements, chart) => {
+                                // convert chart to image
+                                let img = chart.toBase64Image();
+                                // open in new tab
+                                let w = window.open();
+                                w.document.write(canvasImage(img));
                             }
                         }
                     });
@@ -603,6 +617,13 @@
                                     },
                                     clamp: true
                                 }
+                            },
+                            onClick: (e, elements, chart) => {
+                                // convert chart to image
+                                let img = chart.toBase64Image();
+                                // open in new tab
+                                let w = window.open();
+                                w.document.write(canvasImage(img));
                             }
                         }
                     });
@@ -657,6 +678,13 @@
                                     },
                                     clamp: true
                                 }
+                            },
+                            onClick: (e, elements, chart) => {
+                                // convert chart to image
+                                let img = chart.toBase64Image();
+                                // open in new tab
+                                let w = window.open();
+                                w.document.write(canvasImage(img));
                             }
                         }
                     });
@@ -701,6 +729,13 @@
                                     beginAtZero: true,
                                     stacked: true,
                                 }
+                            },
+                            onClick: (e, elements, chart) => {
+                                // convert chart to image
+                                let img = chart.toBase64Image();
+                                // open in new tab
+                                let w = window.open();
+                                w.document.write(canvasImage(img));
                             }
                         }
                     });
@@ -874,6 +909,29 @@
                 temp.push(colors[i]);
             }
             return temp;
+        }
+
+        function canvasImage(img){
+            return `
+                <html>
+                    <head>
+                        <title>Chart Preview</title>
+                        <style>
+                            body {
+                                margin: 0;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                height: 100vh;
+                                background: #fff;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <img src="${img}" style="height: 90%;">
+                    </body>
+                </html>
+            `;
         }
     </script>
 @endpush
