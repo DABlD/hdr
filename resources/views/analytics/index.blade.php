@@ -497,12 +497,12 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 12,
+                                        size: 14,
                                         family: 'Quicksand',
                                         weight: 'bold',
                                         lineHeight: 1.2
                                     },
-                                    align: 'center',
+                                    align: 'start',
                                     anchor: 'center'
                                 }
                             }
@@ -541,12 +541,12 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 12,
+                                        size: 14,
                                         family: 'Quicksand',
                                         weight: 'bold',
                                         lineHeight: 1.2
                                     },
-                                    align: 'center',
+                                    align: 'start',
                                     anchor: 'center'
                                 }
                             }
@@ -585,13 +585,23 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 12,
+                                        size: 14,
                                         family: 'Quicksand',
                                         weight: 'bold',
                                         lineHeight: 1.2
                                     },
-                                    align: 'center',
-                                    anchor: 'center'
+                                    align: 'start',
+                                    anchor: 'center',
+                                    offset: (ctx) => {
+                                        // get chart radius
+                                        let chart = ctx.chart;
+                                        let meta = chart.getDatasetMeta(ctx.datasetIndex);
+                                        let radius = meta.data[ctx.dataIndex].outerRadius;
+
+                                        // push label outward by ~15% of radius (tweak as needed)
+                                        return -(radius * 0.50);
+                                    },
+                                    clamp: true
                                 }
                             }
                         }
@@ -629,13 +639,23 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 12,
+                                        size: 14,
                                         family: 'Quicksand',
                                         weight: 'bold',
                                         lineHeight: 1.2
                                     },
-                                    align: 'center',
-                                    anchor: 'center'
+                                    align: 'start',
+                                    anchor: 'center',
+                                    offset: (ctx) => {
+                                        // get chart radius
+                                        let chart = ctx.chart;
+                                        let meta = chart.getDatasetMeta(ctx.datasetIndex);
+                                        let radius = meta.data[ctx.dataIndex].outerRadius;
+
+                                        // push label outward by ~15% of radius (tweak as needed)
+                                        return -(radius * 0.50);
+                                    },
+                                    clamp: true
                                 }
                             }
                         }
