@@ -218,16 +218,16 @@ class DashboardController extends Controller
     }
 
     private function getDates($from, $to){
-            $dates = [];
+        $dates = [];
 
-            while($from <= $to){
-                $tempDate = now()->parse($from);
-                array_push($dates, $tempDate->toDateString());
-                $from = $tempDate->addDay()->toDateString();
-            }
-
-            return $dates;
+        while($from <= $to){
+            $tempDate = now()->parse($from);
+            array_push($dates, $tempDate->toDateString());
+            $from = $tempDate->addDay()->toDateString();
         }
+
+        return $dates;
+    }
 
     private function _view($view, $data = array()){
         return view($view, $data);

@@ -261,6 +261,23 @@ Route::group([
             }
         );
 
+        // COMPANY TRANSACTIONS
+        $cname = "transaction";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+                Route::get("/", ucfirst($cname) . "Controller@index")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fas fa-money-check-alt")
+                    ->defaults("name", "Company Transactions")
+                    ->defaults("roles", array("Admin"))
+                    // ->defaults("group", "Settings")
+                    ->name($cname)
+                    ->defaults("href", "/$cname");
+            }
+        );
+
         // ANALYTICS
         $cname = "analytics";
         Route::group([
@@ -279,6 +296,23 @@ Route::group([
 
                 Route::get("getReport1/", "ReportController@getReport1")->name('.getReport1');
                 Route::get("sendEmailReminder/", "ReportController@sendEmailReminder")->name('.sendEmailReminder');
+            }
+        );
+
+        // WELLNESS
+        $cname = "wellness";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+                Route::get("/", ucfirst($cname) . "Controller@index")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fas fa-heart")
+                    ->defaults("name", "Wellness Programs")
+                    ->defaults("roles", array("Admin"))
+                    // ->defaults("group", "Settings")
+                    ->name($cname)
+                    ->defaults("href", "/$cname");
             }
         );
 
