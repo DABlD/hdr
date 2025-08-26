@@ -6,6 +6,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use DB;
 
+use App\Models\{User};
 use App\Models\{ExamList, PatientPackage};
 
 class ReportController extends Controller
@@ -121,21 +122,25 @@ class ReportController extends Controller
     }
 
     function analytics(Request $req){
+        $companies = User::select('id', 'fname')->where('role', 'Company')->distinct()->get();
+
         return view("analytics.index", [
-            "title" => "Analytics"
+            "title" => "Analytics",
+            "companies" => $companies
         ]);
     }
 
     function getReport1(Request $req){
-        DB::enableQueryLog();
         $f = $req->filters;
         $from = $f['from'] . ' 00:00:00';
         $to = $f['to'] . ' 23:59:59';
 
         $pps = PatientPackage::whereBetween('patient_packages.updated_at', [$from, $to])
                 ->join('users as u', 'u.id', '=', 'patient_packages.user_id')
+                ->join('packages as p', 'p.id', '=', 'patient_packages.package_id')
+                ->where('p.company', 'like', $f['company'])
                 ->where('patient_packages.type', 'like', $f['type'])
-                ->select('patient_packages.*', 'u.fname', 'u.lname', 'u.gender', 'u.birthday');
+                ->select('patient_packages.*', 'u.fname', 'u.lname', 'u.gender', 'u.birthday', 'p.company');
 
         if(str_contains($f['name'], ",")){
             $temp = explode(",", $f['name']);

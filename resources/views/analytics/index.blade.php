@@ -16,24 +16,33 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" class="form-control" placeholder="Search name (if blank all)">
+                            <div class="col-md-4">
+                                <label for="fName">Name</label>
+                                <input type="text" id="fName" class="form-control" placeholder="Search name (if blank all)">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="fCompany">Company</label>
+                                <select class="form-control" id="fCompany">
+                                    <option value="%%">All</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{ $company->fname }}">{{ $company->fname }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-2">
-                                <label for="from">From</label>
-                                <input type="text" id="from" class="form-control">
+                                <label for="fFrom">From</label>
+                                <input type="text" id="fFrom" class="form-control">
                             </div>
                             <div class="col-md-2">
-                                <label for="to">To</label>
-                                <input type="text" id="to" class="form-control">
+                                <label for="fTo">To</label>
+                                <input type="text" id="fTo" class="form-control">
                             </div>
                             <div class="col-md-2">
-                                <label for="type">Type</label>
-                                <select  class="form-control" id="type">
+                                <label for="fType">Type</label>
+                                <select  class="form-control" id="fType">
                                     <option value="%%">All</option>
                                     <option value="APE">APE</option>
                                     <option value="PEE">PE</option>
@@ -213,10 +222,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
-        var from = moment().subtract(6,'months').format("YYYY-MM-DD");
-        var to = moment().format("YYYY-MM-DD");
-        var type = "%%";
-        var name = "";
+        var fFrom = moment().subtract(6,'months').format("YYYY-MM-DD");
+        var fTo = moment().format("YYYY-MM-DD");
+        var fType = "%%";
+        var fCompany = "%%";
+        var fName = "";
 
         Chart.register(ChartDataLabels);
 
@@ -263,23 +273,23 @@
         };
 
         $(document).ready(() => {
-            $('#from').flatpickr({
+            $('#fFrom').flatpickr({
                 altInput: true,
                 altFormat: 'F j, Y',
                 dateFormat: 'Y-m-d',
-                defaultDate: from
+                defaultDate: fFrom
             });
 
-            $('#to').flatpickr({
+            $('#fTo').flatpickr({
                 altInput: true,
                 altFormat: 'F j, Y',
                 dateFormat: 'Y-m-d',
-                defaultDate: to
+                defaultDate: fTo
             });
 
             getChart1();
 
-            $('#from, #to, #name, #type').on('change', e => {
+            $('#fFrom, #fTo, #fName, #fType, #fCompany').on('change', e => {
                 window[e.target.id] = e.target.value;
                 chart1.destroy();
                 chart2.destroy();
@@ -296,14 +306,17 @@
                     $('.tab-content .preloader').css('height', '0px');
                 }, 1000);
             });
+
+            $('#fCompany').select2();
         });
 
         function getFilters(){
             return {
-                from: from,
-                to: to,
-                name: name,
-                type: type
+                from: fFrom,
+                to: fTo,
+                name: fName,
+                type: fType,
+                company: fCompany
             }
         }
 
