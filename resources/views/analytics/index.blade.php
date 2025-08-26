@@ -504,7 +504,7 @@
                                     color: '#000',
                                     font: { 
                                         size: 14,
-                                        family: 'Quicksand',
+                                        family: 'Poppins',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -554,7 +554,7 @@
                                     color: '#000',
                                     font: { 
                                         size: 14,
-                                        family: 'Quicksand',
+                                        family: 'Poppins',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -604,7 +604,7 @@
                                     color: '#000',
                                     font: { 
                                         size: 14,
-                                        family: 'Quicksand',
+                                        family: 'Poppins',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -664,7 +664,7 @@
                                     color: '#000',
                                     font: { 
                                         size: 14,
-                                        family: 'Quicksand',
+                                        family: 'Poppins',
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
@@ -774,7 +774,7 @@
                                     color: '#000',
                                     font: { 
                                         size: 16,
-                                        family: 'Quicksand',
+                                        family: 'Poppins',
                                         lineHeight: 1.2
                                     },
                                     align: 'center',
