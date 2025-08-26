@@ -112,6 +112,8 @@
                                                     </div>
                                                     <div class="col-md-4" id="patient-list">
                                                         <span></span>
+                                                        <br>
+                                                        <br>
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
                                                                 <tr>
@@ -192,9 +194,10 @@
             box-shadow: 0 1px 2px rgba(0,0,0,.03);
         }
 
-        #patient-list{
-            overflow-y: scroll;
-            height: 100vh;
+        #patient-list td{
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-family: 'Inter', sans-serif;
         }
     </style>
 @endpush
@@ -791,8 +794,31 @@
                                     Pending: "Pending"
                                 };
 
+                                $('#patient-list').append('<div class="preloader"></div>');
+                                {{-- DESTROY DATATABLE FIRST IF IT EXISTS --}}
+                                if ( $.fn.DataTable.isDataTable('#patient-list table') ) {
+                                    $('#patient-list table').DataTable().clear().destroy();
+                                }
+
                                 $('#patient-list span').html(key + " - " + list[key] + ' list');
                                 getPatientList(list[key]);
+
+                                setTimeout(() => {
+                                    new DataTable('#patient-list table', {
+                                        pageLength: 15,
+                                        lengthMenu: [[10, 15], [10, 15]],
+                                        pagingType: "simple_numbers",
+                                        language: {
+                                            paginate: {
+                                                previous: "<<",
+                                                next: ">>"
+                                            }
+                                        }
+                                    });
+
+                                    $.fn.DataTable.ext.pager.numbers_length = 5;
+                                    $('#patient-list .preloader').remove();
+                                }, 800)
                             }
                         }
                     });
@@ -825,8 +851,8 @@
                             <tr>
                                 <td>${patient.user.fname} ${patient.user.lname}</td>
                                 <td style="text-align: center;">
-                                    <a class='btn btn-success btn-sm' data-toggle='tooltip' title='View' onClick='showDetails(${patient.id})'>
-                                        <i class='fas fa-search fa-xs'></i>
+                                    <a class='btn btn-success btn-xs' data-toggle='tooltip' title='View' onClick='showDetails(${patient.id})'>
+                                        <i class='fas fa-search fa-sm'></i>
                                     </a>
                                 </td>
                             </tr>
