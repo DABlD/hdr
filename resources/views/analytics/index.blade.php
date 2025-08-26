@@ -802,23 +802,6 @@
 
                                 $('#patient-list span').html(key + " - " + list[key] + ' list');
                                 getPatientList(list[key]);
-
-                                setTimeout(() => {
-                                    new DataTable('#patient-list table', {
-                                        pageLength: 15,
-                                        lengthMenu: [[10, 15], [10, 15]],
-                                        pagingType: "simple_numbers",
-                                        language: {
-                                            paginate: {
-                                                previous: "<<",
-                                                next: ">>"
-                                            }
-                                        }
-                                    });
-
-                                    $.fn.DataTable.ext.pager.numbers_length = 5;
-                                    $('#patient-list .preloader').remove();
-                                }, 800)
                             }
                         }
                     });
@@ -849,8 +832,8 @@
 
                         patientString += `
                             <tr>
-                                <td>${patient.user.fname} ${patient.user.lname}</td>
-                                <td style="text-align: center;">
+                                <td>${patient.user.lname}, ${patient.user.fname}</td>
+                                <td style="text-align: center; width: 50px;">
                                     <a class='btn btn-success btn-xs' data-toggle='tooltip' title='View' onClick='showDetails(${patient.id})'>
                                         <i class='fas fa-search fa-sm'></i>
                                     </a>
@@ -860,6 +843,24 @@
                     });
 
                     $('#patient-list tbody').html(patientString);
+
+                    new DataTable('#patient-list table', {
+                        pageLength: 15,
+                        lengthMenu: [[10, 15], [10, 15]],
+                        pagingType: "simple_numbers",
+                        language: {
+                            paginate: {
+                                previous: "<<",
+                                next: ">>"
+                            }
+                        },
+                        columnDefs: [
+                            { width: "50px", targets: 1 }
+                        ]
+                    });
+
+                    $.fn.DataTable.ext.pager.numbers_length = 5;
+                    $('#patient-list .preloader').remove();
                 }
             });
         }
