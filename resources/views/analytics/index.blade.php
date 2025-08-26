@@ -907,6 +907,21 @@
                 cancelButtonText: "Close",
                 cancelButtonColor: errorColor,
                 width: "800px"
+            }).then(result => {
+                if(result.value){
+                    Swal.showLoading();
+                    $.ajax({
+                        url: "{{ route('analytics.sendEmailReminder') }}",
+                        data: {id: id},
+                        success: result => {
+                            console.log(result);
+                            ss("Successfully sent");
+                            setTimeout(() => {
+                                showDetails(id);
+                            }, 1000);
+                        }
+                    })
+                }
             })
         }
 
