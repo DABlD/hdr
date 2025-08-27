@@ -13,7 +13,7 @@
                             List
                         </h3>
 
-                        @include('patients.includes.toolbar')
+                        @include('transactions.includes.toolbar')
                     </div>
 
                     <div class="card-body table-responsive">
@@ -81,14 +81,6 @@
 
 	<script>
 		var fCompany = "%%";
-
-		{{-- <th>Company</th>
-		<th>Package</th>
-		<th>PAX</th>
-		<th>Completed</th>
-		<th>Pending</th>
-		<th>Status</th>
-		<th>Created At</th> --}}
 
 		$(document).ready(()=> {
 			var table = $('#table').DataTable({

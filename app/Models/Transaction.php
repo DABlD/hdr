@@ -20,4 +20,8 @@ class Transaction extends Model
     public function package(){
         return $this->hasOne('App\Models\Package', 'id', 'package_id');
     }
+
+    public function company(){
+        return $this->hasOne('App\Models\User', 'company', 'fname');
+    }
 }
