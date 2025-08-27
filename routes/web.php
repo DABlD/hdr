@@ -153,6 +153,7 @@ Route::group([
             ], function () use($cname){
 
                 Route::get("dashboard/", ucfirst($cname) . "Controller@dashboard")->name('dashboard');
+                Route::get("analytics/", ucfirst($cname) . "Controller@analytics")->name('analytics');
                 Route::post("import/", ucfirst($cname) . "Controller@import")->name('import');
             }
         );
@@ -289,7 +290,7 @@ Route::group([
                     ->defaults("sidebar", 1)
                     ->defaults("icon", "fa-duotone fas fa-pie-chart")
                     ->defaults("name", "Analytics")
-                    ->defaults("roles", array("Admin", 'Company'))
+                    ->defaults("roles", array("Admin"))
                     // ->defaults("group", "Settings")
                     ->name("")
                     ->defaults("href", "/analytics");

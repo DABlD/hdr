@@ -18,6 +18,12 @@ class CompanyController extends Controller
         ]);
     }
 
+    public function analytics(Request $req){
+        return view("company.analytics", [
+            "title" => "Analytics"
+        ]);
+    }
+
     public function import(Request $req){
         Excel::import(new EmployeeImport($req->company), $req->file('excel'));
 

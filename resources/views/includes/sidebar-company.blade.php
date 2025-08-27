@@ -10,7 +10,7 @@
             </div>
             <div class="info">
                 <a href="#" class="d-block" id="profile">
-                    {{ $title }}
+                    {{ auth()->user()->fname }}
                 </a>
             </div>
         </div>
@@ -18,9 +18,20 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">
+                    <a class="nav-link active" href="{{ route('company.dashboard') }}">
                         <i class="nav-icon fas fa-users"></i> 
                         <p>Employees</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a class="nav-link analytics" href="{{ route('company.analytics') }}">
+                        <i class="nav-icon fas fa-pie-chart"></i> 
+                        <p>Analytics</p>
                     </a>
                 </li>
             </ul>
