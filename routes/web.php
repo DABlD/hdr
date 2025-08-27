@@ -276,6 +276,11 @@ Route::group([
                     // ->defaults("group", "Settings")
                     ->name($cname)
                     ->defaults("href", "/$cname");
+
+                Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
+                Route::post("store/", ucfirst($cname) . "Controller@store")->name('store');
+                Route::post("delete/", ucfirst($cname) . "Controller@delete")->name('delete');
+                Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
             }
         );
 
@@ -404,6 +409,7 @@ Route::group([
                 Route::get("examinees", ucfirst($cname) . "Controller@examinees")->name('examinees');
                 Route::get("patientPackage", ucfirst($cname) . "Controller@patientPackage")->name('patientPackage');
                 Route::get("queued_patients", ucfirst($cname) . "Controller@queued_patients")->name('queued_patients');
+                Route::get("transactions", ucfirst($cname) . "Controller@transactions")->name('transactions');
             }
         );
 
