@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{User, Patient, PatientPackage, ExamList, Transaction};
+use App\Models\{User, Patient, PatientPackage, ExamList, Transaction, Wellness};
 use DB;
 
 class DatatableController extends Controller
@@ -294,6 +294,49 @@ class DatatableController extends Controller
 
     public function transactions(Request $req){
         $array = Transaction::select($req->select);
+
+        // IF HAS SORT PARAMETER $ORDER
+        if($req->order){
+            $array = $array->orderBy($req->order[0], $req->order[1]);
+        }
+
+        // IF HAS WHERE
+        if($req->where){
+            $array = $array->where($req->where[0], isset($req->where[2]) ? $req->where[1] : "=", $req->where[2] ?? $req->where[1]);
+        }
+
+        if(isset($req->filters)){
+            $filters = $req->filters;
+
+            $array = $array->where(function($q) use($filters){
+                $q->where('company', 'LIKE', $filters["fCompany"]);
+            });
+        }
+
+        $array = $array->get();
+
+        // FOR ACTIONS
+        foreach($array as $item){
+            $item->actions = $item->actions;
+        }
+
+        // IF HAS LOAD
+        if($array->count() && $req->load){
+            foreach($req->load as $table){
+                $array->load($table);
+            }
+        }
+
+        // IF HAS GROUP
+        if($req->group){
+            $array = $array->groupBy($req->group);
+        }
+
+        echo json_encode($array);
+    }
+
+    public function wellness(Request $req){
+        $array = Wellness::select($req->select);
 
         // IF HAS SORT PARAMETER $ORDER
         if($req->order){
