@@ -18,6 +18,6 @@ class Transaction extends Model
     ];
 
     public function package(){
-        return $this->hasMany('App\Models\PatientPackage', 'id', 'package_id');
+        return $this->hasOne('App\Models\Package', 'id', 'package_id');
     }
 }
