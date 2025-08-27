@@ -106,7 +106,7 @@
 		var fFname = "";
 		var fLname = "";
 		var fCompany = "%%";
-		var fType = "{{ $title }}";
+		var fType = "{{ $title == "PPE" ? "PEE" : $title }}";
 		var fFrom = moment().format("YYYY-MM-DD");
 		var fTo = moment().format("YYYY-MM-DD");
 

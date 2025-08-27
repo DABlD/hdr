@@ -20,7 +20,7 @@ class ExamController extends Controller
         $companies = User::where('role', 'Company')->distinct()->pluck('fname');
 
         return $this->_view('exam', [
-            'title' => "PE",
+            'title' => "PPE",
             'companies' => $companies
         ]);
     }
