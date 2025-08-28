@@ -21,7 +21,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedInteger('pax');
             $table->unsignedInteger('completed')->default(0);
             $table->unsignedInteger('pending')->default(0);
-            $table->json('pp_ids')->default('[]');
+            $table->json('pp_ids');
 
             $table->enum('status', ['Ongoing', 'Completed', 'Cancelled'])->default('Ongoing')->nullable();
 
