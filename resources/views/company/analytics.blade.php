@@ -8,8 +8,8 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="fas fa-box-archive mr-1"></i>
-                            Packages Sold
+                            <i class="fas fa-pie-chart mr-1"></i>
+                            Analytics
                         </h3>
                     </div>
 
