@@ -287,7 +287,7 @@
 								url: "{{ route('user.store') }}",
 								type: "POST",
 								data: {
-									fname: $('[name="fname"]').val(),
+									fname: $('[name="fname"]').val().toUpperCase(),
 									role: "Company",
 									username: $('[name="username"]').val(),
 									password: $('[name="password"]').val(),
@@ -376,7 +376,7 @@
 						url: "{{ route('user.store') }}",
 						type: "POST",
 						data: {
-							fname: $('[name="fname"]').val(),
+							fname: $('[name="fname"]').val().toUpperCase(),
 							role: "Company",
 							username: $('[name="username"]').val(),
 							password: $('[name="password"]').val(),
@@ -590,7 +590,7 @@
 				url: '{{ route('package.store') }}',
 				type: "POST",
 				data: {
-					name: name,
+					name: name.toUpperCase(),
 					amount: amount,
 					type: type,
 					company: company,
