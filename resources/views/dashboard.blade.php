@@ -273,6 +273,16 @@
                         data: {
                             labels: chart.labels,
                             datasets: chart.dataset
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    min: 0,              // ✅ minimum always 0
+                                    ticks: {
+                                        stepSize: 1        // ✅ increments of 1
+                                    }
+                                }
+                            }
                         }
                     });
 
