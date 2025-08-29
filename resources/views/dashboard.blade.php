@@ -4,11 +4,11 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-6 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $users }}</h3>
-                        <p>Total Patients</p>
+                        <p>Total number of registered patients</p>
                     </div>
 
                     <div class="icon">
@@ -17,11 +17,11 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-6 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>{{ $companies->count() }}</h3>
-                        <p>Total Companies</p>
+                        <p>Total number of registered companies</p>
                     </div>
                     <div class="icon">
                         <i class="nav-icon fas fa-buildings"></i>
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-4 col-6 d-none">
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $ppcount }}</h3>
@@ -55,9 +55,11 @@
             </div> --}}
         </div>
 
+        <hr style="border-top: 3px solid #ccc; margin: 2rem 0;">
+
         <div class="row">
             <section class="col-lg-12 connectedSortable">
-                <div class="card">
+                <div class="card border-danger">
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-box-archive mr-1"></i>
@@ -275,7 +277,7 @@
                     result = JSON.parse(result);
                     let chart = result["chart"];
                     let table = result["table"];
-                    
+
                     $('.count').html(result['count']);
 
                     ctx = document.getElementById('report').getContext('2d');
