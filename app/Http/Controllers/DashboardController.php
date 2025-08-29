@@ -76,20 +76,14 @@ class DashboardController extends Controller
         // $color2 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
         // $color3 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 
-        $color = "#36a2eb";
-        $color2 = "#fe6383";
-        $color3 = "#4ac0c0";
-        $color4 = "#e9f5f5";
+        $color = "rgba(54, 162, 235, 0.6)";
+        $color2 = "rgba(255, 209, 169, 1)";
+        $color3 = "rgba(167, 199, 231, 1)";
+        $color4 = "rgba(197, 232, 206, 1)";
+
+        // rgba(255, 249, 177, 1) yellow
 
         $dataset = [
-            [
-                'label' => "Total",
-                'data' => array_values($temp),
-                'borderColor' => $color,
-                'backgroundColor' => $color,
-                'hoverRadius' => 10,
-                'tension' => 0.1
-            ],
             [
                 'label' => "APE",
                 'data' => array_values($temp2),
@@ -113,7 +107,15 @@ class DashboardController extends Controller
                 'backgroundColor' => $color4,
                 'hoverRadius' => 10,
                 'tension' => 0.1
-            ]
+            ],
+            [
+                'label' => "Total",
+                'data' => array_values($temp),
+                'borderColor' => $color,
+                'backgroundColor' => $color,
+                'hoverRadius' => 10,
+                'tension' => 0.1
+            ],
         ];
 
         $data->load('package');
