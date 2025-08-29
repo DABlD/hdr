@@ -566,6 +566,19 @@
                                         // push label outward by ~15% of radius (tweak as needed)
                                         return -(radius * 0.30);
                                     },  
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let dataset = context.dataset;
+                                            let value = dataset.data[context.dataIndex];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+                                            let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                            // show label, value, and percentage
+                                            return `${context.label}: ${value} (${percentage})`;
+                                        }
+                                    }
                                 }
                             },
                             onClick: (e, elements, chart) => {
@@ -648,6 +661,19 @@
                                         // push label outward by ~15% of radius (tweak as needed)
                                         return -(radius * 0.30);
                                     },
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let dataset = context.dataset;
+                                            let value = dataset.data[context.dataIndex];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+                                            let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                            // show label, value, and percentage
+                                            return `${context.label}: ${value} (${percentage})`;
+                                        }
+                                    }
                                 }
                             },
                             onClick: (e, elements, chart) => {
@@ -731,6 +757,19 @@
                                         return -(radius * 0.30);
                                     },
                                     clamp: true
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let dataset = context.dataset;
+                                            let value = dataset.data[context.dataIndex];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+                                            let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                            // show label, value, and percentage
+                                            return `${context.label}: ${value} (${percentage})`;
+                                        }
+                                    }
                                 }
                             },
                             onClick: (e, elements, chart) => {
@@ -814,6 +853,19 @@
                                         return -(radius * 0.50);
                                     },
                                     clamp: true
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let dataset = context.dataset;
+                                            let value = dataset.data[context.dataIndex];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+                                            let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                            // show label, value, and percentage
+                                            return `${context.label}: ${value} (${percentage})`;
+                                        }
+                                    }
                                 }
                             },
                             onClick: (e, elements, chart) => {
@@ -937,6 +989,19 @@
                                     },
                                     align: 'center',
                                     anchor: 'center'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let dataset = context.dataset;
+                                            let value = dataset.data[context.dataIndex];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+                                            let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                            // show label, value, and percentage
+                                            return `${context.label}: ${value} (${percentage})`;
+                                        }
+                                    }
                                 }
                             },
                             onClick: (evt, elements) => {
