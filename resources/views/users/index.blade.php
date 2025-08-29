@@ -137,12 +137,12 @@
 					    </div>
 					</div>
 	                <br>
-
+	                <div class="d-none">
 	                ${input("tin", "TIN", null, 3, 9)}
 	                ${input("sss", "SSS", null, 3, 9)}
 	                ${input("philhealth", "Philhealth", null, 3, 9)}
 	                ${input("pagibig", "Pagibig", null, 3, 9)}
-
+	                </div>
 	                <br>
 	                ${input("username", "Username", null, 3, 9)}
 	                ${input("password", "Password", null, 3, 9, 'password')}
@@ -158,7 +158,7 @@
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('[name="fname"]').val() == "" || $('[name="lname"]').val() == "" || $('[name="contact"]').val() == "" || $('[name="email"]').val() == "" || $('[name="gender"]').val() == "" || $('[name="role"]').val() == "" || $('[name="username"]').val() == ""){
+			            if($('[name="fname"]').val() == "" || $('[name="lname"]').val() == "" || $('[name="role"]').val() == "" || $('[name="username"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
 			            else if($("[name='password']").val().length < 8){
@@ -257,10 +257,12 @@
 					</div>
 	                <br>
 
+	                <div class="d-none">
 	                ${input("tin", "TIN", user.details ? user.details.tin : "", 3, 9)}
 	                ${input("sss", "SSS", user.details ? user.details.sss : "", 3, 9)}
 	                ${input("philhealth", "Philhealth", user.details ? user.details.philhealth : "", 3, 9)}
 	                ${input("pagibig", "Pagibig", user.details ? user.details.pagibig : "", 3, 9)}
+	                </div>
 
 	                <br>
 	                ${input("username", "Username", user.username, 3, 9)}
@@ -278,7 +280,7 @@
 				    return new Promise(resolve => {
 				    	let bool = true;
 
-			            if($('[name="fname"]').val() == "" || $('[name="lname"]').val() == "" || $('[name="contact"]').val() == "" || $('[name="email"]').val() == "" || $('[name="gender"]').val() == "" || $('[name="role"]').val() == "" || $('[name="username"]').val() == ""){
+			            if($('[name="fname"]').val() == "" || $('[name="lname"]').val() == "" || $('[name="role"]').val() == "" || $('[name="username"]').val() == ""){
 			                Swal.showValidationMessage('Fill all fields');
 			            }
 			            else{
