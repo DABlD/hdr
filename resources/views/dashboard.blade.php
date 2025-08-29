@@ -92,6 +92,14 @@
                             </div>
                         </div>
 
+                        <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+                            <div class="col-md-12">
+                                <span style="font-weight: bold;">
+                                    Total Clients/Examinees Seen:
+                                </span>
+                                <span class="count">0</span>
+                            </div>
+                        </div>
                         <div class="row">
                             <canvas id="report" width="100%"></canvas>
 
@@ -264,8 +272,11 @@
                     company: company
                 },
                 success: result => {
-                    let chart = JSON.parse(result)["chart"];
-                    let table = JSON.parse(result)["table"];
+                    result = JSON.parse(result);
+                    let chart = result["chart"];
+                    let table = result["table"];
+                    
+                    $('.count').html(result['count']);
 
                     ctx = document.getElementById('report').getContext('2d');
                     myChart = new Chart(ctx, {

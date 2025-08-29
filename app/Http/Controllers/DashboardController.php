@@ -117,8 +117,7 @@ class DashboardController extends Controller
         ];
 
         $data->load('package');
-
-        echo json_encode(["table" => $data, "chart" => ['labels' => $labels, 'dataset' => $dataset]]);
+        echo json_encode(["table" => $data, "chart" => ['labels' => $labels, 'dataset' => $dataset], 'count' => $data->count()]);
     }
 
     function getReport2(Request $req){
