@@ -89,6 +89,17 @@
         			},
         		]
 			});
+
+			function continuesReload(){
+				setTimeout(() => {
+					// if(!Swal.getPopup() && $('.flatpickr-calendar:visible').length == 0){
+						reload(null, false);
+					// 	swal.close();
+					// }
+					continuesReload();
+				}, 5000);
+			}
+			continuesReload();
 		});
 	</script>
 @endpush

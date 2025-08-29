@@ -59,6 +59,7 @@ class TransactionController extends Controller
         $temp->company = $req->company;
         $temp->package_id = $req->package_id;
         $temp->pax = $req->pax;
+        $temp->pending = $req->pax;
         $temp->save();
 
         Helper::log(auth()->user()->id, "added transaction for $req->company", $req->package_id);

@@ -22,11 +22,12 @@
                     			<tr>
                     				<th>Company</th>
                     				<th>Package</th>
-                    				<th>PAX</th>
-                    				<th>Completed</th>
-                    				<th>Pending</th>
+                    				<th>Total PAX</th>
+                    				<th>Availaed Transaction</th>
+                    				<th>Pending PAX</th>
                     				<th>Status</th>
                     				<th>Created At</th>
+                    				<th>Action</th>
                     			</tr>
                     		</thead>
 
@@ -81,6 +82,8 @@
 
 	<script>
 		var fCompany = "%%";
+		var fFrom = moment().format("YYYY-MM-DD");
+		var fTo = moment().format("YYYY-MM-DD");
 
 		$(document).ready(()=> {
 			var table = $('#table').DataTable({
@@ -101,7 +104,8 @@
 					{data: 'completed'},
 					{data: 'pending'},
 					{data: 'status'},
-					{data: 'created_at'}
+					{data: 'created_at'},
+					{data: 'actions'}
 				],
         		pageLength: 10,
 	            columnDefs: [
@@ -124,11 +128,45 @@
 	            fCompany = e.val();
 	            reload();
 	        });
+
+	        function continuesReload(){
+	        	setTimeout(() => {
+	        		// if(!Swal.getPopup() && $('.flatpickr-calendar:visible').length == 0){
+	        			reload(null, false);
+	        		// 	swal.close();
+	        		// }
+	        		continuesReload();
+	        	}, 5000);
+	        }
+	        continuesReload();
+
+	        $('#fCompany').select2();
+
+			$('#fFrom, #fTo').flatpickr({
+			    altInput: true,
+			    altFormat: 'F j, Y',
+			    dateFormat: 'Y-m-d',
+			    defaultDate: moment().format("YYYY-MM-DD")
+			});
+
+			$('#fFrom').on('change', e => {
+	            e = $(e.target);
+	            fFrom = e.val();
+	            reload();
+	        });
+
+			$('#fTo').on('change', e => {
+	            e = $(e.target);
+	            fTo = e.val();
+	            reload();
+	        });
 		});
 		
 		function getFilters(){
 			return {
 			    fCompany: fCompany,
+                fFrom: fFrom,
+                fTo: fTo
 			}
 		}
 
@@ -170,7 +208,6 @@
 				showCancelButton: true,
 				cancelButtonColor: errorColor,
 				cancelButtonText: 'Cancel',
-				position: 'top',
 				didOpen: () => {
 					$('#company, #package').select2();
 
@@ -236,6 +273,21 @@
 							ss("Successfully added a transaction");
 							reload();
 						}
+					})
+				}
+			});
+		}
+
+		function complete(id){
+			sc("Confirmation", "Are you sure you want to complete transaction?", result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('transaction.update') }}",
+						data: {id: id, status: "Completed"},
+						message: "Success"
+					}, () => {
+						reload();
 					})
 				}
 			});

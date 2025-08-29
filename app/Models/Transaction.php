@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\TransactionAttribute;
 
 class Transaction extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, TransactionAttribute;
 
     protected $fillable = [
         'company','package_id','pax','completed','pending','pp_ids','status'

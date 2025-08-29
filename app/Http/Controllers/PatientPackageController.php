@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{PatientPackage, Patient, Package, Question, ExamList, Setting};
+use App\Models\{PatientPackage, Patient, Package, Question, ExamList, Setting, Transaction};
 
 use App\Helpers\Helper;
 use Image;
@@ -121,6 +121,14 @@ class PatientPackageController extends Controller
             $temp->details = json_encode($package->toArray());
             $temp->question_with_answers = json_encode($subj);
             $temp->save();
+
+            $temp2 = Transaction::where('package_id', $package->id)->where('status', 'Ongoing')->first();
+            if($temp2){
+                $temp2->increment('completed');
+                $temp2->decrement('pending');
+
+                Helper::log(auth()->user()->id, "deducted to transaction id #$temp2->id", $patient->id);
+            }
 
             Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
         }
