@@ -77,18 +77,27 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-4">
                                                         <canvas id="type-chart" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-4">
                                                         <canvas id="gender-chart" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-1"></div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-4">
                                                         <canvas id="age-chart" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-4">
                                                         <canvas id="bmi-chart" width="100%"></canvas>
                                                     </div>
+                                                    <div class="col-md-1"></div>
                                                 </div>
 
                                                 <br>
@@ -499,6 +508,30 @@
                             plugins: {
                                 legend: {
                                     position: "top",
+                                    labels: {
+                                        font: {
+                                            family: 'monospace', // 👈 use monospaced font to align text
+                                            size: 12
+                                        },
+                                        generateLabels: function(chart) {
+                                            let dataset = chart.data.datasets[0];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+
+                                            return chart.data.labels.map((label, i) => {
+                                                let value = dataset.data[i];
+                                                let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                                return {
+                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    fillStyle: dataset.backgroundColor[i],
+                                                    strokeStyle: dataset.borderColor[i],
+                                                    lineWidth: dataset.borderWidth,
+                                                    hidden: isNaN(dataset.data[i]) || dataset.data[i] === null,
+                                                    index: i
+                                                };
+                                            });
+                                        },
+                                    }
                                 },
                                 title: {
                                     display: true,
@@ -506,9 +539,8 @@
                                 },
                                 datalabels: {
                                     formatter: (value, ctx) => {
-                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                        let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage + "\n  " + value;
+                                        // 👇 show the label (APE, PPE, ECU) in chart slices
+                                        return ctx.chart.data.labels[ctx.dataIndex];
                                     },
                                     color: '#000',
                                     font: { 
@@ -517,7 +549,16 @@
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
-                                    anchor: 'center'
+                                    anchor: 'center',
+                                    offset: (ctx) => {
+                                        // get chart radius
+                                        let chart = ctx.chart;
+                                        let meta = chart.getDatasetMeta(ctx.datasetIndex);
+                                        let radius = meta.data[ctx.dataIndex].outerRadius;
+
+                                        // push label outward by ~15% of radius (tweak as needed)
+                                        return -(radius * 0.30);
+                                    },  
                                 }
                             },
                             onClick: (e, elements, chart) => {
@@ -549,6 +590,30 @@
                             plugins: {
                                 legend: {
                                     position: "top",
+                                    labels: {
+                                        font: {
+                                            family: 'monospace', // 👈 use monospaced font to align text
+                                            size: 12
+                                        },
+                                        generateLabels: function(chart) {
+                                            let dataset = chart.data.datasets[0];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+
+                                            return chart.data.labels.map((label, i) => {
+                                                let value = dataset.data[i];
+                                                let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                                return {
+                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    fillStyle: dataset.backgroundColor[i],
+                                                    strokeStyle: dataset.borderColor[i],
+                                                    lineWidth: dataset.borderWidth,
+                                                    hidden: isNaN(dataset.data[i]) || dataset.data[i] === null,
+                                                    index: i
+                                                };
+                                            });
+                                        },
+                                    }
                                 },
                                 title: {
                                     display: true,
@@ -556,9 +621,8 @@
                                 },
                                 datalabels: {
                                     formatter: (value, ctx) => {
-                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                        let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage + "\n  " + value;
+                                        // 👇 show the label (APE, PPE, ECU) in chart slices
+                                        return ctx.chart.data.labels[ctx.dataIndex];
                                     },
                                     color: '#000',
                                     font: { 
@@ -567,7 +631,16 @@
                                         lineHeight: 1.2
                                     },
                                     align: 'start',
-                                    anchor: 'center'
+                                    anchor: 'center',
+                                    offset: (ctx) => {
+                                        // get chart radius
+                                        let chart = ctx.chart;
+                                        let meta = chart.getDatasetMeta(ctx.datasetIndex);
+                                        let radius = meta.data[ctx.dataIndex].outerRadius;
+
+                                        // push label outward by ~15% of radius (tweak as needed)
+                                        return -(radius * 0.30);
+                                    },
                                 }
                             },
                             onClick: (e, elements, chart) => {
@@ -599,6 +672,30 @@
                             plugins: {
                                 legend: {
                                     position: "top",
+                                    labels: {
+                                        font: {
+                                            family: 'monospace', // 👈 use monospaced font to align text
+                                            size: 12
+                                        },
+                                        generateLabels: function(chart) {
+                                            let dataset = chart.data.datasets[0];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+
+                                            return chart.data.labels.map((label, i) => {
+                                                let value = dataset.data[i];
+                                                let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                                return {
+                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    fillStyle: dataset.backgroundColor[i],
+                                                    strokeStyle: dataset.borderColor[i],
+                                                    lineWidth: dataset.borderWidth,
+                                                    hidden: isNaN(dataset.data[i]) || dataset.data[i] === null,
+                                                    index: i
+                                                };
+                                            });
+                                        },
+                                    }
                                 },
                                 title: {
                                     display: true,
@@ -606,9 +703,8 @@
                                 },
                                 datalabels: {
                                     formatter: (value, ctx) => {
-                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                        let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage + "\n  " + value;
+                                        // 👇 show the label (APE, PPE, ECU) in chart slices
+                                        return ctx.chart.data.labels[ctx.dataIndex];
                                     },
                                     color: '#000',
                                     font: { 
@@ -625,7 +721,7 @@
                                         let radius = meta.data[ctx.dataIndex].outerRadius;
 
                                         // push label outward by ~15% of radius (tweak as needed)
-                                        return -(radius * 0.50);
+                                        return -(radius * 0.30);
                                     },
                                     clamp: true
                                 }
@@ -659,6 +755,30 @@
                             plugins: {
                                 legend: {
                                     position: "top",
+                                    labels: {
+                                        font: {
+                                            family: 'monospace', // 👈 use monospaced font to align text
+                                            size: 12
+                                        },
+                                        generateLabels: function(chart) {
+                                            let dataset = chart.data.datasets[0];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+
+                                            return chart.data.labels.map((label, i) => {
+                                                let value = dataset.data[i];
+                                                let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                                return {
+                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    fillStyle: dataset.backgroundColor[i],
+                                                    strokeStyle: dataset.borderColor[i],
+                                                    lineWidth: dataset.borderWidth,
+                                                    hidden: isNaN(dataset.data[i]) || dataset.data[i] === null,
+                                                    index: i
+                                                };
+                                            });
+                                        },
+                                    }
                                 },
                                 title: {
                                     display: true,
@@ -666,9 +786,8 @@
                                 },
                                 datalabels: {
                                     formatter: (value, ctx) => {
-                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                        let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage + "\n  " + value;
+                                        // 👇 show the label (APE, PPE, ECU) in chart slices
+                                        return ctx.chart.data.labels[ctx.dataIndex];
                                     },
                                     color: '#000',
                                     font: { 
@@ -769,6 +888,30 @@
                             plugins: {
                                 legend: {
                                     position: "top",
+                                    labels: {
+                                        font: {
+                                            family: 'monospace', // 👈 use monospaced font to align text
+                                            size: 12
+                                        },
+                                        generateLabels: function(chart) {
+                                            let dataset = chart.data.datasets[0];
+                                            let total = dataset.data.reduce((a, b) => a + b, 0);
+
+                                            return chart.data.labels.map((label, i) => {
+                                                let value = dataset.data[i];
+                                                let percentage = ((value / total) * 100).toFixed(1) + "%";
+
+                                                return {
+                                                    text: `${percentage} (${value}) ${label.padEnd(20, ' ')}`, // 👈 legend shows percent + number
+                                                    fillStyle: dataset.backgroundColor[i],
+                                                    strokeStyle: dataset.borderColor[i],
+                                                    lineWidth: dataset.borderWidth,
+                                                    hidden: isNaN(dataset.data[i]) || dataset.data[i] === null,
+                                                    index: i
+                                                };
+                                            });
+                                        },
+                                    }
                                 },
                                 title: {
                                     display: true,
@@ -776,9 +919,8 @@
                                 },
                                 datalabels: {
                                     formatter: (value, ctx) => {
-                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                        let percentage = (value / sum * 100).toFixed(1) + "%";
-                                        return percentage + "\n  " + value;
+                                        // 👇 show the label (APE, PPE, ECU) in chart slices
+                                        return ctx.chart.data.labels[ctx.dataIndex];
                                     },
                                     color: '#000',
                                     font: { 
