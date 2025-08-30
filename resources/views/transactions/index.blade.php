@@ -22,9 +22,9 @@
                     			<tr>
                     				<th>Company</th>
                     				<th>Package</th>
-                    				<th>Total PAX</th>
-                    				<th>Availaed Transaction</th>
-                    				<th>Pending PAX</th>
+                    				<th>Total # of Transaction</th>
+                    				<th>Availed Transaction</th>
+                    				<th>Pending Transaction</th>
                     				<th>Status</th>
                     				<th>Created At</th>
                     				<th>Action</th>
