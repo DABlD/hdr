@@ -200,7 +200,7 @@
 
                             <div class="chart tab-pane" id="tab4" style="position: relative;">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div style="text-align: center;">
                                             <img src="{{ isset($settings['logo']) ? $settings['logo'] : "-" }}" alt="No Logo" width="100%" id="preview3">
 
@@ -210,16 +210,24 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-9">
+                                    <div class="col-md-10">
                                         <div class="row">
                                             {{ $col("Clinic Name", "clinic_name", isset($settings['clinic_name']) ? $settings['clinic_name'] : "", "text", 6) }}
-                                            {{ $col("Contact", "contact_no", isset($settings['contact_no']) ? $settings['contact_no'] : "", "text", 3) }}
+                                            {{ $col("Opening Hours", "opening_hours", isset($settings['opening_hours']) ? $settings['opening_hours'] : "", "text", 6) }}
                                             {{-- {{ $col("PF", "pf", isset($settings['pf']) ? $settings['pf'] : "", "number", 3) }} --}}
                                         </div>
 
                                         <div class="row">
                                             {{ $col("Address", "sAddress", isset($settings['address']) ? $settings['address'] : "") }}
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-10">
+                                        {{ $col("Contact", "contact_no", isset($settings['contact_no']) ? $settings['contact_no'] : "", "text", 6) }}
+                                        {{ $col("Email", "clinic_email", isset($settings['email']) ? $settings['email'] : "", "text", 6) }}
                                     </div>
                                 </div>
 
@@ -879,7 +887,9 @@
                     clinic_name: $('#clinic_name').val(),
                     contact_no: $('#contact_no').val(),
                     // pf: $('#pf').val(),
-                    address: $('#sAddress').val()
+                    address: $('#sAddress').val(),
+                    email: $('#clinic_email').val(),
+                    opening_hours: $('#opening_hours').val(),
                 }
             })
 
