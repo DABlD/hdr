@@ -49,7 +49,7 @@
                             <p style="margin:0 0 25px;">
                                 Clinic Hours:
                                 <br>
-                                Monday to Friday : 8-5pm
+                                {{ $settings['opening_hours'] }}
                             </p>
                             <!-- Button -->
                             {{-- <table cellpadding="0" cellspacing="0" align="center" style="margin:20px auto;">
@@ -62,7 +62,7 @@
                                 </tr>
                             </table> --}}
                             <p style="margin:20px 0 0; font-size:13px; color:#777;">
-                                If you have any questions, concerns or want to make an appointment schedule, please don’t hesitate to get in touch with us at {{ $settings['contact_no'] }} / medhealthdiagnostics3@gmail.com
+                                If you have any questions, concerns or want to make an appointment schedule, please don’t hesitate to get in touch with us at {{ $settings['contact_no'] ?? "" }} / {{ $settings['email'] ?? "" }}
                             </p>
                         </td>
                     </tr>
