@@ -206,6 +206,7 @@
     <script src="{{ asset('js/flatpickr.min.js') }}"></script>
     <script src="{{ asset('js/charts.min.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
         var from = moment().subtract(7, 'days').format(dateFormat);
@@ -288,6 +289,33 @@
                             datasets: chart.dataset
                         },
                         options: {
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        font: {
+                                            family: 'monospace', // 👈 use monospaced font to align text
+                                            size: 12
+                                        },
+                                        generateLabels: function (chart) {
+                                            const datasets = chart.data.datasets;
+                                            const total = datasets.reduce((acc, ds) => {
+                                                return acc + ds.data.reduce((a, b) => a + b, 0);
+                                            }, 0);
+
+                                            return datasets.map((ds, i) => {
+                                                const value = ds.data.reduce((a, b) => a + b, 0); // sum of dataset
+                                                const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+
+                                                return {
+                                                    text: `${ds.label}: ${value} (${percent}%)`, // 👈 number + percent
+                                                    fillStyle: ds.backgroundColor || ds.borderColor,
+                                                    strokeStyle: ds.borderColor,
+                                                };
+                                            });
+                                        }
+                                    }
+                                }
+                            },
                             scales: {
                                 y: {
                                     min: 0,              // ✅ minimum always 0
