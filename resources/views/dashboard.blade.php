@@ -55,7 +55,7 @@
             </div> --}}
         </div>
 
-        <hr style="border-top: 3px solid #ccc; margin: 2rem 0;">
+        <hr style="height: 8px; background: #ccc; border: none; margin: 2rem 0;">
 
         <div class="row">
             <section class="col-lg-12 connectedSortable">
