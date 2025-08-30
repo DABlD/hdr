@@ -122,6 +122,7 @@
 	                    },
 	                }
 	            ],
+	            order: [[3,'asc']]
 			});
 
 			$('#fCompany').on('change', e => {
