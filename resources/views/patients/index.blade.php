@@ -462,7 +462,7 @@
 					        ${input("lname", "Last Name", user.lname, 3, 9)}
 	        				<div class="row iRow">
 	        				    <div class="col-md-3 iLabel">
-	        				        Gender
+	        				        Suffix
 	        				    </div>
 	        				    <div class="col-md-9 iInput">
 	        				        <select name="suffix" class="form-control">
@@ -563,6 +563,7 @@
 					    updateAvatar(user.id);
 					});
 					$('[name="prefix"]').val(user.prefix).trigger('change');
+					$('[name="suffix"]').val(user.suffix).trigger('change');
 					$('[name="gender"]').val(user.gender).trigger('change');
 					$('[name="civil_status"]').val(user.civil_status).trigger('change');
 					$('[name="company_name"]').val(user.patient.company_name).trigger('change');
