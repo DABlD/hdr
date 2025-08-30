@@ -1213,7 +1213,7 @@
             `;
         }
 
-        function downloadCharts(){
+        function downloadCharts() {
             let tabContent = document.querySelector('.tab-content');
 
             html2canvas(tabContent, {
@@ -1221,31 +1221,14 @@
                 useCORS: true
             }).then(canvas => {
                 let imgData = canvas.toDataURL("image/png");
-                let w = window.open();
-                w.document.write(`
-                    <html>
-                        <head>
-                            <title>Tab Content Image</title>
-                            <style>
-                                body {
-                                    margin: 0;
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                    height: 100vh;
-                                    background: #fff;
-                                }
-                                img {
-                                    max-width: 100%;
-                                    max-height: 100%;
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            <img src="${imgData}">
-                        </body>
-                    </html>
-                `);
+
+                // Create a temporary link and trigger download
+                let link = document.createElement('a');
+                link.href = imgData;
+                link.download = `Analytics ${moment(fFrom).format("MMM DD, YYYY")} - ${moment(fTo).format("MMM DD, YYYY")}.png`; // filename
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             });
         }
     </script>
