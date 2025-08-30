@@ -52,4 +52,24 @@ class TestController extends Controller
             $el->save();
         }
     }
+
+    public function capitalizeCompanyInPP(){
+        $pps = PatientPackage::all();
+
+
+        foreach($pps as $pp){
+            $details = json_decode($pp->details);
+
+            if($details->company){
+                $details->company = strtoupper($details->company);
+            }
+
+            if($details->name){
+                $details->name = strtoupper($details->name);
+            }
+
+            $pp->details = json_encode($details);
+            $pp->save();
+        }
+    }
 }

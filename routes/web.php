@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('moveUploads', "TestController@moveUploads");
 Route::get('copyMHRtoCompletePackage', "TestController@copyMHRtoCompletePackage");
 Route::get('defaultjsonvalues', "TestController@defaultjsonvalues");
+Route::get('capitalizeCompanyInPP', "TestController@capitalizeCompanyInPP");
 
 // TEST FUNCTIONS
 // TEST FUNCTIONS
