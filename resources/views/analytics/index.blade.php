@@ -846,8 +846,6 @@
                                             else if(label == "Obese III") label = "OB3";
                                         }
 
-                                        console.log(label);
-
                                         return label;
                                     },
                                     color: '#000',
