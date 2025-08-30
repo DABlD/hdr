@@ -1220,6 +1220,7 @@
                 scale: 4,  // higher = sharper image
                 useCORS: true,
                 allowTaint: true,
+                foreignObjectRendering: true
             }).then(canvas => {
                 let imgData = canvas.toDataURL("image/png");
 
