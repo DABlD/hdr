@@ -80,6 +80,8 @@
 
 	<script>
 		var fCompany = "%%";
+		var fFrom = moment().format("YYYY-MM-DD");
+		var fTo = moment().format("YYYY-MM-DD");
 
 		$(document).ready(()=> {
 			var table = $('#table').DataTable({
@@ -115,11 +117,34 @@
 	            fCompany = e.val();
 	            reload();
 	        });
+
+	        $('#fCompany').select2();
+
+			$('#fFrom, #fTo').flatpickr({
+			    altInput: true,
+			    altFormat: 'F j, Y',
+			    dateFormat: 'Y-m-d',
+			    defaultDate: moment().format("YYYY-MM-DD")
+			});
+
+			$('#fFrom').on('change', e => {
+	            e = $(e.target);
+	            fFrom = e.val();
+	            reload();
+	        });
+
+			$('#fTo').on('change', e => {
+	            e = $(e.target);
+	            fTo = e.val();
+	            reload();
+	        });
 		});
 		
 		function getFilters(){
 			return {
 			    fCompany: fCompany,
+                fFrom: fFrom,
+                fTo: fTo
 			}
 		}
 

@@ -3,6 +3,13 @@
 
 <div class="row">
     <div class="col-md-2 iInput">
+        <input type="text" id="fFrom" placeholder="From" class="form-control">
+    </div>
+    <div class="col-md-2 iInput">
+        <input type="text" id="fTo" placeholder="To" class="form-control">
+    </div>
+
+    <div class="col-md-2 iInput">
         <select class="form-control" id="fCompany">
             <option value="%%">All Company</option>
             @foreach($companies as $company)
@@ -13,7 +20,7 @@
         </select>
     </div>
 
-    <div class="col-md-10">
+    <div class="col-md-6">
         <h3 class="float-right">
             <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Wellness and Recommendation" onclick="create()">
                 <i class="fas fa-plus fa-2xl"></i>

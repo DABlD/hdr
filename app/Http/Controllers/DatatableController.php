@@ -354,6 +354,7 @@ class DatatableController extends Controller
 
             $array = $array->where(function($q) use($filters){
                 $q->where('company', 'LIKE', $filters["fCompany"]);
+                $q->whereBetween('created_at', [$filters['fFrom'] . " 00:00:00", $filters['fTo'] . " 23:59:59"]);
             });
         }
 
