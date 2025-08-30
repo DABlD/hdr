@@ -522,7 +522,7 @@
                                                 let percentage = ((value / total) * 100).toFixed(1) + "%";
 
                                                 return {
-                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    text: `${label}: ${value} (${percentage})`, // 👈 legend shows percent + number
                                                     fillStyle: dataset.backgroundColor[i],
                                                     strokeStyle: dataset.borderColor[i],
                                                     lineWidth: dataset.borderWidth,
@@ -617,7 +617,7 @@
                                                 let percentage = ((value / total) * 100).toFixed(1) + "%";
 
                                                 return {
-                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    text: `${label}: ${value} (${percentage})`, // 👈 legend shows percent + number
                                                     fillStyle: dataset.backgroundColor[i],
                                                     strokeStyle: dataset.borderColor[i],
                                                     lineWidth: dataset.borderWidth,
@@ -712,7 +712,7 @@
                                                 let percentage = ((value / total) * 100).toFixed(1) + "%";
 
                                                 return {
-                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    text: `${label}: ${value} (${percentage})`, // 👈 legend shows percent + number
                                                     fillStyle: dataset.backgroundColor[i],
                                                     strokeStyle: dataset.borderColor[i],
                                                     lineWidth: dataset.borderWidth,
@@ -808,7 +808,7 @@
                                                 let percentage = ((value / total) * 100).toFixed(1) + "%";
 
                                                 return {
-                                                    text: `${percentage} (${value})`, // 👈 legend shows percent + number
+                                                    text: `${label}: ${value} (${percentage})`, // 👈 legend shows percent + number
                                                     fillStyle: dataset.backgroundColor[i],
                                                     strokeStyle: dataset.borderColor[i],
                                                     lineWidth: dataset.borderWidth,
@@ -954,7 +954,7 @@
                                                 let percentage = ((value / total) * 100).toFixed(1) + "%";
 
                                                 return {
-                                                    text: `${percentage} (${value}) ${label.padEnd(20, ' ')}`, // 👈 legend shows percent + number
+                                                    text: `${label}: ${value} (${percentage})`, // 👈 legend shows percent + number
                                                     fillStyle: dataset.backgroundColor[i],
                                                     strokeStyle: dataset.borderColor[i],
                                                     lineWidth: dataset.borderWidth,
