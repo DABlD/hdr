@@ -401,6 +401,7 @@ Route::group([
                 Route::get("exam/", ucfirst($cname) . "Controller@exam")->name('exam');
                 Route::get("packagesSold/", ucfirst($cname) . "Controller@packagesSold")->name('packagesSold');
                 Route::get("sales/", ucfirst($cname) . "Controller@sales")->name('sales');
+                Route::get("exportTransactions/", ucfirst($cname) . "Controller@exportTransactions")->name('exportTransactions');
             }
         );
 

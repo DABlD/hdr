@@ -307,5 +307,15 @@
 				}
 			});
 		}
+
+		function exportCensus(){
+            let data = {
+                from: fFrom,
+                to: fTo,
+                company: fCompany
+            };
+
+            window.location.href = "{{ route('report.exportTransactions') }}?" + $.param(data);
+		}
 	</script>
 @endpush

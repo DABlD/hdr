@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 
 use App\Models\{User, Setting};
-use App\Models\{ExamList, PatientPackage};
+use App\Models\{ExamList, PatientPackage, Transaction};
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -76,6 +76,22 @@ class ReportController extends Controller
         $filename = "Packages Sold ($req->from - $req->to) ($company)";
         
         $class = "App\\Exports\\PackageSold";
+
+        return Excel::download(new $class($data), "$filename.xlsx");
+    }
+
+    function exportTransactions(Request $req){
+        $data = Transaction::whereBetween('created_at', [$req->from, now()->parse($req->to)->endOfDay()])
+                ->where('company', 'like', $req->company)
+                ->get();
+
+        $data->load('package');
+
+        $company = $req->company == "%%" ? "All Company" : preg_replace('/[^A-Za-z0-9\-]/', '', $req->company);
+
+        $filename = "Transactions ($req->from - $req->to) ($company)";
+        
+        $class = "App\\Exports\\Transaction";
 
         return Excel::download(new $class($data), "$filename.xlsx");
     }
