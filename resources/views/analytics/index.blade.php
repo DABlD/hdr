@@ -511,6 +511,7 @@
                             }]
                         },
                         options: {
+                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -606,6 +607,7 @@
                             }]
                         },
                         options: {
+                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -701,6 +703,7 @@
                             }]
                         },
                         options: {
+                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -797,6 +800,7 @@
                             }]
                         },
                         options: {
+                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -912,6 +916,7 @@
                             datasets: datasets
                         },
                         options: {
+                            animation: false,
                             barThickness: 50,
                             responsive: true,
                             plugins: {
@@ -956,6 +961,7 @@
                             }]
                         },
                         options: {
+                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
