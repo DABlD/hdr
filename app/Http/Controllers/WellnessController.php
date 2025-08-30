@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Wellness, User};
+use Image;
+use DB;
 
 use App\Helpers\Helper;
 
@@ -55,15 +57,59 @@ class WellnessController extends Controller
     }
 
     public function store(Request $req){
-        $temp = new Wellness();
-        $temp->company = $req->company;
-        $temp->recommendation = $req->recommendation;
-        $temp->files = $req->files;
-        $temp->save();
+        $wellness = new Wellness();
+        $files = [];
 
-        Helper::log(auth()->user()->id, "added wellness for $req->company id #", $req->company_id);
+        // Handle file upload (if any)
+        if ($req->hasFile('files')) {
+            foreach ($req->file('files') as $temp) {
+                // If it's an image -> process with Intervention
+                if (str_starts_with($temp->getMimeType(), 'image/')) {
+                    $image = Image::make($temp);
 
-        echo "success";
+                    $name = 'wellness_' . uniqid() . '.' . $temp->getClientOriginalExtension();
+                    $destinationPath = public_path('uploads/' . env('UPLOAD_URL') . 'wellness/' . $req->company . '/');
+
+                    // ensure dir exists
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0755, true);
+                    }
+
+                    $image->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                    $image->save($destinationPath . $name);
+
+                    array_push($files, 'uploads/' . env('UPLOAD_URL') . 'wellness/' . $req->company . '/' . $name);
+
+                } else {
+                    // Non-image file (PDF/DOCX) -> just move
+                    $name = 'wellness_' . uniqid() . '.' . $temp->getClientOriginalExtension();
+                    $destinationPath = public_path('uploads/' . env('UPLOAD_URL') . '/wellness/' . $req->company . '/');
+
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0755, true);
+                    }
+
+                    $temp->move($destinationPath, $name);
+
+                    array_push($files, 'uploads/' . env('UPLOAD_URL') . 'wellness/' . $req->company . '/' . $name);
+                }
+            }
+        }
+
+        // Other fields
+        $wellness->files = json_encode($files);
+        $wellness->company = $req->company;
+        $wellness->recommendation = $req->recommendation;
+
+        $wellness->save();
+
+        // Example log if you have helper
+        Helper::log(auth()->user()->id, "created wellness record for $req->company", $wellness->id);
+
+        return response()->json(['status' => 'success']);
     }
 
     public function index(){

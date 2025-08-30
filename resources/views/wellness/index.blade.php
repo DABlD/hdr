@@ -143,7 +143,7 @@
 			            </div>
 			            <div class="form-group mb-3">
 			                <label for="fileInput">Attach File</label>
-			                <input type="file" id="fileInput" class="form-control-file border rounded p-2">
+			                <input type="file" id="fileInput" class="form-control-file border rounded p-2" multiple>
 			                <small class="form-text text-muted">Allowed: PDF, DOCX, Images</small>
 			            </div>
 			        </div>
@@ -175,39 +175,57 @@
 					});
 				},
 				preConfirm: () => {
-				    swal.showLoading();
-				    return new Promise(resolve => {
-				    	let bool = true;
+				    Swal.showLoading();
+				    return new Promise((resolve) => {
+				        let bool = true;
 
-				    	let company = $('#company').val();
-				    	let package = $('#package').val();
-				    	let pax = $('[name="pax"]').val();
+				        let company = $('#company').val();
+				        let recommendation = $('#recommendation').summernote('code'); // assuming textarea
+				        let fileInput = $('#fileInput')[0].files[0];
 
-				    	if(company == "" || package == "" || pax == ""){
-				    		Swal.showValidationMessage("All fields is required");
-				    	}
-			            
-			            bool ? setTimeout(() => {resolve()}, 500) : "";
+				        if (company === "" || recommendation === "") {
+				            Swal.showValidationMessage("Company and Recommendation are required");
+				            bool = false;
+				        }
+
+				        bool 
+				            ? setTimeout(() => {
+				                resolve({
+				                    company: company,
+				                    recommendation: recommendation,
+				                    fileInput: fileInput
+				                });
+				            }, 500) 
+				            : "";
 				    });
 				},
 			}).then(result => {
 				if(result.value){
 					swal.showLoading();
 					
-					$.ajax({
-						url: "{{ route('transaction.store') }}",
-						type: "POST",
-						data: {
-							company: $('#company').val(),
-							package_id: $('#package').val(),
-							pax: $('[name="pax"]').val(),
-							_token: $('meta[name="csrf-token"]').attr('content')
-						},
-						success: result => {
-							ss("Successfully added a transaction");
-							reload();
-						}
+					const formData = new FormData();
+					formData.append('company', result.value.company);
+					formData.append('recommendation', result.value.recommendation);
+					const files = document.getElementById('fileInput').files;
+					for (let i = 0; i < files.length; i++) {
+					    formData.append('files[]', files[i]); // note the [] in name
+					}
+
+					formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+					// AJAX request
+					fetch('{{ route('wellness.store') }}', {
+					    method: 'POST',
+					    body: formData
 					})
+					.then(response => response.json())
+					.then(data => {
+					    ss("Successfully saved");
+						reload();
+					})
+					.catch(error => {
+					    Swal.fire('Error!', 'Something went wrong.', 'error');
+					});
 				}
 			});
 		}
