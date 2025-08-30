@@ -161,21 +161,26 @@ input:checked + .slider:before {
 }
 
 /*select 2*/
-/* Force select2 to match bootstrap form-control height */
+/* Match Bootstrap input height */
 .select2-container .select2-selection--single {
-    height: 38px !important;        /* match your .form-control height */
+  height: 38px !important;
   display: flex;
-  align-items: center; /* centers text vertically */
-  padding: 0 0.5rem;   /* adjust left/right padding if needed */
+  align-items: center;
+  padding: 0 0.75rem; /* match Bootstrap input padding */
 }
 
+/* Rendered text */
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-  line-height: normal !important; /* reset Select2’s default */
-  padding-left: 2px;              /* small tweak for alignment */
+  line-height: 38px !important;
+  padding-left: 0 !important;   /* remove weird inner offset */
+  padding-right: 1.5rem;        /* leave space for the arrow */
 }
 
+/* Arrow alignment */
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-  height: 100% !important;
+  height: 38px !important;
   top: 0 !important;
-  right: 5px; /* optional spacing tweak */
+  right: 0.5rem; /* spacing from edge */
+  display: flex;
+  align-items: center;
 }
