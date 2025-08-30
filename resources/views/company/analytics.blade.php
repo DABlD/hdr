@@ -826,7 +826,20 @@
                                 datalabels: {
                                     formatter: (value, ctx) => {
                                         // 👇 show the label (APE, PPE, ECU) in chart slices
-                                        return ctx.chart.data.labels[ctx.dataIndex];
+                                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        let percentage = (value / sum * 100).toFixed(1);
+
+                                        let label = ctx.chart.data.labels[ctx.dataIndex];
+                                        if(percentage < 5){
+                                            if(label == "Normal") label = "N";
+                                            else if(label == "Overweight") label = "OW";
+                                            else if(label == "Underweight") label = "UW";
+                                            else if(label == "Obese I") label = "OB1";
+                                            else if(label == "Obese II") label = "OB2";
+                                            else if(label == "Obese III") label = "OB3";
+                                        }
+
+                                        return label;
                                     },
                                     color: '#000',
                                     font: { 
@@ -843,7 +856,7 @@
                                         let radius = meta.data[ctx.dataIndex].outerRadius;
 
                                         // push label outward by ~15% of radius (tweak as needed)
-                                        return -(radius * 0.50);
+                                        return -(radius * 0.40);
                                     },
                                     clamp: true
                                 },
