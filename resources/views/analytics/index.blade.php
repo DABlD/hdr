@@ -511,7 +511,6 @@
                             }]
                         },
                         options: {
-                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -607,7 +606,6 @@
                             }]
                         },
                         options: {
-                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -703,7 +701,6 @@
                             }]
                         },
                         options: {
-                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -800,7 +797,6 @@
                             }]
                         },
                         options: {
-                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -916,7 +912,6 @@
                             datasets: datasets
                         },
                         options: {
-                            animation: false,
                             barThickness: 50,
                             responsive: true,
                             plugins: {
@@ -961,7 +956,6 @@
                             }]
                         },
                         options: {
-                            animation: false,
                             responsive: true,
                             plugins: {
                                 legend: {
@@ -1226,15 +1220,7 @@
                 scale: 2,  // higher = sharper image
                 useCORS: true
             }).then(canvas => {
-                let safeCanvas = document.createElement("canvas");
-                let safeCtx = safeCanvas.getContext("2d");
-                safeCanvas.width = canvas.width;
-                safeCanvas.height = canvas.height;
-                safeCtx.drawImage(canvas, 0, 0);
-
-                let imgData = safeCanvas.toDataURL("image/png");
-
-                {{-- let imgData = canvas.toDataURL("image/png"); --}}
+                let imgData = canvas.toDataURL("image/png");
 
                 // Create a temporary link and trigger download
                 let link = document.createElement('a');
