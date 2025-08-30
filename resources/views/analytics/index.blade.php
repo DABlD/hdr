@@ -1217,8 +1217,9 @@
             let tabContent = document.querySelector('.tab-content');
 
             html2canvas(tabContent, {
-                scale: 2,  // higher = sharper image
-                useCORS: true
+                scale: 4,  // higher = sharper image
+                useCORS: true,
+                allowTaint: true,
             }).then(canvas => {
                 let imgData = canvas.toDataURL("image/png");
 
