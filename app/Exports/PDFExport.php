@@ -56,4 +56,12 @@ class PDFExport
         $pdf->setPaper('a4', 'Portrait');
         return $pdf->stream($this->filename . '.pdf');
     }
+
+    public function wellness(){
+        $settings = Setting::where('clinic', env('CLINIC'))->pluck('value', 'name');
+
+        $pdf = PDF::loadView('exports.' . $this->type, ['data' => $this->data, 'settings' => $settings]);
+        $pdf->setPaper('a4', 'Portrait');
+        return $pdf->stream($this->filename . '.pdf');
+    }
 }

@@ -229,5 +229,139 @@
 				}
 			});
 		}
+
+		function view(id){
+            $.ajax({
+                url: "{{ route('wellness.get') }}",
+                data: {
+                    select: '*',
+                    where: ['id', id]
+                },
+                success: wellness => {
+                    wellness = JSON.parse(wellness)[0];
+                    showDetails(wellness);
+                }
+            })
+		}
+
+
+		function showDetails(wellness){
+			Swal.fire({
+				title: "Wellness program and recommendation details",
+				html: `
+					<div class="container-fluid text-left">
+			            <div class="form-group mb-3">
+			                <label for="company">Company</label>
+							<select id="company" class="form-control">
+								<option value="">Select Company</option>
+								@foreach($companies as $company)
+									<option value="{{ $company }}">{{ $company }}</option>	
+								@endforeach
+							</select>
+			            </div>
+			            <div class="form-group">
+			                <label for="recommendation">Recommendation</label>
+			                <div id="recommendation">
+			                	${wellness.recommendation}
+			                </div>
+			            </div>
+			            <div class="form-group mb-3">
+			                <label for="fileInput">Attach File</label>
+			                <input type="file" id="fileInput" class="form-control-file border rounded p-2" multiple>
+			                <small class="form-text text-muted">Allowed: PDF, DOCX, Images</small>
+			            </div>
+			        </div>
+				`,
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				width: '1000px',
+				confirmButtonText: 'Save',
+				showCancelButton: true,
+				cancelButtonColor: errorColor,
+				cancelButtonText: 'Cancel',
+				position: 'top',
+				didOpen: () => {
+					$('#company').select2();
+					$('#recommendation').summernote({
+						height: 400,
+                		focus: true,
+                		toolbar: [
+                		    ['style', ['style']],
+                		    ['font', ['bold', 'italic', 'underline', 'clear']],
+                		    ['fontname', ['fontname']],
+                		    ['fontsize', ['fontsize']],
+                		    ['color', ['color']],
+                		    ['para', ['ul', 'ol', 'paragraph']],
+                		    ['height', ['height']],
+                		    ['insert', ['link', 'picture']], // 👈 picture here
+                			['view', ['help']]
+                		]
+					});
+
+					$('#company').val(wellness.company).trigger('change');
+				},
+				preConfirm: () => {
+				    Swal.showLoading();
+				    return new Promise((resolve) => {
+				        let bool = true;
+
+				        let company = $('#company').val();
+				        let recommendation = $('#recommendation').summernote('code'); // assuming textarea
+				        let fileInput = $('#fileInput')[0].files[0];
+
+				        if (company === "" || recommendation === "") {
+				            Swal.showValidationMessage("Company and Recommendation are required");
+				            bool = false;
+				        }
+
+				        bool 
+				            ? setTimeout(() => {
+				                resolve({
+				                    company: company,
+				                    recommendation: recommendation,
+				                    fileInput: fileInput
+				                });
+				            }, 500) 
+				            : "";
+				    });
+				},
+			}).then(result => {
+				if(result.value){
+					swal.showLoading();
+					
+					const formData = new FormData();
+					formData.append('id', wellness.id);
+					formData.append('company', result.value.company);
+					formData.append('recommendation', result.value.recommendation);
+					const files = document.getElementById('fileInput').files;
+					for (let i = 0; i < files.length; i++) {
+					    formData.append('files[]', files[i]); // note the [] in name
+					}
+
+					formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+					// AJAX request
+					fetch('{{ route('wellness.update') }}', {
+					    method: 'POST',
+					    body: formData
+					})
+					.then(response => response.json())
+					.then(data => {
+					    ss("Successfully saved");
+						reload();
+					})
+					.catch(error => {
+					    Swal.fire('Error!', 'Something went wrong.', 'error');
+					});
+				}
+			});
+		}
+
+		function send(id){
+            let data = {};
+
+            data.id = id;
+ 			window.open(`{{ route('wellness.sendToPortal') }}?` + $.param(data), '_blank');
+		}
 	</script>
 @endpush
