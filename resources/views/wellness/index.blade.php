@@ -80,7 +80,7 @@
 
 	<script>
 		var fCompany = "%%";
-		var fFrom = moment().format("YYYY-MM-DD");
+		var fFrom = moment().subtract(3,'months').format("YYYY-MM-DD");;
 		var fTo = moment().format("YYYY-MM-DD");
 
 		$(document).ready(()=> {
@@ -120,11 +120,13 @@
 
 	        $('#fCompany').select2();
 
+	        $('#fFrom').val(fFrom);
+	        $('#fTo').val(fTo);
+	        
 			$('#fFrom, #fTo').flatpickr({
 			    altInput: true,
 			    altFormat: 'F j, Y',
 			    dateFormat: 'Y-m-d',
-			    defaultDate: moment().format("YYYY-MM-DD")
 			});
 
 			$('#fFrom').on('change', e => {

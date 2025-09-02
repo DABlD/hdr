@@ -225,7 +225,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
-        var fFrom = moment().subtract(6,'months').format("YYYY-MM-DD");
+        var fFrom = moment().subtract(3,'months').format("YYYY-MM-DD");
         var fTo = moment().format("YYYY-MM-DD");
         var fType = "%%";
         var fCompany = "%%";

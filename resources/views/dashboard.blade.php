@@ -209,10 +209,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
-        var from = moment().subtract(7, 'days').format(dateFormat);
+        var from = moment().subtract(3, 'months').format(dateFormat);
         var to = dateNow();
         var company = "%%";
-        var from2 = moment().subtract(7, 'days').format(dateFormat);
+        var from2 = moment().subtract(3, 'months').format(dateFormat);
         var to2 = dateNow();
         var company2 = "%%";
         var ctx, myChart, ctx2, myChart2;
@@ -222,6 +222,9 @@
             altFormat: "F j, Y",
             dateFormat: "Y-m-d",
         };
+
+        $('#from, #from2').val(from);
+        $('#to, #to2').val(to);
 
         $(document).ready(() => {
             $("#from, #from2").flatpickr(settings);
