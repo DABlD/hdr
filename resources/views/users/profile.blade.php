@@ -199,7 +199,7 @@
                             </div>
 
                             <div class="chart tab-pane" id="tab4" style="position: relative;">
-                                <div class="row">
+                                <div class="row align-items-center">
                                     <div class="col-md-2">
                                         <div style="text-align: center;">
                                             <img src="{{ isset($settings['logo']) ? $settings['logo'] : "-" }}" alt="No Logo" width="100%" id="preview3">
@@ -213,21 +213,33 @@
                                     <div class="col-md-10">
                                         <div class="row">
                                             {{ $col("Clinic Name", "clinic_name", isset($settings['clinic_name']) ? $settings['clinic_name'] : "", "text", 6) }}
-                                            {{ $col("Opening Hours", "opening_hours", isset($settings['opening_hours']) ? $settings['opening_hours'] : "", "text", 6) }}
                                             {{-- {{ $col("PF", "pf", isset($settings['pf']) ? $settings['pf'] : "", "number", 3) }} --}}
+                                        </div>
+
+                                        <div class="row">
+                                            <div class='col'>
+                                                <div class='mb-6'>
+                                                    <label class='form-label' for='opening_hours'>
+                                                        <strong>
+                                                            Opening Hours
+                                                        </strong>
+                                                    </label>
+                                                    <textarea id="opening_hours" rows="3" class="form-control">{{ isset($settings['opening_hours']) ? $settings['opening_hours'] : "" }}</textarea>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row">
                                             {{ $col("Address", "sAddress", isset($settings['address']) ? $settings['address'] : "") }}
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-10">
-                                        {{ $col("Contact", "contact_no", isset($settings['contact_no']) ? $settings['contact_no'] : "", "text", 6) }}
-                                        {{ $col("Email", "clinic_email", isset($settings['email']) ? $settings['email'] : "", "text", 6) }}
+                                        <div class="row">
+                                            {{ $col("Contact", "contact_no", isset($settings['contact_no']) ? $settings['contact_no'] : "", "text", 6) }}
+                                        </div>
+                                        
+                                        <div class="row">
+                                            {{ $col("Email", "clinic_email", isset($settings['email']) ? $settings['email'] : "", "text", 6) }}
+                                        </div>
                                     </div>
                                 </div>
 
