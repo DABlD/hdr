@@ -86,27 +86,21 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <canvas id="type-chart" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-2"></div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <canvas id="gender-chart" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-1"></div>
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <canvas id="age-chart" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-2"></div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <canvas id="bmi-chart" width="100%"></canvas>
                                                     </div>
-                                                    <div class="col-md-1"></div>
                                                 </div>
 
                                                 <br>
