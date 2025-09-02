@@ -208,12 +208,13 @@ class PatientPackageController extends Controller
         $data->load('package');
 
         //PPE
-        if($data->type == "PEE"){
-            $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
-        }
-        else{
-            $pmr = $data->question_with_answers ?? PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
-        }
+        // if($data->type == "PEE"){
+        //     $pmr = PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
+        // }
+        // else{
+        //     $pmr = $data->question_with_answers ?? PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
+        // }
+        $pmr = ($data->question_with_answers && sizeof(json_decode($data->question_with_answers))) ? $data->question_with_answers : PatientPackage::where('user_id', $data->user_id)->where('package_id', 2)->first()->question_with_answers;
 
         $answers = [];
 
@@ -251,12 +252,12 @@ class PatientPackageController extends Controller
         $oMerger = PDFMerger::init();
         $oMerger->addPDF(public_path("/storage/$fn.pdf"));
 
-        if($data->file){
-            $files = json_decode($data->file);
-            foreach ($files as $file) {
-                $oMerger->addPDF(public_path($file));
-            }
-        }
+        // if($data->file){
+        //     $files = json_decode($data->file);
+        //     foreach ($files as $file) {
+        //         $oMerger->addPDF(public_path($file));
+        //     }
+        // }
 
         $oMerger->merge();
         $oMerger->setFileName($fn . '.pdf');
