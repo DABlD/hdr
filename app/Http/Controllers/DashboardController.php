@@ -76,7 +76,7 @@ class DashboardController extends Controller
         // $color2 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
         // $color3 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 
-        $color = "rgba(54, 162, 235, 0.6)";
+        $color = "rgba(221, 160, 221, 0.6)";
         $color2 = "rgba(255, 209, 169, 1)";
         $color3 = "rgba(167, 199, 231, 1)";
         $color4 = "rgba(197, 232, 206, 1)";

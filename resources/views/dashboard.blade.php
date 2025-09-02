@@ -296,7 +296,7 @@
                                             family: 'monospace', // 👈 use monospaced font to align text
                                             size: 12
                                         },
-                                        generateLabels: function (chart) {
+                                        {{-- generateLabels: function (chart) {
                                             const datasets = chart.data.datasets;
                                             const total = datasets.reduce((acc, ds) => {
                                                 return acc + ds.data.reduce((a, b) => a + b, 0);
@@ -307,9 +307,31 @@
                                                 const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
 
                                                 return {
+                                                    ...ds, // keep all default fields
                                                     text: `${ds.label}: ${value} (${percent}%)`, // 👈 number + percent
                                                     fillStyle: ds.backgroundColor || ds.borderColor,
                                                     strokeStyle: ds.borderColor,
+                                                };
+                                            });
+                                        } --}}
+                                        generateLabels: function (chart) {
+                                            // get the built-in labels first
+                                            const original = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+
+                                            // calculate total across all datasets
+                                            const datasets = chart.data.datasets;
+                                            const total = datasets.reduce((acc, ds) => {
+                                                return acc + ds.data.reduce((a, b) => a + b, 0);
+                                            }, 0);
+
+                                            return original.map(item => {
+                                                const ds = datasets[item.datasetIndex];
+                                                const value = ds.data.reduce((a, b) => a + b, 0);
+                                                const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+
+                                                return {
+                                                    ...item, // keep required props (datasetIndex, hidden, strokeStyle, etc.)
+                                                    text: `${ds.label}: ${value} (${percent}%)`
                                                 };
                                             });
                                         }
