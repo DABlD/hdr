@@ -76,10 +76,10 @@ class DashboardController extends Controller
         // $color2 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
         // $color3 = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 
-        $color = "rgba(221, 160, 221, 0.6)";
-        $color2 = "rgba(255, 209, 169, 1)";
-        $color3 = "rgba(167, 199, 231, 1)";
-        $color4 = "rgba(197, 232, 206, 1)";
+        $color = "rgba(221, 160, 221, 1)";
+        $color2 = "rgba(255, 209, 169, 0.6)";
+        $color3 = "rgba(167, 199, 231, 0.6)";
+        $color4 = "rgba(197, 232, 206, 0.6)";
 
         // rgba(255, 249, 177, 1) yellow
 
@@ -90,7 +90,7 @@ class DashboardController extends Controller
                 'borderColor' => $color2,
                 'backgroundColor' => $color2,
                 'hoverRadius' => 10,
-                'tension' => 0.1
+                'tension' => 0.1,
             ],
             [
                 'label' => "PPE",
@@ -98,7 +98,7 @@ class DashboardController extends Controller
                 'borderColor' => $color3,
                 'backgroundColor' => $color3,
                 'hoverRadius' => 10,
-                'tension' => 0.1
+                'tension' => 0.1,
             ],
             [
                 'label' => "ECU",
@@ -106,7 +106,7 @@ class DashboardController extends Controller
                 'borderColor' => $color4,
                 'backgroundColor' => $color4,
                 'hoverRadius' => 10,
-                'tension' => 0.1
+                'tension' => 0.1,
             ],
             [
                 'label' => "Total",
@@ -114,7 +114,9 @@ class DashboardController extends Controller
                 'borderColor' => $color,
                 'backgroundColor' => $color,
                 'hoverRadius' => 10,
-                'tension' => 0.1
+                'tension' => 0.1,
+                // "borderWidth" => 10,
+                "pointRadius" => 6
             ],
         ];
 
