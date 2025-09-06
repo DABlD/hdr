@@ -83,8 +83,8 @@
 		@for($i = 0; $i < $data->maxLength; $i++)
 			<tr>
 				<td></td>
-				<td colspan="3">{{ array_keys($totalPackage)[$i] }}</td>
-				<td style="text-align: center;">{{ $totalPackage[array_keys($totalPackage)[$i]] }}</td>
+				<td colspan="3">{{ isset(array_keys($totalPackage)[$i]) ? array_keys($totalPackage)[$i] : "" }}</td>
+				<td style="text-align: center;">{{ isset(array_keys($totalPackage)[$i]) ? $totalPackage[array_keys($totalPackage)[$i]] : "" }}</td>
 				<td></td>
 				@if(isset(array_keys($totalClassification)[$i]))
 					<td colspan="4">{{ array_keys($totalClassification)[$i] != "" ? array_keys($totalClassification)[$i] : "PENDING"}}</td>
