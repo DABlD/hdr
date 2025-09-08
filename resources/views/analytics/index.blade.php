@@ -1167,11 +1167,13 @@
                 `rgba(255, 209, 169, ${alpha})`, // pastel orange (required)
                 `rgba(167, 199, 231, ${alpha})`, // pastel blue (required)
                 `rgba(255, 249, 177, ${alpha})`, // pastel yellow (required)
+                `rgba(193, 225, 193, ${alpha})`, // pastel sage green (required)
+                `rgba(255, 182, 193, ${alpha})`, // pastel pink (required)
+                `rgba(221, 160, 221, ${alpha})`, // pastel purple
 
                 // warm tones
                 `rgba(186, 225, 255, ${alpha})`, // pastel sky blue
                 `rgba(204, 255, 204, ${alpha})`, // pastel lime green
-                `rgba(255, 182, 193, ${alpha})`, // pastel pink
                 `rgba(204, 255, 229, ${alpha})`, // pastel teal
                 `rgba(202, 255, 191, ${alpha})`, // pastel green
                 `rgba(255, 204, 229, ${alpha})`, // pastel rose
@@ -1185,18 +1187,16 @@
                 `rgba(255, 222, 173, ${alpha})`, // pastel navajo
 
                 // cool tones
-                `rgba(193, 225, 193, ${alpha})`, // pastel sage green
 
                 // purples
-                `rgba(221, 160, 221, ${alpha})`, // pastel purple
-                `rgba(216, 191, 216, ${alpha})`, // pastel thistle
-                `rgba(221, 220, 235, ${alpha})`, // pastel lavender gray
+                `rgba(250, 218, 221, ${alpha})`, // pastel blush
                 `rgba(230, 230, 250, ${alpha})`, // pastel lavender
+                `rgba(255, 228, 196, ${alpha})`, // pastel bisque
 
                 // neutrals & fillers
-                `rgba(250, 218, 221, ${alpha})`, // pastel blush
+                `rgba(216, 191, 216, ${alpha})`, // pastel thistle
                 `rgba(240, 230, 140, ${alpha})`, // pastel khaki
-                `rgba(255, 228, 196, ${alpha})`, // pastel bisque
+                `rgba(221, 220, 235, ${alpha})`, // pastel lavender gray
                 `rgba(253, 253, 150, ${alpha})`  // pastel lemon
             ];
 
