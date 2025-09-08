@@ -285,6 +285,28 @@ Route::group([
             }
         );
 
+        // REPORT ROUTES
+        $cname = "report";
+        Route::group([
+                'as' => "$cname.",
+                'prefix' => "$cname/"
+            ], function () use($cname){
+                Route::get("/", ucfirst($cname) . "Controller@index")
+                    ->defaults("sidebar", 1)
+                    ->defaults("icon", "fas fa-file-spreadsheet")
+                    ->defaults("name", "Reports")
+                    ->defaults("roles", array("Admin"))
+                    // ->defaults("group", "Settings")
+                    ->name($cname)
+                    ->defaults("href", "/$cname");
+
+                Route::get("exam/", ucfirst($cname) . "Controller@exam")->name('exam');
+                Route::get("packagesSold/", ucfirst($cname) . "Controller@packagesSold")->name('packagesSold');
+                Route::get("sales/", ucfirst($cname) . "Controller@sales")->name('sales');
+                Route::get("exportTransactions/", ucfirst($cname) . "Controller@exportTransactions")->name('exportTransactions');
+            }
+        );
+
         // ANALYTICS
         $cname = "analytics";
         Route::group([
@@ -390,19 +412,6 @@ Route::group([
             ], function () use($cname){
                 Route::get("get/", ucfirst($cname) . "Controller@get")->name('get');
                 Route::post("update/", ucfirst($cname) . "Controller@update")->name('update');
-            }
-        );
-
-        // THEME ROUTES
-        $cname = "report";
-        Route::group([
-                'as' => "$cname.",
-                'prefix' => "$cname/"
-            ], function () use($cname){
-                Route::get("exam/", ucfirst($cname) . "Controller@exam")->name('exam');
-                Route::get("packagesSold/", ucfirst($cname) . "Controller@packagesSold")->name('packagesSold');
-                Route::get("sales/", ucfirst($cname) . "Controller@sales")->name('sales');
-                Route::get("exportTransactions/", ucfirst($cname) . "Controller@exportTransactions")->name('exportTransactions');
             }
         );
 

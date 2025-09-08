@@ -14,6 +14,10 @@ use PHPMailer\PHPMailer\Exception;
 
 class ReportController extends Controller
 {
+    public function __construct(){
+        $this->table = "reports";
+    }
+
     function exam(Request $req){
         $array = ExamList::select('exam_lists.*', 'p.company_name');
 
@@ -318,5 +322,18 @@ class ReportController extends Controller
         }
 
         return $dates;
+    }
+
+    public function index(){
+        $companies = User::where('role', 'Company')->distinct()->pluck('fname');
+
+        return $this->_view('index', [
+            'title' => "Reports",
+            'companies' => $companies
+        ]);
+    }
+
+    private function _view($view, $data = array()){
+        return view("$this->table.$view", $data);
     }
 }
