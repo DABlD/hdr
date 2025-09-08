@@ -107,7 +107,7 @@
 		var fLname = "";
 		var fCompany = "%%";
 		var fType = "{{ $title == "PPE" ? "PEE" : $title }}";
-		var fFrom = moment().format("YYYY-MM-DD");
+		var fFrom = moment().subtract(3, 'months').format(dateFormat);
 		var fTo = moment().format("YYYY-MM-DD");
 
 		$(document).ready(()=> {
@@ -228,12 +228,14 @@
 			}
 			continuesReload();
 
+        	$('#fFrom').val(fFrom);
+        	$('#fTo').val(fTo);
+
 			$('#fFrom, #fTo').flatpickr({
 			    altInput: true,
 			    altFormat: 'F j, Y',
-			    dateFormat: 'Y-m-d',
-			    defaultDate: moment().format("YYYY-MM-DD")
-			})
+			    dateFormat: 'Y-m-d'
+			});
 
 			$('#fCompany').select2();
 
