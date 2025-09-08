@@ -295,6 +295,21 @@
 			});
 		}
 
+		function cancel(id){
+			sc("Confirmation", "Are you sure you want to cancel transaction?", result => {
+				if(result.value){
+					swal.showLoading();
+					update({
+						url: "{{ route('transaction.update') }}",
+						data: {id: id, status: "Cancelled"},
+						message: "Success"
+					}, () => {
+						reload();
+					})
+				}
+			});
+		}
+
 		function del(id){
 			sc("Confirmation", "Are you sure you want to delete?", result => {
 				if(result.value){
