@@ -505,7 +505,7 @@
                                     labels: {
                                         font: {
                                             family: 'monospace', // 👈 use monospaced font to align text
-                                            size: 12
+                                            size: 16
                                         },
                                         generateLabels: function(chart) {
                                             let dataset = chart.data.datasets[0];
@@ -538,7 +538,7 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 14,
+                                        size: 16,
                                         family: 'Poppins',
                                         lineHeight: 1.2
                                     },
@@ -600,7 +600,7 @@
                                     labels: {
                                         font: {
                                             family: 'monospace', // 👈 use monospaced font to align text
-                                            size: 12
+                                            size: 16
                                         },
                                         generateLabels: function(chart) {
                                             let dataset = chart.data.datasets[0];
@@ -633,7 +633,7 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 14,
+                                        size: 16,
                                         family: 'Poppins',
                                         lineHeight: 1.2
                                     },
@@ -695,7 +695,7 @@
                                     labels: {
                                         font: {
                                             family: 'monospace', // 👈 use monospaced font to align text
-                                            size: 12
+                                            size: 16
                                         },
                                         generateLabels: function(chart) {
                                             let dataset = chart.data.datasets[0];
@@ -728,7 +728,7 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 14,
+                                        size: 16,
                                         family: 'Poppins',
                                         lineHeight: 1.2
                                     },
@@ -791,7 +791,7 @@
                                     labels: {
                                         font: {
                                             family: 'monospace', // 👈 use monospaced font to align text
-                                            size: 12
+                                            size: 16
                                         },
                                         generateLabels: function(chart) {
                                             let dataset = chart.data.datasets[0];
@@ -837,7 +837,7 @@
                                     },
                                     color: '#000',
                                     font: { 
-                                        size: 14,
+                                        size: 16,
                                         family: 'Poppins',
                                         lineHeight: 1.2
                                     },
@@ -903,7 +903,12 @@
                             responsive: true,
                             plugins: {
                                 legend: {
-                                    display: true
+                                    display: true,
+                                    labels: {
+                                      font: {
+                                        size: 16   // 👈 legend font size
+                                      }
+                                    }
                                 },
                                 title: {
                                     display: true,
@@ -913,10 +918,20 @@
                             scales: {
                                 x: {
                                     stacked: true,
+                                    ticks: {
+                                      font: {
+                                        size: 14   // 👈 x-axis font size
+                                      }
+                                    }
                                 },
                                 y: {
                                     beginAtZero: true,
                                     stacked: true,
+                                    ticks: {
+                                      font: {
+                                        size: 14   // 👈 x-axis font size
+                                      }
+                                    }
                                 }
                             },
                             onClick: (e, elements, chart) => {
@@ -950,7 +965,7 @@
                                     labels: {
                                         font: {
                                             family: 'monospace', // 👈 use monospaced font to align text
-                                            size: 12
+                                            size: 16
                                         },
                                         generateLabels: function(chart) {
                                             let dataset = chart.data.datasets[0];
