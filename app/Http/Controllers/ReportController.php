@@ -56,7 +56,9 @@ class ReportController extends Controller
         $array = $array->get();
         $array->load('user.patient.exams');
 
-        $filename = "$req->type - " . str_replace('-', '', $filters['from']) . '-' . str_replace('-', '', $filters['to']);
+        $fnType = strtoupper($req->type == "pee" ? "ppe" : $req->type);
+
+        $filename = "$fnType - " . str_replace('-', '', $filters['from']) . '-' . str_replace('-', '', $filters['to']);
 
         $class = "App\\Exports\\Exam";
 
