@@ -15,7 +15,7 @@
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Birthday</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Age</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Package Name</th>
-			<th style="text-align: center; {{ $b }} background-color: yellow;">Amount</th>
+			{{-- <th style="text-align: center; {{ $b }} background-color: yellow;">Amount</th> --}}
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Date</th>
 		</tr>
 	</thead>
@@ -43,7 +43,7 @@
 				<td style="text-align: center;">{{ isset($examinee->user->birthday) ? $examinee->user->birthday->format('F j, Y') : "-" }}</td>
 				<td style="text-align: center;">{{ isset($examinee->user->birthday) ? now()->diffInYears($examinee->user->birthday) : "-" }}</td>
 				<td style="text-align: center;">{{ $latestPackage }}</td>
-				<td style="text-align: center;">₱{{ $amount }}</td>
+				{{-- <td style="text-align: center;">₱{{ $amount }}</td> --}}
 				<td style="text-align: center;">{{ $examinee->created_at->format('F j, Y') }}</td>
 			</tr>
 		@endforeach
