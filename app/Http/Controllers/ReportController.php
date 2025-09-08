@@ -268,6 +268,46 @@ class ReportController extends Controller
         }
     }
 
+    function sendEmailToAll(Request $req){
+        $temp = Setting::pluck('value', 'name');
+
+        require base_path("vendor/autoload.php");
+
+        foreach ($req->ids as $id) {
+            $user = User::find($id);
+
+            $mail = new PHPMailer(true);     // Passing `true` enables exceptions
+            try {
+                // Email server settings
+                $mail->SMTPDebug = 0;
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';             //  smtp host
+                $mail->SMTPAuth = true;
+                $mail->Username = env('MAIL_USERNAME');   //  sender username
+                $mail->Password = env('MAIL_PASSWORD');       // sender password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // encryption - ssl/tls
+                $mail->Port = 587;                          // port - 587/465
+
+                $mail->setFrom('info@onehealthnetwork.com.ph', 'One Health Network');
+                // $mail->addAddress($user->email);
+                $mail->addAddress("darm.111220@gmail.com");
+
+                $mail->isHTML(true);                // Set email content format to HTML
+
+                $mail->Subject = "OHN Reminder";
+
+                $mail->Body    = view('analytics.reminder', ['user' => $user, 'settings' => $temp])->render();
+                $mail->send();
+            } catch (Exception $e) {
+                dd($e->errorMessage());
+                echo "Error. Email not sent";
+            }
+
+        }
+
+        echo "Success";
+    }
+
     private function getDates($from, $to){
         $dates = [];
 

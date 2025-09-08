@@ -126,6 +126,13 @@
                                                         <span></span>
                                                         <br>
                                                         <br>
+                                                        <div class="row" style="margin-bottom: 5px;">
+                                                            <div class="col-md-12">
+                                                                <a class='btn btn-info btn-xs float-right' data-toggle='tooltip' title='View' onClick='emailToAll()'>
+                                                                    <i class='fas fa-envelope fa-sm'></i> Email to all
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
                                                                 <tr>
@@ -1053,6 +1060,7 @@
 
 
         var details = [];
+        var cListUserIds = [];
         function getPatientList(classification){
             let  filters = getFilters();
             filters["classification"] = classification;
@@ -1065,12 +1073,15 @@
                     result = JSON.parse(result);
                     
                     let patientString = "";
+                    cListUserIds = [];
 
                     result.forEach(patient => {
                         details[patient.id] = [];
                         details[patient.id].clinical_assessment = cleanString(patient.clinical_assessment);
                         details[patient.id].recommendation = cleanString(patient.recommendation);
                         details[patient.id].c_remarks = cleanString(patient.c_remarks);
+
+                        cListUserIds.push(patient.user.id);
 
                         patientString += `
                             <tr>
@@ -1152,6 +1163,30 @@
                     })
                 }
             })
+        }
+
+        function emailToAll(){
+            sc("Confirmation", "Are you sure you want to send email to current list?", result => {
+                if (result.value) {
+                    Swal.fire({
+                        title: "Sending...",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            $.ajax({
+                                url: "{{ route('analytics.sendEmailToAll') }}",
+                                data: { ids: cListUserIds },
+                                success: () => {
+                                    Swal.fire("Success", "Successfully sent email to all", "success");
+                                },
+                                error: () => {
+                                    Swal.fire("Error", "Something went wrong", "error");
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
 
         function cleanString(str){

@@ -22,7 +22,7 @@
                     <tr>
                         <td style="padding:30px; color:#333333; font-size:15px; line-height:1.6;">
                             <p style="margin:0 0 15px;">
-                                Hello <strong>{{ $pp->user->fullname }},</strong>
+                                Hello <strong>{{ isset($pp) ? $pp->user->fullname : $user->fullname }},</strong>
                             </p>
                             <p style="margin:0 0 15px;">
                                 Good day!

@@ -303,6 +303,7 @@ Route::group([
 
                 Route::get("getReport1/", "ReportController@getReport1")->name('.getReport1');
                 Route::get("sendEmailReminder/", "ReportController@sendEmailReminder")->name('.sendEmailReminder');
+                Route::get("sendEmailToAll/", "ReportController@sendEmailToAll")->name('.sendEmailToAll');
             }
         );
 
