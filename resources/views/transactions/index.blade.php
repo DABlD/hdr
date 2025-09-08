@@ -162,6 +162,12 @@
 	            fTo = e.val();
 	            reload();
 	        });
+
+			$('#fCompany').on('change', e => {
+	            e = $(e.target);
+	            fCompany = e.val();
+	            reload();
+	        });
 		});
 		
 		function getFilters(){
