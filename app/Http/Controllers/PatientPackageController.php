@@ -122,12 +122,14 @@ class PatientPackageController extends Controller
             $temp->question_with_answers = json_encode($subj);
             $temp->save();
 
-            $temp2 = Transaction::where('package_id', $package->id)->where('status', 'Ongoing')->first();
-            if($temp2){
-                $temp2->increment('completed');
-                $temp2->decrement('pending');
+            if($temp->type == "APE"){
+                $temp2 = Transaction::where('package_id', $package->id)->where('status', 'Ongoing')->first();
+                if($temp2){
+                    $temp2->increment('completed');
+                    $temp2->decrement('pending');
 
-                Helper::log(auth()->user()->id, "deducted to transaction id #$temp2->id", $patient->id);
+                    Helper::log(auth()->user()->id, "deducted to transaction id #$temp2->id", $patient->id);
+                }
             }
 
             Helper::log(auth()->user()->id, "bought package $req->package_id", $patient->id);
