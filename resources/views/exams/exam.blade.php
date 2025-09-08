@@ -470,7 +470,7 @@
 		                    		data: {
 		                    			packages: sPackage,
 		                    			uid: id,
-		                    			type: "{{ $title }}",
+		                    			type: "{{ $title == "PPE" ? "PEE" : $title }}",
 		                    			_token: $('meta[name="csrf-token"]').attr('content')
 		                    		},
 		                    		success: result => {
@@ -1556,7 +1556,7 @@
         				data: {
         					select: "user_id",
         					where: ['created_at', "like", `%${moment().format("YYYY-MM-DD")}%`],
-        					where2: ["type", "{{ $title }}"]
+        					where2: ["type", "{{ $title == "PPE" ? "PEE" : $title }}"]
         				},
         				success: queues => {
         					queues = Object.values(JSON.parse(queues));
@@ -1599,7 +1599,7 @@
         									type: "POST",
         									data: {
         										user_id: id,
-        										type: "{{ $title }}",
+        										type: "{{ $title == "PPE" ? "PEE" : $title }}",
         										_token: $('meta[name="csrf-token"]').attr('content')
         									},
         									success: elid => {
@@ -1641,7 +1641,7 @@
         function exportExcel(){
         	let data = {
         		filters: getFilters(),
-        		type: "{{ $title }}"
+        		type: "{{ $title == "PPE" ? "PEE" : $title }}"
         	};
 
         	Swal.fire({
