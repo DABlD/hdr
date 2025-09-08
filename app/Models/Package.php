@@ -20,4 +20,8 @@ class Package extends Model
     public function questions(){
         return $this->hasMany('App\Models\Question');
     }
+
+    public function ongoingTransactions(){
+        return $this->hasMany('App\Models\Transaction')->where('status', 'Ongoing');
+    }
 }

@@ -43,9 +43,7 @@ class PatientController extends Controller
 
         // IF HAS LOAD
         if($array->count() && $req->load){
-            foreach($req->load as $table){
-                $array->load($table);
-            }
+            $array->load($req->load);
         }
 
         // IF HAS GROUP

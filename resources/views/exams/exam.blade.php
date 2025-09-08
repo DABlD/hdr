@@ -287,7 +287,7 @@
         		data: {
         			select: "*",
         			where: ['user_id', id],
-        			load: ['packages.questions', 'user', 'exams']
+        			load: ['packages.questions', 'user', 'exams', 'packages.ongoingTransactions']
         		},
         		success: patient => {
         			patient = JSON.parse(patient)[0];
@@ -296,6 +296,10 @@
 
         			if(patient.packages.length){
         				patient.packages.forEach(package => {
+        					if(fType == "APE" && package.ongoing_transactions.length == 0){
+        						return;
+        					}
+
 	        				packageString += `
 	        					<tr>
 	        						<td>
