@@ -128,7 +128,7 @@
                                                         <br>
                                                         <div class="row" style="margin-bottom: 5px;">
                                                             <div class="col-md-12">
-                                                                <a class='btn btn-info btn-xs float-right' data-toggle='tooltip' title='View' onClick='emailToAll()'>
+                                                                <a id="emailToAll" class='btn btn-info btn-xs float-right d-none' data-toggle='tooltip' title='View' onClick='emailToAll()'>
                                                                     <i class='fas fa-envelope fa-sm'></i> Email to all
                                                                 </a>
                                                             </div>
@@ -1047,6 +1047,13 @@
                                 {{-- DESTROY DATATABLE FIRST IF IT EXISTS --}}
                                 if ( $.fn.DataTable.isDataTable('#patient-list table') ) {
                                     $('#patient-list table').DataTable().clear().destroy();
+                                }
+
+                                if(list[key] == "Pending"){
+                                    $('#emailToAll').removeClass('d-none');
+                                }
+                                else{
+                                    $('#emailToAll').addClass('d-none');
                                 }
 
                                 $('#patient-list span').html(key + " - " + list[key] + ' list');
