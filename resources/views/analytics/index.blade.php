@@ -960,10 +960,15 @@
 
                     let cColorGuide = {"A": 0, "B": 1, "C": 2, "D": 3, "Pending": 4};
                     let cColors = [];
+                    let cColors2 = [];
 
-                    console.log(cColorGuide);
+                    for(let i = 0; i < Object.values(classifications).length; i++){
+                        let ctr = cColorGuide[Object.keys(classifications)[i]];
 
-                    console.log(getColors(Object.values(classifications).length, 0.7));
+                        cColors.push(getColors(1,0.7,ctr));
+                        cColors2.push(getColors(1,1,ctr));
+                    }
+
                     {{-- CLASSIFICATION CHART --}}
                     ctx6 = document.getElementById('classification-chart').getContext('2d');
                     chart6 = new Chart(ctx6, {
@@ -972,8 +977,8 @@
                             labels: Object.keys(classifications),
                             datasets: [{
                                 data: Object.values(classifications),
-                                backgroundColor: getColors(Object.values(classifications).length, 0.7),
-                                borderColor: getColors(Object.values(classifications).length, 1),
+                                backgroundColor: cColors,
+                                borderColor: cColors2,
                                 borderWidth: 1,
                             }]
                         },
