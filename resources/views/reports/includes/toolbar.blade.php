@@ -23,7 +23,7 @@
     <div class="col-md-2 iInput">
         <select class="form-control" id="fExportType">
             <option value="packagesSold">Packages Sold</option>
-            <option value="exportTransactions">Transactions</option>
+            <option value="exportTransactions">Company Transactions</option>
             <option value="exam" data-type="ape">APE</option>
             <option value="exam" data-type="pee">PPE</option>
             <option value="exam" data-type="ecu">ECU</option>
