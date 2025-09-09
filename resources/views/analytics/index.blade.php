@@ -958,6 +958,12 @@
                         }
                     });
 
+                    let cColorGuide = {"A": 0, "B": 1, "C": 2, "D": 3, "Pending": 4};
+                    let cColors = [];
+
+                    console.log(cColorGuide);
+
+                    console.log(getColors(Object.values(classifications).length, 0.7));
                     {{-- CLASSIFICATION CHART --}}
                     ctx6 = document.getElementById('classification-chart').getContext('2d');
                     chart6 = new Chart(ctx6, {
