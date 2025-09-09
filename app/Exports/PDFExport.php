@@ -35,9 +35,9 @@ class PDFExport
                 $oMerger->addPDF(public_path(env('UPLOAD_URL') . $file));
             }
         }
-        // else{
-        //     $oMerger->addPDF(public_path($this->data->file));
-        // }
+        else{
+            $oMerger->addPDF(public_path($this->data->file));
+        }
 
         $oMerger->merge();
         $oMerger->setFileName($this->filename . '.pdf');
