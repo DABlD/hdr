@@ -123,7 +123,7 @@ class PatientPackageController extends Controller
             $temp->save();
 
             if($temp->type == "APE"){
-                $temp2 = Transaction::where('package_id', $package->id)->where('status', 'Ongoing')->first();
+                $temp2 = Transaction::where('package_id', $package->id)->where('status', 'Ongoing')->oldest()->first();
                 if($temp2){
                     $temp2->increment('completed');
                     $temp2->decrement('pending');
@@ -269,7 +269,17 @@ class PatientPackageController extends Controller
     }
 
     public function delete(Request $req){
-        PatientPackage::find($req->id)->delete();
+        $pp = PatientPackage::find($req->id);
+
+        if($pp->type == "APE"){
+            $temp2 = Transaction::where('package_id', $pp->package_id)->where('status', 'Ongoing')->oldest()->first();
+            if($temp2){
+                $temp2->decrement('completed');
+                $temp2->increment('pending');
+            }
+        }
+
+        $pp->delete();
         Helper::log(auth()->user()->id, 'deleted patient package', $req->id);
     }
 
