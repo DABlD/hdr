@@ -21,10 +21,19 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
         $temp = [
             "Fit to work" => 0,
             "Physically fit with minor illness" => 0,
-            // "Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)" => 0,
-            "Employable but with certain impairments" => 0,
+            "Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)" => 0,
             "Unfit to work" => 0,
             "" => 0
+        ];
+
+        $ageGroups = [
+            'below 18' => 0,
+            '18-29'    => 0,
+            '30-40'    => 0,
+            '41-50'    => 0,
+            '51-60'    => 0,
+            '61-70'    => 0,
+            '70+'      => 0
         ];
 
         foreach($data as $row){
@@ -34,36 +43,45 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
             isset($totalType[strtoupper($row->type)]) ? $totalType[strtoupper($row->type)]++ : $totalType[strtoupper($row->type)] = 1;
 
             $temp[$row->classification]++;
+
+            $age = now()->parse($row->user->birthday)->age;
+
+            if ($age < 18) $ageGroups['below 18']++;
+            elseif ($age <= 29) $ageGroups['18-29']++;
+            elseif ($age <= 40) $ageGroups['30-40']++;
+            elseif ($age <= 50) $ageGroups['41-50']++;
+            elseif ($age <= 60) $ageGroups['51-60']++;
+            elseif ($age <= 70) $ageGroups['61-70']++;
+            else $ageGroups['70+']++;
         }
 
         $totalClassification = [];
         $letters = range('A', 'D'); // enough letters
         $i = 0;
 
-        foreach ($data as $key => $value) {
+        foreach ($temp as $key => $value) {
             if ($key === "") {
                 $totalClassification["Pending"] = $value;
             } else {
-                $totalClassification["Letter: " . $letters[$i]] = $value;
+                $totalClassification[$letters[$i] . ": " . $key] = $value;
                 $i++;
             }
         }
-
-        dd($totalClassification);
 
         arsort($totalPackage);
         arsort($totalGender);
         arsort($totalStatus);
         arsort($totalType);
-        arsort($totalClassification);
+        // arsort($totalClassification);
 
         $data->totalPackage = $totalPackage;
         $data->totalGender = $totalGender;
         $data->totalStatus = $totalStatus;
         $data->totalType = $totalType;
         $data->totalClassification = $totalClassification;
+        $data->ageGroups = $ageGroups;
 
-        $data->maxLength = max(array_map('count', [$totalPackage, $totalGender, $totalStatus, $totalType, $totalClassification]));
+        $data->maxLength = max(array_map('count', [$totalPackage, $totalGender, $totalStatus, $totalType, $totalClassification, $ageGroups]));
 
         $this->data          = $data;
         $this->maxLength     = $data->maxLength;
@@ -369,7 +387,7 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
                 // HC VC
                 $h[4] = [
                     // 'A1:Y' . (sizeof($this->data) + 1)
-                    'A1:Y' . (sizeof($this->data) + $this->maxLength + 3)
+                    'A1:AB' . (sizeof($this->data) + $this->maxLength + 3)
                 ];
 
                 // HL
@@ -428,6 +446,7 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
                     'M' . (sizeof($this->data) + 3) . ':N' . (sizeof($this->data) + 3),
                     'P' . (sizeof($this->data) + 3) . ':Q' . (sizeof($this->data) + 3),
                     'S' . (sizeof($this->data) + 3) . ':T' . (sizeof($this->data) + 3),
+                    'V' . (sizeof($this->data) + 3) . ':W' . (sizeof($this->data) + 3),
                 ];
 
                 $fills[1] = [
@@ -444,12 +463,13 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
 
                 // ALL BORDER THIN
                 $cells[0] = array_merge([
-                    'A1:Y' . (sizeof($this->data) + 1),
+                    'A1:AB' . (sizeof($this->data) + 1),
                     'B' . (sizeof($this->data) + 3) . ':E' . (sizeof($this->data) + sizeof($this->data->totalPackage) + 3),
                     'G' . (sizeof($this->data) + 3) . ':K' . (sizeof($this->data) + sizeof($this->data->totalClassification) + 3),
-                    'M' . (sizeof($this->data) + 3) . ':N' . (sizeof($this->data) + sizeof($this->data->totalType) + 3),
-                    'P' . (sizeof($this->data) + 3) . ':Q' . (sizeof($this->data) + sizeof($this->data->totalStatus) + 3),
-                    'S' . (sizeof($this->data) + 3) . ':T' . (sizeof($this->data) + sizeof($this->data->totalGender) + 3),
+                    'M' . (sizeof($this->data) + 3) . ':N' . (sizeof($this->data) + sizeof($this->data->ageGroups) + 3),
+                    'P' . (sizeof($this->data) + 3) . ':Q' . (sizeof($this->data) + sizeof($this->data->totalType) + 3),
+                    'S' . (sizeof($this->data) + 3) . ':T' . (sizeof($this->data) + sizeof($this->data->totalStatus) + 3),
+                    'V' . (sizeof($this->data) + 3) . ':W' . (sizeof($this->data) + sizeof($this->data->totalGender) + 3),
                 ]);
 
                 // ALL BORDER MEDIUM
@@ -539,14 +559,18 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
 
                 $event->sheet->getDelegate()->getColumnDimension('Q')->setWidth(5);
                 $event->sheet->getDelegate()->getColumnDimension('R')->setWidth(5);
-                $event->sheet->getDelegate()->getColumnDimension('S')->setWidth(10);
-                $event->sheet->getDelegate()->getColumnDimension('T')->setWidth(5);
-                $event->sheet->getDelegate()->getColumnDimension('U')->setWidth(35);
+                $event->sheet->getDelegate()->getColumnDimension('S')->setWidth(11);
+                $event->sheet->getDelegate()->getColumnDimension('T')->setWidth(6);
 
-                $event->sheet->getDelegate()->getColumnDimension('V')->setWidth(8);
-                $event->sheet->getDelegate()->getColumnDimension('W')->setWidth(50);
-                $event->sheet->getDelegate()->getColumnDimension('X')->setWidth(15);
-                $event->sheet->getDelegate()->getColumnDimension('Y')->setWidth(14);
+                $event->sheet->getDelegate()->getColumnDimension('U')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('V')->setWidth(10);
+                $event->sheet->getDelegate()->getColumnDimension('W')->setWidth(10);
+                $event->sheet->getDelegate()->getColumnDimension('X')->setWidth(10);
+
+                $event->sheet->getDelegate()->getColumnDimension('Y')->setWidth(8);
+                $event->sheet->getDelegate()->getColumnDimension('Z')->setWidth(50);
+                $event->sheet->getDelegate()->getColumnDimension('AA')->setWidth(15);
+                $event->sheet->getDelegate()->getColumnDimension('AB')->setWidth(14);
 
                 // ROW RESIZE
                 $rows = [
@@ -576,8 +600,8 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
                 }
 
                 for($i = (sizeof($this->data) + 4); $i < (sizeof($this->data) + $this->maxLength + 3); $i++){
-                    if(strlen($event->sheet->getCell("B$i")->getValue()) >= 35 || strlen($event->sheet->getCell("G$i")->getValue()) >= 35){
-                        $event->sheet->getDelegate()->getRowDimension($i)->setRowHeight(27);
+                    if(strlen($event->sheet->getCell("B$i")->getValue()) >= 35 || strlen($event->sheet->getCell("G$i")->getValue()) >= 43){
+                        $event->sheet->getDelegate()->getRowDimension($i)->setRowHeight(35);
                     }
                 }
 

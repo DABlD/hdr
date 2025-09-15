@@ -10,6 +10,7 @@
 	$totalStatus = $data->totalStatus;
 	$totalType = $data->totalType;
 	$totalClassification = $data->totalClassification;
+	$ageGroups = $data->ageGroups;
 @endphp
 
 <table>
@@ -24,7 +25,7 @@
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Birthday</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Age</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;" colspan="6">Company</th>
-			<th style="text-align: center; {{ $b }} background-color: yellow;" colspan="5">Package Name</th>
+			<th style="text-align: center; {{ $b }} background-color: yellow;" colspan="8">Package Name</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Type</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Assessment</th>
 			<th style="text-align: center; {{ $b }} background-color: yellow;">Classification</th>
@@ -43,7 +44,7 @@
 				<td style="text-align: center;">{{ isset($row->user->birthday) ? $row->user->birthday->format('M d, Y') : "-" }}</td>
 				<td style="text-align: center;">{{ isset($row->user->birthday) ? now()->diffInYears($row->user->birthday) : "-" }}</td>
 				<td style="text-align: center;" colspan="6">{{ $row->package->company }}</td>
-				<td style="text-align: center;" colspan="5">{{ strtoupper($row->package->name) }}</td>
+				<td style="text-align: center;" colspan="8">{{ strtoupper($row->package->name) }}</td>
 				<td style="text-align: center;">{{ $row->type == "PEE" ? "PPE" : $row->type }}</td>
 				<td style="text-align: center;">{{ $row->c_remarks }}</td>
 				<td style="text-align: center;">
@@ -73,6 +74,8 @@
 			<td></td>
 			<td colspan="5">Total Classification:</td>
 			<td></td>
+			<td colspan="2">Age Group:</td>
+			<td></td>
 			<td colspan="2">Total Per Exam Type:</td>
 			<td></td>
 			<td colspan="2">Total Status:</td>
@@ -89,6 +92,14 @@
 				@if(isset(array_keys($totalClassification)[$i]))
 					<td colspan="4">{{ array_keys($totalClassification)[$i] != "" ? array_keys($totalClassification)[$i] : "PENDING"}}</td>
 					<td style="text-align: left;">{{ $totalClassification[array_keys($totalClassification)[$i]] }}</td>
+				@else
+					<td colspan="4"></td>
+					<td></td>
+				@endif
+				<td></td>
+				@if(isset(array_keys($ageGroups)[$i]))
+					<td>{{ array_keys($ageGroups)[$i] }}</td>
+					<td style="text-align: left;">{{ $ageGroups[array_keys($ageGroups)[$i]] }}</td>
 				@else
 					<td colspan="4"></td>
 					<td></td>
