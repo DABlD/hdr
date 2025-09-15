@@ -71,7 +71,7 @@ class TransactionController extends Controller
     public function update(Request $req){
         $result = Transaction::where('id', $req->id)->update($req->except(['id', '_token']));
 
-        echo Helper::log(auth()->user()->id, 'updated question', $req->id);
+        echo Helper::log(auth()->user()->id, 'updated transaction', $req->id);
     }
 
     public function delete(Request $req){

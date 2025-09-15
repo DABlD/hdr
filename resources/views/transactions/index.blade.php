@@ -178,7 +178,7 @@
 			}
 		}
 
-		function create(){
+		function create(trx = null){
 			Swal.fire({
 				title: "Enter Patient Details",
 				html: `
@@ -247,6 +247,18 @@
 							}
 						})
 					});
+
+					setTimeout(() => {
+						{{-- IF EDIT --}}
+						if(trx){
+							$('#company').val(trx.company).trigger('change');
+							$('[name="pax"]').val(trx.pax);
+
+							setTimeout(() => {
+								$('#package').val(trx.package_id).trigger('change');
+							}, 500);
+						}
+					}, 500);
 				},
 				preConfirm: () => {
 				    swal.showLoading();
@@ -268,22 +280,53 @@
 				if(result.value){
 					swal.showLoading();
 					
-					$.ajax({
-						url: "{{ route('transaction.store') }}",
-						type: "POST",
-						data: {
-							company: $('#company').val(),
-							package_id: $('#package').val(),
-							pax: $('[name="pax"]').val(),
-							_token: $('meta[name="csrf-token"]').attr('content')
-						},
-						success: result => {
-							ss("Successfully added a transaction");
-							reload();
-						}
-					})
+					if(trx){
+						$.ajax({
+							url: "{{ route('transaction.update') }}",
+							type: "POST",
+							data: {
+								id: trx.id,
+								company: $('#company').val(),
+								package_id: $('#package').val(),
+								pax: $('[name="pax"]').val(),
+								pending: $('[name="pax"]').val(),
+								_token: $('meta[name="csrf-token"]').attr('content')
+							},
+							success: result => {
+								ss("Successfully updated transaction");
+								reload();
+							}
+						});
+					}
+					else{
+						$.ajax({
+							url: "{{ route('transaction.store') }}",
+							type: "POST",
+							data: {
+								company: $('#company').val(),
+								package_id: $('#package').val(),
+								pax: $('[name="pax"]').val(),
+								_token: $('meta[name="csrf-token"]').attr('content')
+							},
+							success: result => {
+								ss("Successfully added a transaction");
+								reload();
+							}
+						});
+					}
 				}
 			});
+		}
+
+		function edit(id){
+			$.ajax({
+				url: "{{ route('transaction.get') }}",
+				data: {id: id, select: "*"},
+				success: result => {
+					result = JSON.parse(result)[0];
+					create(result);
+				}
+			})
 		}
 
 		function complete(id){
