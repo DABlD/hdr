@@ -17,15 +17,39 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
         $totalGender = array();
         $totalStatus = array();
         $totalType = array();
-        $totalClassification = array();
+
+        $temp = [
+            "Fit to work" => 0,
+            "Physically fit with minor illness" => 0,
+            // "Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)" => 0,
+            "Employable but with certain impairments" => 0,
+            "Unfit to work" => 0,
+            "" => 0
+        ];
 
         foreach($data as $row){
             isset($totalPackage[strtoupper($row->package->name)]) ? $totalPackage[strtoupper($row->package->name)]++ : $totalPackage[strtoupper($row->package->name)] = 1;
             isset($totalGender[strtoupper($row->user->gender)]) ? $totalGender[strtoupper($row->user->gender)]++ : $totalGender[strtoupper($row->user->gender)] = 1;
             isset($totalStatus[strtoupper($row->status)]) ? $totalStatus[strtoupper($row->status)]++ : $totalStatus[strtoupper($row->status)] = 1;
             isset($totalType[strtoupper($row->type)]) ? $totalType[strtoupper($row->type)]++ : $totalType[strtoupper($row->type)] = 1;
-            isset($totalClassification[strtoupper($row->classification)]) ? $totalClassification[strtoupper($row->classification)]++ : $totalClassification[strtoupper($row->classification)] = 1;
+
+            $temp[$row->classification]++;
         }
+
+        $totalClassification = [];
+        $letters = range('A', 'D'); // enough letters
+        $i = 0;
+
+        foreach ($data as $key => $value) {
+            if ($key === "") {
+                $totalClassification["Pending"] = $value;
+            } else {
+                $totalClassification["Letter: " . $letters[$i]] = $value;
+                $i++;
+            }
+        }
+
+        dd($totalClassification);
 
         arsort($totalPackage);
         arsort($totalGender);
