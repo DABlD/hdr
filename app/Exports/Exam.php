@@ -8,13 +8,63 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 // use Maatwebsite\Excel\Concerns\WithDrawings;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+// use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class Exam implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
+class Exam implements FromView, WithEvents//, ShouldAutoSize//, WithDrawings//
 {
     public function __construct($data, $type){
-        $this->data     = $data;
-        $this->type     = $type;
+        $totalPackage = array();
+        $totalGender = array();
+        $ageGroup = array();
+
+        $ageGroups = [
+            'Below 18' => 0,
+            '18-29'    => 0,
+            '30-40'    => 0,
+            '41-50'    => 0,
+            '51-60'    => 0,
+            '61-70'    => 0,
+            '70+'      => 0
+        ];
+
+        foreach($data as $row){
+            $latestPackage = "";
+
+            if(sizeof($row->user->patient->exams)){
+                $temp = json_decode($row->user->patient->exams->last()->details);
+
+                if(!in_array($temp->name, ['Personal Medical History', 'Medical Examination Report'])){
+                    // $amount = $temp->amount;
+                    $latestPackage = $temp->name;
+                }
+            }
+
+            isset($totalPackage[strtoupper($latestPackage)]) ? $totalPackage[strtoupper($latestPackage)]++ : $totalPackage[strtoupper($latestPackage)] = 1;
+            isset($totalGender[strtoupper($row->user->gender)]) ? $totalGender[strtoupper($row->user->gender)]++ : $totalGender[strtoupper($row->user->gender)] = 1;
+
+            $age = now()->parse($row->user->birthday)->age;
+
+            if ($age < 18) $ageGroups['Below 18']++;
+            elseif ($age <= 29) $ageGroups['18-29']++;
+            elseif ($age <= 40) $ageGroups['30-40']++;
+            elseif ($age <= 50) $ageGroups['41-50']++;
+            elseif ($age <= 60) $ageGroups['51-60']++;
+            elseif ($age <= 70) $ageGroups['61-70']++;
+            else $ageGroups['70+']++;
+        }
+
+        arsort($totalPackage);
+        arsort($totalGender);
+
+        $data->totalPackage = $totalPackage;
+        $data->totalGender = $totalGender;
+        $data->ageGroups = $ageGroups;
+
+        $data->maxLength = max(array_map('count', [$totalPackage, $totalGender, $ageGroups]));
+
+        $this->data          = $data;
+        $this->type          = $type;
+        $this->maxLength     = $data->maxLength;
     }
 
     public function view(): View
@@ -171,7 +221,7 @@ class Exam implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => 'bdb9b9'
+                        'rgb' => 'FFFF00'
                     ]
                 ],
             ],
@@ -316,6 +366,7 @@ class Exam implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
 
                 // HC VC
                 $h[4] = [
+                    'A1:P' . (sizeof($this->data) + 1 + $this->maxLength + 2)
                 ];
 
                 // HL
@@ -366,6 +417,9 @@ class Exam implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
 
                 // FILLS
                 $fills[0] = [
+                    'B' . (sizeof($this->data) + 3) . ':C' . (sizeof($this->data) + 3),
+                    'E' . (sizeof($this->data) + 3) . ':H' . (sizeof($this->data) + 3),
+                    'J' . (sizeof($this->data) + 3) . ':L' . (sizeof($this->data) + 3),
                 ];
 
                 $fills[1] = [
@@ -382,6 +436,10 @@ class Exam implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
 
                 // ALL BORDER THIN
                 $cells[0] = array_merge([
+                    'A1:P' . (sizeof($this->data) + 1),
+                    'B' . (sizeof($this->data) + 3) . ':C' . (sizeof($this->data) + 3 + sizeof($this->data->ageGroups)),
+                    'E' . (sizeof($this->data) + 3) . ':H' . (sizeof($this->data) + 3 + sizeof($this->data->totalPackage)),
+                    'J' . (sizeof($this->data) + 3) . ':L' . (sizeof($this->data) + 3 + sizeof($this->data->totalGender)),
                 ]);
 
                 // ALL BORDER MEDIUM
@@ -451,7 +509,30 @@ class Exam implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
                 // $event->sheet->getDelegate()->getStyle('L46')->getFont()->setName('Marlett');
 
                 // COLUMN RESIZE
-                // $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(2);
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(12);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(8);
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(10);
+
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(17);
+
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(17);
+
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(8);
+                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(5);
+                $event->sheet->getDelegate()->getColumnDimension('J')->setWidth(5);
+
+                $event->sheet->getDelegate()->getColumnDimension('K')->setWidth(4);
+                $event->sheet->getDelegate()->getColumnDimension('L')->setWidth(5);
+
+                $event->sheet->getDelegate()->getColumnDimension('M')->setWidth(25);
+
+                $event->sheet->getDelegate()->getColumnDimension('N')->setWidth(6);
+
+                $event->sheet->getDelegate()->getColumnDimension('O')->setWidth(60);
+
+                $event->sheet->getDelegate()->getColumnDimension('P')->setWidth(22);
 
                 // ROW RESIZE
                 $rows = [
