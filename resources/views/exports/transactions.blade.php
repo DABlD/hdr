@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<th>#</th>
-			<th>Company</th>
+			<th colspan="2">Company</th>
 			<th>Package</th>
 			<th>Total # of Transactions</th>
 			<th>Availed Transaction</th>
@@ -15,7 +15,7 @@
 		@foreach($data as $transaction)
 			<tr>
 				<td>{{ $loop->index + 1 }}</td>
-				<td>{{ $transaction->company }}</td>
+				<td colspan="2">{{ $transaction->company }}</td>
 				<td>{{ $transaction->package->name }}</td>
 				<td>{{ $transaction->pax }}</td>
 				<td>{{ $transaction->completed }}</td>
@@ -24,5 +24,19 @@
 				<td>{{ now()->parse($transaction->created_at)->format('F j, Y H:m:s A') }}</td>
 			</tr>
 		@endforeach
+
+		<tr>
+			<td colspan="8"></td>
+		</tr>
+
+		<tr>
+			<td></td>
+			<td colspan="2">Packages:</td>
+			<td></td>
+			<td colspan="2">Company:</td>
+			<td></td>
+			<td colspan="2">Status:</td>
+			<td></td>
+		</tr>
 	</tbody>
 </table>

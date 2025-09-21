@@ -8,12 +8,29 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 // use Maatwebsite\Excel\Concerns\WithDrawings;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+// use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class Transaction implements FromView, WithEvents, ShouldAutoSize//, WithDrawings//
+class Transaction implements FromView, WithEvents//, ShouldAutoSize//, WithDrawings//
 {
     public function __construct($data){
+        $totalPackage = array();
+        $totalStatus = array();
+        $totalCompany = array();
+
+        foreach($data as $row){
+            isset($totalPackage[strtoupper($row->package->name)]) ? $totalPackage[strtoupper($row->package->name)]++ : $totalPackage[strtoupper($row->package->name)] = 1;
+            isset($totalStatus[strtoupper($row->status)]) ? $totalStatus[strtoupper($row->status)]++ : $totalStatus[strtoupper($row->status)] = 1;
+            isset($totalCompany[strtoupper($row->company)]) ? $totalCompany[strtoupper($row->company)]++ : $totalCompany[strtoupper($row->company)] = 1;
+        }
+
+        $data->totalPackage = $totalPackage;
+        $data->totalStatus = $totalStatus;
+        $data->totalCompany = $totalCompany;
+
+        $data->maxLength = max(array_map('count', [$totalPackage, $totalStatus, $totalCompany]));
+
         $this->data          = $data;
+        $this->maxLength     = $data->maxLength;
     }
 
     public function view(): View
@@ -453,7 +470,20 @@ class Transaction implements FromView, WithEvents, ShouldAutoSize//, WithDrawing
                 // $event->sheet->getDelegate()->getStyle('L46')->getFont()->setName('Marlett');
 
                 // COLUMN RESIZE
-                // $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(4);
+
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(10);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(40);
+
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(6);
+                
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('J')->setWidth(6);
+                $event->sheet->getDelegate()->getColumnDimension('K')->setWidth(6);
 
                 // ROW RESIZE
                 $rows = [
