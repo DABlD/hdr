@@ -31,6 +31,49 @@
                 border-color: red;
                 box-shadow: 0 0 10px red;
             }
+
+            /* Navbar / main header */
+            .main-header.navbar {
+              background: linear-gradient(90deg, #4ac0c0, #6fd3d3); /* healthcare teal gradient */
+              box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            }
+            .main-header .nav-link, 
+            .main-header .navbar-nav img {
+              color: #fff !important;
+            }
+            .main-header .nav-link:hover {
+              color: #f1f1f1 !important;
+            }
+
+            /* Card */
+            .card {
+              border-radius: 12px;
+              border: none;
+              box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            }
+
+            /* Card header */
+            .card-header {
+              background: #f7fbfb;          /* very light healthcare teal tone */
+              border-bottom: 2px solid #4ac0c0;
+              border-radius: 12px 12px 0 0;
+              padding: 1rem 1.25rem;
+            }
+            .card-header h3 {
+              font-size: 1.1rem;
+              margin: 0;
+              color: #333;
+            }
+            .card-header b {
+              color: #4ac0c0;
+            }
+
+            /* Card body */
+            .card-body {
+              background-color: #fff;
+              border-radius: 0 0 12px 12px;
+            }
+
         </style>
     </head>
 
@@ -40,7 +83,7 @@
 
             <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                 <ul class="navbar-nav">
-                    <img src="{{ asset($logo ?? "images/HDC App.png") }}" alt="LOGO" height="45">
+                    <img src="{{ asset($logo ?? "images/hdr_logo.png") }}" alt="LOGO" height="45">
                 </ul>
 
                 <ul class="navbar-nav ml-auto">
@@ -76,12 +119,21 @@
                         <div class="row">
                             <section class="col-lg-8 offset-lg-2">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title" style="text-align: left;">
-                                            <b>Patient Name:</b> {{ $user->fname }} {{ $user->mname }} {{ $user->lname }} {{ $user->suffix }}
-                                            <br>
-                                            <b>Company:</b> {{ $user->patient->company_name }}
-                                        </h3>
+
+                                    <div class="card-header d-flex align-items-center">
+                                        <!-- Avatar -->
+                                        <div class="mr-3">
+                                            <img src="{{ asset('images/default_avatar.png') }}" alt="Avatar" class="img-thumbnail rounded-circle" width="150">
+                                        </div>
+                                        <!-- Patient Info -->
+                                        <div>
+                                            <h5 class="mb-1"><b>{{ $user->fname }} {{ $user->mname }} {{ $user->lname }} {{ $user->suffix }}</b></h5>
+                                            <p class="mb-1 text-muted"><i class="fas fa-briefcase mr-1"></i> {{ $user->position ?? 'Position N/A' }}</p>
+                                            <p class="mb-1 text-muted"><i class="fas fa-building mr-1"></i> {{ $user->patient->company_name }}</p>
+                                            <p class="mb-1 text-muted"><i class="fas fa-envelope mr-1"></i> {{ $user->email }}</p>
+                                            <p class="mb-1 text-muted"><i class="fas fa-phone mr-1"></i> {{ $user->contact }}</p>
+                                            <p class="mb-0 text-muted"><i class="fas fa-id-card mr-1"></i> HMO: {{ $user->hmo_provider }} - {{ $user->hmo_number }}</p>
+                                        </div>
                                     </div>
 
                                     <div class="card-body">
