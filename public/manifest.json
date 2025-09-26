@@ -1,7 +1,7 @@
 {
   "name": "HDR Clinic",
   "short_name": "HDR",
-  "start_url": "/",
+  "start_url": "/patient/subjective",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4ac0c0",
