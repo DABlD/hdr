@@ -1,104 +1,113 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>{{ env("APP_NAME") . " | " . "Login" }}</title>
+  <meta charset="UTF-8">
+  <title>{{ env("APP_NAME") . " | " . "Login" }}</title>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-	{{-- <link rel="stylesheet" href="{{ asset('css/auth/util.css') }}"> --}}
-	{{-- <link rel="stylesheet" href="{{ asset('css/auth/main.css') }}"> --}}
-	<link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
 
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: url('{{ asset('images/BG.png') }}') no-repeat center center fixed;
-            background-size: cover;
-        }
-
-        img{
-        	margin: auto;
-        }
-    </style>
+  <style>
+    body {
+      background: url('{{ asset('images/bg.png') }}') no-repeat center center fixed !important;
+      background-size: cover !important;
+    }
+  </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-blue-100">
-    <div class="flex flex-col md:flex-row w-full max-w-8xl">
-        <div class="w-full md:w-1/2 flex flex-col items-center justify-center text-center p-8 hidden md:block">
-            <img alt="App Logo" class="mb-4" height="100" src="{{ asset('images/HDC App.png') }}" width="200"/>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #4facfe, #00f2fe); color: white; min-height: 100vh; display: flex; flex-direction: column;">
 
-            <h1 class="text-6xl text-red-600 mb-2">
-            	Health Data 
-            	<br>
-            	Collection Web App
-            </h1>
+  <!-- Header (Centered with logo left of title) -->
+  <div style="padding: 60px 50px 40px; display: flex; align-items: center; justify-content: center; gap: 30px;">
+    <img src="{{ asset('images/hdr_logo_white.png') }}" alt="Logo" style="width: 100px; height: 100px; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.6));">
+    <div>
+      <h1 style="margin: 0; font-size: 70.4px; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">Health Data Repository</h1>
+      <p style="text-align: center; margin: 10px 0 0; font-size: 22px; text-shadow: 1px 1px 4px rgba(0,0,0,0.4);">A Cohesive Medical Data Management Web Application.</p>
+    </div>
+  </div>
 
-            <p class="text-lg text-gray-700 mb-4">By</p>
-            <img alt="OneHealth Network Logo" class="mb-4" height="50" src="{{ asset('images/OHN LOGO.png') }}" width="200"/>
-            <p class="text-lg text-gray-700 mb-8">
-            	Pre Employment Examination and Annual Physical 
-            	<br>
-            	Checkup Data Report Application.
-            </p>
-            <p class="text-sm text-gray-700">Want To Become A OHN Member? Sign In to</p>
-            <a class="text-sm text-blue-500" href="https://membership.onehealthnetwork.com.ph/">https://membership.onehealthnetwork.com.ph/</a>
-        </div>
-        <div class="w-full md:w-1/2 flex items-center justify-center">
-            <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+  <!-- Main Content -->
+  <div style="flex: 1; display: flex; flex-direction: row; justify-content: center; align-items: flex-start; padding: 30px 50px 140px; gap: 80px; flex-wrap: wrap;">
 
-            	<br>
-                <h2 class="text-2xl font-bold text-red-600 mb-4 text-center">Welcome to OHN / HDC</h2>
-            	<br>
-                <p class="text-lg text-gray-700 mb-4 text-center">Login</p>
-                <form method="POST" action="{{ route('login'); }}">
-                	@csrf
-                    <div class="mb-4">
-                        {{-- <label class="block text-gray-700" for="username">Username</label> --}}
-                        <input class="w-full px-3 py-2 border rounded-lg" name="username" placeholder="Username" type="text"/>
-                    </div>
-                    <div class="mb-4">
-                        {{-- <label class="block text-gray-700" for="password">Password</label> --}}
-                        <input class="w-full px-3 py-2 border rounded-lg" name="password" placeholder="Password" type="password"/>
-                    </div>
+    <!-- Column 1 (empty) -->
+    <div style="flex: 1;"></div>
 
-                    <br>
-                    <div class="mb-4 text-right">
-                        <a class="text-sm text-gray-500" href="#" onclick="forgotpassword()">Forgot Your Password?</a>
-                    </div>
-                    <button class="w-full bg-red-600 text-white py-2 rounded-lg" type="submit">Login</button>
-                </form>
+    <!-- Column 2: We Provide Section -->
+    <div style="flex: 1; min-width: 360px;">
+      <h2 style="font-size: 28.6px; margin-bottom: 40px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); text-align: center;">We Provide</h2>
 
-                <br><br><br>
-                <div class="mt-4 text-center">
-                    {{-- <p class="text-sm text-gray-700">New User? Click Here to <a class="font-bold text-red-600" href="#">REGISTER</a></p> --}}
-                </div>
-            </div>
-        </div>
+      <div style="display: flex; align-items: center; margin-bottom: 24px; font-size: 30px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+        <img src="{{ asset('images/ape_icon.png') }}" style="margin-right: 15px; width: 80px; height: 80px; filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.5));">
+        <span>Annual Physical Examination</span>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 24px; font-size: 30px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+        <img src="{{ asset('images/ppe_icon.png') }}" style="margin-right: 15px; width: 80px; height: 80px; filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.5));">
+        <span>Pre Employment Examination</span>
+      </div>
+
+      <div style="display: flex; align-items: center; font-size: 30px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+        <img src="{{ asset('images/ecu_icon.png') }}" style="margin-right: 15px; width: 80px; height: 80px; filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.5));">
+        <span>Executive Check Up</span>
+      </div>
     </div>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/auth/tilt.js') }}"></script>
-    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('js/auth/main.js') }}"></script>
-    <script >
-		$('.js-tilt').tilt({
-			scale: 1.1
-		})
-		@if($errors->all())
-			Swal.fire({
-				icon: 'error',
-                html: `
-                    @foreach ($errors->all() as $error)
-                        {{ $error }}<br/>
-                    @endforeach
-                `,
-			});
-		@endif
+    <!-- Column 3: Login Form (scaled to 0.8×) -->
+    <div style="flex: 1; min-width: 420px; width: 500px;">
+      <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.25); color: black; text-align: center; width: 280px;">
+        <img src="{{ asset('images/hdr_logo.png') }}" alt="HDR Logo" style="margin-bottom: 20px; width: 60px;">
+        <h2 style="margin: 0; font-size: 19.2px;">Welcome To HDR</h2>
+        <p style="margin: 0 0 20px; font-size: 12.8px;">Login to your Account</p>
 
-        function forgotpassword(){
-            Swal.fire({
-                text: "Contact admin to reset your password."
-            })
-        }
-	</script>
+        <form method="POST" action="{{ route('login'); }}">
+            @csrf
+          <div style="text-align: left; margin-bottom: 10px;">
+            <label style="font-size: 12.8px;">Username</label><br>
+            <input type="text" name="username" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 12.8px;">
+          </div>
+
+          <div style="text-align: left; margin-bottom: 20px;">
+            <label style="font-size: 12.8px;">Password</label><br>
+            <input type="password" name="password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 12.8px;">
+          </div>
+
+          <div style="text-align: right; margin-bottom: 10px;">
+            <a href="#" style="font-size: 12px; color: #007bff; text-decoration: none;" onclick="forgotpassword()">Forgot Password?</a>
+          </div>
+
+          <button type="submit" style="width: 100%; background: #e53935; color: white; padding: 14px; border: none; border-radius: 6px; font-size: 19.2px; cursor: pointer;">Login</button>
+        </form>
+      </div>
+    </div>
+
+<!-- Footer (scaled to 0.8×) -->
+<div style="background: #222; padding: 16px 16px; text-align: center; font-size: 12.8px; color: #ccc; position: fixed; bottom: 0; width: 100%;">
+  <div>2025 Health Data Repository Web App. Medical Data Collection Platform.</div>
+  <div>
+    APE / PPE / ECU. Powered By <strong>OneHealth Network</strong> |
+    Visit OHN at: <a href="https://onehealthnetwork.com.ph/" target="_blank" style="color: #4fc3f7;">https://onehealthnetwork.com.ph/</a>
+  </div>
+</div>
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+
+<script >
+    @if($errors->all())
+        Swal.fire({
+            icon: 'error',
+            html: `
+                @foreach ($errors->all() as $error)
+                    {{ $error }}<br/>
+                @endforeach
+            `,
+        });
+    @endif
+
+    function forgotpassword(){
+        Swal.fire({
+            text: "Contact admin to reset your password."
+        })
+    }
+</script>
+
 </body>
 </html>
