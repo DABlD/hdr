@@ -17,6 +17,9 @@
         <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
 
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#4ac0c0">
+
         <style>
             .main-header, .content-wrapper{
                 margin-left: 0px !important;
@@ -173,6 +176,14 @@
                         generateString(result);
                     }
                 });
+
+                if ("serviceWorker" in navigator) {
+                  window.addEventListener("load", function() {
+                    navigator.serviceWorker.register("/service-worker.js")
+                      .then(reg => console.log("Service Worker registered", reg))
+                      .catch(err => console.log("Service Worker failed", err));
+                  });
+                }
             })
 
             function generateString(result){

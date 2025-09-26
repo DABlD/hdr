@@ -1,0 +1,29 @@
+{
+  "name": "HDR Clinic",
+  "short_name": "HDR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4ac0c0",
+  "icons": [
+    {
+      "src": "/images/hdr_logo_square.png",
+      "sizes": "226x226",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshots/desktop.png",
+      "sizes": "1912x912",
+      "type": "image/png",
+      "form_factor": "wide"        // desktop / tablet
+    },
+    {
+      "src": "/images/screenshots/mobile.png",
+      "sizes": "327x708",
+      "type": "image/png"
+      // no form_factor = mobile
+    }
+  ]
+}
