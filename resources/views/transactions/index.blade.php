@@ -27,6 +27,7 @@
                     				<th>Pending Transaction</th>
                     				<th>Status</th>
                     				<th>Created At</th>
+                    				<th>Timestamp</th>
                     				<th>Action</th>
                     			</tr>
                     		</thead>
@@ -105,6 +106,7 @@
 					{data: 'pending'},
 					{data: 'status'},
 					{data: 'created_at'},
+					{data: 'created_at', visible: false},
 					{data: 'actions'}
 				],
         		pageLength: 10,
@@ -120,7 +122,7 @@
 	                    },
 	                }
 	            ],
-	            order: [[6, 'desc']]
+	            order: [[7, 'desc']]
 			});
 
 			$('#fCompany').on('change', e => {
