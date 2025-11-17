@@ -513,7 +513,7 @@
     				@if(auth()->user()->role == "Doctor")
     				where3: ["doctor_id", {{ auth()->user()->id }}],
     				@endif
-    				where4: ["type", "{{ $title }}"],
+    				where4: ["type", "{{ $title == "PEE" ? "PPE" : $title }}"],
     				order: ['created_at', 'desc'],
     				load: ["package"]
         		},
