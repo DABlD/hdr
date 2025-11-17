@@ -511,8 +511,9 @@
     				where: ["user_id", id],
     				where2: ["package_id", ">", 2],
     				@if(auth()->user()->role == "Doctor")
-    				where2: ["doctor_id", {{ auth()->user()->id }}],
+    				where3: ["doctor_id", {{ auth()->user()->id }}],
     				@endif
+    				where4: ["type", "{{ $title }}"],
     				order: ['created_at', 'desc'],
     				load: ["package"]
         		},
