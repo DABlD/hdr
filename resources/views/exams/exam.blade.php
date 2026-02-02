@@ -91,6 +91,10 @@
         .packageBtns .btn{
         	margin-bottom: 3px;
         }
+
+        .qtd th{
+        	vertical-align: middle !important;
+        }
 	</style>
 @endpush
 
