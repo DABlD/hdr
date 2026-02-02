@@ -1166,6 +1166,13 @@
 									<input type="radio" name="setoggle" value="1" ${disabled}>Yes
 	                                	&nbsp;
 	                                <input type="radio" name="setoggle" value="0" ${disabled}>No
+
+	                                <th class="text-center text-white">
+	                                  <div
+	                                    style="font-size: 0.75rem; font-weight: 400; color: rgba(255,255,255,0.7); margin-top: 2px; letter-spacing: 0.3px; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;">
+	                                    Yes = Normal
+	                                  </div>
+	                                </th>
 								`);
 
 								$('.Medical-Evaluation .answer:first').append(`
@@ -1173,6 +1180,13 @@
 									<input type="radio" name="setoggle2" value="1" ${disabled}>Yes
 	                                	&nbsp;
 	                                <input type="radio" name="setoggle2" value="0" ${disabled}>No
+
+	                                <th class="text-center text-white">
+	                                  <div
+	                                    style="font-size: 0.75rem; font-weight: 400; color: rgba(255,255,255,0.7); margin-top: 2px; letter-spacing: 0.3px; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;">
+	                                    Yes = Normal
+	                                  </div>
+	                                </th>
 								`);
 
 								$('[name="setoggle"]').change(e => {
