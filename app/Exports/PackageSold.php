@@ -23,6 +23,7 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
             "Physically fit with minor illness" => 0,
             "Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)" => 0,
             "Unfit to work" => 0,
+            "Pending" => 0,
             "" => 0
         ];
 
