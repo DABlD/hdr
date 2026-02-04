@@ -57,7 +57,7 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
         }
 
         $totalClassification = [];
-        $letters = range('A', 'D'); // enough letters
+        $letters = range('A', 'E'); // enough letters
         $i = 0;
 
         foreach ($temp as $key => $value) {
