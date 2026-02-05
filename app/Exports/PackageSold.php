@@ -23,7 +23,7 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
             "Physically fit with minor illness" => 0,
             "Employable but with certain impairments or conditions requiring follow-up treatment (employment is at employer's discretion)" => 0,
             "Unfit to work" => 0,
-            "Pending" => 0,
+            // "Pending" => 0,
             "" => 0
         ];
 
@@ -38,26 +38,28 @@ class PackageSold implements FromView, WithEvents//, ShouldAutoSize//, WithDrawi
         ];
 
         foreach($data as $row){
-            isset($totalPackage[strtoupper($row->package->name)]) ? $totalPackage[strtoupper($row->package->name)]++ : $totalPackage[strtoupper($row->package->name)] = 1;
-            isset($totalGender[strtoupper($row->user->gender)]) ? $totalGender[strtoupper($row->user->gender)]++ : $totalGender[strtoupper($row->user->gender)] = 1;
-            isset($totalStatus[strtoupper($row->status)]) ? $totalStatus[strtoupper($row->status)]++ : $totalStatus[strtoupper($row->status)] = 1;
-            isset($totalType[strtoupper($row->type)]) ? $totalType[strtoupper($row->type)]++ : $totalType[strtoupper($row->type)] = 1;
+            if($row->classification != "Pending"){
+                isset($totalPackage[strtoupper($row->package->name)]) ? $totalPackage[strtoupper($row->package->name)]++ : $totalPackage[strtoupper($row->package->name)] = 1;
+                isset($totalGender[strtoupper($row->user->gender)]) ? $totalGender[strtoupper($row->user->gender)]++ : $totalGender[strtoupper($row->user->gender)] = 1;
+                isset($totalStatus[strtoupper($row->status)]) ? $totalStatus[strtoupper($row->status)]++ : $totalStatus[strtoupper($row->status)] = 1;
+                isset($totalType[strtoupper($row->type)]) ? $totalType[strtoupper($row->type)]++ : $totalType[strtoupper($row->type)] = 1;
 
-            $temp[$row->classification]++;
+                $temp[$row->classification]++;
 
-            $age = now()->parse($row->user->birthday)->age;
+                $age = now()->parse($row->user->birthday)->age;
 
-            if ($age < 18) $ageGroups['below 18']++;
-            elseif ($age <= 29) $ageGroups['18-29']++;
-            elseif ($age <= 40) $ageGroups['30-40']++;
-            elseif ($age <= 50) $ageGroups['41-50']++;
-            elseif ($age <= 60) $ageGroups['51-60']++;
-            elseif ($age <= 70) $ageGroups['61-70']++;
-            else $ageGroups['70+']++;
+                if ($age < 18) $ageGroups['below 18']++;
+                elseif ($age <= 29) $ageGroups['18-29']++;
+                elseif ($age <= 40) $ageGroups['30-40']++;
+                elseif ($age <= 50) $ageGroups['41-50']++;
+                elseif ($age <= 60) $ageGroups['51-60']++;
+                elseif ($age <= 70) $ageGroups['61-70']++;
+                else $ageGroups['70+']++;
+            }
         }
 
         $totalClassification = [];
-        $letters = range('A', 'E'); // enough letters
+        $letters = range('A', 'D'); // enough letters
         $i = 0;
 
         foreach ($temp as $key => $value) {
