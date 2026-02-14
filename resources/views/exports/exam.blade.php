@@ -68,8 +68,8 @@
 		@for($i = 0; $i < $data->maxLength; $i++)
 			<tr>
 				<td></td>
-				<td>{{ array_keys($ageGroups)[$i] }}</td>
-				<td style="text-align: left;">{{ $ageGroups[array_keys($ageGroups)[$i]] }}</td>
+				<td>{{ isset(array_keys($ageGroups)[$i]) ? array_keys($ageGroups)[$i] : "" }}</td>
+				<td style="text-align: left;">{{ isset(array_keys($ageGroups)[$i]) ? $ageGroups[array_keys($ageGroups)[$i]] : "" }}</td>
 				<td></td>
 				<td colspan="3">{{ isset(array_keys($totalPackage)[$i]) ? array_keys($totalPackage)[$i] : "" }}</td>
 				<td style="text-align: center;">{{ isset(array_keys($totalPackage)[$i]) ? $totalPackage[array_keys($totalPackage)[$i]] : "" }}</td>
