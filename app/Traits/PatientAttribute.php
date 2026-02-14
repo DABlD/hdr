@@ -26,7 +26,7 @@ trait PatientAttribute{
 	    // 		        "<i class='fas fa-clipboard-prescription'></i>" .
 	    // 		    "</a>&nbsp;";
 
-		$action .= 	"<a class='btn btn-warning' data-toggle='tooltip' title='QR' onClick='qr($id)'>" .
+		$action .= 	"<a class='btn btn-warning' data-toggle='tooltip' title='QR' onClick='qr($uid)'>" .
 				        "<i class='fas fa-qrcode'></i>" .
 				    "</a>&nbsp;";	
 
