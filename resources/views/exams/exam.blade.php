@@ -734,6 +734,7 @@
         }
 
         function addResult(ppid, status, examlistID){
+        	console.log(ppid, status, examlistID);
         	let string = "";
 
         	$.ajax({
@@ -1085,8 +1086,7 @@
 								$('#c_remarks').val(result.c_remarks);
 
 								// $('.Systemic-Examination .answer input[value="1"]').click(); //DEFAULTS FOR SYSTEMIC
-
-								let qwa = result.question_with_answers ?? mhr.question_with_answers;
+								let qwa = result.question_with_answers.length > 2 ? result.question_with_answers : mhr.question_with_answers;
 
 								if(qwa){
 								    qwa = JSON.parse(qwa);
