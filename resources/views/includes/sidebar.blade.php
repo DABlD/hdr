@@ -1,5 +1,5 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="{{ route('/') }}" class="brand-link" style="text-align: center;">
+    <a href="{{ url('/') }}" class="brand-link" style="text-align: center;">
         <img src="{{ asset('images/OHN LOGO WBG.jpeg') }}" alt="{{ env('APP_NAME') }}" class="brand-image elevation-3">
     </a>
 
