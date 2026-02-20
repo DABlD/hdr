@@ -257,6 +257,7 @@ class PatientPackageController extends Controller
 
         Excel::store(new $class($data, $settings), "/public/$fn.pdf");
 
+        // error pdf merging for xray files
         // $oMerger = PDFMerger::init();
         // $oMerger->addPDF(public_path("/storage/$fn.pdf"));
 
@@ -271,20 +272,56 @@ class PatientPackageController extends Controller
         // $oMerger->setFileName($fn . '.pdf');
         // $oMerger->stream();
 
-        $merger = new Merger;
-        $merger->addFile(public_path("/storage/$fn.pdf"));
+        // attempt2 not supported xray pdf files
+        // $merger = new Merger;
+        // $merger->addFile(public_path("/storage/$fn.pdf"));
 
-        if($data->file){
-            $files = json_decode($data->file);
-            foreach ($files as $file) {
-                $merger->addFile(public_path($file));
+        // if($data->file){
+        //     $files = json_decode($data->file);
+        //     foreach ($files as $file) {
+        //         $merger->addFile(public_path($file));
+        //     }
+        // }
+
+        // $pdfOutput = $merger->merge();
+        // return response($pdfOutput)->header('Content-Type', 'application/pdf');
+
+        $files = [];
+
+        // main file
+        $files[] = public_path("/storage/$fn.pdf");
+
+        // attachments
+        if ($data->file) {
+            $attachments = json_decode($data->file);
+            foreach ($attachments as $file) {
+                $files[] = public_path($file);
             }
         }
 
-        $pdfOutput = $merger->merge();
-        return response($pdfOutput)->header('Content-Type', 'application/pdf');
+        // Output file
+        $outputPath = storage_path("app/merged_" . uniqid() . ".pdf");
 
-        // return "/storage/$fn.pdf";
+        // Build Ghostscript command
+        $cmd = "gs -dBATCH -dNOPAUSE -q "
+             . "-sDEVICE=pdfwrite "
+             . "-sOutputFile=" . escapeshellarg($outputPath) . " "
+             . implode(' ', array_map('escapeshellarg', $files));
+
+        // Execute
+        exec($cmd, $output, $returnVar);
+
+        // Optional: check if failed
+        if ($returnVar !== 0 || !file_exists($outputPath)) {
+            abort(500, 'PDF merge failed.');
+        }
+
+        // Stream merged file
+        return response()->file($outputPath, [
+            'Content-Type' => 'application/pdf'
+        ]);
+
+        return "/storage/$fn.pdf";
     }
 
     public function delete(Request $req){
