@@ -17,6 +17,7 @@ use PDF;
 use File;
 
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
+use iio\libmergepdf\Merger;
 
 class PatientPackageController extends Controller
 {
@@ -256,19 +257,32 @@ class PatientPackageController extends Controller
 
         Excel::store(new $class($data, $settings), "/public/$fn.pdf");
 
-        $oMerger = PDFMerger::init();
-        $oMerger->addPDF(public_path("/storage/$fn.pdf"));
+        // $oMerger = PDFMerger::init();
+        // $oMerger->addPDF(public_path("/storage/$fn.pdf"));
+
+        // if($data->file){
+        //     $files = json_decode($data->file);
+        //     foreach ($files as $file) {
+        //         $oMerger->addPDF(public_path($file));
+        //     }
+        // }
+
+        // $oMerger->merge();
+        // $oMerger->setFileName($fn . '.pdf');
+        // $oMerger->stream();
+
+        $merger = new Merger;
+        $merger->addFile(public_path("/storage/$fn.pdf"));
 
         if($data->file){
             $files = json_decode($data->file);
             foreach ($files as $file) {
-                $oMerger->addPDF(public_path($file));
+                $merger->addFile(public_path($file));
             }
         }
 
-        $oMerger->merge();
-        $oMerger->setFileName($fn . '.pdf');
-        $oMerger->stream();
+        $pdfOutput = $merger->merge();
+        return response($pdfOutput)->header('Content-Type', 'application/pdf');
 
         // return "/storage/$fn.pdf";
     }
