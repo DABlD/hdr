@@ -114,7 +114,7 @@
                     {data: 'actions'},
                 ],
                 pageLength: 25,
-                order: [[1, 'asc']],
+                {{-- order: [[1, 'asc']], --}}
                 columnDefs: [
                     {
                         targets: 4,
