@@ -251,6 +251,10 @@ class DatatableController extends Controller
             $array = $array->where($req->where3[0], isset($req->where3[2]) ? $req->where3[1] : "=", $req->where3[2] ?? $req->where3[1]);
         }
 
+        if(auth()->user()->role == "Company"){
+            $array = $array->withMax('exams', 'created_at')->orderByDesc('exams_max_created_at');
+        }
+
         $array = $array->join("users as u", "u.id", '=', 'patients.user_id');
         $array = $array->whereNull('u.deleted_at');
 
